@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>岛主 · 王仙客在岛上</title>
+  <meta name="description" content="岛主的个人作品集 — 方法论文章、思维模型、给女儿做的绘本，以及神话新编。">
+
+  <meta property="og:title" content="岛主 · 王仙客在岛上">
+  <meta property="og:description" content="方法论文章、思维模型、绘本与神话新编。">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --mid: #888888;
+      --line: #e8e8e6;
+      --shadow: rgba(0,0,0,0.08);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, 'PingFang SC', 'Microsoft YaHei', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+    a:hover { text-decoration-color: var(--text); }
+
+    /* ── Layout: fixed one-screen homepage ── */
+    .app { display: flex; height: 100vh; overflow: hidden; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
+      padding: 36px 28px; overflow-y: auto; border-right: 1px solid var(--line);
+      background: var(--bg);
+      display: flex; flex-direction: column; gap: 32px;
+      z-index: 10;
+    }
+    .main {
+      margin-left: 280px; flex: 1; height: 100vh;
+      display: flex; flex-direction: column;
+      padding: 36px 44px 44px; overflow: hidden;
+    }
+
+    /* ── Sidebar ── */
+    .profile-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .profile-headline { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; letter-spacing: 0.01em; margin-bottom: 12px; }
+    .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .profile-tags span { font-size: 11px; color: var(--mid); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
+    .profile-bio { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+    .sidebar-section { display: flex; flex-direction: column; gap: 10px; }
+    .sidebar-title {
+      font-size: 10px; font-weight: 500; color: var(--mid);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    .social-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .social-row a { font-size: 12px; color: var(--text); text-decoration: underline; text-decoration-color: var(--line); }
+    .social-row a:hover { text-decoration-color: var(--text); }
+
+    .filter-list { display: flex; flex-direction: column; gap: 5px; }
+    .filter-list a {
+      font-size: 13px; color: var(--text); text-decoration: none; padding: 3px 0;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .filter-list a::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+    .filter-list a:hover::before, .filter-list a.active::before { background: var(--text); }
+    .filter-list a.active { text-decoration: underline; }
+
+    .project-list { display: flex; flex-direction: column; gap: 7px; }
+    .project-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
+    .project-row a { color: var(--text); text-decoration: none; }
+    .project-row a:hover { text-decoration: underline; }
+    .project-row .year { font-size: 11px; color: var(--mid); font-variant-numeric: tabular-nums; }
+
+    .now-list { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--mid); }
+    .now-list a { color: var(--text); text-decoration: none; }
+    .now-list a:hover { text-decoration: underline; }
+
+    .about-btn {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+      padding: 8px 14px; font-size: 12px; color: var(--text); cursor: pointer;
+      font-family: inherit; margin-top: auto; align-self: flex-start;
+      transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out);
+    }
+    .about-btn:hover { border-color: var(--mid); transform: translateY(-2px); }
+
+    /* ── Main header ── */
+    .main-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-shrink: 0; }
+    .main-title { font-size: 11px; font-weight: 500; color: var(--mid); text-transform: uppercase; letter-spacing: 0.08em; }
+    .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-tab {
+      font-size: 12px; color: var(--mid); padding: 6px 14px; border-radius: 999px;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+    }
+    .filter-tab:hover { color: var(--text); }
+    .filter-tab.active { color: var(--text); border-color: var(--line); background: var(--surface); }
+
+    /* ── Works wall: fits in one screen ── */
+    .wall-grid {
+      flex: 1;
+      display: flex; flex-wrap: wrap; gap: 24px 32px;
+      align-content: center; justify-content: flex-start;
+      overflow: hidden;
+      padding-bottom: 8px;
+    }
+    .work-card {
+      width: 220px; text-decoration: none; color: var(--text);
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+      padding: 10px; display: block; position: relative;
+      transform: rotate(var(--rot, 0deg)) translateY(var(--ty, 0));
+      transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out), border-color 320ms var(--ease-out), opacity 240ms var(--ease-out);
+      will-change: transform;
+    }
+    .work-card:hover, .work-card:focus-visible {
+      transform: rotate(0deg) translateY(-10px) scale(1.03);
+      border-color: var(--mid); outline: none;
+      box-shadow: 0 24px 56px var(--shadow); z-index: 10;
+    }
+    .work-card.hidden { display: none; }
+    .work-thumb { height: 126px; border-radius: 12px; overflow: hidden; background: var(--line); }
+    .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .work-thumb span { font-size: 26px; font-weight: 700; color: #1a1a1a; display: flex; align-items: center; justify-content: center; height: 100%; font-family: 'PingFang SC','Microsoft YaHei',sans-serif; }
+    .work-meta { margin-top: 12px; }
+    .work-title { font-size: 14px; font-weight: 500; }
+    .work-sub { font-size: 11px; color: var(--mid); margin-top: 2px; }
+    .t1 { background: #E6F1FB; } .t2 { background: #FBEAF0; } .t3 { background: #E1F5EE; }
+    .t4 { background: #FAEEDA; } .t5 { background: #EEEDFE; } .t6 { background: #EAF3DE; }
+    .t7 { background: #FCEBEB; } .t8 { background: #F1EFE8; }
+
+    /* ── Letter Modal ── */
+    .letter-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(249,249,247,0.78);
+      backdrop-filter: blur(4px);
+      display: grid; place-items: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 420ms var(--ease-out);
+    }
+    .letter-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .letter-stage {
+      width: min(520px, 86vw);
+      position: relative;
+      transform: translateY(20px) scale(0.98);
+      transition: transform 420ms var(--ease-out);
+    }
+    .letter-overlay.open .letter-stage { transform: translateY(0) scale(1); }
+
+    .letter-paper {
+      background: linear-gradient(180deg, #fffdf8 0%, #fdfaf3 100%);
+      border-radius: 18px 18px 10px 10px;
+      padding: 56px 42px 96px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.12), 0 1px 0 rgba(0,0,0,0.03) inset;
+      position: relative; z-index: 2;
+      min-height: 420px;
+    }
+    .letter-paper::before {
+      content: '';
+      position: absolute; top: -10px; left: 0; right: 0;
+      height: 36px;
+      background: linear-gradient(180deg, #edeae2 0%, #fffdf8 100%);
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+    .letter-paper::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 26px,
+        rgba(0,0,0,0.015) 26px,
+        rgba(0,0,0,0.015) 27px
+      );
+      pointer-events: none; border-radius: inherit;
+    }
+
+    .letter-content {
+      position: relative; z-index: 1;
+      font-family: 'PingFang SC', 'Microsoft YaHei', Georgia, serif;
+      font-size: 15px; line-height: 2.1; color: #3a3a3a;
+      min-height: 220px;
+    }
+    .letter-content h2 {
+      font-family: Georgia, serif; font-size: 22px; margin-bottom: 18px; color: #2a2a2a;
+    }
+    .letter-cursor {
+      display: inline-block; width: 2px; height: 1.1em; background: var(--text);
+      vertical-align: text-bottom; margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    .letter-cursor.done { animation: none; opacity: 0; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .letter-actions {
+      display: flex; gap: 10px; align-items: center; justify-content: space-between;
+      margin-top: 28px; padding-top: 18px; border-top: 1px dashed #e5e2db;
+    }
+    .letter-btn {
+      background: transparent; border: 1px solid #d8d4cc; border-radius: 999px;
+      padding: 7px 14px; font-size: 12px; color: #555; cursor: pointer; font-family: inherit;
+      transition: border-color 220ms var(--ease-out), color 220ms var(--ease-out);
+    }
+    .letter-btn:hover { border-color: var(--mid); color: var(--text); }
+    .sound-status { font-size: 11px; color: #999; }
+
+    .letter-close {
+      position: absolute; top: -16px; right: -16px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--surface); border: 1px solid var(--line);
+      display: grid; place-items: center; cursor: pointer; z-index: 10;
+      font-size: 18px; color: var(--mid); line-height: 1;
+      transition: color 220ms var(--ease-out), border-color 220ms var(--ease-out), transform 220ms var(--ease-out);
+    }
+    .letter-close:hover { color: var(--text); border-color: var(--mid); transform: rotate(90deg); }
+
+    .roller-css {
+      position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+      width: 90%; max-width: 460px; height: 82px;
+      background: radial-gradient(circle at 25% 35%, #e0e0e0, #9a9a9a 55%, #4a4a4a 100%);
+      border-radius: 14px;
+      box-shadow: 0 22px 44px rgba(0,0,0,0.22), 0 3px 0 rgba(255,255,255,0.12) inset;
+      z-index: 1;
+    }
+    .roller-css::before {
+      content: ''; position: absolute; left: 24px; right: 24px; top: 50%; transform: translateY(-50%);
+      height: 12px; background: linear-gradient(180deg, #f5f5f5, #c0c0c0, #f5f5f5);
+      border-radius: 999px; box-shadow: 0 2px 5px rgba(0,0,0,0.25);
+    }
+    .roller-css::after {
+      content: ''; position: absolute; left: 48px; right: 48px; bottom: -22px; height: 32px;
+      background: #333; border-radius: 6px; z-index: -1;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .app { flex-direction: column; }
+      .sidebar { position: relative; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 22px; gap: 20px; }
+      .main { margin-left: 0; padding: 22px; height: auto; min-height: calc(100vh - 180px); overflow: visible; }
+      .main-header { margin-bottom: 20px; }
+      .wall-grid { justify-content: center; gap: 16px 18px; }
+      .work-card { width: 44%; transform: rotate(0deg) !important; }
+      .work-thumb { height: 110px; }
+      .about-btn { margin-top: 4px; }
+      .letter-paper { padding: 44px 26px 84px; }
+    }
+
+    @media (max-width: 480px) {
+      .work-card { width: 100%; max-width: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="profile-name">岛主</div>
+        <div class="profile-headline">一个在写东西的爸爸</div>
+        <div class="profile-tags">
+          <span>绘本</span><span>神话</span><span>诗</span><span>小说</span><span>方法论</span><span>AI</span>
+        </div>
+        <p class="profile-bio">我是岛主，一个在写东西的爸爸，也是干了十年的编剧、如今做产品与 AI 的人。给女儿画绘本、写神话新编、诗和小说；也把商业方法论和 AI 思考讲清楚。</p>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Social</div>
+        <div class="social-row">
+          <a href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener">知乎 ↗</a>
+          <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener">公众号 ↗</a>
+          <a href="mailto:hi@daozhu.me">邮箱</a>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Filter</div>
+        <div class="filter-list">
+          <a href="#" class="filter-link active" data-filter="all">全部</a>
+          <a href="#" class="filter-link" data-filter="framework">思维模型</a>
+          <a href="#" class="filter-link" data-filter="create">创作</a>
+          <a href="#" class="filter-link" data-filter="lab">实验</a>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Projects</div>
+        <div class="project-list">
+          <div class="project-row"><a href="picturebook/index.html">给女儿的绘本</a><span class="year">2024</span></div>
+          <div class="project-row"><a href="myth/index.html">故事别传</a><span class="year">2024</span></div>
+          <div class="project-row"><a href="poetry/index.html">诗歌</a><span class="year">连载</span></div>
+          <div class="project-row"><a href="novel/index.html">小说</a><span class="year">创作中</span></div>
+          <div class="project-row"><a href="models/index.html">思维模型 · 图鉴</a><span class="year">230 颗</span></div>
+          <div class="project-row"><a href="portfolio/index.html">职业档案</a><span class="year">2013–</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Now</div>
+        <div class="now-list">
+          <span>绘本 · 一一成长系列</span>
+          <span>故事别传 · 11 卷连载</span>
+          <span>小说 · 筹备中</span>
+          <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener">公众号 · 持续更新</a>
+        </div>
+      </div>
+
+      <button class="about-btn" id="openLetter" aria-label="打开介绍信">关于我 · 重读那封信</button>
+    </aside>
+
+    <main class="main">
+      <header class="main-header">
+        <div class="main-title">作品 · Works</div>
+        <div class="filter-tabs">
+          <a href="#" class="filter-tab active" data-filter="all">全部</a>
+          <a href="#" class="filter-tab" data-filter="framework">思维模型</a>
+          <a href="#" class="filter-tab" data-filter="create">创作</a>
+          <a href="#" class="filter-tab" data-filter="lab">实验</a>
+        </div>
+      </header>
+
+      <div class="wall-grid" id="wall">
+        <a class="work-card" href="picturebook/index.html" data-filter="create" style="--rot:4deg; --ty:-4px">
+          <div class="work-thumb"><img src="img/picturebook.png" alt="给女儿的绘本封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">给女儿的绘本</div><div class="work-sub">创作</div></div>
+        </a>
+        <a class="work-card" href="myth/index.html" data-filter="create" style="--rot:3deg; --ty:10px">
+          <div class="work-thumb"><img src="img/myth.png" alt="故事别传封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">故事别传</div><div class="work-sub">创作</div></div>
+        </a>
+        <a class="work-card" href="poetry/index.html" data-filter="create" style="--rot:-3deg; --ty:4px">
+          <div class="work-thumb"><img src="img/poetry.png" alt="诗歌封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">诗歌</div><div class="work-sub">创作</div></div>
+        </a>
+        <a class="work-card" href="novel/index.html" data-filter="create" style="--rot:5deg; --ty:-2px">
+          <div class="work-thumb"><img src="img/novel.png" alt="小说封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">小说</div><div class="work-sub">创作</div></div>
+        </a>
+        <a class="work-card" href="models/index.html" data-filter="framework" style="--rot:-6deg; --ty:6px">
+          <div class="work-thumb"><img src="img/thinking.png" alt="思维模型图鉴封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">思维模型 · 图鉴</div><div class="work-sub">230 颗模型 · 单文件笔记</div></div>
+        </a>
+        <a class="work-card" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener" data-filter="framework" style="--rot:-4deg; --ty:-6px">
+          <div class="work-thumb"><img src="img/wechat.png" alt="王仙客在岛上公众号封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">王仙客在岛上</div><div class="work-sub">微信合集 ↗</div></div>
+        </a>
+        <a class="work-card" href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener" data-filter="lab" style="--rot:6deg; --ty:2px">
+          <div class="work-thumb"><img src="img/zhihu.png" alt="知乎主页封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">知乎主页</div><div class="work-sub">wang-xianke-52 ↗</div></div>
+        </a>
+        <a class="work-card" href="portfolio/index.html" data-filter="lab" style="--rot:-5deg; --ty:6px">
+          <div class="work-thumb"><img src="img/archive.png" alt="职业档案封面" loading="lazy"></div>
+          <div class="work-meta"><div class="work-title">职业档案</div><div class="work-sub">编剧 → 产品 ↗</div></div>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Letter Modal -->
+  <div class="letter-overlay" id="letterOverlay" aria-hidden="true">
+    <div class="letter-stage">
+      <button class="letter-close" id="closeLetter" aria-label="关闭">×</button>
+      <div class="letter-paper">
+        <div class="letter-content" id="letterContent">
+          <h2>Dear you,</h2>
+          <div id="typewriter"></div><span class="letter-cursor" id="letterCursor"></span>
+        </div>
+        <div class="letter-actions">
+          <button class="letter-btn" id="replayLetter">重播</button>
+          <span class="sound-status" id="soundStatus">音效：已静音（点击页面任意处开启）</span>
+        </div>
+      </div>
+      <div class="roller-css"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── Filter tabs ──
+    (function() {
+      const filters = Array.from(document.querySelectorAll('.filter-link, .filter-tab'));
+      const cards = Array.from(document.querySelectorAll('.work-card'));
+      filters.forEach(f => {
+        f.addEventListener('click', e => {
+          e.preventDefault();
+          const type = f.dataset.filter;
+          filters.forEach(x => x.classList.remove('active'));
+          document.querySelectorAll('.filter-link[data-filter="' + type + '"], .filter-tab[data-filter="' + type + '"]').forEach(x => x.classList.add('active'));
+          cards.forEach(c => {
+            if (type === 'all' || c.dataset.filter === type) c.classList.remove('hidden');
+            else c.classList.add('hidden');
+          });
+        });
+      });
+    })();
+
+    // ── Letter typewriter & sound ──
+    (function() {
+      const overlay = document.getElementById('letterOverlay');
+      const openBtn = document.getElementById('openLetter');
+      const closeBtn = document.getElementById('closeLetter');
+      const replayBtn = document.getElementById('replayLetter');
+      const target = document.getElementById('typewriter');
+      const cursor = document.getElementById('letterCursor');
+      const soundStatus = document.getElementById('soundStatus');
+
+      const letterText = `你好，我是岛主王仙客。\n\n一个在写东西的爸爸。\n\n做了十年儿童动画编剧，写过很多别人的故事。直到女儿一一出生，才第一次想把主角换成她。这里画下的这些绘本，记录了她出生后的第一次笑、第一次翻身、第一次理发，以及我想讲给她听的那些小事。\n\n除此之外，我也把神话改写成当代故事、写诗、写小说。\n\n后来我做产品、做品牌、孵化 AI 智能体。创作与产品本质相通：都得从「人」出发，靠洞察、策略和协作，从 0 走到 1。我擅长把内容创作力，翻译成产品创新力。\n\n如果你也想把复杂的方法论讲透、把 AI 用顺、把一个想法落地成产品——我大概能帮上忙。\n\n背后的这些卡片，是我正在做的事。点任意一张，进来坐坐。\n\n— 岛主`;
+
+      let audioCtx = null;
+      let soundEnabled = false;
+      let typeTimer = null;
+      let charIndex = 0;
+
+      function initAudio() {
+        if (audioCtx) return;
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioContext();
+        } catch (e) { /* no audio support */ }
+      }
+
+      function enableSound() {
+        initAudio();
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        soundEnabled = true;
+        soundStatus.textContent = '音效：已开启';
+      }
+
+      function playKeySound() {
+        if (!soundEnabled || !audioCtx) return;
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const noise = audioCtx.createBufferSource();
+
+        // mechanical click: short noise burst + low thud
+        const bufferSize = audioCtx.sampleRate * 0.03;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.25));
+        }
+        noise.buffer = buffer;
+        const noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(0.12, t);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.03);
+        noise.connect(noiseGain).connect(audioCtx.destination);
+        noise.start(t);
+
+        // subtle thud
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(120, t);
+        osc.frequency.exponentialRampToValueAtTime(60, t + 0.04);
+        gain.gain.setValueAtTime(0.08, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.05);
+      }
+
+      function resetTypewriter() {
+        clearTimeout(typeTimer);
+        target.textContent = '';
+        cursor.classList.remove('done');
+        charIndex = 0;
+      }
+
+      function typeNext() {
+        if (charIndex >= letterText.length) {
+          cursor.classList.add('done');
+          return;
+        }
+        const ch = letterText[charIndex];
+        if (ch === '\n') {
+          target.appendChild(document.createElement('br'));
+        } else {
+          target.textContent += ch;
+        }
+        charIndex++;
+        playKeySound();
+        // varied speed for natural typewriter feel
+        const delay = '，。！？、'.includes(ch) ? 260 : (Math.random() * 40 + 45);
+        typeTimer = setTimeout(typeNext, delay);
+      }
+
+      function openLetter() {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        resetTypewriter();
+        setTimeout(typeNext, 360);
+      }
+
+      function closeLetter() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        clearTimeout(typeTimer);
+      }
+
+      openBtn.addEventListener('click', () => { enableSound(); openLetter(); });
+      closeBtn.addEventListener('click', closeLetter);
+      replayBtn.addEventListener('click', () => { enableSound(); openLetter(); });
+      overlay.addEventListener('click', e => { if (e.target === overlay) closeLetter(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeLetter(); });
+
+      // auto-open on first visit / refresh only.
+      // when returning from a subpage, the subpage wrote a sessionStorage flag
+      // so we skip the modal. clear the flag either way.
+      window.addEventListener('load', () => {
+        let fromSub = false;
+        try {
+          fromSub = !!sessionStorage.getItem('daoFromSub');
+          sessionStorage.removeItem('daoFromSub');
+        } catch (_) {}
+        if (!fromSub) setTimeout(openLetter, 400);
+      });
+      document.addEventListener('click', function once() {
+        enableSound();
+        document.removeEventListener('click', once);
+      }, { once: true });
+    })();
+  </script>
+</body>
+</html>

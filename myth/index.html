@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>故事别传 · 天庭档案 · 岛主</title>
+  <meta name="description" content="神话新编系列：保留神话人物外壳，借古讽今。天庭档案墙——每一卷都是一桩被系统碾轧的旧案。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #14110d;
+      --bg-2: #1c1813;
+      --paper: #211c16;
+      --paper-hi: #2a241c;
+      --ink: #e9e0cf;
+      --ink-soft: #b6a88f;
+      --ink-dim: #7c7059;
+      --line: #38301f;
+      --stamp: #b8422f;
+      --gold: #c69a54;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --mono: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+      --serif: 'Noto Serif SC', 'Songti SC', serif;
+    }
+    body {
+      background:
+        radial-gradient(140% 90% at 50% -10%, #201a12 0%, var(--bg) 60%),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 14px; line-height: 1.6;
+      padding: 48px 24px 110px;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    body::before {
+      /* faint file-grid texture */
+      content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .5;
+      background-image:
+        linear-gradient(rgba(198,154,84,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(198,154,84,.03) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+    .wrap { max-width: 940px; margin: 0 auto; position: relative; }
+    a { color: inherit; }
+    .back { font-size: 12px; color: var(--ink-dim); text-decoration: none; letter-spacing: .04em; }
+    .back:hover { color: var(--gold); }
+
+    .masthead {
+      margin: 34px 0 40px; padding-bottom: 26px;
+      border-bottom: 1px solid var(--line); position: relative;
+    }
+    .dept { font-size: 11px; letter-spacing: .42em; color: var(--gold); text-transform: uppercase; }
+    h1 {
+      font-family: var(--serif); font-weight: 700; font-size: 34px;
+      letter-spacing: .04em; margin: 14px 0 12px; color: var(--ink);
+    }
+    .lead { font-size: 13px; color: var(--ink-soft); line-height: 1.85; max-width: 60ch; }
+    .seal {
+      position: absolute; top: 4px; right: 0;
+      width: 92px; height: 92px; border-radius: 50%;
+      border: 2px solid var(--stamp); color: var(--stamp);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transform: rotate(-11deg); opacity: .82; text-align: center;
+      font-family: var(--serif); letter-spacing: .1em;
+    }
+    .seal .t { font-size: 15px; font-weight: 700; line-height: 1.35; }
+    .seal .s { font-size: 8px; letter-spacing: .28em; margin-top: 4px; font-family: var(--mono); }
+    @media (max-width: 560px){ .seal{ display:none; } }
+
+    .stat-row { display: flex; gap: 26px; flex-wrap: wrap; margin: 22px 0 34px; font-size: 11px; color: var(--ink-dim); letter-spacing: .06em; }
+    .stat-row b { color: var(--gold); font-weight: 400; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 16px; }
+    .file {
+      position: relative; background: linear-gradient(180deg, var(--paper-hi), var(--paper));
+      border: 1px solid var(--line); border-radius: 4px;
+      padding: 20px 20px 18px; overflow: hidden;
+      transition: border-color 260ms var(--ease), box-shadow 260ms var(--ease), transform 260ms var(--ease);
+    }
+    .file::before {
+      /* tab on top-left like a folder */
+      content: ''; position: absolute; top: 0; left: 22px; width: 58px; height: 4px;
+      background: var(--gold); opacity: .55; border-radius: 0 0 3px 3px;
+    }
+    .file:hover {
+      border-color: var(--gold); transform: translateY(-4px);
+      box-shadow: 0 22px 44px rgba(0,0,0,.5);
+    }
+    .file:hover .file-stamp { opacity: .95; transform: rotate(-8deg) scale(1); }
+
+    .file-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .file-no { font-size: 10.5px; color: var(--ink-dim); letter-spacing: .12em; }
+    .file-status { font-size: 10px; color: var(--gold); letter-spacing: .1em; white-space: nowrap; }
+    .file-name {
+      font-family: var(--serif); font-size: 22px; font-weight: 600;
+      margin: 14px 0 4px; color: var(--ink); letter-spacing: .04em;
+    }
+    .file-charge { font-size: 12px; color: var(--ink-soft); line-height: 1.7; min-height: 40px; }
+    .file-note {
+      margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line);
+      font-size: 11.5px; color: var(--ink-dim); line-height: 1.7; font-style: italic;
+    }
+    .file-note::before { content: '批注 · '; color: var(--gold); font-style: normal; opacity: .8; }
+    .read-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px; font-size: 11px; letter-spacing: .06em;
+      color: var(--gold); text-decoration: none; opacity: .85;
+      transition: opacity 220ms var(--ease), transform 220ms var(--ease);
+    }
+    .read-link:hover { opacity: 1; transform: translateX(3px); }
+    .read-link.disabled {
+      color: var(--ink-dim); cursor: default; pointer-events: none;
+    }
+    .read-link.disabled:hover { transform: none; }
+    .file-stamp {
+      position: absolute; right: 12px; bottom: 12px;
+      font-family: var(--serif); font-size: 11px; font-weight: 700;
+      color: var(--stamp); border: 1.5px solid var(--stamp); border-radius: 4px;
+      padding: 3px 7px; letter-spacing: .14em; opacity: .5;
+      transform: rotate(-8deg) scale(.94); transition: opacity 260ms var(--ease), transform 260ms var(--ease);
+    }
+
+    .footer-note { margin-top: 42px; font-size: 11px; color: var(--ink-dim); letter-spacing: .05em; text-align: center; line-height: 1.9; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html">← 回到岛主的主页</a>
+
+    <div class="masthead">
+      <div class="dept">天庭 · 神仙人事与遗留事务档案处</div>
+      <h1>故事别传</h1>
+      <p class="lead">保留神话人物的外壳，借古讽今，用现代精神填充。每一卷都是一桩旧案——主角被系统、家庭、记忆或自己造的东西碾轧，即使加害者，也照样付出代价。</p>
+      <div class="seal"><div class="t">天庭<br>存档</div><div class="s">CLASSIFIED</div></div>
+    </div>
+
+    <div class="stat-row">
+      <span>在册卷宗 <b>13</b></span>
+      <span>状态 <b>连载 · 陆续解密</b></span>
+      <span>密级 <b>借古讽今</b></span>
+      <span>序 <b>「神仙也会失业，只是没人敢说。」</b></span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="footer-note">— 卷宗持续归档中 · 后续每解密一桩，这里就多一卷 —</div>
+  </div>
+
+  <script>
+    // 天庭档案：每一卷一桩神话新编旧案
+    const files = [
+      { no: '天字第 01 号', name: '精卫',   status: '服役中',   charge: '填海工程无限期延长，疑似把对世界的恨，转成了对自己的罚。',    note: '填海的人，究竟是在填海，还是在填自己。',   stamp: '未结案', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805340&idx=1&sn=48e6edf7aebbecc870019d8d4a930c7b&chksm=8c2a55c5bb5ddcd35fcdd7ce95f4331db02dd07838aed098b4d7cb51cd92539e425330e755fe' },
+      { no: '天字第 02 号', name: '共工',   status: '已追责',   charge: '一次愤怒撞倒不周山，赔进去的是整片天，与所有人的余生。',      note: '愤怒很短，代价很长。',                     stamp: '重案', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805330&idx=1&sn=db6100194bdd8029841faac904247f63&chksm=8c2a55cbbb5ddcdd08decea188aa8207f86ac7e11f04da03817286f987c545f2efcd8243fdc8' },
+      { no: '天字第 03 号', name: '后羿',   status: '考核中',   charge: '射日 KPI 超额达成，但那九箭里有几分是真心，无人可证。',      note: '做样子，还是当真——他自己也忘了。',         stamp: '存疑', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805384&idx=1&sn=02ccc53f0e7ebf98575b08a4eb344faf&chksm=8c2a5511bb5ddc070b620b9d121847ae330896c2ca5d067a80a09061c36edbfbed55b3a8f766' },
+      { no: '天字第 04 号', name: '刑天',   status: '遗留',     charge: '失首仍舞干戚，只剩执念的空壳，子女申请监护未获批复。',        note: '当父亲只剩一具执念，子女该如何与他共存。', stamp: '待处理', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805371&idx=1&sn=916f0fd6fc35d87c926b3fd30411c3df&chksm=8c2a55e2bb5ddcf4341345b9260b1ed0af27c385c8c6b1b926eb2e535b3338f91816c5fbdda2' },
+      { no: '天字第 05 号', name: '愚公',   status: '世袭中',   charge: '移山工程以孝道之名，绑定子子孙孙，三代人被写进合同。',        note: '孝道一旦变成绳套，感动的只有旁观者。',     stamp: '连坐', wechatUrl: '' },
+      { no: '天字第 06 号', name: '庄周',   status: '存疑',     charge: '分不清蝶与我，创作者被自己虚构出的东西反向吞并。',            note: '写故事的人，最后成了别人故事里的一页。',   stamp: '悬案', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805366&idx=1&sn=c4f432029524f9a93e4efb4214d20004&chksm=8c2a55efbb5ddcf9b6fba48134b85f6700c7709a884b32f07f32692ec6cfe57f3d92933a68aa' },
+      { no: '天字第 07 号', name: '妲己',   status: '已问责',   charge: '以毕生最好的手艺，替一个必将崩塌的盛世造了假。',              note: '手艺没有错，错的是她把它交给了谁。',       stamp: '已定罪', wechatUrl: '' },
+      { no: '天字第 08 号', name: '夸父',   status: '已结案',   charge: '追日途中渴死道旁，抵达前也没人问过他到底要追什么。',          note: '追日的人，追的从来不是日。',               stamp: '殉职', wechatUrl: '' },
+      { no: '天字第 09 号', name: '仓颉',   status: '复核中',   charge: '造字有功，泽被万世；但同一批字，也砌成了困住人的牢笼。',      note: '给了人说话的字，也给了人闭嘴的令。',       stamp: '功过并存', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805431&idx=1&sn=ca109149830aa8c36f88d162b2775aa9&chksm=8c2a552ebb5ddc386ad564837f59e132b6b1dc8e9aa11afb678753e6331bc88c3cf3de5eb7a7' },
+      { no: '天字第 10 号', name: '白素贞', status: '未决',     charge: '断桥重逢之后的余生管辖权，塔内塔外各执一词。',                note: '断桥之后的故事，才是真正难写的那部分。',   stamp: '管辖争议', wechatUrl: '' },
+      { no: '天字第 11 号', name: '点睛画师', status: '权属纠纷', charge: '点睛之后龙腾空而去，作品归属画师、买家还是龙本身，无定论。',  note: '点睛之后，龙到底是谁的。',                 stamp: '产权待定', wechatUrl: '' },
+      { no: '天字第 12 号', name: '女娲',   status: '善后中',   charge: '补天工程验收合格后，人间遗留裂缝的维护全记在她账上，且无人记得她为此耗去了半身神力。', note: '天补好了，人心里的洞，轮到谁来补。', stamp: '终身负责', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805393&idx=1&sn=28c0926892d00b2196abfb3576b369f6&chksm=8c2a5508bb5ddc1e97e6a99443ecfb4ae9f75c949391a9b301c62e926717773e8ba928c8d64e' },
+      { no: '天字第 13 号', name: '钟馗',   status: '家务缠身', charge: '斩鬼天师被指派兼职替妹操办婚嫁，白天捉恶鬼，夜里备妆奁，职场与家庭的双重 KPI 压垮猛汉。', note: '能镇住千万恶鬼，却镇不住一场人间婚礼。', stamp: '分身乏术', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805400&idx=1&sn=b88cbacd0ca28c0aa869a21ec7df4d4a&chksm=8c2a5501bb5ddc17259ea80319c402439c1e36f3ccd4013e24db7eb40ea6e19cf53fea57e8af' }
+    ];
+
+    const grid = document.getElementById('grid');
+    files.forEach(f => {
+      const el = document.createElement('div');
+      el.className = 'file';
+      const link = f.wechatUrl
+        ? '<a class="read-link" href="' + f.wechatUrl + '" target="_blank" rel="noopener">阅读原文 ↗</a>'
+        : '<span class="read-link disabled">公众号原文待更新</span>';
+      el.innerHTML =
+        '<div class="file-head"><span class="file-no">' + f.no + '</span><span class="file-status">状态 · ' + f.status + '</span></div>' +
+        '<div class="file-name">' + f.name + '</div>' +
+        '<div class="file-charge">' + f.charge + '</div>' +
+        '<div class="file-note">' + f.note + '</div>' +
+        link +
+        '<div class="file-stamp">' + f.stamp + '</div>';
+      grid.appendChild(el);
+    });
+  </script>
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
+    });
+  </script>
+</body>
+</html>

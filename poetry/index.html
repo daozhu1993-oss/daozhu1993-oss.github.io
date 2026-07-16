@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>诗歌 · 岛主</title>
+  <meta name="description" content="岛主的诗：把日常、月光和说不出口的话，写成句子。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #16130f;
+      --ink: #ece6da;
+      --ink-soft: #b3aca1;
+      --ink-dim: #6c655b;
+      --accent: #cdaa6a;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg); color: var(--ink);
+      font-family: 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', Georgia, 'Times New Roman', serif;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 6;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 28px;
+    }
+    .back {
+      font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px;
+      letter-spacing: 0.05em; color: var(--ink-soft); text-decoration: none;
+    }
+    .back:hover { color: var(--ink); }
+    .count {
+      font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px;
+      letter-spacing: 0.18em; color: var(--ink-dim);
+    }
+
+    .stage {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 96px 80px 88px;
+    }
+    .poem {
+      max-width: 600px; width: 100%; text-align: center;
+      transition: opacity 420ms var(--ease), transform 420ms var(--ease);
+    }
+    .poem.fade { opacity: 0; transform: translateY(10px); }
+    .poem-title {
+      font-size: 27px; font-weight: 500; letter-spacing: 0.05em;
+      margin-bottom: 30px; color: var(--ink);
+    }
+    .poem-body {
+      font-size: 17px; line-height: 2.5; white-space: pre-wrap;
+      word-break: break-word; color: var(--ink);
+    }
+    .poem-date {
+      margin-top: 34px; font-size: 12px; letter-spacing: 0.1em;
+      color: var(--ink-dim);
+      font-family: 'Fragment Mono', ui-monospace, monospace;
+    }
+
+    .nav-btn {
+      position: fixed; top: 50%; transform: translateY(-50%); z-index: 6;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: transparent; border: 1px solid var(--ink-dim);
+      color: var(--ink-soft); cursor: pointer; font-size: 22px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 220ms var(--ease), color 220ms var(--ease), background 220ms var(--ease);
+      user-select: none;
+    }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-prev { left: 30px; }
+    .nav-next { right: 30px; }
+
+    .footer {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 6;
+      text-align: center; padding: 22px;
+      font-family: 'Fragment Mono', ui-monospace, monospace;
+      font-size: 11px; letter-spacing: 0.14em; color: var(--ink-dim);
+    }
+
+    @media (max-width: 600px) {
+      .nav-btn { width: 42px; height: 42px; font-size: 18px; }
+      .nav-prev { left: 14px; }
+      .nav-next { right: 14px; }
+      .stage { padding: 92px 64px 84px; }
+      .poem-title { font-size: 23px; }
+      .poem-body { font-size: 15px; line-height: 2.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="back" href="../index.html">← 岛主的主页</a>
+    <span class="count" id="count">— 01 / 01 —</span>
+  </div>
+
+  <button class="nav-btn nav-prev" id="prev" aria-label="上一首">‹</button>
+  <button class="nav-btn nav-next" id="next" aria-label="下一首">›</button>
+
+  <div class="stage">
+    <div class="poem" id="poem">
+      <div class="poem-title" id="title"></div>
+      <div class="poem-body" id="body"></div>
+      <div class="poem-date" id="date"></div>
+    </div>
+  </div>
+
+  <div class="footer">方向键 ← → 翻页 · 也可左右滑动</div>
+
+  <script>
+    // 把你的诗从微信复制过来，按 {title, body, date} 加进这个数组即可。
+    // body 里用 \n 换行。示例诗可整段删掉。
+    const poems = [
+      { title: '收诗处', body: '把日常、月光和说不出口的话，写成句子。\n把诗发给我，这里就会一首首长出来——\n左右翻页，或点两边的箭头。', date: '引导' },
+      { title: '月光账单', body: '我把白天的账算完\n月亮便来收夜的利息\n它不催，只是亮着\n像你小时候，母亲留的那盏灯', date: '示例诗' },
+      { title: '给一一的第一行', body: '你来的那天，雨停了\n我数了数窗外的绿\n刚好够写一首\n不必押韵的诗', date: '示例诗' }
+    ];
+
+    let cur = 0;
+    const elTitle = document.getElementById('title');
+    const elBody = document.getElementById('body');
+    const elDate = document.getElementById('date');
+    const elCount = document.getElementById('count');
+    const elPoem = document.getElementById('poem');
+    const pad = n => String(n).padStart(2, '0');
+
+    function render(i) {
+      elPoem.classList.add('fade');
+      setTimeout(() => {
+        const p = poems[i];
+        elTitle.textContent = p.title;
+        elBody.textContent = p.body;
+        elDate.textContent = p.date || '';
+        elCount.textContent = '— ' + pad(i + 1) + ' / ' + pad(poems.length) + ' —';
+        elPoem.classList.remove('fade');
+      }, 210);
+    }
+    function go(d) {
+      cur = (cur + d + poems.length) % poems.length;
+      render(cur);
+    }
+
+    document.getElementById('prev').addEventListener('click', () => go(-1));
+    document.getElementById('next').addEventListener('click', () => go(1));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
+    });
+    let sx = 0;
+    document.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    });
+
+    render(0);
+  </script>
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
+    });
+  </script>
+</body>
+</html>

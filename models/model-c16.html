@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>马斯洛需求理论 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .lede{margin-top:1.1rem;font-family:var(--serif);font-size:clamp(.95rem,3vw,1.18rem);color:#ecdfc6;line-height:1.65;max-width:660px;margin-left:auto;margin-right:auto;}
+  .hero .author{margin-top:1.2rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .back{display:block;margin:.15rem 0;color:var(--accent);}
+  footer .back:hover{text-decoration:underline;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.04</div>
+      <h1>马斯洛需求理论</h1>
+      <div class="subtitle">Maslow's Hierarchy</div>
+      <p class="lede">用户买的从不是功能，是他那一层没被填满的洞</p>
+      <div class="author">亚伯拉罕·马斯洛 &nbsp;·&nbsp; <b>Abraham Maslow</b> &nbsp;·&nbsp; 《动机与个性》(1970版)</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        马斯洛在《动机与个性》（1970版）里把人的动机拆成 7 层——人的行为是被需求推着走的，营销得对准那一层。需求像梯子，一层没踩稳，上一层就够不着，你往顶层喊，底层的人听不见。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">亚伯拉罕·马斯洛<small>Abraham Maslow，人本主义心理学奠基人，《动机与个性》(1970版)。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">动机心理学 / 营销 / 产品设计<small>理解"人到底图什么"的底层框架。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">需求分层，由低到高逐级满足<small>生理 → 安全 → 归属 → 尊重 → 认知 → 审美 → 自我实现。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">动机洞察层<small>在"卖功能"之前，先看清用户卡在哪一层。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>只卖功能 vs 对准需求层</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>只卖功能</h3>
+          <div class="en">Feature Pitching</div>
+          <ul class="trait-list">
+            <li>参数拉满，却卖不动</li>
+            <li>死磕价格战，利润薄得像纸</li>
+            <li>没搞清人在这个阶段到底图什么</li>
+            <li>底层没填满就喊顶层，用户听不见</li>
+          </ul>
+          <div class="ex">例：用户连饭都愁时，你跟他讲审美，再好看也塌，他扭头去了别家。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>对准需求层</h3>
+          <div class="en">Target the Right Layer</div>
+          <ul class="trait-list">
+            <li>先画出用户卡在哪一需求层</li>
+            <li>看竞品在哪层卷，找上层空白</li>
+            <li>给产品加"意义"，而不只是参数</li>
+            <li>精准扎进某一层，用户自然买单</li>
+          </ul>
+          <div class="ex">例：奢侈品卖自我实现与尊重，小米卖性价比命中安全与归属，都精准扎进某一层，所以都赚到。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>四组关键需求层</h2>
+        <span class="en">The Seven Layers, Grouped</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>生理 / 安全（基本需求）</h4>
+          <p>吃喝拉撒、健康财产。底层不牢，上层免谈，就像房子没地基先谈装修，再好看也塌，用户连饭都愁时不会为审美买单。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>归属与爱 / 尊重</h4>
+          <p>家庭情感、自尊成就。人终究怕孤独、要被看见，这是社交产品的命门，也是"晒"这件事的源头——晒不是炫耀，是确认自己被接纳。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>认知 / 审美（成长需求）</h4>
+          <p>探索好奇、美感规律。吃饱了就想"好看又有意思"，这是内容消费和设计的引擎，用户开始为"舒服""高级"多付钱。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>自我实现 / 超越</h4>
+          <p>价值实现、天人合一。顶层是"我想成为谁"，奢侈品卖的就是这一口身份感，让你在镜子前觉得"这就是我"。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>应用流程</h2>
+        <span class="en">From Feature to Meaning</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>定位需求层</h4>
+          <p>画出你用户当前卡在哪一需求层，别一上来就堆功能。</p>
+        </div>
+        <div class="step">
+          <h4>找上层空白</h4>
+          <p>看竞品都在哪层卷，找没被填满的那一层，那里利润往往更厚。</p>
+        </div>
+        <div class="step">
+          <h4>注入意义</h4>
+          <p>给产品加一句对准该层的"意义"，而不是念一串参数。</p>
+        </div>
+        <div class="step">
+          <h4>定期复查</h4>
+          <p>用户需求层会随阶段上移，定期回看产品还对不对准那一层。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>人不为功能买单，为"我是谁"买单。</p>
+          <span class="src">马斯洛需求的核心</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>需求像梯子，一层没踩稳，上一层就够不着，你往顶层喊，底层的人听不见。</p>
+          <span class="src">为什么别只卷价格</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>多数产品只盯着生理层打价格战，却没人去填尊重和自我实现那层，利润自然薄得像纸，还怪行业卷。</p>
+          <span class="src">岛主观察</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>画一张"用户需求层地图"</h4><p>标出现在用户卡在哪一层，别再只盯着参数。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>别只卷价格</h4><p>看看尊重和自我实现那层有没有空白，那里利润更厚。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>给产品写一句"意义话术"</h4><p>对准那层需求，而不是念功能清单。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>学奢侈品怎么卖身份</h4><p>看它怎么扎进顶层需求，让用户觉得"我配得上"。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>用"晒"验证归属层</h4><p>用户愿晒，说明归属与尊重被满足了。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>品牌定位</span>
+        <span>产品卖点</span>
+        <span>广告文案</span>
+        <span>用户运营</span>
+        <span>奢侈品营销</span>
+        <span>社群设计</span>
+        <span>任何"让人为什么买"的问题</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html">← 回岛主主页</a>
+  </footer>
+
+</body>
+</html>

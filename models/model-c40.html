@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>竞争3大通用模型 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .hero .lead{max-width:640px;margin:1.1rem auto 0;font-size:clamp(.9rem,3.2vw,1.1rem);color:#ecdfc6;line-height:1.7;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.07</div>
+      <h1>竞争3大通用模型</h1>
+      <div class="subtitle">Generic Competitive Strategy</div>
+      <div class="author">迈克尔·波特 &nbsp;·&nbsp; <b>Michael Porter</b> &nbsp;·&nbsp; 《竞争战略》· 三大通用战略</div>
+      <p class="lead">战略的本质不是什么都做，是敢对绝大多数机会说不要。</p>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        竞争3大通用模型是波特在《竞争战略》里发给所有玩家的三张牌——总成本领先、差异化、目标集聚。面对行业五力绞杀，你总得选一把；最怕三张都抓，最后一张都没打好，样样通样样松。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">迈克尔·波特<small>Michael Porter，《竞争战略》。面对"五力"挤压时的三把战略钥匙。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">竞争战略 / 定位<small>品牌定位、创业方向、定价、市场切入。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">三选一的打法<small>成本领先 / 差异化 / 目标集聚，最怕全都要。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">战略定位层<small>在"做什么"之前，先定"靠什么赢"。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>我全都要 vs 三选一</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>我全都要</h3>
+          <div class="en">Grab All Three</div>
+          <ul class="trait-list">
+            <li>又想便宜又想高端，两头不讨好</li>
+            <li>看对手降价你也降，最后谁都没赚</li>
+            <li>啥客户都想抓，定位糊成一锅粥</li>
+            <li>三张椅子同时坐，只会摔在地上</li>
+          </ul>
+          <div class="ex">例：老板贪心两头不讨好，客户记不住、团队拧不成绳。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>三选一</h3>
+          <div class="en">Pick One</div>
+          <ul class="trait-list">
+            <li>总成本领先：把成本压到全行业最低</li>
+            <li>差异化：提供对手给不了的独特价值</li>
+            <li>目标集聚：占对手忽视的角落做深</li>
+            <li>咬定一把，反而坐得稳、赚得久</li>
+          </ul>
+          <div class="ex">例：酱油同行只做零添加，在巨头懒得弯腰的窄缝立住溢价。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三张战略牌</h2>
+        <span class="en">The Three Cards</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>总成本领先</h4>
+          <p>把成本压到全行业最低，像沃尔玛用规模摊薄，谁都拼不过你的价。但便宜是刀刃，薄利最怕规模不够。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>差异化</h4>
+          <p>提供对手给不了的独特价值，像苹果靠体验立溢价。不一样，用户才肯多付，利润才守得住。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>目标集聚</h4>
+          <p>不跟全场打，只服务一类人、一类需求做深，像小众户外死磕登山客。窄，反而护城河深，巨头懒得弯腰抢。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>应用流程</h2>
+        <span class="en">From Confused to Focused</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>诚实问成本能第一吗</h4>
+          <p>不能就别硬拼价，低价没规模就是自杀。</p>
+        </div>
+        <div class="step">
+          <h4>找对手懒得做的差异点</h4>
+          <p>把它做成清晰标签，用户才不会被轻易比价。</p>
+        </div>
+        <div class="step">
+          <h4>或切一个细分市场</h4>
+          <p>把它吃透再谈扩张，窄反而护城河深。</p>
+        </div>
+        <div class="step">
+          <h4>敢对其他机会说不</h4>
+          <p>战略的本质是放弃绝大多数选项，咬定一把。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>战略的本质不是什么都做，是敢放弃绝大多数选项。</p>
+          <span class="src">战略的真谛</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>三张椅子同时坐，只会摔在地上。</p>
+          <span class="src">贪心的代价</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>样样通样样松，被专注的对手一个个吃掉。</p>
+          <span class="src">聚焦的理由</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>三选一，别贪心全要</h4><p>总成本领先、差异化、集聚，咬定一把。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>成本不能第一就别打价格战</h4><p>没到那个量，玩低价是自杀。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>把差异点做成清晰标签</h4><p>让对手比不了、用户记得住。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>集聚就切细分吃透</h4><p>再谈扩张，窄缝里反而立得住。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>敢对多数机会说不</h4><p>战略就是敢放弃，不然后院起火。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>品牌定位</span>
+        <span>创业方向</span>
+        <span>竞争策略</span>
+        <span>产品定价</span>
+        <span>市场切入</span>
+        <span>任何"我到底靠什么赢"的问题</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.07</div>
+    <p style="margin-top:.8rem;"><a class="back" href="index.html" style="color:var(--accent)">← 返回思维模型图鉴</a></p>
+    <p><a class="back" href="../index.html" style="color:var(--ink-faint);margin-left:0">← 回岛主主页</a></p>
+  </footer>
+
+</body>
+</html>

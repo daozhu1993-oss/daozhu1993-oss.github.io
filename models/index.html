@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>思维模型图鉴 · 岛主</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.04em;line-height:1.6;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1080px;margin:0 auto;padding:0 6vw 5rem;}
+  .intro{padding:3.4rem 0 1.6rem;text-align:center;}
+  .intro p{font-family:var(--serif);font-size:clamp(1rem,3.4vw,1.22rem);color:var(--ink-soft);max-width:720px;margin:0 auto;line-height:1.9;}
+  .intro .mark{color:var(--ribbon);font-weight:700;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.4rem;padding-top:1.5rem;}
+  .model{position:relative;display:block;text-decoration:none;color:inherit;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.7rem 1.6rem 1.5rem;
+    box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;overflow:hidden;}
+  .model::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));opacity:.85;}
+  .model:hover{transform:translateY(-6px);box-shadow:0 18px 38px var(--shadow);border-color:var(--accent-soft);}
+  .model .idx{font-family:var(--display);font-style:italic;font-size:.92rem;color:var(--accent);margin-bottom:.4rem;}
+  .model h3{font-family:var(--serif);font-weight:700;font-size:1.34rem;line-height:1.3;margin-bottom:.3rem;}
+  .model .en{font-family:var(--display);font-style:italic;font-size:.86rem;color:var(--ink-faint);margin-bottom:.8rem;}
+  .model p{font-size:.9rem;color:var(--ink-soft);line-height:1.7;}
+  .model .go{margin-top:1rem;font-size:.82rem;font-weight:700;color:var(--ribbon);letter-spacing:.04em;
+    display:inline-flex;align-items:center;gap:.4rem;}
+  .model .go::after{content:"→";transition:transform .2s ease;}
+  .model:hover .go::after{transform:translateX(4px);}
+  .model .cat{position:absolute;top:1.3rem;right:1.3rem;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);background:var(--paper-deep);border:1px solid var(--line);border-radius:999px;padding:.2rem .6rem;font-weight:700;}
+
+  footer{border-top:1px solid var(--line);margin-top:3.5rem;padding-top:2.2rem;text-align:center;color:var(--ink-faint);font-size:.86rem;line-height:1.8;}
+  footer b{color:var(--ink-soft);font-weight:600;}
+
+  @media (max-width:680px){
+    .grid{grid-template-columns:1fr;}
+    .hero{min-height:64vh;}
+  }
+</style>
+</head>
+<body>
+  <header class="hero">
+    <div class="ribbon">思维模型图鉴</div>
+    <div class="hero-inner">
+      <div class="kicker">A Shelf of Mental Models</div>
+      <h1>思维模型图鉴</h1>
+      <div class="subtitle">把高手的脑子，拆成你随手能用的工具</div>
+      <div class="author">整理自 <b>岛主</b> 的飞书知识库 · 230 颗可上手模型 · 每日一更，融入岛主自己的解读</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p>这里每一颗模型，都是书架上的一<span class="mark">本</span>——翻开它，你不必从头学起，只要知道<span class="mark">什么时候掏出来、怎么用</span>。点开任意一张卡片，开始读。</p>
+    </section>
+
+    <div class="grid">
+      <a class="model" href="model-mece.html">
+        <span class="cat">原则型</span>
+        <div class="idx">No.01</div>
+        <h3>MECE 原则</h3>
+        <div class="en">Mutually Exclusive, Collectively Exhaustive</div>
+        <p>分类做到「不重叠、不遗漏」，你的分析才站得住脚。麦肯锡顾问的思考底座。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-ride.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.02</div>
+        <h3>RIDE 说服模型</h3>
+        <div class="en">Risk · Interest · Difference · Effect</div>
+        <p>从建立信任到促成行动的四季说服框架，汇报、销售、带人都用得上。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-pyramid.html">
+        <span class="cat">原则型</span>
+        <div class="idx">No.03</div>
+        <h3>金字塔原理</h3>
+        <div class="en">Pyramid Principle</div>
+        <p>结论先行、以上统下、归类分组、逻辑递进。让你说的每句话都被记住。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-scqa.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.04</div>
+        <h3>SCQA 模型</h3>
+        <div class="en">Situation · Complication · Question · Answer</div>
+        <p>用「情境-冲突-问题-答案」把话说进别人心里，告别「听不懂」。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-structure-compass.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.05</div>
+        <h3>结构罗盘</h3>
+        <div class="en">Structure Compass</div>
+        <p>给你的 PPT 与表达装上一只罗盘，从此不再是「Word 搬家」。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-blm.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.06</div>
+        <h3>BLM 模型</h3>
+        <div class="en">Business Leadership Model</div>
+        <p>战略与执行之间的对话框架，治一治「每年规划、每年走样」的老毛病。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-pdca.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.07</div>
+        <h3>PDCA 循环</h3>
+        <div class="en">Plan · Do · Check · Act</div>
+        <p>计划-执行-检查-处理，让改进转成不停歇的飞轮。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-smart.html">
+        <span class="cat">原则型</span>
+        <div class="idx">No.08</div>
+        <h3>SMART 原则</h3>
+        <div class="en">Specific · Measurable · Achievable · Relevant · Time-bound</div>
+        <p>五把尺子量一量，模糊的「我要变好」才变成能达成的目标。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-4f.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.09</div>
+        <h3>4F 复盘法</h3>
+        <div class="en">Facts · Feelings · Findings · Future</div>
+        <p>事实-感受-收获-下一步，四问把经历真正变成经验。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-5star-notes.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.10</div>
+        <h3>五星笔记法</h3>
+        <div class="en">Five-Star Note-Taking</div>
+        <p>用五个问题做笔记，告别抄完就忘、记了白记。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-5step.html">
+        <span class="cat">方法型</span>
+        <div class="idx">No.11</div>
+        <h3>五步拆解法</h3>
+        <div class="en">Five-Step Model拆解</div>
+        <p>拆得动 100 个模型的方法——先会拆，才谈得上用。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-iceberg.html">
+        <span class="cat">模型型</span>
+        <div class="idx">No.12</div>
+        <h3>冰山模型</h3>
+        <div class="en">Iceberg Model</div>
+        <p>水面上的行为只是冰山一角，真正的答案藏在水下。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-underwater.html">
+        <span class="cat">模型型</span>
+        <div class="idx">No.13</div>
+        <h3>水下胜任力</h3>
+        <div class="en">Competence Beneath the Surface</div>
+        <p>能力差不多的人，差距往往藏在看不见的「水下」。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-life-positioning.html">
+        <span class="cat">模型型</span>
+        <div class="idx">No.14</div>
+        <h3>人生定位模型</h3>
+        <div class="en">Life Positioning</div>
+        <p>看透人与人的差距，先搞清楚自己站在哪一层。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-result-thinking.html">
+        <span class="cat">原则型</span>
+        <div class="idx">No.15</div>
+        <h3>结果思维</h3>
+        <div class="en">Result-Oriented Thinking</div>
+        <p>以终为始，先想清楚要的结果，再倒推今天该做什么。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-career-passion.html">
+        <span class="cat">职业型</span>
+        <div class="idx">No.16</div>
+        <h3>热爱一生的事业</h3>
+        <div class="en">Career Passion</div>
+        <p>用一张图，找到那件你愿意做一辈子的事。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-emotion-signal.html">
+        <span class="cat">心理型</span>
+        <div class="idx">No.17</div>
+        <h3>情绪信号模型</h3>
+        <div class="en">Emotion as Signal</div>
+        <p>情绪没有好坏，只有信号。看懂感受，才看得懂自己。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-flow.html">
+        <span class="cat">心理型</span>
+        <div class="idx">No.18</div>
+        <h3>心流模型</h3>
+        <div class="en">Flow</div>
+        <p>挑战与技能刚好匹配时，你会忘记时间的存在。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-fogg.html">
+        <span class="cat">行为型</span>
+        <div class="idx">No.19</div>
+        <h3>福格行为模型</h3>
+        <div class="en">Fogg Behavior Model</div>
+        <p>行为 = 动机 × 能力 × 提示。越想改变越改不了？先调对公式。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-dunning-kruger.html">
+        <span class="cat">认知型</span>
+        <div class="idx">No.20</div>
+        <h3>邓宁-克鲁格效应</h3>
+        <div class="en">Dunning-Kruger Effect</div>
+        <p>为什么曾自信到愚蠢？认知的洼地，往往最吵。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-growth-mindset.html">
+        <span class="cat">成长型</span>
+        <div class="idx">No.21</div>
+        <h3>破圈成长模型</h3>
+        <div class="en">Growth Mindset</div>
+        <p>为什么努力却没突破？你可能在同一个圈子反复打转。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-7habits.html">
+        <span class="cat">成长型</span>
+        <div class="idx">No.22</div>
+        <h3>高效能七习惯</h3>
+        <div class="en">7 Habits of Highly Effective People</div>
+        <p>从依赖到独立再到互赖，看透高手如何「修炼」。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-deliberate-practice.html">
+        <span class="cat">成长型</span>
+        <div class="idx">No.23</div>
+        <h3>刻意练习</h3>
+        <div class="en">Deliberate Practice</div>
+        <p>你以为的「练习」，可能只是「重复劳动」。真练习长这样。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-learning-pyramid.html">
+        <span class="cat">认知型</span>
+        <div class="idx">No.24</div>
+        <h3>学习金字塔</h3>
+        <div class="en">Learning Pyramid</div>
+        <p>听得越多忘得越快，教别人才记得最牢。学得累？换层塔。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-bloom.html">
+        <span class="cat">认知型</span>
+        <div class="idx">No.25</div>
+        <h3>布鲁姆分类法</h3>
+        <div class="en">Bloom's Taxonomy</div>
+        <p>记忆、理解、应用、分析、评价、创造——你在第几层？</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-feynman.html">
+        <span class="cat">方法型</span>
+        <div class="idx">No.26</div>
+        <h3>费曼学习法</h3>
+        <div class="en">Feynman Technique</div>
+        <p>用一个「教」字，解决所有「学」的问题。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-exemplar-loop.html">
+        <span class="cat">方法型</span>
+        <div class="idx">No.27</div>
+        <h3>范例循环</h3>
+        <div class="en">Exemplar Loop</div>
+        <p>高手都让你「别从零开始」——先模仿范例，再创造。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-hero-journey.html">
+        <span class="cat">叙事型</span>
+        <div class="idx">No.28</div>
+        <h3>英雄之旅</h3>
+        <div class="en">Hero's Journey</div>
+        <p>每个好故事、好产品、好人生，都走同一条路：启程-启蒙-回归。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-dikw.html">
+        <span class="cat">认知型</span>
+        <div class="idx">No.29</div>
+        <h3>DIKW 模型</h3>
+        <div class="en">Data · Information · Knowledge · Wisdom</div>
+        <p>数据≠信息≠知识≠智慧，大多数人卡在第一层。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-strategy-compass.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.30</div>
+        <h3>思考战略罗盘</h3>
+        <div class="en">Strategic Compass</div>
+        <p>为什么你的战略总停在 PPT 上？用四象限把一句口号变成能落地的导航图。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c01.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.31</div>
+        <h3>人货场</h3>
+        <div class="en">People · Goods · Place</div>
+        <p>零售就三件事——谁买（人）、卖什么（货）、在哪买（场）；它是一张旋转门，核心角一直在变。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c02.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.32</div>
+        <h3>增长战略选择</h3>
+        <div class="en">Growth Strategy Choice</div>
+        <p>增长别只靠一条腿——看需求频次和决策成本两轴，挑对「打广告」还是「黑客增长」的鞋。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-aarrr.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.33</div>
+        <h3>AARRR</h3>
+        <div class="en">AARRR Funnel</div>
+        <p>把用户从路人到铁粉拆成五道闸门，漏一道就白干——原料是陌生人，成品是传播者。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-kano.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.34</div>
+        <h3>KANO</h3>
+        <div class="en">KANO Model</div>
+        <p>一把需求筛子，把用户需求分五类——不是所有「用户要的」都值得做，分错类就白忙。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c05.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.35</div>
+        <h3>产品过程矩阵</h3>
+        <div class="en">Product Process Matrix</div>
+        <p>产量越大、产品越单一，越该上专用设备和流水线；反之靠柔性手工——生产方式和产量得像鞋和脚。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c06.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.36</div>
+        <h3>麦肯锡矩阵</h3>
+        <div class="en">McKinsey Matrix</div>
+        <p>用产业吸引力和竞争优势两轴，把业务摆进九宫格——资源不是公平分的蛋糕，是该押注的筹码。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c07.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.37</div>
+        <h3>波士顿矩阵</h3>
+        <div class="en">BCG Matrix</div>
+        <p>用销售增长率和市场占有率两轴，把产品分四类，核心是让现金在不同业务间自己流动起来。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-scamper.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.38</div>
+        <h3>SCAMPER</h3>
+        <div class="en">SCAMPER</div>
+        <p>罗伯特·艾伯尔 &nbsp;·&nbsp; <b>Barbara Abell</b> &nbsp;·&nbsp; 美国心理学家 · 创新方法检查单</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c09.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.39</div>
+        <h3>微笑曲线</h3>
+        <div class="en">Smiling Curve</div>
+        <p>施振荣 &nbsp;·&nbsp; <b>宏碁集团创办人</b> &nbsp;·&nbsp; 1992 年提出</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c10.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.40</div>
+        <h3>二要素模型</h3>
+        <div class="en">Two-Factor Model</div>
+        <p>左仁淑 主编 &nbsp;·&nbsp; <b>《创业管理》</b> &nbsp;·&nbsp; 商业模式底层结构</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c11.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.41</div>
+        <h3>三要素模型</h3>
+        <div class="en">Three-Factor Model</div>
+        <p>左仁淑 主编 &nbsp;·&nbsp; <b>《创业管理》</b> &nbsp;·&nbsp; 商业模式护城河视角</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c12.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.42</div>
+        <h3>错位竞争五步法</h3>
+        <div class="en">Flank Competition</div>
+        <p>李善友 &nbsp;·&nbsp; <b>《第二曲线创新》</b> &nbsp;·&nbsp; 战略 / 竞争策略</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-pom.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.43</div>
+        <h3>POM 模型</h3>
+        <div class="en">POM Model</div>
+        <p>李善友 &nbsp;·&nbsp; <b>《第二曲线创新》</b> &nbsp;·&nbsp; 消费者心理 / 用户决策</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c14.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.44</div>
+        <h3>品牌绝对价值象限</h3>
+        <div class="en">Brand Value Quadrant</div>
+        <p>岛主解读 / 体系 &nbsp;·&nbsp; <b>结合 POM 模型</b> &nbsp;·&nbsp; 品牌战略 / 价值定位</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c15.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.45</div>
+        <h3>报酬矩阵</h3>
+        <div class="en">Payoff Matrix</div>
+        <p>AND 株式会社《商业框架图鉴》&nbsp;·&nbsp; <b>决策分析工具</b></p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c16.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.46</div>
+        <h3>马斯洛需求理论</h3>
+        <div class="en">Maslow's Hierarchy</div>
+        <p>亚伯拉罕·马斯洛 &nbsp;·&nbsp; <b>Abraham Maslow</b> &nbsp;·&nbsp; 《动机与个性》(1970版)</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c17.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.47</div>
+        <h3>焦糖布丁理论</h3>
+        <div class="en">Jobs-to-be-Done</div>
+        <p>克莱顿·克里斯坦森 &nbsp;·&nbsp; <b>Clayton Christensen</b> &nbsp;·&nbsp; 《创新的两难》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c18.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.48</div>
+        <h3>零售三角</h3>
+        <div class="en">Retail Triangle</div>
+        <p>刘润 &nbsp;·&nbsp; <b>《新零售》</b> &nbsp;·&nbsp; 用户本质需求三角</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c19.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.49</div>
+        <h3>大前研一战略三角</h3>
+        <div class="en">Ohmae's 3C Model</div>
+        <p>大前研一 &nbsp;·&nbsp; <b>Kenichi Ohmae</b> &nbsp;·&nbsp; 日本战略研究领军人物</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c20.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.50</div>
+        <h3>安索夫矩阵</h3>
+        <div class="en">Ansoff Matrix</div>
+        <p>伊戈尔·安索夫 &nbsp;·&nbsp; <b>Igor Ansoff</b> &nbsp;·&nbsp; 策略管理之父（1957）</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c21.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.51</div>
+        <h3>市场模式识别模型</h3>
+        <div class="en">Market Pattern Recognition</div>
+        <p>岛主战略模型解读 &nbsp;·&nbsp; <b>双轴定位框架</b> &nbsp;·&nbsp; 新/旧市场 × 新/旧模式</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c22.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.52</div>
+        <h3>波特五力</h3>
+        <div class="en">Porter's Five Forces</div>
+        <p>看清你和对手之间的那张网 &nbsp;·&nbsp; <b>迈克尔·波特</b> &nbsp;·&nbsp; 《竞争战略》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-pest.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.53</div>
+        <h3>PEST 模型</h3>
+        <div class="en">PEST Analysis</div>
+        <p>别低头拉车，先看天变了没 &nbsp;·&nbsp; <b>Johnson &amp; Scholes</b> &nbsp;·&nbsp; 1999</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-vrio.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.54</div>
+        <h3>VRIO 分析</h3>
+        <div class="en">VRIO Framework</div>
+        <p>你以为的优势，可能只是"看起来很忙" &nbsp;·&nbsp; <b>杰恩·巴尼</b> &nbsp;·&nbsp; 1991</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c25.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.55</div>
+        <h3>单一要素</h3>
+        <div class="en">Single Critical Factor</div>
+        <p>10 倍速变化里，藏着你的破局点 &nbsp;·&nbsp; <b>李善友</b> &nbsp;·&nbsp; 《第二曲线创新》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-swot.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.56</div>
+        <h3>SWOT</h3>
+        <div class="en">SWOT Analysis</div>
+        <p>别再列四象限了，关键是那四条交叉线 &nbsp;·&nbsp; <b>韦里克</b> &nbsp;·&nbsp; 美国管理学教授</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c27.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.57</div>
+        <h3>数据预测模型</h3>
+        <div class="en">Data Forecasting</div>
+        <p>别用直觉赌明天，用数据看走势 &nbsp;·&nbsp; <b>岛主解读 / 体系</b></p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c28.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.58</div>
+        <h3>战略杠杆模型</h3>
+        <div class="en">Strategic Leverage</div>
+        <p>给我一个支点，翘起整盘增长 &nbsp;·&nbsp; <b>李善友</b> &nbsp;·&nbsp; 《第二曲线创新》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c29.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.59</div>
+        <h3>产品市场匹配</h3>
+        <div class="en">Product-Market Fit</div>
+        <p>马克·安德森 &nbsp;·&nbsp; <b>Marc Andreessen</b> &nbsp;·&nbsp; Netscape 创始人 · PMF 理论提出者</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c30.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.60</div>
+        <h3>产品画布 MVP</h3>
+        <div class="en">MVP Canvas</div>
+        <p>埃里克·莱斯 &nbsp;·&nbsp; <b>Eric Ries</b> &nbsp;·&nbsp; 《精益创业》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c31.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.61</div>
+        <h3>产品可实现模型</h3>
+        <div class="en">Product Feasibility</div>
+        <p>岛主解读 / 体系 &nbsp;·&nbsp; <b>商业 · 技术 · 需求 三脚架</b> &nbsp;·&nbsp; 事前排雷探针</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c32.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.62</div>
+        <h3>快来钱模型</h3>
+        <div class="en">Revenue Test</div>
+        <p>李云龙 / 曾楠 &nbsp;·&nbsp; <b>《增长战略》</b> &nbsp;·&nbsp; 快 · 来 · 钱 三关考卷</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c33.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.63</div>
+        <h3>单店盈利模型</h3>
+        <div class="en">Unit Economics</div>
+        <p>陈国圹 &nbsp;·&nbsp; <b>《如何开一家小而美的店》</b> &nbsp;·&nbsp; 先把一家店做成印钞小机器</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c34.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.64</div>
+        <h3>科学运营</h3>
+        <div class="en">Scientific Operations</div>
+        <p>干嘉伟 &nbsp;·&nbsp; <b>美团前 COO</b> &nbsp;·&nbsp; 把凭感觉到看仪表</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c35.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.65</div>
+        <h3>品牌增长模型</h3>
+        <div class="en">Brand Growth</div>
+        <p>Byron Sharp &nbsp;·&nbsp; <b>《How Brands Grow》</b> &nbsp;·&nbsp; HBG 模型 · 渗透率才是命根子</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c36.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.66</div>
+        <h3>竞争对位模型</h3>
+        <div class="en">Competitive Positioning</div>
+        <p>迈克尔·波特 &nbsp;·&nbsp; <b>Michael Porter</b> &nbsp;·&nbsp; 《竞争战略》· 战略定位框架</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c37.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.67</div>
+        <h3>价值护城河四象限</h3>
+        <div class="en">Economic Moat</div>
+        <p>彼得·蒂尔 &nbsp;·&nbsp; <b>Peter Thiel</b> &nbsp;·&nbsp; 创业公开课 /《从0到1》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c38.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.68</div>
+        <h3>跨越鸿沟</h3>
+        <div class="en">Crossing the Chasm</div>
+        <p>杰弗里·摩尔 &nbsp;·&nbsp; <b>Geoffrey Moore</b> &nbsp;·&nbsp; 《跨越鸿沟》· 技术采纳生命周期</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c39.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.69</div>
+        <h3>业务判断模型</h3>
+        <div class="en">Business Judgment</div>
+        <p>迈克尔·波特 &nbsp;·&nbsp; <b>Michael Porter</b> &nbsp;·&nbsp; 《竞争战略》· 战略判断尺</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c40.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.70</div>
+        <h3>竞争3大通用模型</h3>
+        <div class="en">Generic Competitive Strategy</div>
+        <p>迈克尔·波特 &nbsp;·&nbsp; <b>Michael Porter</b> &nbsp;·&nbsp; 《竞争战略》· 三大通用战略</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c41.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.71</div>
+        <h3>边缘分化模型</h3>
+        <div class="en">Edge Disruption</div>
+        <p>李善友 &nbsp;·&nbsp; <b>第二曲线创新</b> &nbsp;·&nbsp; 岛主解读 / 体系</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c42.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.72</div>
+        <h3>四要素模型</h3>
+        <div class="en">Four-Factor Model</div>
+        <p>三谷宏治 &nbsp;·&nbsp; <b>Koji Mitani</b> &nbsp;·&nbsp; 早稻田大学 /《商业模式全史》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c43.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.73</div>
+        <h3>六要素模型</h3>
+        <div class="en">Six-Factor Model</div>
+        <p>左仁淑 &nbsp;·&nbsp; <b>《创业管理》</b> &nbsp;·&nbsp; 岛主解读版</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c44.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.74</div>
+        <h3>商业模式画布模型</h3>
+        <div class="en">Business Model Canvas</div>
+        <p>奥斯特瓦德 &amp; 皮尼厄 &nbsp;·&nbsp; <b>《商业模式新生代》</b> &nbsp;·&nbsp; 岛主解读版</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c45.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.75</div>
+        <h3>精益画布模型</h3>
+        <div class="en">Lean Canvas</div>
+        <p>奥斯特瓦德框架衍生 &nbsp;·&nbsp; <b>精益创业视角</b> &nbsp;·&nbsp; 岛主解读版</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-grow.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.76</div>
+        <h3>GROW 模型</h3>
+        <div class="en">GROW Model</div>
+        <p>约翰·惠特默 &nbsp;·&nbsp; <b>《高绩效教练》</b> &nbsp;·&nbsp; 教练技术</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c47.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.77</div>
+        <h3>技术成熟度曲线</h3>
+        <div class="en">Hype Cycle</div>
+        <p>狩野纪昭 &nbsp;·&nbsp; <b>东京理工大学</b> &nbsp;·&nbsp; 岛主解读版</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c48.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.78</div>
+        <h3>产品创新金字塔</h3>
+        <div class="en">Innovation Pyramid</div>
+        <p>斯莱沃斯基 &nbsp;·&nbsp; <b>《发现利润区》</b> &nbsp;·&nbsp; 岛主解读版</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c49.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.79</div>
+        <h3>上瘾模型</h3>
+        <div class="en">Hook Model</div>
+        <p>尼尔·埃亚尔 &nbsp;·&nbsp; <b>《上瘾》</b> &nbsp;·&nbsp; 行为设计</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c50.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.80</div>
+        <h3>体验优化与业务流程</h3>
+        <div class="en">UX &amp; Process</div>
+        <p>别把"用户体验"做成挂在墙上的标语</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c51.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.81</div>
+        <h3>领导梯队模型</h3>
+        <div class="en">Leadership Pipeline</div>
+        <p>升职不是多做一点，是换一种活法</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c52.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.82</div>
+        <h3>情景领导力</h3>
+        <div class="en">Situational Leadership</div>
+        <p>好领导不是一种样子，是照着人来变样子</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c53.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.83</div>
+        <h3>管理4C模型</h3>
+        <div class="en">4C Management</div>
+        <p>团队执行力，是四个C一个都不缺搭出来的</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c54.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.84</div>
+        <h3>冲突层模型</h3>
+        <div class="en">Conflict Levels</div>
+        <p>你跟客户的"对立"，可能只是看错了楼层</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c55.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.85</div>
+        <h3>分形理论</h3>
+        <div class="en">Fractal Theory</div>
+        <p>好企业，都是会"长"自己的树</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-ashridge.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.86</div>
+        <h3>Ashridge 使命模型</h3>
+        <div class="en">Ashridge Mission Model</div>
+        <p>使命感不是喊口号，是三块拼图对上了</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c57.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.87</div>
+        <h3>企业分形创新</h3>
+        <div class="en">Corporate Fractal Innovation</div>
+        <p>5个动作，让老树发新芽 &nbsp;·&nbsp; <b>岛主解读 / 体系</b> &nbsp;·&nbsp; 根植于分形理论</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c58.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.88</div>
+        <h3>零售成功战略模型</h3>
+        <div class="en">Retail Success Strategy</div>
+        <p>别贪心，你只能在两条轴上选一边 &nbsp;·&nbsp; <b>芭芭拉·卡恩</b> &nbsp;·&nbsp; 《零售的逻辑》· 沃顿商学院</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c59.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.89</div>
+        <h3>需求三角</h3>
+        <div class="en">Demand Triangle</div>
+        <p>一切交易，都始于心里那道缺口 &nbsp;·&nbsp; <b>李叫兽（李靖）</b> &nbsp;·&nbsp; 混沌大学</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c60.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.90</div>
+        <h3>组合创新进阶模型</h3>
+        <div class="en">Combinatorial Innovation</div>
+        <p>创新不是发明，是把旧零件重新拼 &nbsp;·&nbsp; <b>约瑟夫·熊彼特</b> &nbsp;·&nbsp; "创新理论之父"</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-topic.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.91</div>
+        <h3>TOPIC 模型</h3>
+        <div class="en">TOPIC Model</div>
+        <p>团队不是把人凑一起，是把心用五根绳拴到一处 &nbsp;·&nbsp; <b>岛主解读 / 体系</b></p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c62.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.92</div>
+        <h3>运营管理是战略执行的主体</h3>
+        <div class="en">Operations as Strategy Execution</div>
+        <p>战略再美，落地靠这套机器 &nbsp;·&nbsp; <b>岛主解读 / 体系</b></p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c63.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.93</div>
+        <h3>管理者角色模型</h3>
+        <div class="en">Manager's Role</div>
+        <p>你不是来干活，是来让对的人把活干好 &nbsp;·&nbsp; <b>刘澜</b> &nbsp;·&nbsp; 《极简管理学》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c64.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.94</div>
+        <h3>价值网矩阵图</h3>
+        <div class="en">Value Net Matrix</div>
+        <p>岛主解读 &nbsp;·&nbsp; <b>战略分析框架</b> &nbsp;·&nbsp; 概念源自价值网理论，《管理科学技术名词》2016 收录</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c65.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.95</div>
+        <h3>时间管理优先矩阵</h3>
+        <div class="en">Priority Matrix</div>
+        <p>史蒂芬·柯维 &nbsp;·&nbsp; <b>Stephen Covey</b> &nbsp;·&nbsp; 《高效能人士的7个习惯》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c66.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.96</div>
+        <h3>组织心智</h3>
+        <div class="en">Organizational Mindset</div>
+        <p>李善友 &nbsp;·&nbsp; <b>《第二曲线》</b> &nbsp;·&nbsp; 组织认知与变革</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c67.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.97</div>
+        <h3>组织罗盘</h3>
+        <div class="en">Organizational Compass</div>
+        <p>王秀梅 &nbsp;·&nbsp; <b>《组织罗盘》</b> &nbsp;·&nbsp; 组织变革与企业管理</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-rpv.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.98</div>
+        <h3>RPV 框架</h3>
+        <div class="en">RPV Framework</div>
+        <p>克里斯坦森 &nbsp;·&nbsp; <b>Clayton Christensen</b> &nbsp;·&nbsp; 《创新者的解答》</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c69.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.99</div>
+        <h3>组织能力三角框架</h3>
+        <div class="en">Organizational Capability Triangle</div>
+        <p>杨国安 &nbsp;·&nbsp; <b>「杨三角」</b> &nbsp;·&nbsp; 组织能力与团队管理</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c70.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.100</div>
+        <h3>麦肯锡 7S 模型</h3>
+        <div class="en">McKinsey 7S</div>
+        <p>麦肯锡 &nbsp;·&nbsp; <b>McKinsey &amp; Company</b> &nbsp;·&nbsp; 组织诊断框架</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c71.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.101</div>
+        <h3>六个盒子</h3>
+        <div class="en">Six Boxes</div>
+        <p>马文·韦斯伯德 &nbsp;·&nbsp; <b>Marvin Weisbord</b> &nbsp;·&nbsp; 1976 年组织诊断框架</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c72.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.102</div>
+        <h3>组织设计的五星模型</h3>
+        <div class="en">Star Model</div>
+        <p>加尔·布雷斯 &nbsp;·&nbsp; <b>Jay R. Galbraith</b> &nbsp;·&nbsp; 1960 年代组织设计理论</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-aisas.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.103</div>
+        <h3>AISAS 模型</h3>
+        <div class="en">AISAS Model</div>
+        <p>电通 &nbsp;·&nbsp; <b>Dentsu</b> &nbsp;·&nbsp; 2005 年消费者行为模型</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-3d.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.104</div>
+        <h3>3D 赋能模型</h3>
+        <div class="en">3D Empowerment</div>
+        <p>蒋小华 &nbsp;·&nbsp; <b>《赋能工作法》</b> &nbsp;·&nbsp; 自决定 · 自发展 · 自驱动</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c75.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.105</div>
+        <h3>高效赋能感模型</h3>
+        <div class="en">Empowerment Model</div>
+        <p>蒋小华 &nbsp;·&nbsp; <b>赋能感五感框架</b> &nbsp;·&nbsp; 目标·支持·参与·认同·获得</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-ooda.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.106</div>
+        <h3>OODA 模型</h3>
+        <div class="en">OODA Loop</div>
+        <p>约翰·包以德 &nbsp;·&nbsp; <b>John Boyd</b> &nbsp;·&nbsp; 美军上校 · 军事决策循环</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-c77.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.107</div>
+        <h3>绩效能力九宫格</h3>
+        <div class="en">Performance-Potential Grid</div>
+        <p>通用电气 GE &nbsp;·&nbsp; <b>人才盘点九宫格</b> &nbsp;·&nbsp; 1970 年代</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n01.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.108</div>
+        <h3>群体领袖说服模型</h3>
+        <div class="en">Group Leader Persuasion Model</div>
+        <p>领袖说服群众靠的不是道理，是断言、重复、传染三板斧，外加五把刀。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n02.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.109</div>
+        <h3>动机理论</h3>
+        <div class="en">Motivation Theory</div>
+        <p>你为什么而工作，比你有多努力，更决定你能走多远。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n03.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.110</div>
+        <h3>制胜决策四阶段模型</h3>
+        <div class="en">Decision Four-Stage Model</div>
+        <p>大多数人输不在运气差，是根本没走完这套决策流程。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n04.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.111</div>
+        <h3>多元智能理论</h3>
+        <div class="en">Multiple Intelligences Theory</div>
+        <p>聪明不是一条线，是一片光谱，每个人都有自己最强的那束光。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n05.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.112</div>
+        <h3>系统思维</h3>
+        <div class="en">Systems Thinking</div>
+        <p>你看到的麻烦，多半不是零件坏了，而是连接拧了。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n06.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.113</div>
+        <h3>创意择优决策模型</h3>
+        <div class="en">Idea Meritocracy Model</div>
+        <p>决策最大的敌人不是蠢，是自我意识护短和思维盲点看不见。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n07.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.114</div>
+        <h3>全新思维</h3>
+        <div class="en">A Whole New Mind</div>
+        <p>未来不属于只会算账的左脑，而属于会创造、能共情的右脑。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n08.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.115</div>
+        <h3>EPIC 模型</h3>
+        <div class="en">EPIC Model</div>
+        <p>人对一段经历的记忆，只由「峰值」和「结尾」决定——把高峰设计出来。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n09.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.116</div>
+        <h3>从众效应</h3>
+        <div class="en">Bandwagon Effect</div>
+        <p>"别人动、你跟着动"的人脑默认设置，盲从的代价永远自己买单。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n10.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.117</div>
+        <h3>影响力模型</h3>
+        <div class="en">Principles of Persuasion</div>
+        <p>人脑有一套"自动反应开关"，按下就顺从——看清六把钩子，才不被勾走。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n11.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.118</div>
+        <h3>复杂适应性系统</h3>
+        <div class="en">Complex Adaptive Systems</div>
+        <p>世界不是机器，是一群会学习、会演化的智能体在互相适应——停止进化就被淘汰。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n12.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.119</div>
+        <h3>自组织</h3>
+        <div class="en">Self-Organization</div>
+        <p>最高级的管理，是让秩序自己长出来，而不是被安排出来。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n13.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.120</div>
+        <h3>复利效应</h3>
+        <div class="en">Compound Effect</div>
+        <p>利滚利不是发财咒语，是给时间以耐心的人，时间给他的回礼。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n14.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.121</div>
+        <h3>德鲁克1358管理模型</h3>
+        <div class="en">Drucker 1358 Management Model</div>
+        <p>管理不是管别人，而是界定使命、激励组织去实现它——一张管理的全景地图。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n15.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.122</div>
+        <h3>混沌理论</h3>
+        <div class="en">Chaos Theory</div>
+        <p>确定系统里，初值微小差别会被无限放大——精确预测长期，是人类的奢望。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n16.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.123</div>
+        <h3>清单理论</h3>
+        <div class="en">Checklist Model</div>
+        <p>清单是给大脑搭的“认知防护网”，专补人类天生会漏的洞。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n17.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.124</div>
+        <h3>三重心智模型</h3>
+        <div class="en">Triadic Mind Model</div>
+        <p>智商是车速，理性是方向盘——聪明和理性，从来不是一回事。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n18.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.125</div>
+        <h3>DQ决策模型</h3>
+        <div class="en">DQ Decision Model</div>
+        <p>优质决策当下就能评——链条最弱的一环，决定整体成色。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n19.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.126</div>
+        <h3>耗散结构理论</h3>
+        <div class="en">Dissipative Structure Model</div>
+        <p>封闭系统走向死寂，开放系统才能从混乱跃迁到有序。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n20.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.127</div>
+        <h3>生动鲜活效用</h3>
+        <div class="en">Vividness Effect</div>
+        <p>人做决定靠的不是概率，而是亲眼所见、够近够鲜的个案。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n21.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.128</div>
+        <h3>承诺升级</h3>
+        <div class="en">Escalation of Commitment</div>
+        <p>失败后不但不停手，反而往坑里继续扔资源——这不是坚持，是上头。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n22.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.129</div>
+        <h3>成功智力理论ACP模型</h3>
+        <div class="en">Successful Intelligence (ACP) Model</div>
+        <p>成功智力=分析力+创造力+实践力，IQ 只测了其中一小块。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n23.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.130</div>
+        <h3>零成本改变模型</h3>
+        <div class="en">Zero-Cost Change Model</div>
+        <p>改变失败不是因为懒，是骑象人耗尽、大象不肯走、路太难走。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n24.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.131</div>
+        <h3>第一性原理</h3>
+        <div class="en">First Principles Thinking</div>
+        <p>把事拆到最基础的物理事实，从零搭建，而不是靠类比。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n25.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.132</div>
+        <h3>思维导图</h3>
+        <div class="en">Mind Map</div>
+        <p>它用放射状图形把左右脑一起唤醒，让「记不住」变成「顺着路就想起」。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n26.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.133</div>
+        <h3>禁果效应</h3>
+        <div class="en">Forbidden Fruit Effect</div>
+        <p>越捂着、越禁止，人越想窥探——好奇心像被掐了一下，瞬间爆棚。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n27.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.134</div>
+        <h3>安慰剂效应</h3>
+        <div class="en">Placebo Effect</div>
+        <p>吃药这个动作本身就有疗效——你相信会好，大脑就真分泌内啡肽镇痛。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n28.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.135</div>
+        <h3>路径依赖</h3>
+        <div class="en">Path Dependence</div>
+        <p>一旦走上某条路，惯性会自我强化把你锁住——哪怕路是错的，起点那一步会被时间放大。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n29.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.136</div>
+        <h3>设计思维</h3>
+        <div class="en">Design Thinking</div>
+        <p>不是以问题为中心，而是以人为中心——用同理心挖真需求，再快速原型、反复试错。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n30.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.137</div>
+        <h3>帕金森定律</h3>
+        <div class="en">Parkinson's Law</div>
+        <p>组织会像肿瘤一样自己长大，跟工作量半毛钱关系没有——你给的时间越多，工作越膨胀。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n31.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.138</div>
+        <h3>沉没成本效应</h3>
+        <div class="en">Sunk Cost Effect</div>
+        <p>已经花掉、收不回来的钱和时间，会像黑洞一样吸着你继续往下跳。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n32.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.139</div>
+        <h3>边际效用</h3>
+        <div class="en">Marginal Utility</div>
+        <p>你每多消费一份同样的东西，它给你的满足感就递减一截，最后一口最不甜。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n33.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.140</div>
+        <h3>机会成本</h3>
+        <div class="en">Opportunity Cost</div>
+        <p>选了这条路，放弃的那条路上最大的收益，就是你悄悄埋的单。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n34.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.141</div>
+        <h3>结构洞</h3>
+        <div class="en">Structural Holes</div>
+        <p>两群人之间断开的缝隙，谁站在上面搭桥，谁就掐住了信息与控制的命脉。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n35.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.142</div>
+        <h3>番茄工作法</h3>
+        <div class="en">Pomodoro Technique</div>
+        <p>把时间切成25分钟工作+5分钟休息的小番茄，用节奏对抗拖延。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n36.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.143</div>
+        <h3>刻板印象</h3>
+        <div class="en">Stereotype</div>
+        <p>把一群人的特征硬套到每个个体头上，是省脑子、却常常要命的捷径。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n37.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.144</div>
+        <h3>过度自信</h3>
+        <div class="en">Overconfidence Bias</div>
+        <p>你以为稳操胜券的时刻，常常正是风险裸奔的开始。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n38.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.145</div>
+        <h3>整合思维</h3>
+        <div class="en">Integrative Thinking</div>
+        <p>冲突不是选择题，是发明题——高手都爱造第三条路。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n39.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.146</div>
+        <h3>易得性偏差</h3>
+        <div class="en">Availability Heuristic</div>
+        <p>你怕的，往往不是真危险的——大脑只记得最近最热闹的。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n40.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.147</div>
+        <h3>归因理论</h3>
+        <div class="en">Attribution Theory</div>
+        <p>你怎样解释成败，就写下怎样的人生剧本。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n41.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.148</div>
+        <h3>代表性偏差</h3>
+        <div class="en">Representativeness Heuristic</div>
+        <p>你以为在凭经验判断，其实是在拿巧合当规律。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n42.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.149</div>
+        <h3>证实偏差</h3>
+        <div class="en">Confirmation Bias</div>
+        <p>证实让你舒服，证伪让你正确。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n43.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.150</div>
+        <h3>决策树</h3>
+        <div class="en">Decision Tree</div>
+        <p>把纠结画成枝丫，让概率和盈亏替你拍板。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n44.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.151</div>
+        <h3>信息不对称</h3>
+        <div class="en">Information Asymmetry</div>
+        <p>交易里有人比你多知道一点，市场就会被这层差掰歪。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n45.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.152</div>
+        <h3>锚定效应</h3>
+        <div class="en">Anchoring Effect</div>
+        <p>你做估价的那只手，其实被最先出现的数字悄悄攥住了。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n46.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.153</div>
+        <h3>批判性思维</h3>
+        <div class="en">Critical Thinking</div>
+        <p>不是挑刺抬杠，是对自己和别人的想法，做严谨审慎的审视。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n47.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.154</div>
+        <h3>禀赋效应</h3>
+        <div class="en">Endowment Effect</div>
+        <p>东西一旦到了你手里，你对它的估价就悄悄翻了倍。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n48.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.155</div>
+        <h3>SUCCESs 模型</h3>
+        <div class="en">SUCCESs Model</div>
+        <p>想让人记住，得先破除"知识的诅咒"——把创意钉进脑子。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n49.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.156</div>
+        <h3>幸福2.0理论</h3>
+        <div class="en">PERMA Well-Being Model</div>
+        <p>幸福不是天天傻乐，而是 PERMA 五元素撑起的蓬勃人生，且有公式 H=S+C+V。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n50.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.157</div>
+        <h3>WRAP 决策模型</h3>
+        <div class="en">WRAP Decision Model</div>
+        <p>关键决策四步法——拓宽选项、证伪现实、拉远距离、提前准备退路，拆掉思维狭隘、证实偏向、短期情绪、过度自信四个坑。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n51.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.158</div>
+        <h3>元认知</h3>
+        <div class="en">Metacognition</div>
+        <p>元认知就是"对认知的认知"——你既是干活的，还得有个监工盯着自己怎么干，差距不在智商在觉察。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n52.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.159</div>
+        <h3>博弈论</h3>
+        <div class="en">Game Theory</div>
+        <p>你的决定好不好，取决于对手怎么选——不是在真空里选，是在"互相盯着"里选。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n53.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.160</div>
+        <h3>前景理论</h3>
+        <div class="en">Prospect Theory</div>
+        <p>人不是风险厌恶者，是损失厌恶者——丢 100 的痛是捡 100 的乐的 2.5 倍，你恨的是"失去"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n54.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.161</div>
+        <h3>心理账户</h3>
+        <div class="en">Mental Accounting</div>
+        <p>钱不是一律平等的——它按来源和用途分进不同"心口袋"，彼此不互通，于是 5000 的包舍得买、199 的课嫌贵。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n55.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.162</div>
+        <h3>六顶思考帽</h3>
+        <div class="en">Six Thinking Hats</div>
+        <p>一次只戴一顶帽子，把混乱的讨论拆成六道清晰的工序。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n56.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.163</div>
+        <h3>奥斯本检核表法</h3>
+        <div class="en">Osborne Checklist Method</div>
+        <p>创新不是靠天赋灵光，是靠"强迫自己问对问题"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n57.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.164</div>
+        <h3>SECI 知识转化螺旋</h3>
+        <div class="en">SECI Knowledge Spiral</div>
+        <p>知识不是存进硬盘就叫拥有，是在人身上转一圈才活。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n58.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.165</div>
+        <h3>德尔菲法</h3>
+        <div class="en">Delphi Method</div>
+        <p>集体智慧不是吵出来的，是背对背、一轮轮磨出来的。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n59.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.166</div>
+        <h3>德鲁克五问</h3>
+        <div class="en">Drucker's Five Questions</div>
+        <p>管理不是把事做对，是先想清楚"做对的事"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n60.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.167</div>
+        <h3>墨菲定律</h3>
+        <div class="en">Murphy's Law</div>
+        <p>弱者拿它当借口，强者拿它当警报。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n61.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.168</div>
+        <h3>彼得原理</h3>
+        <div class="en">Peter Principle</div>
+        <p>晋升看的是"过去干得好"，新岗位却要"未来用得上的能力"——错位就这么来了。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n62.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.169</div>
+        <h3>学习和记忆模型</h3>
+        <div class="en">Learning &amp; Memory Model</div>
+        <p>记不住，大多不是存不进，而是提不出——大脑这台加工厂要过编码、存储、提取三关。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n63.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.170</div>
+        <h3>模因论</h3>
+        <div class="en">Meme Theory</div>
+        <p>有些念头你明明知道没用却甩不掉——因为它根本不是你的想法，是寄生在你脑子里的信息病毒。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n64.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.171</div>
+        <h3>七个习惯模型</h3>
+        <div class="en">7 Habits of Highly Effective People</div>
+        <p>效能不是拼命产出，而是守住那只下金蛋的鹅——产出与产能，得一起养。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n65.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.172</div>
+        <h3>全范围领导模型</h3>
+        <div class="en">Full Range Leadership Model</div>
+        <p>领导力不是非此即彼——从"拿钱办事"的交易型，到"点燃心气"的变革型，它是一根光谱。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n66.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.173</div>
+        <h3>逆火效应</h3>
+        <div class="en">Backfire Effect</div>
+        <p>你越摆事实讲道理，对方越犟——因为"你错了"像被攻击，他的大脑立刻替他筑墙。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n67.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.174</div>
+        <h3>黄金圈法则</h3>
+        <div class="en">The Golden Circle</div>
+        <p>先讲「为什么」的人，比只讲「是什么」的人，更有感召力。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n68.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.175</div>
+        <h3>情绪智力模型</h3>
+        <div class="en">Emotional Intelligence</div>
+        <p>真正让人走得远的，不是智商，是看清情绪还能稳住它的本事。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n69.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.176</div>
+        <h3>证伪思维</h3>
+        <div class="en">Falsificationism</div>
+        <p>一个理论只要找得到反例推翻它，才算站得住脚；永远正确的，多半是幻觉。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n70.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.177</div>
+        <h3>5why 分析法</h3>
+        <div class="en">5 Whys</div>
+        <p>别和表象和解——连问五个为什么，根因才是终点。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n71.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.178</div>
+        <h3>逻辑思维</h3>
+        <div class="en">Logical Thinking</div>
+        <p>逻辑不是聪明，是让别人无法轻易夺走你判断的底盘。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n72.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.179</div>
+        <h3>GTD 时间管理</h3>
+        <div class="en">Getting Things Done (GTD)</div>
+        <p>大脑是用来思考的，不是用来记事的——给它外接一个「第二脑」。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n73.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.180</div>
+        <h3>OKR 目标管理</h3>
+        <div class="en">Objectives &amp; Key Results</div>
+        <p>不考核、只对齐——让全队朝同一座山头冲；KPI 管住人，OKR 点燃人。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n74.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.181</div>
+        <h3>世界咖啡</h3>
+        <div class="en">World Café</div>
+        <p>像喝咖啡那样围坐、换桌、异花授粉，把一群人的盲点搅成集体智慧。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n75.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.182</div>
+        <h3>定位理论</h3>
+        <div class="en">Positioning Theory</div>
+        <p>竞争的终局不在工厂、不在货架，而在顾客心智里那格小柜子。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n76.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.183</div>
+        <h3>库伯学习圈</h3>
+        <div class="en">Experiential Learning Cycle</div>
+        <p>完整的学习不是一条线，而是具体经验→反思→抽象→实践，转不停的圈。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n77.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.184</div>
+        <h3>魏朱商业模式</h3>
+        <div class="en">Stakeholder Transaction Structure Model</div>
+        <p>商业模式不是产品之争，是利益相关者之间怎么分钱、分权、分活的交易结构。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n78.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.185</div>
+        <h3>合作模型</h3>
+        <div class="en">Repeated-Game Cooperation Model</div>
+        <p>合作的基础不是信任，而是关系的持续性——还要长期打交道，合作就自然长出来。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n79.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.186</div>
+        <h3>TRIZ创新模型</h3>
+        <div class="en">TRIZ · Theory of Inventive Problem Solving</div>
+        <p>创新不是瞎试错，而是把具体问题抽象成标准矛盾，去借人类两百万份专利里的现成答案。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n80.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.187</div>
+        <h3>狭隘框架</h3>
+        <div class="en">Narrow Framing</div>
+        <p>你以为在认真决策，其实只是被一个取景框锁死；拉大尺度、换个人看，答案常常当场反转。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n81.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.188</div>
+        <h3>正态分布</h3>
+        <div class="en">Normal Distribution</div>
+        <p>世界被一座钟形曲线包围：大多数事挤在中间，极端只是少数；承认普通，反而更清醒。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n82.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.189</div>
+        <h3>创新者的方法</h3>
+        <div class="en">The Innovator's Method</div>
+        <p>不确定时代别拍脑袋创新——洞见、真问题、最小化卓越、可规模，四步把"自嗨"变"被需要"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n83.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.190</div>
+        <h3>行动学习画布</h3>
+        <div class="en">Action Learning Canvas</div>
+        <p>开个会就把真问题解决了——4 到 8 人平等互助，六步画布把"聊天"变成"同屏地图"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n84.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.191</div>
+        <h3>幂律分布</h3>
+        <div class="en">Power Law Distribution</div>
+        <p>和钟形曲线相反——少数巨无霸拿走绝大多数，赢家通吃；把赌注压在少数大事上，才能撬动人生。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n85.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.192</div>
+        <h3>群体盲思</h3>
+        <div class="en">Groupthink</div>
+        <p>一群聪明人，会因为太想"保持一致"，一起做出蠢决定。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n86.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.193</div>
+        <h3>杠杆思维</h3>
+        <div class="en">Leverage Thinking Model</div>
+        <p>不是你不够拼，是你还没找到那根能撬动一切的"支点"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n87.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.194</div>
+        <h3>发散思维</h3>
+        <div class="en">Divergent Thinking</div>
+        <p>创意不在你盯着问题的时候，在你松开的时候。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n88.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.195</div>
+        <h3>集体行动模型</h3>
+        <div class="en">Collective Action Model</div>
+        <p>公地悲剧不是人性本恶，而是制度没把"个人的账"算进"集体的盘"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n89.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.196</div>
+        <h3>机制设计理论</h3>
+        <div class="en">Mechanism Design Theory</div>
+        <p>制度设计的终点，不是选出好人，而是让坏人也只能做对的事。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n90.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.197</div>
+        <h3>沟通背后的底层逻辑</h3>
+        <div class="en">Communication Logic Model</div>
+        <p>说服不了别人，先别急着讲理——先看透他观点背后的五个开关。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n91.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.198</div>
+        <h3>个人商业成功模型</h3>
+        <div class="en">Personal Success Probability Model</div>
+        <p>成功 =（基因+环境+运气）×（认知+信念+效率+资源）×使命——你改不了骰子，但能决定自己爬多高。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n92.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.199</div>
+        <h3>奥卡姆剃刀</h3>
+        <div class="en">Occam's Razor</div>
+        <p>如无必要，勿增实体——能少则少，简单才是最高级的复杂。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n93.html">
+        <span class="cat">认知·成长型</span>
+        <div class="idx">No.200</div>
+        <h3>幸福的本质模型</h3>
+        <div class="en">Happiness Chemistry Model</div>
+        <p>幸福不在远方，在你脑子里三种化学物质的配比——多巴胺、血清素、内啡肽。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n94.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.201</div>
+        <h3>登门槛效应</h3>
+        <div class="en">Foot-in-the-Door Effect</div>
+        <p>人一旦答应小要求，为保持前后一致就会答应更大的——先要一块钱，才能拿到一百块。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n95.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.202</div>
+        <h3>颠覆性创新</h3>
+        <div class="en">Disruptive Innovation</div>
+        <p>巨头不是被正面打败的，是被"低端边缘"一点点蚕食的。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n96.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.203</div>
+        <h3>图尔敏论证模型</h3>
+        <div class="en">Toulmin Model of Argument</div>
+        <p>生活不是数学题，把"我觉得对"讲圆，靠的是主张、依据、理由、支援、限定、反驳六件套。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n97.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.204</div>
+        <h3>长尾理论</h3>
+        <div class="en">Long Tail Theory</div>
+        <p>冷门聚在一起，也能干翻那几个爆款</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n98.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.205</div>
+        <h3>熵</h3>
+        <div class="en">Entropy</div>
+        <p>万物都往乱里走，除非你不停往外吐故纳新</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n99.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.206</div>
+        <h3>控制论</h3>
+        <div class="en">Cybernetics</div>
+        <p>目标不会自己达成，靠的是一次次纠偏的反馈</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n100.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.207</div>
+        <h3>适应性创新</h3>
+        <div class="en">Adaptive Innovation</div>
+        <p>创新不是天才的灵光，是像物种一样适应环境</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n101.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.208</div>
+        <h3>量子思维</h3>
+        <div class="en">Quantum Thinking</div>
+        <p>你不去试，就永远停在"又死又活"的叠加态</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n102.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.209</div>
+        <h3>水平思维</h3>
+        <div class="en">Lateral Thinking</div>
+        <p>别往下挖了，横着跳一步，灵感自己冒出来</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n103.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.210</div>
+        <h3>结果偏见</h3>
+        <div class="en">Outcome Bias</div>
+        <p>以成败论英雄最容易，可成王败寇的评价里，藏着最省脑子也最骗自己的捷径。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n104.html">
+        <span class="cat">思维模型</span>
+        <div class="idx">No.211</div>
+        <h3>价值和权力度量模型</h3>
+        <div class="en">Value &amp; Power Measurement Model</div>
+        <p>你值多少钱、握多大权，不看你多努力，看没你时这盘局少了多少。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n105.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.212</div>
+        <h3>系统动力学模型</h3>
+        <div class="en">System Dynamics Model</div>
+        <p>复杂问题别用直线脑，给脑子外挂一个仿真模型，看清反馈回路才看得清因果。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n106.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.213</div>
+        <h3>局部互动模型</h3>
+        <div class="en">Local Interaction Model</div>
+        <p>没有谁在指挥，是几条笨规则+局部互动，长出了整个复杂世界。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n107.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.214</div>
+        <h3>空间竞争模型和享受竞争模型</h3>
+        <div class="en">Spatial vs. Consumption Competition Model</div>
+        <p>选多维还是单维，藏着两种竞争模型——降维是广度碾压，一针见血是深度封王。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n108.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.215</div>
+        <h3>基于阈值的模型</h3>
+        <div class="en">Threshold Model</div>
+        <p>人群从不缺热情，缺的是第一个举手的人——你递出的那只手，就是阈值本身。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n109.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.216</div>
+        <h3>网络模型</h3>
+        <div class="en">Network Model</div>
+        <p>你不是输在产品，是输在没接入那张看不见的网。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n110.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.217</div>
+        <h3>非线性模型</h3>
+        <div class="en">Nonlinear Model</div>
+        <p>世界是曲线的，用直线思维期待回报，注定被现实打脸。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n111.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.218</div>
+        <h3>线性模型</h3>
+        <div class="en">Linear Model</div>
+        <p>线性给你确定性，但把它当真理，你就会在因果上栽跟头。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n112.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.219</div>
+        <h3>信号模型</h3>
+        <div class="en">Signal Model</div>
+        <p>别人看不清你，只能看你发出的信号——所以亮真底色，别只顾包装。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n113.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.220</div>
+        <h3>广播、扩散和传染模型</h3>
+        <div class="en">Broadcast, Diffusion &amp; Contagion Model</div>
+        <p>信息靠讲、病毒靠防——懂传播底层法则，既能点火也能灭火。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n114.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.221</div>
+        <h3>战略制定模型</h3>
+        <div class="en">Strategic Formulation Model</div>
+        <p>好战略不是赌出来的，是算出来的——算完，还得敢拍板。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n115.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.222</div>
+        <h3>战略调色板</h3>
+        <div class="en">Strategy Palette Model</div>
+        <p>没有"最好"的战略，只有"最配"环境的打法。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n116.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.223</div>
+        <h3>超越战略模型</h3>
+        <div class="en">Beyond Strategy Model</div>
+        <p>困在单一维度里卷，永远打不过站在高处的玩家。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n117.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.224</div>
+        <h3>情景规划</h3>
+        <div class="en">Scenario Planning Model</div>
+        <p>不赌哪条路一定通，而是每条可能的路都备好鞋。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n118.html">
+        <span class="cat">战略型</span>
+        <div class="idx">No.225</div>
+        <h3>边缘竞争</h3>
+        <div class="en">Edge of Chaos Model</div>
+        <p>在高速赛道上，静止比犯错更致命。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n119.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.226</div>
+        <h3>反脆弱</h3>
+        <div class="en">Antifragile</div>
+        <p>风会吹灭蜡烛，却能让火越烧越旺——你是哪样？</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n120.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.227</div>
+        <h3>幸存者偏差</h3>
+        <div class="en">Survivorship Bias</div>
+        <p>你看到的胜利，不过是死人没法开口的结局。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n121.html">
+        <span class="cat">框架型</span>
+        <div class="idx">No.228</div>
+        <h3>PrOACT 决策模型</h3>
+        <div class="en">PrOACT</div>
+        <p>好决策不是天赋，而是一套能练出来的提问流程：把"凭感觉"换成"过流程"。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n122.html">
+        <span class="cat">系统·战略型</span>
+        <div class="idx">No.229</div>
+        <h3>均值回归</h3>
+        <div class="en">Regression to the Mean</div>
+        <p>极端表现终会向价值中枢靠拢，巅峰与谷底都只是路过，别把回归误当成努力或失误。</p>
+        <span class="go">翻开 →</span>
+      </a>
+      <a class="model" href="model-n123.html">
+        <span class="cat">心理·行为型</span>
+        <div class="idx">No.230</div>
+        <h3>网络效应</h3>
+        <div class="en">Network Effects</div>
+        <p>用的人越多越值钱，先发与规模让赢家通吃、输家出局——要么第一，要么出局。</p>
+        <span class="go">翻开 →</span>
+      </a>
+
+    </div>
+
+    <footer>
+    <p style="margin-top:.4rem"><a href="../index.html" style="color:var(--ink-faint);text-decoration:none">← 回岛主主页（王仙客在岛上）</a></p>
+      <p><b>思维模型图鉴</b> · 整理自岛主的飞书知识库，融入岛主自己的解读</p>
+      <p>米色纸感 · 书签色带 · 图书馆书架 · 单文件可分享 · 适合手机阅读</p>
+    </footer>
+  </main>
+</body>
+</html>

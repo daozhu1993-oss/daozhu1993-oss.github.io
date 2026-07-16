@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>动机理论 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">模型笔记</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.109</div>
+      <h1>动机理论</h1>
+      <div class="subtitle">Motivation Theory</div>
+      <div class="author">你为什么而工作，比你有多努力，更决定你能走多远。</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 板块2：一句话总览 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        动机理论讲人为什么愿意付出努力。罗宾斯把它拆成强度、方向、坚持性三维；弗洛姆再补一句——激励力 = 期望值 × 效价。
+      </div>
+      <!-- 板块3：模型卡 4 格 -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">罗宾斯《组织行为学》<small>动机三维框架 + 弗洛姆期望理论</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">组织行为 · 激励管理<small>自我管理、带团队都用得上</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">动机 = 努力的强度 × 方向 × 坚持性；真正驱动人的是“我相信能做到、做了值得”。<small>动机在“信”与“值”，不在“该”</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">成长 / 管理<small>自我驱动 · 团队激励</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块4：误用 vs 善用（左红右绿） -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>误用 vs 善用</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>只会加薪</h3>
+          <div class="en-name">Pay-Only Fallacy</div>
+          <ul class="trait-list">
+            <li>以为加钱就能长期点燃一个人</li>
+            <li>光使猛劲，方向却是替别人搬砖</li>
+            <li>三天热度，没撑过反馈真空期</li>
+            <li>用“应该做”逼自己，越逼越躺</li>
+          </ul>
+          <div class="ex">例：给实习生 A 涨补贴，他亢奋两周又躺平——补贴只买来短暂兴奋，没买到内在动机。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>给燃料也给药</h3>
+          <div class="en-name">Fuel and Autonomy</div>
+          <ul class="trait-list">
+            <li>找“值”的目标：写下你做的事对谁有什么意义</li>
+            <li>把大目标拆成有即时反馈的小步</li>
+            <li>留一点自主权，让掌控感当燃料</li>
+            <li>用期望值 × 效价自检：信做得到吗？值得吗？</li>
+          </ul>
+          <div class="ex">例：给实习生 B “这模块怎么干你定”的自主权，他熬仨月把没人敢碰的烂摊子啃下来了。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块5：关键要点 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>动机的三个开关</h2>
+        <span class="en">Three Switches of Motivation</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>努力强度</h4>
+          <p>你使多大劲。但光使猛劲没用，方向错了全是白费——累死累活也可能是在替别人的目标搬砖。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>方向</h4>
+          <p>努力得指向你真正想要的目标。很多人不是不努力，是努力的方向写的是别人的名字。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>坚持性</h4>
+          <p>能撑多久。三天热度的努力，不如细水长流的坚持；动机决定你能不能在反馈真空期熬过去。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>期望理论</h4>
+          <p>激励力 = 期望值 × 效价，动机不在“该不该做”，而在“我相不相信自己做得到、做了值不值”。</p>
+          <div class="eg"><b>例：</b>你信自己能做到、这事对你真值，燃料才点得着。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">05</div>
+          <h4>需求阶梯</h4>
+          <p>马斯洛提醒：吃饱穿暖之后，真正驱动人的是被尊重、被需要。钱只能买来短暂兴奋，意义才管长远。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块6：应用流程 / 场景地图 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三步给自己点把火</h2>
+        <span class="en">Light Your Fire</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>找“值”的目标</h4>
+          <p>写下你正在做的事，对谁、有什么意义。意义感是动机里最耐用的一块电池。</p>
+        </div>
+        <div class="step">
+          <h4>拆成小步</h4>
+          <p>把大目标切成能马上看到反馈的小块，别让努力飘在半空，等不到正反馈就泄气。</p>
+        </div>
+        <div class="step">
+          <h4>留自主权</h4>
+          <p>少等指令多自己定，掌控感本身就是燃料。连“这事怎么干你定”都能点燃一个人。</p>
+        </div>
+        <div class="step">
+          <h4>周度自检</h4>
+          <p>用期望值 × 效价给每个目标打分：我还信吗？还值吗？低于阈值就重谈，别硬撑。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块7：金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>你为什么而工作，比你有多努力，更决定你能走多远。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>动机不在「该不该做」，而在「我相不相信自己做得到、做了值不值」。</p>
+          <span class="src">弗洛姆期望理论</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>区别不在能力，在动机。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 板块8：行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>写一句意义</h4><p>给手头最烦的那件事，写一句“它对谁有什么意义”，先把方向找回来。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>切小步打卡</h4><p>把本周目标拆成每天能打卡的小步，让正反馈来得勤一点。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>留一个“我定”</h4><p>每天给自己留一个“这事我来决定”的小权，喂养掌控感。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>给别人自主权</h4><p>给团队成员一次“你说了算”的任务，你会看到动机的差别。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>动机打分</h4><p>用期望值 × 效价给每个目标打分，低于阈值的就重谈或放弃。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块9：适合谁 / 场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>自我管理</span>
+        <span>团队激励</span>
+        <span>目标管理</span>
+        <span>职场晋升</span>
+        <span>创业</span>
+        <span>教育</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.109</div>
+    <p style="margin-top:.6rem;">动机理论 · 动机在“信”与“值”，不在“该” &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

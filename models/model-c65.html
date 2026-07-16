@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>时间管理优先矩阵 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.04</div>
+      <h1>时间管理优先矩阵</h1>
+      <div class="subtitle">Priority Matrix</div>
+      <div class="author">史蒂芬·柯维 &nbsp;·&nbsp; <b>Stephen Covey</b> &nbsp;·&nbsp; 《高效能人士的7个习惯》</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        别按"急不急"排日程，要按"重不重要"排。把事放进「重要 × 紧急」四象限，你才发现：真正决定明年高度的，是那个"重要但不紧急"的格子。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">史蒂芬·柯维<small>Stephen Covey，在《高效能人士的7个习惯》中系统提出。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">时间管理 / 个人效能 / 职场<small>凡要"排优先级"的场合都用得上。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">四象限（重要 × 紧急）<small>横轴紧急、纵轴重要，切出四种活法。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">执行层 / 优先级<small>在"做什么"之上，再叠加一道排序纪律。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>按紧急排 vs 按重要排</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>按"急不急"排</h3>
+          <div class="en">Urgency-First</div>
+          <ul class="trait-list">
+            <li>谁喊得响、谁火烧眉毛，就先伺候谁</li>
+            <li>天天活在"重要且紧急"的危机里</li>
+            <li>当老好人，别人的锅全接</li>
+            <li>越忙越心虚，年底复盘没产出</li>
+          </ul>
+          <div class="ex">例：岛主前年就是"瞎忙象限"常客，帮同事救火帮到自己的项目黄了。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>按"重不重要"排</h3>
+          <div class="en">Importance-First</div>
+          <ul class="trait-list">
+            <li>先锁死"重要不紧急"的推进象限</li>
+            <li>危机象限该授权就授权、该预案就预案</li>
+            <li>把"瞎忙"清单能甩出去的全甩</li>
+            <li>浪费象限直接不做，把时间还给正事</li>
+          </ul>
+          <div class="ex">例：岛主后来每天雷打不动两小时留给"推进象限"，半年考下证、公众号也做起来了。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点：四象限 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>四个象限的活法</h2>
+        <span class="en">The Four Quadrants</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">Q1</div>
+          <h4>重要且紧急 · 危机象限</h4>
+          <p>火烧眉毛，马上做。但天天活在危机里，说明前面没规划——它是结果，不是荣耀。</p>
+          <div class="eg"><b>例：</b>线上崩了、客户要解约，必须立刻处理。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">Q2</div>
+          <h4>重要不紧急 · 推进象限</h4>
+          <p>健身、学新技能、维护关系。不急，却决定你明年的高度。这一格做得多不多，是普通和卓越的分水岭。</p>
+          <div class="eg"><b>例：</b>每天两小时深度工作、季度复盘、维护关键人脉。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">Q3</div>
+          <h4>不重要但紧急 · 瞎忙象限</h4>
+          <p>临时群消息、别人甩来的锅。能授权就授权，别当老好人，你的时间不便宜。</p>
+          <div class="eg"><b>例：</b>帮同事填表、临时拉去凑会，看着忙其实没产出。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">Q4</div>
+          <h4>不重要不紧急 · 浪费象限</h4>
+          <p>刷短视频、无目的闲聊。直接不做，把腾出的时间挪去 Q2，回报最高。</p>
+          <div class="eg"><b>例：</b>漫无目的地刷手机两小时，睡前只剩空虚。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>应用流程</h2>
+        <span class="en">Resort Your Time</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>今晚先分象限</h4>
+          <p>把明天的事按四象限分一遍，重点看"推进象限"那一格有几件。</p>
+        </div>
+        <div class="step">
+          <h4>锁死固定时段</h4>
+          <p>给"重要不紧急"划出雷打不动的时间，谁打扰就跟谁翻脸。</p>
+        </div>
+        <div class="step">
+          <h4>甩掉瞎忙清单</h4>
+          <p>把 Q3 里能授权、能拒绝的，本周全甩出去，别当情绪垃圾桶。</p>
+        </div>
+        <div class="step">
+          <h4>每周复盘分布</h4>
+          <p>周末看一眼四象限占比，Q2 太薄就报警，别等年底才心虚。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>救火救得再快，也救不回你没种下的地。</p>
+          <span class="src">为什么 Q2 不能省</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>按"急不急"排的人，永远在替别人打工；按"重不重要"排的人，才替自己活着。</p>
+          <span class="src">岛主批注</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>"推进象限"做得多不多，是普通和卓越之间最诚实的那条线。</p>
+          <span class="src">判断标准</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>睡前画一张四象限</h4><p>别用脑子记，画出来才看得见时间到底掉哪了。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>给 Q2 上锁</h4><p>每天两小时深度工作，谁打断谁欠你。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>学会说"这不归我"</h4><p>Q3 的锅能甩就甩，老好人是时间的小偷。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>Q4 设个硬额度</h4><p>刷手机可以，但先跟自己约好停在哪。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>把"救火"变"防火"</h4><p>每次危机后问：能不能提前做点 Q2，让它别再来？</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>周复盘看 Q2 占比</h4><p>这一格太薄，就是下个月要还的债。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>日常日程规划</span>
+        <span>工作优先级</span>
+        <span>项目排期</span>
+        <span>拒绝不合理请求</span>
+        <span>备考 / 学新技能</span>
+        <span>团队任务分配</span>
+        <span>任何"忙成狗却没产出"的时刻</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.04</div>
+    <p style="margin-top:.9rem;"><a class="back" href="index.html" style="color:var(--accent)">← 返回思维模型图鉴</a></p>
+    <p><a class="back" href="../index.html" style="color:var(--ink-faint)">← 回岛主主页</a></p>
+  </footer>
+
+</body>
+</html>

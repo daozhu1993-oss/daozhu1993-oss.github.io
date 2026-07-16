@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>波特五力 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.08em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+  footer .fback{display:block;margin-top:1.1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  footer .fback:hover{text-decoration:underline;}
+  footer .fback.alt{color:var(--ink-faint);}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.03</div>
+      <h1>波特五力</h1>
+      <div class="subtitle">Porter's Five Forces</div>
+      <div class="author">看清你和对手之间的那张网 &nbsp;·&nbsp; <b>迈克尔·波特</b> &nbsp;·&nbsp; 《竞争战略》</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        波特五力是迈克尔·波特在《竞争战略》里甩出的一张网——<b>决定你生死的，从来不是你有多拼命，而是你被几股力量围在中间。</b>五股力量像房子五面的风，漏哪面都冷。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">迈克尔·波特<small>Michael Porter，哈佛商学院教授，1980 年《竞争战略》中提出。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">战略管理 / 竞争分析<small>看行业利润被谁分走，找到你的结构性命门。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">五力结构网<small>直接竞争 · 潜在进入者 · 替代品 · 供应商议价 · 购买者议价。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">产业结构层<small>跳出"我很努力"的内卷视角，看外部结构怎么吸走利润。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>误用 vs 善用</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>只盯着对手打</h3>
+          <div class="en">Blame the Product, Fight Rivals</div>
+          <ul class="trait-list">
+            <li>利润薄了就怪"产品不够好"，越改越累</li>
+            <li>只盯直接竞争，沉迷价格战</li>
+            <li>五力平均用力，四处补漏</li>
+            <li>对供应商一家独大视而不见</li>
+          </ul>
+          <div class="ex">例：做企业培训的朋友归咎"课讲得不够好"，后画五力图才看清——根子在结构，不在产品。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>五力找缝隙</h3>
+          <div class="en">Map the Net, Find the Weakest Rope</div>
+          <ul class="trait-list">
+            <li>画一张五力图，看清被几股力量围住</li>
+            <li>给五力各打 1–10 分，找最被压制那力</li>
+            <li>先松开最紧的那根绳，资源优先砸命门</li>
+            <li>看清根子在结构，不在自己不够拼</li>
+          </ul>
+          <div class="ex">例：奶茶店一条街五家+隔壁咖啡抢下午茶，两力夹击，再会做茶也难赚。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点：五力 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>五股力量拆解</h2>
+        <span class="en">The Five Forces</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">①</div>
+          <h4>直接竞争对手</h4>
+          <p>同一条街抢同一拨人的店。对手越多越像，你的议价权越薄，价格战是慢性自杀，最后一起饿死。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">②</div>
+          <h4>潜在进入者</h4>
+          <p>看眼红想跨界分蛋糕的人。门槛越低越要防"明天冒出个搅局者"，资本最爱上门槛低的局。</p>
+          <div class="eg"><b>例：</b>网红品牌最怕这点，今天爆红明天被抄。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">③</div>
+          <h4>替代品</h4>
+          <p>不抢客，却把需求整个挪走。真正的威胁往往来自行业之外，等看清已晚。</p>
+          <div class="eg"><b>例：</b>外卖悄悄吃掉方便面，短视频吃掉用户的整块时间。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">④</div>
+          <h4>供应商议价</h4>
+          <p>上游卡你脖子。你越依赖单一供应商，利润越被抽走，它一涨价你就失血，话语权不在你手。</p>
+          <div class="eg"><b>例：</b>芯片断供卡死过多少手机厂。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">⑤</div>
+          <h4>购买者议价</h4>
+          <p>大客户压你价。客户越集中你越没底气，被牵着鼻子走还不敢吭声，辛辛苦苦替人打工。</p>
+          <div class="eg"><b>例：</b>大商超对供货商的压价就是日常。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>落地四步</h2>
+        <span class="en">From Matrix to Moat</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>画一张五力图</h4>
+          <p>把五力都圈出来，别只想对手。先看清自己到底被几股力量围在中间。</p>
+        </div>
+        <div class="step">
+          <h4>给五力打分</h4>
+          <p>各打 1–10 分（10 是最被压制），分数最高那力就是你的命门，先盯它。</p>
+        </div>
+        <div class="step">
+          <h4>对最痛一力筑护城河</h4>
+          <p>提升切换成本、绑定供应、分散客户——松开最紧的那根绳比补四处漏洞管用十倍。</p>
+        </div>
+        <div class="step">
+          <h4>每月重画一次</h4>
+          <p>环境变了网也变，去年松的力今年可能勒死你。五力是活地图，不是一画永逸。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>你以为在跟对手竞争，其实是在一张网里找缝隙呼吸。</p>
+          <span class="src">五力的本质</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>很多人天天琢磨怎么干翻对手，却对供应商一家独大视而不见——后者才是悄悄抽走利润的无声杀手。</p>
+          <span class="src">别盯错力</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>先找最紧的那根绳，松开它比补四处漏洞管用十倍。</p>
+          <span class="src">岛主批注</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>利润下滑先画五力图</h4><p>别急着怪产品，先看看是哪一力在悄悄抽走你的钱。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>给五力各打 1–10 分</h4><p>最高分那力就是命门，资源优先砸这里，别平均用力。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>对最痛一力筑护城河</h4><p>绑定供应、分散客户、提升切换成本，先松最紧的绳。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>别只盯直接竞争</h4><p>供应商议价、替代品往往才是无声杀手，抬眼看看行业之外。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>每月重画一次</h4><p>环境一变网就变，去年松的力今年可能勒死你。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>创业者看赛道</span>
+        <span>战略岗做行业研判</span>
+        <span>投资人尽调</span>
+        <span>产品经理算毛利</span>
+        <span>行业分析</span>
+        <span>想搞清楚"钱被谁赚走"</span>
+        <span>任何被利润夹击的场合</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.03</div>
+    <p style="margin-top:.6rem;">波特五力 · 迈克尔·波特 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+    <a class="fback" href="index.html">← 返回思维模型图鉴</a>
+    <a class="fback alt" href="../index.html">← 回岛主主页</a>
+  </footer>
+
+</body>
+</html>

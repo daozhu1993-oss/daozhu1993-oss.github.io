@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>产品画布MVP · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;margin-bottom:.6rem;}
+  footer .flinks{display:flex;flex-direction:column;gap:.5rem;align-items:center;margin-bottom:1.2rem;}
+  footer .flinks .back{margin-bottom:0;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.04</div>
+      <h1>产品画布 MVP</h1>
+      <div class="subtitle">MVP Canvas</div>
+      <div class="author">埃里克·莱斯 &nbsp;·&nbsp; <b>Eric Ries</b> &nbsp;·&nbsp; 《精益创业》</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 一句话总览 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        MVP（最小可行产品）是「刚好够验证假设的最小闭环」——花 10% 的代价，先证伪最危险的假设，比 all in 后才知道错要体面得多，也更省眼泪。它不是糙产品，是聪明的试错。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">埃里克·莱斯<small>Eric Ries，《精益创业》提出 MVP——用最小代价验证商业可行性。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">产品 / 创业 / 验证<small>凡是要「先测再建」、怕投入打水漂的场景都用得上。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">最小可行产品<small>只留一个核心功能 + 真能跑通一圈的最小闭环。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">验证层 / 最小化试错<small>在「写代码」之前，先确认「用户要不要」。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>先做全再测 vs 先测最危险假设</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>先做全再测</h3>
+          <div class="en">Build-It-All-First</div>
+          <ul class="trait-list">
+            <li>为点子闷头开发半年，上线却没人理</li>
+            <li>投入全部身家，最后证明方向是错的</li>
+            <li>代码写得漂亮，市场冷得结冰</li>
+            <li>像精心装修了没人来的店，开业即关门</li>
+          </ul>
+          <div class="ex">例：半年后才知道方向错，白白烧光时间和热情，连改的方向都没人给。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>先测最危险假设</h3>
+          <div class="en">Test the Riskiest First</div>
+          <ul class="trait-list">
+            <li>用最小代价，先证伪最危险的假设</li>
+            <li>能手动就别写码，能假图就别真做</li>
+            <li>验证了就加码，证伪了就 pivot</li>
+            <li>用最糙的东西，问最真的问题</li>
+          </ul>
+          <div class="ex">例：Dropbox 先放演示视频看有没有人想要，注册暴涨才写代码；Zappos 先拍照上架鞋、接到单再去进货，零库存验证「网上买鞋」。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>MVP 的几个关键点</h2>
+        <span class="en">The MVP Keys</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>最小——只留一个核心功能</h4>
+          <p>凡是不验证「用户要不要」的功能都是浪费，多做一天多烧一天。早一天验证早一天止损，少即是快。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>可行——真能跑通一圈</h4>
+          <p>demo 再漂亮跑不通闭环就是摆设，用户要的是完整体验不是截图，断一环就露馅，闭环才算数。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>卖点 / 关系 / 整体性</h4>
+          <p>画布要回答：凭什么买、和谁发生关系、是不是一个完整价值。缺了共鸣性用户记不住你，情感连接才是留存。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>MVP 不是糙产品</h4>
+          <p>它是「刚好够验证假设的最小闭环」。花 10% 的代价先证伪最危险的假设，比 all in 后才知道错要体面得多。</p>
+          <div class="eg"><b>岛主经历：</b>想做社群工具没先写码，拉个微信群手动模拟，三天发现用户根本不想每天打卡——省下三月开发。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">05</div>
+          <h4>敌人是完美主义</h4>
+          <p>能手动就别写码，能假图就别真做。判断 MVP 成不成功，不看它多精致，看「假设被验证了没有」。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">06</div>
+          <h4>只为最危险假设而生</h4>
+          <p>多一个功能就多一层噪音，也多一周白等。最怕验证出「用户不要」还硬说「再改改就好」。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三步做 MVP</h2>
+        <span class="en">Build Your MVP</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>写下最赌的假设</h4>
+          <p>写下你最赌的那个假设（如「用户愿为 X 付费」），先想清楚证伪条件。</p>
+        </div>
+        <div class="step">
+          <h4>最低成本做小东西</h4>
+          <p>用最低成本做出能验证它的小东西，哪怕手动、哪怕丑。</p>
+        </div>
+        <div class="step">
+          <h4>看真实行为</h4>
+          <p>看真实行为，不是嘴上说「挺好」，再决定加不加码，别被客气话骗了。</p>
+        </div>
+        <div class="step">
+          <h4>证伪就 pivot</h4>
+          <p>验证了就加码，证伪了就 pivot，别硬说「再改改就好」——那是在骗自己。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>MVP 是刚好够验证假设的最小闭环。</p>
+          <span class="src">MVP 的本质</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>聪明人用 MVP 试错，笨人用全部家当试错。</p>
+          <span class="src">试错的代价</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>MVP 的精髓是「用最糙的东西，问最真的问题」。</p>
+          <span class="src">岛主批注</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>敌是完美主义——能手动就别写码</h4><p>岛主拉微信群模拟省下三月开发，也省了一腔热血凉透的难受。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>先写最赌的假设</h4><p>想清楚证伪条件，再动手，比埋头开发半年靠谱得多。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>用最低成本做小东西</h4><p>哪怕手动、哪怕丑，能验证假设的就是好 MVP。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>看真实行为别被客气话骗</h4><p>嘴上说「挺好」不算数，看人家愿不愿意真用、真付费。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>验证出不要就 pivot</h4><p>别硬说「再改改就好」，那是在拿沉没成本绑架自己。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>只为最危险假设做 MVP</h4><p>多一个功能多一层噪音，也多一周白等，单点突破最省。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>创业者想法验证</span>
+        <span>产品经理想法试水</span>
+        <span>副业试水</span>
+        <span>内部创新项目</span>
+        <span>怕投入打水漂的人</span>
+        <span>任何"先测再建"的场景</span>
+        <span>微博式发短信页面起步</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="flinks">
+      <a class="back" href="index.html">← 返回思维模型图鉴</a>
+      <a class="back" href="../index.html" style="color:var(--ink-faint)">← 回岛主主页</a>
+    </div>
+    <div class="mark">思 维 模 型 图 鉴 · No.04</div>
+    <p style="margin-top:.6rem;">产品画布 MVP · 埃里克·莱斯 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

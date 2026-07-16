@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>给女儿的绘本 · 岛主</title>
+  <meta name="description" content="岛主给女儿一一画的成长绘本，吉卜力水彩风。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf8f3;
+      --surface: #ffffff;
+      --text: #2b2620;
+      --mid: #8b8479;
+      --line: #e8e2d6;
+      --accent: #c98a5a;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Fragment Mono', ui-monospace, 'PingFang SC', 'Microsoft YaHei', monospace;
+      line-height: 1.6; padding: 48px 24px 96px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    .back { font-size: 12px; color: var(--mid); text-decoration: none; }
+    .back:hover { color: var(--text); }
+    .hero { margin: 30px 0 8px; }
+    h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
+    .lead { font-size: 14px; color: var(--mid); margin-top: 12px; max-width: 54ch; line-height: 1.85; }
+
+    /* 分页舞台 */
+    .stage { margin-top: 40px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      min-height: 300px;
+    }
+    .card {
+      display: flex; flex-direction: column; align-items: stretch;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+      text-decoration: none; color: inherit; overflow: hidden;
+      transition: border-color 240ms var(--ease), box-shadow 240ms var(--ease), transform 240ms var(--ease);
+    }
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+      transform: translateY(-3px);
+    }
+    .cover {
+      width: 100%; height: 150px; overflow: hidden; position: relative;
+      background: var(--cc, #ddd);
+    }
+    .cover img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .info {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px 16px;
+    }
+    .info-main { flex: 1; min-width: 0; }
+    .num { font-size: 11px; color: var(--mid); letter-spacing: 0.06em; }
+    .ttl { font-size: 14.5px; font-weight: 500; margin-top: 3px; line-height: 1.45; }
+    .meta { font-size: 12px; color: var(--mid); margin-top: 6px; }
+    .arrow { flex: 0 0 auto; color: var(--mid); font-size: 18px; transition: color 240ms var(--ease); }
+    .card:hover .arrow { color: var(--accent); }
+
+    /* 翻页控件 */
+    .pager {
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      margin-top: 38px;
+    }
+    .pbtn {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--line); background: var(--surface);
+      color: var(--text); font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 200ms var(--ease), opacity 200ms var(--ease), transform 200ms var(--ease);
+    }
+    .pbtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .pbtn:active:not(:disabled) { transform: scale(0.92); }
+    .pbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .dots { display: flex; align-items: center; gap: 8px; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--line); cursor: pointer; transition: all 220ms var(--ease);
+    }
+    .dot.on { width: 22px; border-radius: 4px; background: var(--accent); }
+    .plabel { font-size: 12px; color: var(--mid); min-width: 52px; text-align: center; letter-spacing: 0.05em; }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      .cover { height: 160px; }
+      .ttl { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html">← 回到岛主的主页</a>
+    <div class="hero">
+      <h1>给女儿的绘本</h1>
+      <p class="lead">做了十年儿童动画编剧，写过很多别人的故事。直到女儿一一出生，才第一次想把主角换成她。这里画下的这些绘本，记录了她出生后的第一次笑、第一次翻身、第一次理发，以及我想讲给她听的那些小事。</p>
+    </div>
+
+    <div class="stage">
+      <div class="grid" id="grid"></div>
+      <div class="pager">
+        <button class="pbtn" id="prev" aria-label="上一页">‹</button>
+        <div class="dots" id="dots"></div>
+        <span class="plabel" id="plabel">1 / 1</span>
+        <button class="pbtn" id="next" aria-label="下一页">›</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 出生顺序即成长顺序。c 为封面占位色；拿到真实封面图后，
+    // 把封面改成像 <img src="covers/xxx.jpg"> 即可（.cover 已支持 img）。
+    const books = [
+      { n: '01', age: '出生',      title: '春天里最重要的事 · 一一出生',       meta: '文/图 岛主王仙客', href: 'chuntian.html',    cover: 'covers/chuntian.jpg' },
+      { n: '02', age: '初抱',      title: '爸爸的手掌心 · 初抱',               meta: '文/图 岛主王仙客', href: 'shouzhangxin.html', cover: 'covers/shouzhangxin.jpg' },
+      { n: '03', age: '约 1 月',   title: '咕嘟咕嘟，一一喝奶啦',               meta: '文/图 岛主王仙客', href: 'gudugudu.html',    cover: 'covers/gudugudu.jpg' },
+      { n: '04', age: '约 1.5 月', title: '哗啦哗啦，一一洗澡啦',               meta: '文/图 岛主王仙客', href: 'hualahuala.html',  cover: 'covers/hualahuala.jpg' },
+      { n: '05', age: '第一次笑',  title: '咯咯，一一笑啦',                     meta: '文/图 岛主王仙客', href: 'gege.html',        cover: 'covers/gege.jpg' },
+      { n: '06', age: '2 月',      title: '哇哇哇，一一不哭啦 · 深夜肠胀气',    meta: '文/图 岛主王仙客', href: 'wawawa.html',      cover: 'covers/wawawa.jpg' },
+      { n: '07', age: '3 月',      title: '骨碌骨碌，一一翻身啦',               meta: '文/图 岛主王仙客', href: 'gulugulu.html',    cover: 'covers/gulugulu.jpg' },
+      { n: '08', age: '3 月+',     title: '嗡嗡嗡，一一理发啦 · 第一次理发',    meta: '文/图 岛主王仙客', href: 'wengwengweng.html', cover: 'covers/wengwengweng.jpg' },
+      { n: '09', age: '4 月',      title: '咬咬咬，一一长牙啦 · 第一颗乳牙',    meta: '文/图 岛主王仙客', href: 'yaoyaoyao.html',   cover: 'covers/yaoyaoyao.jpg' },
+      { n: '10', age: '5 月',      title: '第一次去公园 · 奶奶登场',            meta: '文/图 岛主王仙客', href: 'gongyuan.html',    cover: 'covers/gongyuan.jpg' },
+      { n: '11', age: '约 100 天', title: '一一的百天宴会 · 四代同堂',          meta: '文/图 岛主王仙客', href: 'baitian.html',     cover: 'covers/baitian.jpg' },
+      { n: '12', age: '出远门',    title: '去看外公外婆 · 第一次坐汽车',        meta: '文/图 岛主王仙客', href: 'waikanwaipo.html', cover: 'covers/waikanwaipo.jpg' },
+      { n: '13', age: '假期',      title: '外婆家的蜜瓜 · 民勤的甜蜜假期',      meta: '文/图 岛主王仙客', href: 'migua.html',       cover: 'covers/migua.jpg' }
+    ];
+
+    const PER = 4;
+    const pages = Math.ceil(books.length / PER);
+    let cur = 0;
+
+    const grid = document.getElementById('grid');
+    const dotsEl = document.getElementById('dots');
+    const plabel = document.getElementById('plabel');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+
+    // 构建页码圆点
+    for (let i = 0; i < pages; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot';
+      d.addEventListener('click', () => go(i));
+      dotsEl.appendChild(d);
+    }
+
+    function renderPage(p) {
+      cur = p;
+      const start = p * PER;
+      const slice = books.slice(start, start + PER);
+      grid.innerHTML = '';
+      slice.forEach(b => {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = b.href;
+        card.innerHTML =
+          '<div class="cover"><img src="' + b.cover + '" alt="' + b.title + '" loading="lazy"></div>' +
+          '<div class="info">' +
+            '<div class="info-main">' +
+              '<div class="num">' + b.n + ' · ' + b.age + '</div>' +
+              '<div class="ttl">' + b.title + '</div>' +
+              '<div class="meta">' + b.meta + '</div>' +
+            '</div>' +
+            '<div class="arrow">↗</div>' +
+          '</div>';
+        grid.appendChild(card);
+      });
+
+      // 更新圆点
+      [...dotsEl.children].forEach((d, i) => d.classList.toggle('on', i === p));
+      // 更新页码
+      plabel.textContent = (p + 1) + ' / ' + pages;
+      // 箭头可用态
+      prevBtn.disabled = (p === 0);
+      nextBtn.disabled = (p === pages - 1);
+    }
+
+    function go(p) {
+      if (p < 0 || p >= pages) return;
+      renderPage(p);
+    }
+
+    prevBtn.addEventListener('click', () => go(cur - 1));
+    nextBtn.addEventListener('click', () => go(cur + 1));
+
+    // 键盘左右翻页
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') go(cur - 1);
+      if (e.key === 'ArrowRight') go(cur + 1);
+    });
+
+    renderPage(0);
+  </script>
+  <script>
+    // mark that we're navigating back to the homepage, so the letter modal
+    // won't auto-open (it only shows on first open / refresh).
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
+    });
+  </script>
+</body>
+</html>

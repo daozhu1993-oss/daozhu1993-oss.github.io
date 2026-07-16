@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>发散思维 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <!-- 书签色带文案固定为「模型笔记」或「思维模型」 -->
+    <div class="ribbon">模型笔记</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.194</div>
+      <h1>发散思维</h1>
+      <div class="subtitle">Divergent Thinking</div>
+      <div class="author">创意不在你盯着问题的时候，在你松开的时候。</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 返回图鉴链接：并入主站后另注入「回主页」 -->
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 板块2：一句话总览 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        发散思维让想法像树枝一样向外散开——一题多解、一物多用，它是创造力的源头，却总被成年人的"专注焦虑"憋回去了。
+      </div>
+      <!-- 板块3：模型卡 4 格 -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">岛主解读 / 思维模型合集<small>东尼·博赞等创造力研究的通俗提炼</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">创造力 / 认知心理学<small>创新、问题解决、学习</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">让思维从单一答案向外辐射，产生大量、多样、新奇想法的思考方式<small>一题多解、一物多用</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">认知 / 创造<small>从收敛到发散的挡位切换</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块4：误用 vs 善用（左红右绿） -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>误用 vs 善用</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>老待在 3、4 挡，把发散憋回去</h3>
+          <div class="en-name">Stuck in Focus Mode</div>
+          <ul class="trait-list">
+            <li>越盯问题越没思路，越焦虑越闭塞</li>
+            <li>一上来就收敛、要"标准答案"，把怪想法掐死</li>
+            <li>成年人常年专注焦虑，发散挡位被锁死</li>
+            <li>觉得"我越长大越没创意"，其实是挡位变了</li>
+          </ul>
+          <div class="ex">例：幼儿园孩子创造力 95 分，大学生只剩 25 分——不是变笨，是大脑挡位从放松白日梦切到了紧绷专注。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>切到 1、2 挡，让潜意识自由联结</h3>
+          <div class="en-name">Let the Subconscious Wander</div>
+          <ul class="trait-list">
+            <li>放松、发呆、半梦半醒时最适合发散</li>
+            <li>先全盘接受所有荒诞想法，不急着评判</li>
+            <li>用自由联想当开关，让点子自动连线</li>
+            <li>床头、车上常备纸笔，灵感来了立刻抓</li>
+          </ul>
+          <div class="ex">例：凯库勒梦见咬尾蛇悟出苯环结构；爱因斯坦想象追着一束光，想出相对论——都不是"盯着"想出来的。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块5：关键要点（3-6 张，复制 .bias 块增减） -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>衡量发散的三个指标</h2>
+        <span class="en">Three Metrics</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>流畅：想得多不多</h4>
+          <p>短时间内冒出多少点子，是发散的"量"。量不够，好点子概率就低。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>变通：换不换角度</h4>
+          <p>能从不同维度重组问题，是发散的"质"。同一条道走到黑，不算真发散。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>独特：够不够新奇</h4>
+          <p>异于常人的新奇，是发散的"灵魂"。别人都想到 A，你偏想到 Z。</p>
+          <div class="eg"><b>岛主办法：</b>床头、车上永远备纸笔，灵感来了立刻抓，别信"等下再记"。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>自由联想是开关</h4>
+          <p>达·芬奇说"创造就是联系事物"——把科技和艺术联系，就造出跨界奇迹，乔布斯承袭此道做出 iPhone。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块6：应用流程 / 场景地图（4-5 步，复制 .step 块增减） -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>卡住时，这样把灵感放出来</h2>
+        <span class="en">Free the Idea</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>主动放空</h4>
+          <p>卡住时别硬刚，去洗澡、散步、发呆，把大脑切回 1、2 挡。</p>
+        </div>
+        <div class="step">
+          <h4>中心放射</h4>
+          <p>用思维导图从中心向外画，先全盘接受所有荒诞想法，不评判。</p>
+        </div>
+        <div class="step">
+          <h4>自由联想</h4>
+          <p>让一个念头带出下一个，像凯库勒的蛇、爱因斯坦的光，让点子自动连线。</p>
+        </div>
+        <div class="step">
+          <h4>立刻抓记</h4>
+          <p>床头、车上放本子，灵感出现马上记——它只在松开时出现，不抓就溜。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块7：金句（2-3 条，复制 .quote 块增减） -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>创意不在你盯着问题的时候，在你松开的时候。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>创造就是联系事物——把看似不搭的东西连起来，就是跨界奇迹。</p>
+          <span class="src">达·芬奇（岛主引述）</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 板块8：行动清单（4-6 条，复制 .action 块增减） -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>卡住就放空</h4><p>下次盯问题没思路，立刻去洗澡散步发呆，别在 3、4 挡死磕。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>画一张放射图</h4><p>拿张纸从中心词向外画，先接受所有怪想法，不急着删。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>床头放本子</h4><p>床边、车上备纸笔，灵感一冒头马上记，别信"等下再写"。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>练"变通"</h4><p>每天挑一个问题，逼自己想出 3 个完全不挨着的解决角度。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>跨界联系</h4><p>把一个行业的做法，硬套到你的难题上，看看能撞出什么火花。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块9：适合谁 / 场景（标签云，复制 span 增减） -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>头脑风暴</span>
+        <span>创意卡壳</span>
+        <span>写作灵感</span>
+        <span>产品设计</span>
+        <span>解题换角度</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.194</div>
+    <p style="margin-top:.6rem;">发散思维 · 创意不在你盯着问题的时候，在你松开的时候 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

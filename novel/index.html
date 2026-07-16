@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小说 · 手稿抽屉 · 岛主</title>
+  <meta name="description" content="岛主正在写的小说：把大纲、片段和进度锁在抽屉里，拉开一格看一格。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #ece4d6;
+      --desk: #e4dac8;
+      --wood: #b99b74;
+      --wood-dk: #9c7f5c;
+      --drawer: #f6f0e4;
+      --drawer-hi: #fbf7ee;
+      --ink: #2c2519;
+      --ink-soft: #6f6349;
+      --ink-dim: #9a8e73;
+      --line: #d8ccb4;
+      --brass: #a9843f;
+      --accent: #b8623a;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --mono: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+      --serif: 'Noto Serif SC', 'Songti SC', serif;
+    }
+    body {
+      background:
+        radial-gradient(120% 80% at 50% 0%, #f0e8da 0%, var(--bg) 62%),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 14px; line-height: 1.6;
+      padding: 48px 24px 110px;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    a { color: inherit; }
+    .back { font-size: 12px; color: var(--ink-dim); text-decoration: none; letter-spacing: .04em; }
+    .back:hover { color: var(--accent); }
+
+    .hero { margin: 32px 0 40px; }
+    .kicker { font-size: 11px; letter-spacing: .34em; color: var(--brass); text-transform: uppercase; }
+    h1 { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: .04em; margin: 12px 0 12px; }
+    .lead { font-size: 13px; color: var(--ink-soft); line-height: 1.85; max-width: 56ch; }
+
+    .cabinet { display: flex; flex-direction: column; gap: 16px; }
+
+    .drawer {
+      background: linear-gradient(180deg, var(--drawer-hi), var(--drawer));
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--wood);
+      border-radius: 8px; overflow: hidden;
+      transition: border-color 260ms var(--ease), box-shadow 260ms var(--ease), transform 260ms var(--ease);
+    }
+    .drawer.open { box-shadow: 0 20px 46px rgba(120,96,60,.22); border-left-color: var(--accent); }
+
+    .drawer-front {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 22px; cursor: pointer; user-select: none; position: relative;
+    }
+    .drawer-front:hover { background: rgba(185,155,116,.07); }
+    .handle {
+      flex: 0 0 auto; width: 46px; height: 12px; border-radius: 8px;
+      background: linear-gradient(180deg, #c9a45f, var(--brass));
+      box-shadow: inset 0 1px 1px rgba(255,255,255,.5), 0 1px 3px rgba(0,0,0,.2);
+    }
+    .front-main { flex: 1; min-width: 0; }
+    .front-title { font-family: var(--serif); font-size: 20px; font-weight: 600; letter-spacing: .03em; }
+    .front-sub { font-size: 12px; color: var(--ink-dim); margin-top: 5px; letter-spacing: .04em; }
+    .tag {
+      flex: 0 0 auto; font-size: 10.5px; letter-spacing: .1em; color: var(--accent);
+      border: 1px solid var(--accent); border-radius: 20px; padding: 3px 11px; opacity: .85;
+    }
+    .chev { flex: 0 0 auto; color: var(--ink-dim); font-size: 13px; transition: transform 300ms var(--ease); }
+    .drawer.open .chev { transform: rotate(90deg); color: var(--accent); }
+
+    .drawer-body { max-height: 0; overflow: hidden; transition: max-height 460ms var(--ease); }
+    .drawer.open .drawer-body { max-height: 640px; }
+    .paper {
+      margin: 0 18px 20px; padding: 22px 22px 20px;
+      background: repeating-linear-gradient(180deg, #fffdf8 0, #fffdf8 30px, #faf6ec 31px);
+      border: 1px solid var(--line); border-radius: 6px;
+      box-shadow: inset 0 1px 0 #fff;
+    }
+    .logline { font-family: var(--serif); font-size: 15px; line-height: 1.9; color: var(--ink); margin-bottom: 16px; }
+    .sec-title { font-size: 11px; letter-spacing: .2em; color: var(--brass); margin: 16px 0 10px; }
+    .beat { display: flex; gap: 10px; font-size: 13px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 7px; }
+    .beat b { color: var(--accent); font-weight: 400; flex: 0 0 auto; }
+    .meta { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 11px; color: var(--ink-dim); letter-spacing: .05em; }
+
+    /* progress bar for 末日异变 */
+    .prog { margin: 4px 0 6px; }
+    .prog-bar { height: 8px; border-radius: 6px; background: #e6dcc8; overflow: hidden; }
+    .prog-fill { height: 100%; width: 6%; background: linear-gradient(90deg, var(--accent), #d98a52); border-radius: 6px; }
+    .prog-label { font-size: 11px; color: var(--ink-dim); margin-top: 6px; letter-spacing: .05em; }
+
+    .hint { margin-top: 34px; font-size: 11px; color: var(--ink-dim); text-align: center; letter-spacing: .05em; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html">← 回到岛主的主页</a>
+    <div class="hero">
+      <div class="kicker">Manuscript · 手稿抽屉</div>
+      <h1>小说</h1>
+      <p class="lead">正在写的故事都锁在抽屉里。拉开一格，看一格——大纲、进度、片段随写随放。把新的大纲或已发布链接发我，抽屉就会一格格填满。</p>
+    </div>
+
+    <div class="cabinet">
+      <!-- Drawer 1 -->
+      <div class="drawer" data-drawer>
+        <div class="drawer-front" data-toggle>
+          <div class="handle"></div>
+          <div class="front-main">
+            <div class="front-title">《末日异变》</div>
+            <div class="front-sub">长篇 · 100 集末世递进结构 · 逐章交付中</div>
+          </div>
+          <span class="tag">连载筹备</span>
+          <span class="chev">▶</span>
+        </div>
+        <div class="drawer-body">
+          <div class="paper">
+            <div class="logline">末日降临后，异变不是一次爆发，而是一层层剥开的——每一集都比上一集更冷。真正被改变的不是世界，是人。</div>
+            <div class="prog">
+              <div class="prog-bar"><div class="prog-fill"></div></div>
+              <div class="prog-label">大纲进度 · 100 集结构已定 · 逐章交付中</div>
+            </div>
+            <div class="sec-title">核心设定</div>
+            <div class="beat"><b>结构</b>100 集递进，每集一个新的生存变量，剧情连贯、不留 bug。</div>
+            <div class="beat"><b>母题</b>在末日里把人性碾轧出形状——谁先崩，谁在装，谁真的没变。</div>
+            <div class="beat"><b>节奏</b>前期求生、中期结盟、后期反噬，异变逐层升级。</div>
+            <div class="meta">状态 · 筹备中 · 连载计划 　|　 更新 · 有新章节即归档此处</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drawer 2 -->
+      <div class="drawer" data-drawer>
+        <div class="drawer-front" data-toggle>
+          <div class="handle"></div>
+          <div class="front-main">
+            <div class="front-title">富二代老板（暂名）</div>
+            <div class="front-sub">轻松向网文 · 都市 · 构思中</div>
+          </div>
+          <span class="tag">构思中</span>
+          <span class="chev">▶</span>
+        </div>
+        <div class="drawer-body">
+          <div class="paper">
+            <div class="logline">主角是个对钱毫无概念的富二代老板——他以为自己在做小生意，其实每一步都在无意间掀翻规则。轻松、爽，偶尔戳一下现实。</div>
+            <div class="sec-title">方向</div>
+            <div class="beat"><b>基调</b>轻松爽感为主，节奏明快，反差制造笑点。</div>
+            <div class="beat"><b>看点</b>「不懂钱」的老板 vs 拼命算账的员工，认知错位出戏。</div>
+            <div class="beat"><b>待定</b>主线冲突与长线目标构思中，片段随后补入。</div>
+            <div class="meta">状态 · 构思中 · 位置先留着，故事随后就到。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hint">点击抽屉展开大纲 · 更多作品陆续入柜</div>
+  </div>
+
+  <script>
+    document.querySelectorAll('[data-toggle]').forEach(function (front) {
+      front.addEventListener('click', function () {
+        front.closest('[data-drawer]').classList.toggle('open');
+      });
+    });
+    // open the first drawer by default
+    var first = document.querySelector('[data-drawer]');
+    if (first) first.classList.add('open');
+  </script>
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>找到热爱一生的事业 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.04</div>
+      <h1>找到热爱一生的事业</h1>
+      <div class="subtitle">Career Passion · Ikigai (Life Value Venn)</div>
+      <div class="author">生命价值韦恩模型 &nbsp;·&nbsp; <b>Ikigai</b> &nbsp;·&nbsp; 生涯规划 · 自我探索</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        完美的天命事业，藏在四个圈的交汇处——你热爱的、你擅长的、世界需要的、有人愿意付费的。四圈重叠，就是传说中的 Ikigai（生命价值）：充实、有意义、还有回报。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">日本「生き甲斐」思想<small>Ikigai（生命价值），经生涯规划与积极心理学发扬，对应舒伯终生生涯发展思路。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">生涯规划 / 职业选择<small>兴趣、能力、价值三方匹配，破解"工作还是天职"之问。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">四圈交集 Ikigai<small>热爱 Passion · 擅长 Profession · 世界需要 Mission · 有人付费 Vocation。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">定位与选择层<small>在"怎么做好"之前，先想清楚"做什么值得做"。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>单圈挣扎 vs 四圈交汇</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>缺角的状态</h3>
+          <div class="en">The Lopsided Zones</div>
+          <ul class="trait-list">
+            <li>只热爱+擅长→"自嗨"，缺社会价值与回报</li>
+            <li>只热爱+世界需要→"美好理想"，不擅长难持续</li>
+            <li>只擅长+有人付费→"空虚赚钱机器"，职业倦怠</li>
+            <li>只世界需要+付费→"一份苦差"，为生存所迫</li>
+          </ul>
+          <div class="ex">例：擅长枯燥的数据分析，收入高却毫无激情——典型的"专业"区，空虚。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>Ikigai 天命</h3>
+          <div class="en">The Sweet Spot</div>
+          <ul class="trait-list">
+            <li>四圈重叠：热爱且擅长，世界需要且有人付费</li>
+            <li>不再"工作"，而是在实践"天职"</li>
+            <li>充实、满足、有意义，还有回报</li>
+            <li>是动态指南针，不必一步到位</li>
+          </ul>
+          <div class="ex">例：你做热爱且擅长的事，它恰好是市场要的、客户愿买单——这就是"命中心"。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点：四个圈 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>四个核心圈</h2>
+        <span class="en">The Four Circles</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">P</div>
+          <h4>你热爱什么 Passion</h4>
+          <p>做什么会忘记时间、充满喜悦？热情的来源。缺了它，事业只是"苦差"或"赚钱机器"。</p>
+          <div class="eg"><b>例：</b>热爱的+擅长的=「热情」，但没人买单就可能陷入自嗨。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">P</div>
+          <h4>你擅长什么 Profession</h4>
+          <p>做什么常被夸奖认可？能力的来源。缺了它，理想再美也难持续落地。</p>
+          <div class="eg"><b>例：</b>擅长的+有人付费=「专业」，稳定收入但可能毫无激情。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">M</div>
+          <h4>世界需要什么 Mission</h4>
+          <p>身边或世界最需要解决什么问题？意义的来源。让你的技能连接更大的价值。</p>
+          <div class="eg"><b>例：</b>热爱的+世界需要=「使命」，充满意义感却可能缺能力变现。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">V</div>
+          <h4>有人付费吗 Vocation</h4>
+          <p>哪些产出已被证明有人愿买单？市场的来源。把价值产品化、服务化。</p>
+          <div class="eg"><b>例：</b>世界需要+有人付费=「工作」，能温饱却可能不喜欢不擅长。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程：三步找到 Ikigai -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三步找到你的 Ikigai</h2>
+        <span class="en">Find It in 3 Steps</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>第一步：诚实回答四问</h4>
+          <p>拿纸笔写下：做什么会忘时间？被夸什么？世界最需解决什么？哪些技能已被证明有人付费？</p>
+        </div>
+        <div class="step">
+          <h4>第二步：找交集与缺口</h4>
+          <p>对照答案，你最接近哪个区域？阻碍你到中心的，主要缺了哪一环——热爱、变现还是价值？</p>
+        </div>
+        <div class="step">
+          <h4>第三步：微小行动计划</h4>
+          <p>缺热爱就每周投 2 小时去试；缺擅长就针对性练；缺意义就连社会；缺付费就研究市场、做产品化。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>Ikigai 不是固定的终点，而是一个动态的指南针——随着阅历，四个圈的答案都会变。</p>
+          <span class="src">模型的本质</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>不必强求立刻坐在最中心，但可以明确朝着中心的方向，挪动你的每一步。</p>
+          <span class="src">行动心法</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>从一份"工作"，升级为一份"专业"，再注入"热情"和"使命"，最终无限接近属于你的生命价值。</p>
+          <span class="src">岛主批注</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>画一张四圈图</h4><p>纸上画四个相交圆，分别写下热爱/擅长/需要/付费，重叠区一眼可见。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>先做"自我诊断"</h4><p>你现在处在热情、使命、专业、工作哪一区？承认位置是挪动的前提。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>缺哪环补哪环</h4><p>缺热爱去体验，缺擅长去练，缺意义去连接社会，缺付费去研究市场。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>每周投 2 小时给热爱</h4><p>不必裸辞，先让"热情"那圈长大，中心会慢慢靠近。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>把能力产品化</h4><p>你被夸的技能，能否变成别人愿付费的东西？这是离"付费圈"最近的一步。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>接受它是动态的</h4><p>别焦虑"还没找到"，指南针本就在转——方向对，就值了。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>职业迷茫期</span>
+        <span>想转行 / 副业</span>
+        <span>工作空虚感</span>
+        <span>自我探索</span>
+        <span>生涯规划</span>
+        <span>意义感缺失</span>
+        <span>想找"天职"</span>
+        <span>任何"我到底该往哪去"的瞬间</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.04</div>
+    <p style="margin-top:.6rem;">找到热爱一生的事业 · 生命价值韦恩模型 Ikigai &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

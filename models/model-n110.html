@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>非线性模型 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <!-- 书签色带文案固定为「模型笔记」或「思维模型」 -->
+    <div class="ribbon">模型笔记</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.217</div>
+      <h1>非线性模型</h1>
+      <div class="subtitle">Nonlinear Model</div>
+      <div class="author">世界是曲线的，用直线思维期待回报，注定被现实打脸。</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 返回图鉴链接：并入主站后另注入「回主页」 -->
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 板块2：一句话总览 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        线性是"叠加"，非线性是"互相放大或抵消"。你的努力、投资、成长大多是非线性的——前期平缓、后期爆发，或前期猛、后期骤降。看错曲线形状，就预测错结果。
+      </div>
+      <!-- 板块3：模型卡 4 格 -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">数学与系统科学
+            <small>对"整体≠部分之和"的建模，复利、72 法则、索洛模型是其应用；岛主解读 / 思维模型合集</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">系统思维 / 经济学
+            <small>投资、学习、管理都绕不开</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">变量相互作用，结果被放大或反转
+            <small>凸函数斜率递增、凹函数斜率递减；不是简单相加</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">认知 / 决策
+            <small>校准你对"回报节奏"的预期</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块4：误用 vs 善用（左红右绿） -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>误用 vs 善用</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>用直线期待一切</h3>
+          <div class="en-name">Linear Expectation</div>
+          <ul class="trait-list">
+            <li>以为"多干一小时就多赚一小时"，把工资逻辑套到创业、投资上</li>
+            <li>项目前三个月没起色就放弃，看不懂指数曲线最骗人的开头</li>
+            <li>暴跌时还用线性思维"抄底"，没给非线性留一点缓冲</li>
+            <li>相信"延长工时=持续增长"，忽略体力和回报的半衰期</li>
+          </ul>
+          <div class="ex">例：手机"还能用"就不换，殊不知它每年折旧一半，真实价值早悄悄腰斩。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>看清曲线再下注</h3>
+          <div class="en-name">Read the Curve</div>
+          <ul class="trait-list">
+            <li>先判断面前是线性还是非线性，别用错预期模型</li>
+            <li>想指数增长就押注复利与创新，而非拼命堆叠时长</li>
+            <li>用 72 法则算翻倍：年利 9% 约 8 年翻一倍，给时间以耐心</li>
+            <li>给非线性留缓冲，暴跌不慌、爆发不飘，尊重曲线节奏</li>
+          </ul>
+          <div class="ex">例：岛主见过太多人项目前三月毫无起色就放弃，殊不知指数曲线最骗人的就是开头那段平平无奇。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块5：关键要点（3-6 张，复制 .bias 块增减） -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>关键要点</h2>
+        <span class="en">Key Points</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>整体 ≠ 部分之和</h4>
+          <p>线性是叠加，非线性是相互作用——结果会被放大、抵消或反转。存银行是线性，炒股是非线性。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>凸函数与凹函数</h4>
+          <p>斜率递增（人群里能结的"对"暴增）是凸，斜率递减（冰激凌吃第三盒没味）是凹。判断关键：这事是叠加，还是互相放大？</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>指数增长最骗开头</h4>
+          <p>棋盘放米第 64 格是 18.4 亿吨；复利同理，前期慢得可笑、后期快得吓人。好项目早期没人信，正因如此。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>半衰期与索洛模型</h4>
+          <p>手机每年折旧一半，是半衰期。长期增长只靠创新，延长工时只会低效——个人持续增长靠学习力。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块6：应用流程 / 场景地图（4-5 步，复制 .step 块增减） -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>怎么用起来</h2>
+        <span class="en">How to Use</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>识别曲线类型</h4>
+          <p>问自己：这事是叠加，还是互相放大 / 抵消？先把曲线形状认出来。</p>
+        </div>
+        <div class="step">
+          <h4>押注复利与创新</h4>
+          <p>想指数增长，就投时间和学习力，而非堆时长、熬工时。</p>
+        </div>
+        <div class="step">
+          <h4>用 72 法则做耐心</h4>
+          <p>年利 9% 约 8 年翻倍，给好项目足够长的 gestation 期，别三月就撤。</p>
+        </div>
+        <div class="step">
+          <h4>给非线性留缓冲</h4>
+          <p>暴跌别抄底、爆发别膨胀，尊重曲线的非线性，留好安全垫。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块7：金句（2-3 条，复制 .quote 块增减） -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>大脑爱直线求安全，现实爱曲线玩反转——承认非线性，才配得上复杂世界。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>指数前期最易被低估，这也是为什么好项目早期没人信。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 板块8：行动清单（4-6 条，复制 .action 块增减） -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>给手头事分类</h4><p>列出哪些线性积累、哪些指数爆发，别混用同一套预期。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>设一个"两年不看"的账户</h4><p>押注复利，前两年不焦虑、不频繁查看收益。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>项目卡第三月别急撤</h4><p>先确认它是不是指数曲线，再决定要不要坚持。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>别靠延长时间换增长</h4><p>把多出的工时拿来学新东西，对抗半衰期衰减。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>给暴跌留现金缓冲</h4><p>非线性会急跌，别满仓抄底，留好安全垫。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块9：适合谁 / 场景（标签云，复制 span 增减） -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>做投资 / 理财</span>
+        <span>个人成长规划</span>
+        <span>创业做项目</span>
+        <span>管理预期</span>
+        <span>看懂复利</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.217</div>
+    <p style="margin-top:.6rem;">非线性模型 · 世界是曲线的，别用直线期待它 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

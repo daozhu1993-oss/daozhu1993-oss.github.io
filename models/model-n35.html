@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>番茄工作法 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <!-- 书签色带文案固定为「模型笔记」或「思维模型」 -->
+    <div class="ribbon">模型笔记</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.142</div>
+      <h1>番茄工作法</h1>
+      <div class="subtitle">Pomodoro Technique</div>
+      <div class="author">把时间切成25分钟工作+5分钟休息的小番茄，用节奏对抗拖延。</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 返回图鉴链接：并入主站后另注入「回主页」 -->
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 板块2：一句话总览 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        番茄工作法说：把时间切成"25分钟专注+5分钟休息"的番茄，四个一轮长休一下。复杂的事最怕你不动手，而一个看得见的番茄钟，会让你告诉自己"就25分钟"，然后一下午干完三天的活。
+      </div>
+      <!-- 板块3：模型卡 4 格 -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">西里洛（Francesco Cirillo）1992<small>素材指出由意大利人西里洛于1992年发明</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">时间管理 · 效率方法<small>对抗拖延、专注执行</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">25分钟为不可中断工作单元，配5分钟休息，每4个长休<small>你衡量的不是几点到几点，而是"吃了几个番茄"</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">成长 / 方法<small>把大任务拆成一个个能啃的番茄</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块4：误用 vs 善用（左红右绿） -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>误用 vs 善用</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>多线程 + 无保护</h3>
+          <div class="en-name">The Fragmented Day</div>
+          <ul class="trait-list">
+            <li>一边回消息一边写方案，以为多线程高效，其实番茄全废。</li>
+            <li>任务太大不拆，估超7个番茄还硬扛，越做越丧。</li>
+            <li>被打断就重来也不记录，内部外部干扰全吃掉专注。</li>
+            <li>忙一天却没干正经活，因为从没排过优先级。</li>
+          </ul>
+          <div class="ex">例：一堆事压着连从哪下手都懒得想，刷手机到deadline前夜，啥正经活都没干。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>一个番茄一个啃</h3>
+          <div class="en-name">One Pomodoro at a Time</div>
+          <ul class="trait-list">
+            <li>一次只做一件事，把要紧事排头位，一个番茄一个番茄啃。</li>
+            <li>一个番茄不可分割：25分钟里被打断就重来，内部打断先记下来。</li>
+            <li>估不准就拆：超5-7个番茄说明太大，拆小；小于一个的合并。</li>
+            <li>每4个番茄真休息——喝水、发呆、别想工作，休息是强者的标配。</li>
+          </ul>
+          <div class="ex">例：岛主亲测：以前写稿拖到半夜，现在开25分钟钟告诉自己"就25分钟"，一下午干完三天活。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块5：关键要点（3-6 张，复制 .bias 块增减） -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三层，把节奏立住</h2>
+        <span class="en">Three Layers</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>一次只做一件事</h4>
+          <p>别想多线程，把要紧事排头位，一个番茄一个番茄啃，复杂的事就怕你不动手。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>一个番茄不可分割</h4>
+          <p>25分钟里被打断这番茄就废了重来；内部打断先记下，外部打断约到之后。保护你的番茄，别人早晚会尊重。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>估不准就拆</h4>
+          <p>一项任务估超5-7个番茄说明太大——拆小它；小于一个番茄的小事合并它。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>衡量单位是"番茄"</h4>
+          <p>你衡量的不是几点到几点，而是吃了几个番茄。量化专注，拖延就现原形。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">05</div>
+          <h4>休息也是任务</h4>
+          <p>每4个番茄真休息，喝水发呆别想工作——休息不是偷懒，是给下一个番茄充电。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块6：应用流程 / 场景地图（4-5 步，复制 .step 块增减） -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>上手四步</h2>
+        <span class="en">Get Started</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>列"今日番茄表"</h4>
+          <p>写下要做的，标好顺序，留一格给突发。先排优先级，才不会被杂事带跑。</p>
+        </div>
+        <div class="step">
+          <h4>开钟，只做一件</h4>
+          <p>设定25分钟，告诉自己"就25分钟"，期间一次只啃一件事。</p>
+        </div>
+        <div class="step">
+          <h4>打断全记下</h4>
+          <p>想起来的事写进清单，铃响前绝不跑偏；外部打扰约到番茄之后。</p>
+        </div>
+        <div class="step">
+          <h4>4个番茄真休息</h4>
+          <p>每完成4个番茄，喝水、发呆、远离屏幕，给大脑真正的恢复。</p>
+        </div>
+        <div class="step">
+          <h4>复盘番茄数</h4>
+          <p>一天结束看吃了几个番茄、卡在哪，明天把大任务拆得更准。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块7：金句（2-3 条，复制 .quote 块增减） -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>你不需要更多时间，你需要更少的分心。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>时间不再是敌人，成了你专注的容器。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>保护你的番茄，别人早晚会尊重。</p>
+          <span class="src">岛主</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 板块8：行动清单（4-6 条，复制 .action 块增减） -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>今天列一张番茄表</h4><p>写下3件要事+顺序，留一格给突发，马上开第一个钟。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>设25分钟不可打断</h4><p>开钟后任何内部杂念先记纸上，铃响前不碰。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>大任务拆成番茄</h4><p>任何超5-7个番茄的活，立刻拆成能一口啃下的小块。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>强制每4个长休</h4><p>别连轴转，4个番茄后真去喝水发呆，休息是标配。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>晚报"番茄数"</h4><p>睡前记今天吃了几个番茄，一周就能看出拖延在哪。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 板块9：适合谁 / 场景（标签云，复制 span 增减） -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>对抗拖延</span>
+        <span>时间管理</span>
+        <span>专注执行</span>
+        <span>高效学习</span>
+        <span>自由职业</span>
+        <span>学生党</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.142</div>
+    <p style="margin-top:.6rem;">番茄工作法 · 25分钟一个小番茄，用节奏把拖延啃下来 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>产品市场匹配 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;margin-bottom:.6rem;}
+  footer .flinks{display:flex;flex-direction:column;gap:.5rem;align-items:center;margin-bottom:1.2rem;}
+  footer .flinks .back{margin-bottom:0;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.03</div>
+      <h1>产品市场匹配</h1>
+      <div class="subtitle">Product-Market Fit</div>
+      <div class="author">马克·安德森 &nbsp;·&nbsp; <b>Marc Andreessen</b> &nbsp;·&nbsp; Netscape 创始人 · PMF 理论提出者</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 一句话总览 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        PMF（Product-Market Fit）是产品与市场的「严丝合缝」——用户用了就走不了、主动替你传播；没到 PMF，加功能、招销售都白搭，增长会自己长出来，像开了闸的水，挡都挡不住。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">马克·安德森<small>Marc Andreessen，Netscape 创始人，点破「在 PMF 之前，所有扩张都是浪费」。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">产品 / 增长 / 创业<small>产品冷启动、验证需求、决定何时扩张的底层判断。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">产品与市场的严丝合缝<small>用户非用你不可、主动传播，而非你求着转。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">验证层 / 战略起点<small>在「想做」之前，先确认「用户真想要」。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>没匹配就扩张 vs 先确认 PMF</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>没匹配就加速</h3>
+          <div class="en">Scaling Before Fit</div>
+          <ul class="trait-list">
+            <li>产品刚上线就猛砸推广，钱烧完没人留</li>
+            <li>漏斗灌得满，留存漏得空，像往破桶里灌水</li>
+            <li>功能都齐了，用户却不买账</li>
+            <li>怪渠道、怪文案，就是不怪没匹配</li>
+          </ul>
+          <div class="ex">例：一个 SaaS 团队还没验证留存就铺了 20 个销售，三个月烧光融资，回头才发现产品根本没留住人。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>先确认 PMF</h3>
+          <div class="en">Confirm Fit, Then Scale</div>
+          <ul class="trait-list">
+            <li>先死磕「用户最痛的那一环」，留存真爬升</li>
+            <li>到 PMF 后，增长自己长出来，挡都挡不住</li>
+            <li>没到之前，砍一切扩张动作，只磨产品</li>
+            <li>先有一个理由让人非用不可，再谈功能堆</li>
+          </ul>
+          <div class="ex">例：Airbnb 早期没急着投广告，先做到房东真能把房租出去，口碑才把盘子撑开；Slack 先有铁粉再扩圈。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三个拼图 + 一把体温计</h2>
+        <span class="en">The Fit Puzzle</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">01</div>
+          <h4>价值定位——凭啥被需要</h4>
+          <p>说不清价值，再多功能也是噪音。你得一句话讲明白「凭啥选你」，含糊就是没价值，用户记不住也不想记。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">02</div>
+          <h4>未被满足的需求——痛到不行</h4>
+          <p>不是「想要更好」，是「痛到不行」。需求不痛，匹配就松，人家忍忍就用老办法对付了，你的产品成了可选而非必需，可有可无最惨。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">03</div>
+          <h4>体验与功能——真能接住需求</h4>
+          <p>产品能不能真的接住需求。细节劝退比功能缺失更致命，第一印象定生死，到嘴的鸭子也能飞。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">04</div>
+          <h4>PMF 的真体温——留存与复购</h4>
+          <p>别被注册量哄骗，留存和复购才是 PMF 的真体温，虚胖不是健康。核心行为周留存过 40%、NPS 正且愿转介绍，才算摸到边。</p>
+          <div class="eg"><b>岛主提醒：</b>靠补贴把留存撑到 30% 就宣布「验证成功」，撤补贴当天掉到 8%——那不是 PMF，是花钱买来的幻觉。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">05</div>
+          <h4>最便宜的验证方式</h4>
+          <p>找一小撮人深度用起来、天天追着你要功能，而不是广撒网看谁留下。微信当年先把通讯这一件事做到极致，用户离不了才长出朋友圈、支付。</p>
+        </div>
+        <div class="bias">
+          <div class="idx">06</div>
+          <h4>顺序错，全盘皆输</h4>
+          <p>先有真需求，再谈增长。若一开始堆齐所有功能，反而谁都记不住。PMF 的本质是「一个理由让人非用你不可」，不是「一堆功能让人挑」。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三步验证 PMF</h2>
+        <span class="en">Validate the Fit</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>问「不用它会怎样」</h4>
+          <p>找 10 个目标用户，问「不用它会怎样」——痛才是真需求，不痛就是伪需求。</p>
+        </div>
+        <div class="step">
+          <h4>只看一个指标</h4>
+          <p>只看留存 / 复购有没有自然爬升，别被注册量骗了。虚胖不是健康。</p>
+        </div>
+        <div class="step">
+          <h4>没到 PMF 前砍扩张</h4>
+          <p>没到 PMF 前，砍一切扩张动作，只磨产品，省钱也省命。</p>
+        </div>
+        <div class="step">
+          <h4>用留存当体温计</h4>
+          <p>用留存和复购当体温计，核心行为周留存过 40%、用户主动推荐，才算摸到 PMF 的边。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>在 PMF 之前，所有扩张都是浪费。</p>
+          <span class="src">马克·安德森</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>没匹配就加速，是把油门焊死在悬崖边。</p>
+          <span class="src">扩张的代价</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>PMF 的本质是「一个理由让人非用你不可」，不是「一堆功能让人挑」。</p>
+          <span class="src">岛主批注</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>用留存和复购当体温计</h4><p>别被注册量哄骗，虚胖不是健康，留存和复购才是 PMF 的真体温。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>找 10 个用户问「不用它会怎样」</h4><p>痛才是真需求，不痛就是伪需求，这一句筛掉大半自嗨。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>没到 PMF 前砍一切扩张</h4><p>只磨产品，省钱也省命，别拿融资交学费。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>用最小方式验证</h4><p>找一小撮人深度用起来、天天追着你要功能，而不是广撒网看谁留下。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>警惕补贴撑起的留存</h4><p>撤补贴就掉的不是 PMF，是花钱买来的幻觉，别被自己骗了。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>先做一个非用不可的理由</h4><p>不是堆一堆功能让人挑，而是给一个理由让人非用你不可。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>创业团队冷启动</span>
+        <span>SaaS 产品验证</span>
+        <span>增长负责人</span>
+        <span>投资人看项目</span>
+        <span>产品立项评审</span>
+        <span>任何"先扩张还是先验证"的时刻</span>
+        <span>功能堆了一堆却没人留</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="flinks">
+      <a class="back" href="index.html">← 返回思维模型图鉴</a>
+      <a class="back" href="../index.html" style="color:var(--ink-faint)">← 回岛主主页</a>
+    </div>
+    <div class="mark">思 维 模 型 图 鉴 · No.03</div>
+    <p style="margin-top:.6rem;">产品市场匹配 · 马克·安德森 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+
+</body>
+</html>

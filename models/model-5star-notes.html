@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>五星笔记法 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
+  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
+  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
+  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
+  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
+  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
+  .bias .eg b{color:var(--ribbon);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .template-box{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--ribbon);
+    border-radius:10px;padding:1.6rem 1.8rem;box-shadow:0 10px 24px var(--shadow);font-family:var(--serif);font-size:1.05rem;line-height:1.95;}
+  .template-box .row{margin-bottom:.7rem;}
+  .template-box .rk{color:var(--ribbon);font-weight:700;font-family:var(--display);font-style:italic;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .overview{padding:1.4rem 1.3rem;}
+    .sec-head{gap:.7rem;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">思维模型</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.07</div>
+      <h1>五星笔记法</h1>
+      <div class="subtitle">Five-Star Note-Taking</div>
+      <div class="author">岛主解读 &nbsp;·&nbsp; <b>知识管理方法论</b> &nbsp;·&nbsp; 把输入变成可复用认知资产</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+          五星笔记法不是"录音笔式"的抄写，而是"加工厂式"的思维流水线——五个问题回答完，笔记才算做完，每一次输入都变成可复用的认知资产。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">岛主思维模型解读<small>源自"把知识加工成资产"的复盘与学习方法论。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">学习 / 知识管理 / 复盘<small>听课、读书、开会全场景通用。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Core Definition</div>
+          <div class="value">五问加工流水线<small>预判 → 逻辑 → 启发 → 模型 → 行动。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Thinking Layer</div>
+          <div class="value">框架型<small>用固定五问，把一次性知识变可复用能力。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section id="compare">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>录音笔式 vs 加工厂式</h2>
+        <span class="en">Bad vs Good</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">✕</div>
+          <h3>录音笔式笔记</h3>
+          <div class="en">Dictaphone Notes</div>
+          <ul class="trait-list">
+            <li>记满满几页，然后永远不再翻开</li>
+            <li>只剩零散关键词，复盘时连不起来</li>
+            <li>做逐字稿，内容无穷记不完</li>
+            <li>学了很多，真正能用的少得可怜</li>
+          </ul>
+          <div class="ex">例：开完会记了三页，月底复盘想找当时的思考，却一片空白。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">✓</div>
+          <h3>加工厂式笔记</h3>
+          <div class="en">Processing Plant</div>
+          <ul class="trait-list">
+            <li>带着预判进场，从被动接收变主动对话</li>
+            <li>记结构不记内容，掌握逻辑就能复现</li>
+            <li>保留灵感启发，连接新旧经验</li>
+            <li>提炼模型、写出行动，笔记才算做完</li>
+          </ul>
+          <div class="ex">例：听课时只画逻辑图+记 3 个"啊哈"，听完立刻写出可复用模型与行动。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键要点：五问 -->
+    <section id="points">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>五星五问拆解</h2>
+        <span class="en">The Five Stars</span>
+      </div>
+      <div class="bias-grid">
+        <div class="bias">
+          <div class="idx">★1</div>
+          <h4>预判核心内容</h4>
+          <p>开讲前先问"如果我是讲者会讲什么"。激活已有知识，从被动接收变主动对话；不一致时获得最宝贵的认知冲突。记 3 个预判点。</p>
+          <div class="eg"><b>记什么：</b>写下你的 3 个预判点。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">★2</div>
+          <h4>记录讲解逻辑</h4>
+          <p>别做逐字稿！关注讲者如何组织：先讲啥后讲啥、用什么案例、逻辑主线是什么。内容是无穷的，逻辑是有限的。</p>
+          <div class="eg"><b>记什么：</b>画一个逻辑流程图或思维导图。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">★3</div>
+          <h4>记下疑问启发</h4>
+          <p>随时记录闪现的疑问、联想、灵感。这是大脑主动加工的产物，是连接新知识与旧经验的桥梁，最值得保留。</p>
+          <div class="eg"><b>记什么：</b>任何让你"啊哈"或"嗯？"的东西。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">★4</div>
+          <h4>提炼思维模型</h4>
+          <p>听完后问：解决问题的方法能提炼成可复用的"公式"或"模型"吗？这是把"一次性知识"转成"可复用能力"的关键。</p>
+          <div class="eg"><b>记什么：</b>用一两句话写出你提炼的模型。</div>
+        </div>
+        <div class="bias">
+          <div class="idx">★5</div>
+          <h4>采取行动</h4>
+          <p>问自己：听完我要做什么？知识不落地永远是别人的，只有行动才能把认知变成你的。</p>
+          <div class="eg"><b>记什么：</b>写下 1-3 条具体、可执行的下一步。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 应用流程：填空模板 -->
+    <section id="flow">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>万能模板（直接填空）</h2>
+        <span class="en">The Five-Star Template</span>
+      </div>
+      <div class="template-box">
+        <div class="row"><span class="rk">★</span> 预判：开讲前，我预判核心内容是 ______ 、 ______ 、 ______。</div>
+        <div class="row"><span class="rk">★</span> 逻辑：讲者的逻辑主线是：______ → ______ → ______。</div>
+        <div class="row"><span class="rk">★</span> 启发：过程中我的灵感 / 疑问：______。</div>
+        <div class="row"><span class="rk">★</span> 模型：我提炼出的可复用方法 / 模型：______。</div>
+        <div class="row"><span class="rk">★</span> 行动：听完后我要做的 3 件事：1.______ 2.______ 3.______。</div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section id="quotes">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>模型金句</h2>
+        <span class="en">In a Nutshell</span>
+      </div>
+      <div class="quotes">
+        <blockquote class="quote">
+          <p>笔记的真正价值，不在于"记下了什么"，而在于"加工出了什么"。</p>
+          <span class="src">五星笔记法的灵魂</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>内容是无穷的，逻辑是有限的。掌握逻辑，你就能复现内容。</p>
+          <span class="src">第二星的道理</span>
+        </blockquote>
+        <blockquote class="quote">
+          <p>不行动的笔记 = 0。知识只有落地，才会变成你的。</p>
+          <span class="src">第五星的意义</span>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section id="actions">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>马上能用的事</h2>
+        <span class="en">Put It to Work</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>下次听课先写 3 个预判</h4><p>开讲前先问"我会讲什么"，把耳朵从被动调成主动。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>只画逻辑不抄逐字</h4><p>用一张流程图代替三页稿，省时还更记得住。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>随身记"啊哈"</h4><p>灵感最值钱，闪现就记，别等"待会再想"。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>逼自己提炼一句模型</h4><p>听完问"能变成可复用公式吗"，把知识变能力。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>写 1-3 条具体行动</h4><p>笔记结尾必须落行动，不行动等于白记。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>存成模板反复用</h4><p>把五星模板存进笔记软件，听课/读书/开会都套它。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适用场景 -->
+    <section id="when">
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>什么时候该掏出它</h2>
+        <span class="en">When to Use</span>
+      </div>
+      <div class="who">
+        <span>听课 / 培训</span>
+        <span>读书笔记</span>
+        <span>开会记录</span>
+        <span>复盘总结</span>
+        <span>知识管理</span>
+        <span>高效学习</span>
+        <span>任何"想把输入变资产"的场景</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="mark">思 维 模 型 图 鉴 · No.07</div>
+    <p style="margin-top:.6rem;">五星笔记法 · 岛主解读 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
+  </footer>
+</body>
+</html>

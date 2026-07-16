@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>思考战略罗盘 · 思维模型图鉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
+    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
+    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
+    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
+    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
+    --display:"Playfair Display",var(--serif);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
+    background-color:var(--paper);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
+      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
+    background-attachment:fixed,fixed,fixed;}
+  ::selection{background:var(--accent-soft);color:#3a2c14;}
+
+  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
+    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
+    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
+  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
+  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
+    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
+    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
+  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
+  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
+  .hero .author b{color:#f6efe0;font-weight:600;}
+  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
+    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
+    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+
+  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
+  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
+  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
+  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
+
+  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
+    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
+  .overview .lead-quote{color:var(--accent);font-weight:600;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
+  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
+  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
+  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
+  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+
+  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
+  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
+  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
+  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
+  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
+  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
+  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
+  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
+  .sys-good .trait-list li::before{background:#5d7a6a;}
+  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+
+  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
+
+  /* 战略罗盘 2x2 */
+  .compass{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:2px;max-width:740px;margin:0 auto;
+    background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 14px 32px var(--shadow);}
+  .compass .quad{background:var(--card);padding:1.7rem 1.6rem;min-height:188px;position:relative;}
+  .compass .quad.q-good{background:linear-gradient(160deg,#fdf7e9,#f5e9cf);}
+  .compass .quad.q-fast{background:linear-gradient(160deg,#faf3ea,#f2e5d6);}
+  .compass .q-name{font-family:var(--serif);font-weight:700;font-size:1.2rem;margin-bottom:.15rem;}
+  .compass .q-en{font-family:var(--display);font-style:italic;font-size:.8rem;color:var(--ink-faint);margin-bottom:.7rem;}
+  .compass .q-q{font-size:.92rem;color:var(--ribbon);font-weight:700;margin-bottom:.6rem;}
+  .compass .quad ul{list-style:none;display:flex;flex-direction:column;gap:.42rem;}
+  .compass .quad ul li{font-size:.84rem;color:var(--ink-soft);padding-left:1rem;position:relative;line-height:1.5;}
+  .compass .quad ul li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .compass .center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;
+    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-family:var(--serif);font-weight:700;font-size:.82rem;line-height:1.25;
+    box-shadow:0 4px 14px rgba(124,45,45,.4);z-index:4;letter-spacing:.05em;}
+  .compass-note{text-align:center;margin-top:1.3rem;font-family:var(--serif);font-size:1rem;color:var(--ink-soft);}
+
+  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;counter-reset:step;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.4rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
+    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
+  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
+  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+
+  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
+  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
+  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
+  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
+  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
+  .quote .src::before{content:"— ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
+  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
+  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
+  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+
+  .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
+  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+
+  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
+  .back:hover{text-decoration:underline;}
+
+  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
+  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
+
+  @media (max-width:680px){
+    .dual{grid-template-columns:1fr;}
+    main{padding:0 5vw 4rem;}
+    .hero{padding:0 5vw 11vh;min-height:68vh;}
+    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+    .compass{grid-template-columns:1fr;}
+    .compass .center{display:none;}
+    .compass .quad{min-height:auto;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="ribbon">模型笔记</div>
+    <div class="hero-inner">
+      <div class="kicker">Thinking Model · No.30</div>
+      <h1>思考战略罗盘</h1>
+      <div class="subtitle">Strategic Compass</div>
+      <div class="author">岛主解读 &nbsp;·&nbsp; <b>战略落地框架</b> &nbsp;·&nbsp; 商业框架 / 思维模型</div>
+    </div>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← 返回思维模型图鉴</a>
+    <a class="back" href="../index.html" style="margin-left:1.4rem;color:var(--ink-faint)">← 回岛主主页</a>
+
+    <!-- 总览 + 模型信息 -->
+    <section id="intro">
+      <div class="overview">
+        <span class="lead-quote">一句话总览：</span>
+        真正的战略不是一句口号，而是四个维度同时回答一个问题——凭什么赢、去哪怎么去、变了怎么办、能不能做到。大多数公司的战略只做了四分之一，所以永远停在 PPT 上。
+      </div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Origin</div>
+          <div class="value">岛主解读 · 战略落地框架<small>素材未明示单一提出者，按「岛主解读」框架整理，不杜撰权威出处。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Field</div>
+          <div class="value">战略管理 / 商业框架<small>解决「战略制定后无法落地」这一最普遍的管理痛点。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Definition</div>
+          <div class="value">四象限导航图<small>用「好战略·有战略·快战略·实战略」把一句战略口号变成可落地的罗盘。</small></div>
+        </div>
+        <div class="info-card">
+          <div class="label">Level</div>
+          <div class="value">框架型 / 战略型<small>属于「框架型」— 用来结构化拆解与导航一个复杂问题。</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 误用对比 -->
+    <section>
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>残缺战略 vs 完整罗盘</h2>
+        <span class="en">Quarter vs. Full Compass</span>
+      </div>
+      <div class="dual">
+        <div class="sys sys-bad">
+          <div class="num">¼</div>
+          <h3>残缺战略（只做四分之一）</h3>
+          <div class="en-name">The Quarter Strategy</div>
+          <ul class="trait-list">
+            <li>年度战略会只在画「有战略」那一格——定目标、排计划、分任务</li>
+            <li>从没认真想「凭什么赢」，竞争优势是空的</li>
+            <li>没建应变机制，竞品一动就慌，不知该坚持还是掉头</li>
+            <li>没盘点组织能力，目标再宏大也是空谈</li>
+          </ul>
+          <div class="ex">结果：年底一看，年初定的「战略目标」一个都没落地——因为另外三个象限根本没写。</div>
+        </div>
+        <div class="sys sys-good">
+          <div class="num">4</div>
+          <h3>完整罗盘战略（四个锚点同时撑住）</h3>
+          <div class="en-name">The Full Compass</div>
+          <ul class="trait-list">
+            <li><b>好战略</b>：想清凭什么赢（定位 → 竞争优势 → 产业生态）</li>
+            <li><b>有战略</b>：画清去哪、怎么去（战略地图 + 战略意图）</li>
+            <li><b>快战略</b>：建应变机制（敏捷迭代 + 认知升级）</li>
+            <li><b>实战略</b>：盘清组织能力（资源杠杆 + 跨越鸿沟）</li>
+          </ul>
+          <div class="ex">战略是一张需要四个锚点同时撑住的网。少一个锚点，整张网就兜不住任何东西。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 四象限罗盘 -->
+    <section>
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>一张罗盘，四个锚点</h2>
+        <span class="en">Four Quadrants, One Compass</span>
+      </div>
+      <div class="compass">
+        <div class="quad q-good">
+          <div class="q-name">好战略</div>
+          <div class="q-en">Good Strategy · Why We Win</div>
+          <div class="q-q">我们凭什么赢？</div>
+          <ul>
+            <li>定位视角：选对战场，不在红海里硬拼</li>
+            <li>竞争优势：找到别人抄不走的差异化</li>
+            <li>产业生态：让生态伙伴跟着你一起强</li>
+            <li><b>核心句：与众不同，由外及内</b></li>
+          </ul>
+        </div>
+        <div class="quad">
+          <div class="q-name">有战略</div>
+          <div class="q-en">Have Strategy · Where &amp; How</div>
+          <div class="q-q">我们要去哪、怎么去？</div>
+          <ul>
+            <li>规划视角：把方向变成可讲的蓝图</li>
+            <li>战略地图：把目标拆成可执行路线图</li>
+            <li>战略意图：明确「不做」什么和「做」一样重要</li>
+            <li>提醒：光有这块，只是战略的一半</li>
+          </ul>
+        </div>
+        <div class="quad">
+          <div class="q-name">实战略</div>
+          <div class="q-en">Solid Strategy · Can We Do It</div>
+          <div class="q-q">我们有本事做到吗？</div>
+          <ul>
+            <li>内部稳定性：组织稳不稳</li>
+            <li>资源杠杆：手里的牌够不够</li>
+            <li>组织能力：团队能不能扛</li>
+            <li>跨越鸿沟：从「现在的能力」到「战略需要的能力」</li>
+          </ul>
+        </div>
+        <div class="quad q-fast">
+          <div class="q-name">快战略</div>
+          <div class="q-en">Fast Strategy · If It Changes</div>
+          <div class="q-q">环境变了怎么办？</div>
+          <ul>
+            <li>外部适应性：市场变了接不接得住</li>
+            <li>敏捷迭代：小步快跑，不一次定终身</li>
+            <li>认知升级：老板的认知天花板 = 战略天花板</li>
+            <li><b>核心句：不能进化的战略，就是一张废纸</b></li>
+          </ul>
+        </div>
+        <div class="center">战略<br>罗盘</div>
+      </div>
+      <p class="compass-note">好战略与有战略在上方（定方向），实战略与快战略在下方（稳落地、能应变）。四象限缺任何一个，战略都是残废。</p>
+    </section>
+
+    <!-- 应用流程 -->
+    <section>
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>三步用起来</h2>
+        <span class="en">Three Moves</span>
+      </div>
+      <div class="flow">
+        <div class="step">
+          <h4>填满四象限</h4>
+          <p>拿出你最新的战略 PPT，对着四个区域逐个检查：好战略？有战略？快战略？实战略？哪个区域是空的？哪个只有一句空话？</p>
+        </div>
+        <div class="step">
+          <h4>找缺口</h4>
+          <p>大多数公司缺的是「实战略」——认真算清要做到这件事，团队需要什么能力、现在差多少、怎么补。这是最扎心也最该补的一块。</p>
+        </div>
+        <div class="step">
+          <h4>定期转一圈</h4>
+          <p>战略不是年初定完就锁进抽屉。每个季度拿这张罗盘重新审视一遍：外部环境变了没？我们的优势还在吗？组织能力跟上目标了吗？</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 金句 -->
+    <section>
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>金句</h2>
+        <span class="en">Sharp Lines</span>
+      </div>
+      <div class="quotes">
+        <div class="quote">
+          <p>与众不同，由外及内。</p>
+          <span class="src">好战略 · 思考战略罗盘</span>
+        </div>
+        <div class="quote">
+          <p>不能进化的战略，就是一张废纸。</p>
+          <span class="src">快战略 · 思考战略罗盘</span>
+        </div>
+        <div class="quote">
+          <p>四象限缺任何一个，战略都是残废。</p>
+          <span class="src">思考战略罗盘</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 行动清单 -->
+    <section>
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>明天就能做</h2>
+        <span class="en">Do Tomorrow</span>
+      </div>
+      <div class="actions">
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>战略会前先自问四问</h4><p>凭什么赢？去哪怎么去？变了怎么办？能做到吗？先把这四问写在会议邀请里。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>补上「实战略」</h4><p>列出目标与现有组织能力的鸿沟，排出补能力的计划——这是多数公司唯一的缺口。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>战略 PPT 加一页罗盘</h4><p>四个区都填满、不许留白，再拿去上会。空着一格的，当场打回补。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>每季度转一圈</h4><p>固定节奏拿罗盘更新三问：外部变没变？优势还在？能力跟上目标？</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>把「不做什么」写进战略意图</h4><p>明确放弃什么，和明确做什么同样重要——战略是取舍，不是清单。</p></div>
+        </div>
+        <div class="action">
+          <span class="check">✓</span>
+          <div><h4>建「快战略」应变机制</h4><p>竞品一动就慌？提前设好敏捷迭代 + 认知升级的触发条件，别等乱了再想。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 适合谁 -->
+    <section>
+      <div class="sec-head">
+        <span class="tag"></span>
+        <h2>适合谁 / 什么场景</h2>
+        <span class="en">For Whom</span>
+      </div>
+      <div class="who">
+        <span>战略制定</span>
+        <span>年度规划</span>
+        <span>创业方向</span>
+        <span>业务复盘</span>
+        <span>组织能力盘点</span>
+        <span>竞品应对</span>
+        <span>管理者</span>
+        <span>创业者</span>
+        <span>企业战略</span>
+        <span>个人职业规划</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>思维模型图鉴 · 岛主解读系列 — 把一句口号，变成一张能落地的罗盘。</p>
+    <p style="margin-top:.4rem"><a href="../index.html" style="color:var(--ink-faint);text-decoration:none">← 回岛主主页（王仙客在岛上）</a></p>
+  </footer>
+
+</body>
+</html>

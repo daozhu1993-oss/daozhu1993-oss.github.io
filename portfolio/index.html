@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>职业档案 · 岛主</title>
+  <meta name="description" content="岛主（站名 王仙客在岛上）的职业档案 —— 从影视编剧到 AI 创新产品总监。">
+  <meta property="og:title" content="职业档案 · 岛主">
+  <meta property="og:description" content="从影视编剧到 AI 创新产品总监 —— 用讲故事的方法做产品，也用做产品的方法写故事。">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --mid: #888888;
+      --line: #e8e8e6;
+      --shadow: rgba(0,0,0,0.08);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, 'PingFang SC', 'Microsoft YaHei', monospace;
+      font-size: 14px; line-height: 1.6; padding: 56px 24px 96px;
+    }
+    a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+    a:hover { text-decoration-color: var(--text); }
+
+    .pf-wrap { max-width: 860px; margin: 0 auto; }
+
+    .pf-back { font-size: 12px; color: var(--mid); text-decoration: none; }
+    .pf-back:hover { color: var(--text); }
+
+    .pf-hero { margin: 36px 0 56px; }
+    .pf-name { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
+    .pf-headline { font-size: 16px; font-weight: 600; line-height: 1.5; max-width: 40ch; }
+    .pf-alias { font-size: 12px; color: var(--mid); margin-top: 12px; }
+
+    .pf-section { margin-bottom: 64px; }
+    .pf-section-title {
+      font-size: 11px; font-weight: 500; color: var(--mid);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding-bottom: 14px; margin-bottom: 28px; border-bottom: 1px solid var(--line);
+    }
+    .pf-note { font-size: 12px; color: var(--mid); margin: -14px 0 22px; line-height: 1.7; }
+
+    /* ── Timeline ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item {
+      display: grid; grid-template-columns: 120px 1fr; gap: 24px;
+      padding: 22px 0; border-bottom: 1px dashed var(--line); position: relative;
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-year { font-size: 13px; color: var(--mid); font-variant-numeric: tabular-nums; padding-top: 1px; }
+    .tl-body { font-size: 13px; line-height: 1.75; }
+    .tl-body b { font-weight: 600; }
+    .tl-body br { margin-bottom: 4px; }
+
+    /* ── Work cards (往期作品) ── */
+    .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .wcard {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      padding: 18px 18px 16px; transition: border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out), transform 240ms var(--ease-out);
+    }
+    .wcard:hover { border-color: var(--mid); box-shadow: 0 14px 36px var(--shadow); transform: translateY(-3px); }
+    .wcard .wtype { font-size: 10px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.06em; }
+    .wcard .wtitle { font-size: 14px; font-weight: 500; margin: 8px 0 6px; line-height: 1.45; }
+    .wcard .wyear { font-size: 11px; color: var(--mid); }
+
+    /* ── Project cards ── */
+    .proj-grid { display: flex; flex-direction: column; gap: 16px; }
+    .pcard {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      padding: 22px 24px; transition: border-color 240ms var(--ease-out), box-shadow 240ms var(--ease-out), transform 240ms var(--ease-out);
+    }
+    .pcard:hover { border-color: var(--mid); box-shadow: 0 16px 40px var(--shadow); transform: translateY(-3px); }
+    .pcard .phead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .pcard .ptitle { font-size: 15px; font-weight: 600; }
+    .pcard .pco { font-size: 11px; color: var(--mid); }
+    .pcard .pdesc { font-size: 13px; color: var(--text); line-height: 1.75; margin-top: 10px; }
+
+    /* ── Contact ── */
+    .pf-contact { border-top: 1px solid var(--line); padding-top: 28px; }
+    .pf-contact-row { display: flex; flex-wrap: wrap; gap: 18px; margin: 18px 0 12px; }
+    .pf-contact-row a { font-size: 13px; }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 18px 72px; }
+      .tl-item { grid-template-columns: 84px 1fr; gap: 14px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .pf-name { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="pf-wrap">
+    <a class="pf-back" href="../index.html">← 回到岛主的主页</a>
+
+    <header class="pf-hero">
+      <div class="pf-name">岛主</div>
+      <div class="pf-headline">从影视编剧到 AI 创新产品总监 —— 用讲故事的方法做产品，也用做产品的方法写故事。</div>
+      <div class="pf-alias">站名 / 笔名：王仙客在岛上</div>
+    </header>
+
+    <section class="pf-section">
+      <div class="pf-section-title">职业弧线 · Trajectory</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2013–2019</div>
+          <div class="tl-body"><b>影视 / 儿童内容编剧</b><br>长篇小说、舞台剧、电影剧本、漫画、广告片、定格动画——在成为产品人之前，先是一个写故事的人。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2020–2022</div>
+          <div class="tl-body"><b>好未来 · 儿童动画编剧</b><br>小猴语文世界观与剧本，从 0-1 搭建 L3 人设与剧情体系。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2022–2024</div>
+          <div class="tl-body"><b>好未来 IED · 创新产品策划</b><br>学而思智能学习机 AI 小思人设 / 世界观架构；摩比系列益智游戏策划。</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2024–2025</div>
+          <div class="tl-body"><b>乐乐趣 AI 数字研究院 · 创新产品总监</b><br>AI 乐乐小程序、亲子阅读创新产品，从产品创新视角寻找图书增长第二曲线。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf-section">
+      <div class="pf-section-title">往期作品 · Selected Works</div>
+      <p class="pf-note">2013–2022 年间发表 / 出售的代表作。多数未公开数字版；如你有对应链接，发我即可接入卡片跳转。</p>
+      <div class="work-grid">
+        <div class="wcard"><div class="wtype">长篇小说</div><div class="wtitle">《徐福&amp;寻仙记》</div><div class="wyear">2013–2015</div></div>
+        <div class="wcard"><div class="wtype">长篇小说</div><div class="wtitle">《驾驶我的车》</div><div class="wyear">2013–2015</div></div>
+        <div class="wcard"><div class="wtype">舞台剧</div><div class="wtitle">《春风不解意》</div><div class="wyear">2013–2015</div></div>
+        <div class="wcard"><div class="wtype">舞台剧</div><div class="wtitle">《秦骏》</div><div class="wyear">2018</div></div>
+        <div class="wcard"><div class="wtype">电影剧本</div><div class="wtitle">《秋水》《那些忧伤的》</div><div class="wyear">2017 · 出售</div></div>
+        <div class="wcard"><div class="wtype">电影剧本</div><div class="wtitle">《雨夜杀人事件》《她杀》</div><div class="wyear">2018 · 出售</div></div>
+        <div class="wcard"><div class="wtype">漫画</div><div class="wtitle">《虹光精舍》佛教文化系列</div><div class="wyear">2016</div></div>
+        <div class="wcard"><div class="wtype">定格动画</div><div class="wtitle">《月兔下凡记》</div><div class="wyear">2020</div></div>
+        <div class="wcard"><div class="wtype">短剧</div><div class="wtitle">《如果王家卫来拍》</div><div class="wyear">2022</div></div>
+        <div class="wcard"><div class="wtype">图书</div><div class="wtitle">《儿童公德教育剧本》</div><div class="wyear">2016</div></div>
+        <div class="wcard"><div class="wtype">广告片</div><div class="wtitle">《守护味道》《海鑫宣传片》等</div><div class="wyear">2017–2019</div></div>
+      </div>
+    </section>
+
+    <section class="pf-section">
+      <div class="pf-section-title">产品项目 · Product Work</div>
+      <div class="proj-grid">
+        <div class="pcard">
+          <div class="phead"><div class="ptitle">AI 乐乐小程序体验升级</div><div class="pco">乐乐趣 · 创新产品总监 · 2024–2025</div></div>
+          <div class="pdesc">0-1 搭建 AI 与硬件点读笔、乐乐趣学习资源的产品框架；基于语音交互重新定位产品，落地 MVP 版交互框架，并调整资源架构。从产品创新视角寻找图书增长乏力的第二曲线。</div>
+        </div>
+        <div class="pcard">
+          <div class="phead"><div class="ptitle">AI 小思 · 学而思智能学习机</div><div class="pco">好未来 IED · 创新产品策划 · 2022–2024</div></div>
+          <div class="pdesc">0-1 搭建 AI 小思人设与系统世界观：如何让孩子觉得它是伙伴。从科技之美赋予人文之灵性，打造具情感标识、益智陪伴属性的 AI IP，贯穿学、练、测、评中的互动。</div>
+        </div>
+        <div class="pcard">
+          <div class="phead"><div class="ptitle">摩比魔法七巧板 / 摩比爱写字</div><div class="pco">好未来 · 游戏产品策划 · 2020–2024</div></div>
+          <div class="pdesc">面向 3-12 岁孩子的益智游戏：世界观方向规划、剧情地图与节点大纲、激励体系、原画 / UI 沟通与剧情优化，从编剧视角把游戏体验做透。</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pf-contact">
+      <div class="pf-section-title">联系 · Contact</div>
+      <div class="pf-contact-row">
+        <a href="mailto:291716178@qq.com">291716178@qq.com</a>
+        <a href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener">知乎 ↗</a>
+        <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener">公众号 ↗</a>
+      </div>
+      <p class="pf-note">电话暂不公开，合作请走邮箱或公众号。</p>
+    </footer>
+  </div>
+  <script>
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
+    });
+  </script>
+</body>
+</html>

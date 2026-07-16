@@ -1,0 +1,5 @@
+.DS_Store
+*.bak
+*_bak*
+_gen_*.js
+node_modules/

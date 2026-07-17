@@ -10,17 +10,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #16130f;
-      --ink: #ece6da;
-      --ink-soft: #b3aca1;
-      --ink-dim: #6c655b;
-      --accent: #cdaa6a;
+      --bg: #eae6de;
+      --paper: #f5f2ec;
+      --ink: #2a2420;
+      --ink-soft: #6b6157;
+      --ink-dim: #9e9284;
+      --accent: #8c5a3c;
       --ease: cubic-bezier(0.23, 1, 0.32, 1);
     }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
     body {
-      background: var(--bg); color: var(--ink);
+      background:
+        linear-gradient(90deg, transparent 0 24px, rgba(176, 160, 140, 0.12) 24px 25px, transparent 25px),
+        var(--bg);
+      background-size: 100% 100%, 100% 100%;
+      color: var(--ink);
       font-family: 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', Georgia, 'Times New Roman', serif;
       overflow: hidden;
       -webkit-font-smoothing: antialiased;
@@ -44,37 +49,58 @@
     .stage {
       position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      padding: 96px 80px 88px;
+      padding: 92px 80px 84px;
     }
     .poem {
-      max-width: 600px; width: 100%; text-align: center;
+      max-width: 620px; width: 100%; max-height: 100%;
+      display: flex; flex-direction: column; align-items: center;
       transition: opacity 420ms var(--ease), transform 420ms var(--ease);
     }
     .poem.fade { opacity: 0; transform: translateY(10px); }
     .poem-title {
+      flex: 0 0 auto; text-align: center;
       font-size: 27px; font-weight: 500; letter-spacing: 0.05em;
-      margin-bottom: 30px; color: var(--ink);
+      margin-bottom: 26px; color: var(--ink);
+      padding: 0 12px;
+    }
+    .poem-frame {
+      width: 100%;
+      max-height: 54vh;
+      background: var(--paper);
+      border-radius: 4px;
+      box-shadow: 0 14px 45px rgba(42, 36, 32, 0.08), 0 2px 6px rgba(42, 36, 32, 0.04);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 42px 56px;
+    }
+    .poem-frame::-webkit-scrollbar { display: none; }
+    .poem-frame.faded {
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
     }
     .poem-body {
-      font-size: 17px; line-height: 2.5; white-space: pre-wrap;
-      word-break: break-word; color: var(--ink);
+      font-size: 17px; line-height: 2.4;
+      white-space: pre-wrap; word-break: break-word;
+      text-align: center; color: var(--ink);
     }
     .poem-date {
-      margin-top: 34px; font-size: 12px; letter-spacing: 0.1em;
-      color: var(--ink-dim);
+      flex: 0 0 auto; margin-top: 24px;
+      font-size: 12px; letter-spacing: 0.1em; color: var(--ink-dim);
       font-family: 'Fragment Mono', ui-monospace, monospace;
     }
 
     .nav-btn {
       position: fixed; top: 50%; transform: translateY(-50%); z-index: 6;
       width: 50px; height: 50px; border-radius: 50%;
-      background: transparent; border: 1px solid var(--ink-dim);
+      background: var(--paper); border: 1px solid var(--ink-dim);
       color: var(--ink-soft); cursor: pointer; font-size: 22px; line-height: 1;
       display: flex; align-items: center; justify-content: center;
-      transition: border-color 220ms var(--ease), color 220ms var(--ease), background 220ms var(--ease);
+      box-shadow: 0 6px 18px rgba(42, 36, 32, 0.08);
+      transition: border-color 220ms var(--ease), color 220ms var(--ease), background 220ms var(--ease), transform 220ms var(--ease);
       user-select: none;
     }
-    .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-50%) scale(1.05); }
     .nav-prev { left: 30px; }
     .nav-next { right: 30px; }
 
@@ -86,12 +112,13 @@
     }
 
     @media (max-width: 600px) {
-      .nav-btn { width: 42px; height: 42px; font-size: 18px; }
+      .nav-btn { width: 42px; height: 42px; font-size: 18px; background: rgba(245, 242, 236, 0.92); }
       .nav-prev { left: 14px; }
       .nav-next { right: 14px; }
-      .stage { padding: 92px 64px 84px; }
-      .poem-title { font-size: 23px; }
-      .poem-body { font-size: 15px; line-height: 2.3; }
+      .stage { padding: 88px 38px 80px; }
+      .poem-title { font-size: 23px; margin-bottom: 20px; color: var(--ink); }
+      .poem-frame { max-height: 58vh; padding: 30px 28px; }
+      .poem-body { font-size: 15px; line-height: 2.2; }
     }
   </style>
 </head>
@@ -107,7 +134,7 @@
   <div class="stage">
     <div class="poem" id="poem">
       <div class="poem-title" id="title"></div>
-      <div class="poem-body" id="body"></div>
+      <div class="poem-frame" id="frame"><div class="poem-body" id="body"></div></div>
       <div class="poem-date" id="date"></div>
     </div>
   </div>
@@ -124,16 +151,23 @@
     const elBody = document.getElementById('body');
     const elDate = document.getElementById('date');
     const elCount = document.getElementById('count');
+    const elFrame = document.getElementById('frame');
     let cur = 0;
     function pad(n) { return String(n).padStart(2, '0'); }
     function render(i) {
       const p = poems[i];
       elPoem.classList.add('fade');
+      elFrame.classList.remove('faded');
       setTimeout(() => {
         elTitle.textContent = p.title;
         elBody.textContent = p.body;
         elDate.textContent = p.date || '';
         elCount.textContent = '— ' + pad(i + 1) + ' / ' + pad(poems.length) + ' —';
+        elFrame.scrollTop = 0;
+        requestAnimationFrame(() => {
+          const overflow = elFrame.scrollHeight > elFrame.clientHeight + 4;
+          elFrame.classList.toggle('faded', overflow);
+        });
         elPoem.classList.remove('fade');
       }, 210);
     }

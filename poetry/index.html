@@ -118,12 +118,70 @@
       .poem-frame { max-height: 58vh; padding: 30px 28px; }
       .poem-body { font-size: 15px; line-height: 2.2; }
     }
+
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .toc-btn {
+      font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px;
+      letter-spacing: 0.05em; color: var(--ink-soft);
+      background: transparent; border: 1px solid var(--ink-dim); border-radius: 999px;
+      padding: 4px 13px; cursor: pointer;
+      transition: border-color 220ms var(--ease), color 220ms var(--ease);
+    }
+    .toc-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .toc-overlay {
+      position: fixed; inset: 0; z-index: 18; background: rgba(0,0,0,0.45);
+      opacity: 0; visibility: hidden;
+      transition: opacity 260ms var(--ease), visibility 260ms var(--ease);
+    }
+    .toc-overlay.show { opacity: 1; visibility: visible; }
+    .toc-panel {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 19;
+      width: 300px; max-width: 84vw;
+      background: #f7f4ee; color: var(--ink);
+      display: flex; flex-direction: column;
+      transform: translateX(100%); transition: transform 300ms var(--ease);
+      box-shadow: -10px 0 40px rgba(0,0,0,0.3);
+    }
+    .toc-panel.open { transform: translateX(0); }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 20px 12px; border-bottom: 1px solid rgba(58,47,38,0.12);
+    }
+    .toc-title { font-size: 15px; font-weight: 500; color: var(--ink); }
+    .toc-close {
+      background: transparent; border: none; font-size: 22px; line-height: 1;
+      color: var(--ink-dim); cursor: pointer; padding: 0 4px;
+    }
+    .toc-close:hover { color: var(--ink); }
+    .toc-search {
+      margin: 12px 16px; padding: 9px 12px; font-size: 13px;
+      border: 1px solid rgba(58,47,38,0.2); border-radius: 8px;
+      background: #fff; color: var(--ink); outline: none;
+    }
+    .toc-search:focus { border-color: var(--accent); }
+    .toc-list { flex: 1; overflow-y: auto; padding: 4px 12px 20px; }
+    .toc-item {
+      display: block; width: 100%; text-align: left;
+      font-family: 'Songti SC', 'Noto Serif SC', serif; font-size: 14px; line-height: 1.5;
+      color: var(--ink); background: transparent; border: none;
+      padding: 9px 12px; border-radius: 6px; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .toc-item:hover { background: rgba(201,166,107,0.14); }
+    .toc-item.on { background: var(--accent); color: #fff; }
   </style>
+<!-- 51.la analytics -->
+  <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
+  <script>if(window.LA){LA.init({id:"YOUR_51LA_ID",ck:"YOUR_51LA_CK",autoTrack:true});}</script>
 </head>
 <body>
   <div class="topbar">
     <a class="back" href="../index.html">← 岛主的主页</a>
-    <span class="count" id="count">— 01 / 01 —</span>
+    <div class="topbar-right">
+      <button class="toc-btn" id="tocBtn" aria-label="诗名目录">目录</button>
+      <span class="count" id="count">— 01 / 01 —</span>
+    </div>
   </div>
 
   <button class="nav-btn nav-prev" id="prev" aria-label="上一首">‹</button>
@@ -137,7 +195,17 @@
     </div>
   </div>
 
-  <div class="footer">方向键 ← → 翻页 · 也可左右滑动</div>
+  <div class="footer">方向键 ← → 翻页 · 也可左右滑动 · 点「目录」直达</div>
+
+  <div class="toc-overlay" id="tocOverlay"></div>
+  <aside class="toc-panel" id="tocPanel" aria-hidden="true">
+    <div class="toc-head">
+      <span class="toc-title">诗名目录</span>
+      <button class="toc-close" id="tocClose" aria-label="关闭">×</button>
+    </div>
+    <input class="toc-search" id="tocSearch" type="text" placeholder="搜索诗名…" autocomplete="off">
+    <div class="toc-list" id="tocList"></div>
+  </aside>
 
   <script>
     const poems = [
@@ -570,6 +638,10 @@
         elBody.textContent = p.body;
         elDate.textContent = p.date || '';
         elCount.textContent = '— ' + pad(i + 1) + ' / ' + pad(poems.length) + ' —';
+        const onItem = elTocList.querySelector('.toc-item.on');
+        if (onItem) onItem.classList.remove('on');
+        const curItem = elTocList.querySelector('.toc-item[data-index="' + i + '"]');
+        if (curItem) curItem.classList.add('on');
         elFrame.scrollTop = 0;
         requestAnimationFrame(() => {
           const overflow = elFrame.scrollHeight > elFrame.clientHeight + 4;
@@ -594,6 +666,49 @@
       const dx = e.changedTouches[0].clientX - sx;
       if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
     });
+    // Table of contents drawer
+    const elTocList = document.getElementById('tocList');
+    const elTocSearch = document.getElementById('tocSearch');
+    const elTocPanel = document.getElementById('tocPanel');
+    const elTocOverlay = document.getElementById('tocOverlay');
+    const elTocBtn = document.getElementById('tocBtn');
+    const elTocClose = document.getElementById('tocClose');
+
+    function buildToc(filter) {
+      const q = (filter || '').trim().toLowerCase();
+      elTocList.innerHTML = '';
+      poems.forEach((p, i) => {
+        if (q && !p.title.toLowerCase().includes(q)) return;
+        const item = document.createElement('button');
+        item.className = 'toc-item' + (i === cur ? ' on' : '');
+        item.textContent = p.title;
+        item.dataset.index = i;
+        item.addEventListener('click', () => {
+          closeToc();
+          cur = i;
+          render(cur);
+        });
+        elTocList.appendChild(item);
+      });
+    }
+    function openToc() {
+      buildToc(elTocSearch.value);
+      elTocPanel.classList.add('open');
+      elTocOverlay.classList.add('show');
+      elTocPanel.setAttribute('aria-hidden', 'false');
+      elTocSearch.focus();
+    }
+    function closeToc() {
+      elTocPanel.classList.remove('open');
+      elTocOverlay.classList.remove('show');
+      elTocPanel.setAttribute('aria-hidden', 'true');
+    }
+    elTocBtn.addEventListener('click', openToc);
+    elTocClose.addEventListener('click', closeToc);
+    elTocOverlay.addEventListener('click', closeToc);
+    elTocSearch.addEventListener('input', () => buildToc(elTocSearch.value));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeToc(); });
+
     render(0);
   </script>
   <script>

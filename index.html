@@ -10,19 +10,19 @@
   <meta property="og:description" content="方法论文章、思维模型、绘本与神话新编。">
   <meta property="og:type" content="website">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #f9f9f7;
+      --bg: #fbfaf7;
       --surface: #ffffff;
-      --text: #1a1a1a;
-      --mid: #888888;
-      --line: #e8e8e6;
-      --shadow: rgba(0,0,0,0.08);
+      --text: #1d1d1b;
+      --mid: #9a958c;
+      --line: #ece9e3;
+      --shadow: rgba(0,0,0,0.10);
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
       --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
     }
@@ -31,80 +31,92 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, 'PingFang SC', 'Microsoft YaHei', monospace;
+      font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
-    a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
-    a:hover { text-decoration-color: var(--text); }
+    a { color: var(--text); text-decoration: none; }
 
     /* ── Layout: fixed one-screen homepage ── */
     .app { display: flex; height: 100vh; overflow: hidden; }
     .sidebar {
-      position: fixed; top: 0; left: 0; width: 280px; height: 100vh;
-      padding: 36px 28px; overflow-y: auto; border-right: 1px solid var(--line);
-      background: var(--bg);
-      display: flex; flex-direction: column; gap: 32px;
+      position: fixed; top: 0; left: 0; width: 312px; height: 100vh;
+      padding: 56px 40px 40px; overflow-y: auto;
+      border-right: 1px solid var(--line);
+      background: var(--surface);
+      display: flex; flex-direction: column; gap: 38px;
       z-index: 10;
     }
     .main {
-      margin-left: 280px; flex: 1; height: 100vh;
+      margin-left: 312px; flex: 1; height: 100vh;
       display: flex; flex-direction: column;
-      padding: 36px 44px 44px; overflow: hidden;
+      padding: 64px 64px 80px; overflow: hidden;
     }
 
     /* ── Sidebar ── */
-    .profile-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .profile-headline { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; letter-spacing: 0.01em; margin-bottom: 12px; }
-    .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-    .profile-tags span { font-size: 11px; color: var(--mid); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; }
-    .profile-bio { font-size: 13px; color: var(--mid); line-height: 1.6; }
+    .mascot {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: radial-gradient(circle at 38% 32%, #ffd9c2, #f0a988 60%, #d98b73);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 4px;
+      box-shadow: 0 6px 18px rgba(217,139,115,0.28);
+    }
+    .profile-name { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; margin-top: 14px; }
+    .profile-headline { font-size: 14px; color: var(--mid); margin-top: 6px; font-weight: 400; }
+    .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .profile-tags span { font-size: 11px; color: var(--mid); border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px; }
+    .profile-bio { font-size: 13px; color: #6b6760; line-height: 1.9; margin-top: 18px; max-width: 30ch; }
 
     .sidebar-section { display: flex; flex-direction: column; gap: 10px; }
     .sidebar-title {
-      font-size: 10px; font-weight: 500; color: var(--mid);
-      text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 10px; font-weight: 500; color: #b9b4ab;
+      text-transform: uppercase; letter-spacing: 0.12em;
     }
 
-    .social-row { display: flex; flex-wrap: wrap; gap: 10px; }
-    .social-row a { font-size: 12px; color: var(--text); text-decoration: underline; text-decoration-color: var(--line); }
-    .social-row a:hover { text-decoration-color: var(--text); }
+    .social-row { display: flex; flex-wrap: wrap; gap: 14px; }
+    .social-row a { font-size: 13px; color: var(--text); position: relative; }
+    .social-row a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: var(--text); transform: scaleX(0); transform-origin: left; transition: transform 240ms var(--ease-out); }
+    .social-row a:hover::after { transform: scaleX(1); }
 
-    .filter-list { display: flex; flex-direction: column; gap: 5px; }
+    .filter-list { display: flex; flex-direction: column; gap: 8px; }
     .filter-list a {
-      font-size: 13px; color: var(--text); text-decoration: none; padding: 3px 0;
-      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; color: var(--text); text-decoration: none; padding: 2px 0;
+      display: inline-flex; align-items: center; gap: 9px; transition: color 200ms var(--ease-out);
     }
-    .filter-list a::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+    .filter-list a::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--line); transition: background 200ms var(--ease-out); }
+    .filter-list a:hover { color: var(--mid); }
     .filter-list a:hover::before, .filter-list a.active::before { background: var(--text); }
-    .filter-list a.active { text-decoration: underline; }
+    .filter-list a.active { color: var(--text); font-weight: 500; }
 
-    .project-list { display: flex; flex-direction: column; gap: 7px; }
+    .project-list { display: flex; flex-direction: column; gap: 8px; }
     .project-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
-    .project-row a { color: var(--text); text-decoration: none; }
-    .project-row a:hover { text-decoration: underline; }
+    .project-row a { color: var(--text); text-decoration: none; transition: color 200ms var(--ease-out); }
+    .project-row a:hover { color: var(--mid); }
     .project-row .year { font-size: 11px; color: var(--mid); font-variant-numeric: tabular-nums; }
 
     .now-list { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--mid); }
     .now-list a { color: var(--text); text-decoration: none; }
-    .now-list a:hover { text-decoration: underline; }
+    .now-list a:hover { color: var(--mid); }
 
     .about-btn {
-      background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
-      padding: 8px 14px; font-size: 12px; color: var(--text); cursor: pointer;
+      background: transparent; border: 1px solid var(--line); border-radius: 999px;
+      padding: 9px 16px; font-size: 12px; color: var(--text); cursor: pointer;
       font-family: inherit; margin-top: auto; align-self: flex-start;
-      transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out);
+      transition: border-color 220ms var(--ease-out), transform 220ms var(--ease-out), color 220ms var(--ease-out);
     }
-    .about-btn:hover { border-color: var(--mid); transform: translateY(-2px); }
+    .about-btn:hover { border-color: var(--mid); transform: translateY(-2px); color: var(--mid); }
 
     /* ── Main header ── */
-    .main-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-shrink: 0; }
-    .main-title { font-size: 11px; font-weight: 500; color: var(--mid); text-transform: uppercase; letter-spacing: 0.08em; }
-    .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .main-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-shrink: 0; }
+    .main-title { font-size: 11px; font-weight: 500; color: var(--mid); text-transform: uppercase; letter-spacing: 0.12em; }
+    .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
     .filter-tab {
-      font-size: 12px; color: var(--mid); padding: 6px 14px; border-radius: 999px;
+      font-size: 13px; color: var(--mid); padding: 7px 16px; border-radius: 999px;
       border: 1px solid transparent; cursor: pointer; text-decoration: none;
+      transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out), background 200ms var(--ease-out);
     }
     .filter-tab:hover { color: var(--text); }
     .filter-tab.active { color: var(--text); border-color: var(--line); background: var(--surface); }
@@ -112,34 +124,47 @@
     /* ── Works wall: fits in one screen ── */
     .wall-grid {
       flex: 1;
-      display: flex; flex-wrap: wrap; gap: 24px 32px;
+      display: flex; flex-wrap: wrap; gap: 28px 34px;
       align-content: center; justify-content: flex-start;
       overflow: hidden;
       padding-bottom: 8px;
     }
     .work-card {
-      width: 220px; text-decoration: none; color: var(--text);
-      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
-      padding: 10px; display: block; position: relative;
-      transform: rotate(var(--rot, 0deg)) translateY(var(--ty, 0));
-      transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out), border-color 320ms var(--ease-out), opacity 240ms var(--ease-out);
+      width: 230px; text-decoration: none; color: var(--text);
+      background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+      padding: 12px; display: block; position: relative;
+      transition: transform 360ms var(--ease-out), box-shadow 360ms var(--ease-out), border-color 360ms var(--ease-out), opacity 240ms var(--ease-out);
       will-change: transform;
     }
     .work-card:hover, .work-card:focus-visible {
-      transform: rotate(0deg) translateY(-10px) scale(1.03);
-      border-color: var(--mid); outline: none;
-      box-shadow: 0 24px 56px var(--shadow); z-index: 10;
+      transform: translateY(-8px);
+      border-color: #ddd9d2; outline: none;
+      box-shadow: 0 22px 48px var(--shadow); z-index: 10;
     }
     .work-card.hidden { display: none; }
-    .work-thumb { height: 126px; border-radius: 12px; overflow: hidden; background: var(--line); }
-    .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .work-thumb { height: 132px; border-radius: 12px; overflow: hidden; background: #f3f1ec; }
+    .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 600ms var(--ease-out); }
+    .work-card:hover .work-thumb img { transform: scale(1.05); }
     .work-thumb span { font-size: 26px; font-weight: 700; color: #1a1a1a; display: flex; align-items: center; justify-content: center; height: 100%; font-family: 'PingFang SC','Microsoft YaHei',sans-serif; }
-    .work-meta { margin-top: 12px; }
-    .work-title { font-size: 14px; font-weight: 500; }
-    .work-sub { font-size: 11px; color: var(--mid); margin-top: 2px; }
+    .work-meta { margin-top: 14px; }
+    .work-title { font-size: 15px; font-weight: 500; }
+    .work-sub { font-size: 11px; color: var(--mid); margin-top: 3px; }
     .t1 { background: #E6F1FB; } .t2 { background: #FBEAF0; } .t3 { background: #E1F5EE; }
     .t4 { background: #FAEEDA; } .t5 { background: #EEEDFE; } .t6 { background: #EAF3DE; }
     .t7 { background: #FCEBEB; } .t8 { background: #F1EFE8; }
+
+    /* ── Floating CTA ── */
+    .floating-cta {
+      position: fixed; bottom: 28px; right: 32px; z-index: 50;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1d1d1b; color: #fff; text-decoration: none;
+      font-size: 13px; padding: 13px 22px; border-radius: 999px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      transition: transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out);
+    }
+    .floating-cta:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,0.24); }
+    .floating-cta .arrow { font-size: 14px; transition: transform 300ms var(--ease-out); }
+    .floating-cta:hover .arrow { transform: translateX(3px); }
 
     /* ── Letter Modal ── */
     .letter-overlay {
@@ -249,13 +274,16 @@
     /* ── Mobile ── */
     @media (max-width: 768px) {
       .app { flex-direction: column; }
-      .sidebar { position: relative; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 22px; gap: 20px; }
-      .main { margin-left: 0; padding: 22px; height: auto; min-height: calc(100vh - 180px); overflow: visible; }
-      .main-header { margin-bottom: 20px; }
+      .sidebar { position: relative; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--line); padding: 32px 22px 24px; gap: 24px; }
+      .main { margin-left: 0; padding: 28px 22px 90px; height: auto; min-height: calc(100vh - 180px); overflow: visible; }
+      .main-header { margin-bottom: 24px; }
       .wall-grid { justify-content: center; gap: 16px 18px; }
-      .work-card { width: 44%; transform: rotate(0deg) !important; }
+      .work-card { width: 44%; }
       .work-thumb { height: 110px; }
       .about-btn { margin-top: 4px; }
+      .mascot { width: 44px; height: 44px; font-size: 20px; }
+      .profile-name { font-size: 24px; }
+      .floating-cta { right: 16px; bottom: 16px; padding: 11px 16px; font-size: 12px; }
       .letter-paper { padding: 44px 26px 84px; }
     }
 
@@ -271,6 +299,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="profile">
+        <div class="mascot" aria-hidden="true">🏝️</div>
         <div class="profile-name">岛主</div>
         <div class="profile-headline">一个在写东西的爸爸</div>
         <div class="profile-tags">
@@ -335,41 +364,44 @@
       </header>
 
       <div class="wall-grid" id="wall">
-        <a class="work-card" href="picturebook/index.html" data-filter="create" style="--rot:4deg; --ty:-4px">
+        <a class="work-card" href="picturebook/index.html" data-filter="create">
           <div class="work-thumb"><img src="img/picturebook.png" alt="给女儿的绘本封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">给女儿的绘本</div><div class="work-sub">创作</div></div>
         </a>
-        <a class="work-card" href="myth/index.html" data-filter="create" style="--rot:3deg; --ty:10px">
+        <a class="work-card" href="myth/index.html" data-filter="create">
           <div class="work-thumb"><img src="img/myth.png" alt="故事别传封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">故事别传</div><div class="work-sub">创作</div></div>
         </a>
-        <a class="work-card" href="poetry/index.html" data-filter="create" style="--rot:-3deg; --ty:4px">
+        <a class="work-card" href="poetry/index.html" data-filter="create">
           <div class="work-thumb"><img src="img/poetry.png" alt="诗歌封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">诗歌</div><div class="work-sub">创作</div></div>
         </a>
-        <a class="work-card" href="novel/index.html" data-filter="create" style="--rot:5deg; --ty:-2px">
+        <a class="work-card" href="novel/index.html" data-filter="create">
           <div class="work-thumb"><img src="img/novel.png" alt="小说封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">小说</div><div class="work-sub">创作</div></div>
         </a>
-        <a class="work-card" href="models/index.html" data-filter="framework" style="--rot:-6deg; --ty:6px">
+        <a class="work-card" href="models/index.html" data-filter="framework">
           <div class="work-thumb"><img src="img/thinking.png" alt="思维模型图鉴封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">思维模型 · 图鉴</div><div class="work-sub">230 颗模型 · 单文件笔记</div></div>
         </a>
-        <a class="work-card" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener" data-filter="framework" style="--rot:-4deg; --ty:-6px">
+        <a class="work-card" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener" data-filter="framework">
           <div class="work-thumb"><img src="img/wechat.png" alt="王仙客在岛上公众号封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">王仙客在岛上</div><div class="work-sub">微信合集 ↗</div></div>
         </a>
-        <a class="work-card" href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener" data-filter="lab" style="--rot:6deg; --ty:2px">
+        <a class="work-card" href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener" data-filter="lab">
           <div class="work-thumb"><img src="img/zhihu.png" alt="知乎主页封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">知乎主页</div><div class="work-sub">wang-xianke-52 ↗</div></div>
         </a>
-        <a class="work-card" href="portfolio/index.html" data-filter="lab" style="--rot:-5deg; --ty:6px">
+        <a class="work-card" href="portfolio/index.html" data-filter="lab">
           <div class="work-thumb"><img src="img/archive.png" alt="职业档案封面" loading="lazy"></div>
           <div class="work-meta"><div class="work-title">职业档案</div><div class="work-sub">编剧 → 产品 ↗</div></div>
         </a>
       </div>
     </main>
   </div>
+
+  <!-- Floating CTA -->
+  <a class="floating-cta" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener">来岛上坐坐 · 微信 <span class="arrow">↗</span></a>
 
   <!-- Letter Modal -->
   <div class="letter-overlay" id="letterOverlay" aria-hidden="true">

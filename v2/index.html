@@ -59,7 +59,12 @@
   @keyframes eq{0%,100%{transform:scaleY(.5);}50%{transform:scaleY(1);}}
 
   /* ── 通用 section ── */
-  section{position:relative;padding:120px 8vw;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  section{position:relative;padding:clamp(88px,12vh,140px) 8vw;min-height:auto;display:flex;flex-direction:column;justify-content:center;}
+  .cover{min-height:100vh;}            /* 头屏保留满屏呼吸感，其余栏目按内容自然高度，避免大屏空旷 */
+  .meet{max-width:1040px;margin:0 auto;}
+  .content .eyebrow,.content .sec-title,.content .sec-sub,.content .list{max-width:920px;margin-left:auto;margin-right:auto;}
+  .products .eyebrow,.products .sec-title,.products .sec-sub{max-width:920px;margin-left:auto;margin-right:auto;}
+  .prod-grid{max-width:920px;margin-left:auto;margin-right:auto;}
   .eyebrow{font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
   .sec-title{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.25;letter-spacing:.01em;margin-bottom:14px;}
   .sec-sub{color:var(--mid);max-width:540px;font-size:15px;margin-bottom:48px;}
@@ -153,7 +158,18 @@
 
   /* ── 移动端 ── */
   @media (max-width:880px){
-    .journey{display:none;}
+    /* 移动端：journey 改为底部胶囊导航，常驻可见（仅显示当前栏目名，省空间） */
+    .journey{
+      right:auto; left:50%; top:auto; bottom:16px; transform:translateX(-50%);
+      flex-direction:row; gap:8px; padding:9px 14px;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
+      border:1px solid var(--line); border-radius:999px;
+      box-shadow:var(--shadow-md); max-width:calc(100vw - 28px);
+    }
+    .journey button{ width:9px; height:9px; display:inline-flex; align-items:center; gap:5px; }
+    .journey button::after{ position:static; transform:none; opacity:1; font-size:11px; color:var(--faint); white-space:nowrap; }
+    .journey button:not(.active)::after{ display:none; }
+    .journey button.active::after{ color:var(--accent); }
     section{padding:90px 7vw;min-height:auto;}
     .cover{min-height:100vh;}
     .meet{flex-direction:column;align-items:flex-start;gap:40px;}
@@ -535,9 +551,8 @@
     if(musicOn) pauseMusic(); else playMusic();
   });
 
-  // 进入小岛：播放音乐 + 滑到「认识岛主」
+  // 进入小岛：仅平滑滑到「认识岛主」（音乐不再自动播放，留给悬浮按钮手动开启）
   enterBtn.addEventListener('click', function(){
-    playMusic();
     var meet = document.getElementById('meet');
     if(meet) meet.scrollIntoView({behavior:'smooth', block:'start'});
   });

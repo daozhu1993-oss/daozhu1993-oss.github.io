@@ -1,201 +1,250 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>诗歌 · 岛主</title>
-  <meta name="description" content="岛主的诗：把日常、月光和说不出口的话，写成句子。">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #14110f;
-      --paper: #f7f4ee;
-      --ink: #3a2f26;
-      --ink-soft: #a59a8c;
-      --ink-dim: #6c6359;
-      --accent: #c9a66b;
-      --ease: cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      background: var(--bg);
-      color: var(--ink-soft);
-      font-family: 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', Georgia, 'Times New Roman', serif;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岛主的诗 · 岛主</title>
+<meta name="description" content="岛主的诗：把日常、月光和说不出口的话，写成句子。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
 
-    .topbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 6;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 22px 28px;
-    }
-    .back {
-      font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px;
-      letter-spacing: 0.05em; color: var(--ink-soft); text-decoration: none;
-    }
-    .back:hover { color: #f7f4ee; }
-    .count {
-      font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px;
-      letter-spacing: 0.18em; color: var(--ink-dim);
-    }
-
-    .stage {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      padding: 92px 80px 84px;
-    }
-    .poem {
-      max-width: 620px; width: 100%; max-height: 100%;
-      display: flex; flex-direction: column; align-items: center;
-      transition: opacity 420ms var(--ease), transform 420ms var(--ease);
-    }
-    .poem.fade { opacity: 0; transform: translateY(10px); }
-    .poem-title {
-      flex: 0 0 auto; text-align: center;
-      font-size: 27px; font-weight: 500; letter-spacing: 0.05em;
-      margin-bottom: 26px; color: #f7f4ee;
-      padding: 0 12px;
-    }
-    .poem-frame {
-      width: 100%;
-      max-height: 54vh;
-      background-color: var(--paper);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2270%22 viewBox=%220 0 100 70%22%3E%3Crect width=%22100%22 height=%2270%22 fill=%22%23f7f4ee%22/%3E%3Cline x1=%220%22 y1=%2214%22 x2=%22100%22 y2=%2214%22 stroke=%22%23d8d0c0%22 stroke-width=%220.6%22/%3E%3Cline x1=%220%22 y1=%2228%22 x2=%22100%22 y2=%2228%22 stroke=%22%23d8d0c0%22 stroke-width=%220.6%22/%3E%3Cline x1=%220%22 y1=%2242%22 x2=%22100%22 y2=%2242%22 stroke=%22%23d8d0c0%22 stroke-width=%220.6%22/%3E%3Cline x1=%220%22 y1=%2256%22 x2=%22100%22 y2=%2256%22 stroke=%22%23d8d0c0%22 stroke-width=%220.6%22/%3E%3Cline x1=%220%22 y1=%2270%22 x2=%22100%22 y2=%2270%22 stroke=%22%23d8d0c0%22 stroke-width=%220.6%22/%3E%3C/svg%3E");
-      background-size: 100px 70px;
-      border-radius: 4px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.18);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 42px 56px;
-    }
-    .poem-frame::-webkit-scrollbar { display: none; }
-    .poem-frame.faded {
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
-    }
-    .poem-body {
-      font-size: 17px; line-height: 2.4;
-      white-space: pre-wrap; word-break: break-word;
-      text-align: center; color: var(--ink);
-    }
-    .poem-date {
-      flex: 0 0 auto; margin-top: 24px;
-      font-size: 12px; letter-spacing: 0.1em; color: var(--ink-dim);
-      font-family: 'Fragment Mono', ui-monospace, monospace;
-    }
-
-    .nav-btn {
-      position: fixed; top: 50%; transform: translateY(-50%); z-index: 6;
-      width: 50px; height: 50px; border-radius: 50%;
-      background: transparent; border: 1px solid var(--ink-dim);
-      color: var(--ink-soft); cursor: pointer; font-size: 22px; line-height: 1;
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color 220ms var(--ease), color 220ms var(--ease), background 220ms var(--ease), transform 220ms var(--ease);
-      user-select: none;
-    }
-    .nav-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-50%) scale(1.05); }
-    .nav-prev { left: 30px; }
-    .nav-next { right: 30px; }
-
-    .footer {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 6;
-      text-align: center; padding: 22px;
-      font-family: 'Fragment Mono', ui-monospace, monospace;
-      font-size: 11px; letter-spacing: 0.14em; color: var(--ink-dim);
-    }
-
-    @media (max-width: 600px) {
-      .nav-btn { width: 42px; height: 42px; font-size: 18px; background: rgba(20, 17, 15, 0.85); }
-      .nav-prev { left: 14px; }
-      .nav-next { right: 14px; }
-      .stage { padding: 88px 38px 80px; }
-      .poem-title { font-size: 23px; margin-bottom: 20px; color: #f7f4ee; }
-      .poem-frame { max-height: 58vh; padding: 30px 28px; }
-      .poem-body { font-size: 15px; line-height: 2.2; }
-    }
-
-    .topbar-right { display: flex; align-items: center; gap: 16px; }
-    .toc-btn {
-      font-family: 'Fragment Mono', ui-monospace, monospace; font-size: 12px;
-      letter-spacing: 0.05em; color: var(--ink-soft);
-      background: transparent; border: 1px solid var(--ink-dim); border-radius: 999px;
-      padding: 4px 13px; cursor: pointer;
-      transition: border-color 220ms var(--ease), color 220ms var(--ease);
-    }
-    .toc-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    .toc-overlay {
-      position: fixed; inset: 0; z-index: 18; background: rgba(0,0,0,0.45);
-      opacity: 0; visibility: hidden;
-      transition: opacity 260ms var(--ease), visibility 260ms var(--ease);
-    }
-    .toc-overlay.show { opacity: 1; visibility: visible; }
-    .toc-panel {
-      position: fixed; top: 0; right: 0; bottom: 0; z-index: 19;
-      width: 300px; max-width: 84vw;
-      background: #f7f4ee; color: var(--ink);
-      display: flex; flex-direction: column;
-      transform: translateX(100%); transition: transform 300ms var(--ease);
-      box-shadow: -10px 0 40px rgba(0,0,0,0.3);
-    }
-    .toc-panel.open { transform: translateX(0); }
-    .toc-head {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 18px 20px 12px; border-bottom: 1px solid rgba(58,47,38,0.12);
-    }
-    .toc-title { font-size: 15px; font-weight: 500; color: var(--ink); }
-    .toc-close {
-      background: transparent; border: none; font-size: 22px; line-height: 1;
-      color: var(--ink-dim); cursor: pointer; padding: 0 4px;
-    }
-    .toc-close:hover { color: var(--ink); }
-    .toc-search {
-      margin: 12px 16px; padding: 9px 12px; font-size: 13px;
-      border: 1px solid rgba(58,47,38,0.2); border-radius: 8px;
-      background: #fff; color: var(--ink); outline: none;
-    }
-    .toc-search:focus { border-color: var(--accent); }
-    .toc-list { flex: 1; overflow-y: auto; padding: 4px 12px 20px; }
-    .toc-item {
-      display: block; width: 100%; text-align: left;
-      font-family: 'Songti SC', 'Noto Serif SC', serif; font-size: 14px; line-height: 1.5;
-      color: var(--ink); background: transparent; border: none;
-      padding: 9px 12px; border-radius: 6px; cursor: pointer;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .toc-item:hover { background: rgba(201,166,107,0.14); }
-    .toc-item.on { background: var(--accent); color: #fff; }
-  </style>
 <!-- 51.la analytics -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
+
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent-soft); color: var(--ink); }
+
+  /* 顶部导航 */
+  .topbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 6;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 28px;
+  }
+  .back {
+    font-family: var(--sans); font-size: 13px; font-weight: 400;
+    letter-spacing: 0.02em; color: var(--mid); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: color 300ms var(--ease);
+  }
+  .back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .back:hover { color: var(--accent); }
+  .topbar-right { display: flex; align-items: center; gap: 18px; }
+  .count {
+    font-family: var(--sans); font-size: 12px; font-weight: 400;
+    letter-spacing: 0.12em; color: var(--faint);
+  }
+  .toc-btn {
+    font-family: var(--sans); font-size: 13px; font-weight: 400;
+    color: var(--mid); background: transparent;
+    border: 1px solid var(--line); border-radius: var(--radius-full);
+    padding: 5px 14px; cursor: pointer;
+    transition: color 300ms var(--ease), border-color 300ms var(--ease), background 300ms var(--ease);
+  }
+  .toc-btn:hover { color: var(--accent); border-color: var(--accent-soft); background: var(--surface); }
+
+  /* 主舞台 */
+  .stage {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    padding: 100px 80px 96px;
+  }
+  .poem {
+    width: 100%; max-width: 680px; max-height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    transition: opacity 420ms var(--ease), transform 420ms var(--ease);
+  }
+  .poem.fade { opacity: 0; transform: translateY(12px); }
+
+  .eyebrow {
+    font-family: var(--serif); font-size: 11px; letter-spacing: 0.35em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 18px;
+  }
+  .poem-title {
+    text-align: center;
+    font-family: var(--serif); font-size: clamp(26px, 4.2vw, 38px);
+    font-weight: 600; line-height: 1.35; letter-spacing: 0.02em;
+    color: var(--ink); padding: 0 12px;
+  }
+  .poem-meta {
+    margin-top: 14px; margin-bottom: 42px;
+    font-family: var(--serif); font-size: 13px; letter-spacing: 0.08em;
+    color: var(--faint); display: flex; gap: 14px; align-items: center;
+  }
+  .poem-meta::before, .poem-meta::after {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--line);
+  }
+
+  /* 正文卡片 */
+  .poem-card {
+    width: 100%; max-height: 58vh;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 48px 56px 56px;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .poem-card::-webkit-scrollbar { display: none; }
+  .poem-card.faded {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 32px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 32px), transparent 100%);
+  }
+  .poem-body {
+    font-family: var(--serif); font-size: 17.5px; line-height: 2.1;
+    white-space: pre-wrap; word-break: break-word;
+    text-align: left; color: var(--ink);
+  }
+  .poem-body::first-letter {
+    font-size: 2.4em; font-weight: 600; line-height: 1;
+    float: left; margin-right: 0.12em; margin-top: 0.05em;
+    color: var(--accent);
+  }
+  .poem-date {
+    flex: 0 0 auto; margin-top: 30px;
+    font-family: var(--serif); font-size: 12px; letter-spacing: 0.1em;
+    color: var(--faint);
+  }
+
+  /* 翻页按钮 */
+  .nav-btn {
+    position: fixed; top: 50%; transform: translateY(-50%); z-index: 6;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: transparent; border: 1px solid var(--line);
+    color: var(--mid); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: color 300ms var(--ease), border-color 300ms var(--ease), background 300ms var(--ease), transform 300ms var(--ease);
+    user-select: none;
+  }
+  .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+  .nav-btn:hover { color: var(--accent); border-color: var(--accent-soft); background: var(--surface); transform: translateY(-50%) scale(1.06); }
+  .nav-prev { left: 32px; }
+  .nav-next { right: 32px; }
+
+  /* 底部进度与提示 */
+  .footer {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 6;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 18px 22px 22px;
+  }
+  .progress-bar {
+    width: 120px; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%; background: var(--accent); border-radius: 2px;
+    transition: width 300ms var(--ease);
+  }
+  .hint {
+    font-family: var(--sans); font-size: 11px; letter-spacing: 0.12em; color: var(--faint);
+  }
+
+  /* 目录抽屉 */
+  .toc-overlay {
+    position: fixed; inset: 0; z-index: 18; background: rgba(43, 38, 34, 0.25);
+    opacity: 0; visibility: hidden;
+    transition: opacity 260ms var(--ease), visibility 260ms var(--ease);
+  }
+  .toc-overlay.show { opacity: 1; visibility: visible; }
+  .toc-panel {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 19;
+    width: 320px; max-width: 84vw;
+    background: var(--surface); color: var(--ink);
+    display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform 300ms var(--ease);
+    box-shadow: var(--shadow-xl);
+  }
+  .toc-panel.open { transform: translateX(0); }
+  .toc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 22px 14px; border-bottom: 1px solid var(--line);
+  }
+  .toc-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--ink); }
+  .toc-close {
+    background: transparent; border: none; font-size: 24px; line-height: 1;
+    color: var(--faint); cursor: pointer; padding: 0 4px;
+    transition: color 200ms var(--ease);
+  }
+  .toc-close:hover { color: var(--ink); }
+  .toc-search {
+    margin: 16px 18px; padding: 10px 14px; font-size: 13px; font-family: var(--sans);
+    border: 1px solid var(--line); border-radius: var(--radius-md);
+    background: var(--bg); color: var(--ink); outline: none;
+    transition: border-color 200ms var(--ease);
+  }
+  .toc-search:focus { border-color: var(--accent-soft); }
+  .toc-list { flex: 1; overflow-y: auto; padding: 4px 14px 22px; }
+  .toc-item {
+    display: block; width: 100%; text-align: left;
+    font-family: var(--serif); font-size: 14px; line-height: 1.5;
+    color: var(--mid); background: transparent; border: none;
+    padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    transition: color 200ms var(--ease), background 200ms var(--ease);
+  }
+  .toc-item:hover { color: var(--ink); background: var(--bg-2); }
+  .toc-item.on { color: var(--accent-strong); background: rgba(200, 101, 75, 0.08); }
+
+  @media (max-width: 720px) {
+    .stage { padding: 90px 22px 90px; }
+    .poem-card { padding: 34px 28px 40px; max-height: 62vh; }
+    .poem-title { font-size: 24px; }
+    .poem-body { font-size: 16px; line-height: 2.0; }
+    .nav-prev { left: 14px; }
+    .nav-next { right: 14px; }
+    .nav-btn { background: var(--surface); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .poem, .nav-btn, .toc-panel, .toc-overlay, .progress-fill { transition: none; }
+  }
+</style>
 </head>
 <body>
-  <div class="topbar">
-    <a class="back" href="../index.html">← 岛主的主页</a>
+  <header class="topbar">
+    <a class="back" href="../index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      岛主的主页
+    </a>
     <div class="topbar-right">
+      <span class="count" id="count">— 01 / 85 —</span>
       <button class="toc-btn" id="tocBtn" aria-label="诗名目录">目录</button>
-      <span class="count" id="count">— 01 / 01 —</span>
     </div>
-  </div>
+  </header>
 
-  <button class="nav-btn nav-prev" id="prev" aria-label="上一首">‹</button>
-  <button class="nav-btn nav-next" id="next" aria-label="下一首">›</button>
+  <button class="nav-btn nav-prev" id="prev" aria-label="上一首">
+    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button class="nav-btn nav-next" id="next" aria-label="下一首">
+    <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
 
-  <div class="stage">
-    <div class="poem" id="poem">
-      <div class="poem-title" id="title"></div>
-      <div class="poem-frame" id="frame"><div class="poem-body" id="body"></div></div>
+  <main class="stage">
+    <article class="poem" id="poem">
+      <div class="eyebrow">POEM</div>
+      <h1 class="poem-title" id="title"></h1>
+      <div class="poem-meta" id="meta"></div>
+      <div class="poem-card" id="frame">
+        <div class="poem-body" id="body"></div>
+      </div>
       <div class="poem-date" id="date"></div>
-    </div>
-  </div>
+    </article>
+  </main>
 
-  <div class="footer">方向键 ← → 翻页 · 也可左右滑动 · 点「目录」直达</div>
+  <footer class="footer">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="hint">方向键 ← → 翻页 · 也可左右滑动</div>
+  </footer>
 
   <div class="toc-overlay" id="tocOverlay"></div>
   <aside class="toc-panel" id="tocPanel" aria-hidden="true">
@@ -623,10 +672,12 @@
 
     const elPoem = document.getElementById('poem');
     const elTitle = document.getElementById('title');
+    const elMeta = document.getElementById('meta');
     const elBody = document.getElementById('body');
     const elDate = document.getElementById('date');
     const elCount = document.getElementById('count');
     const elFrame = document.getElementById('frame');
+    const elProgress = document.getElementById('progress');
     let cur = 0;
     function pad(n) { return String(n).padStart(2, '0'); }
     function render(i) {
@@ -634,14 +685,17 @@
       elPoem.classList.add('fade');
       elFrame.classList.remove('faded');
       setTimeout(() => {
-        elTitle.textContent = p.title;
+        elTitle.textContent = p.title.replace(/^\d+/, '').trim(); // 去掉标题前序号，由 eyebrow 承担
+        elMeta.textContent = 'NO. ' + pad(i + 1) + (p.date ? ' · ' + p.date : '');
         elBody.textContent = p.body;
-        elDate.textContent = p.date || '';
+        elDate.textContent = '';
         elCount.textContent = '— ' + pad(i + 1) + ' / ' + pad(poems.length) + ' —';
+        elProgress.style.width = ((i + 1) / poems.length * 100) + '%';
         const onItem = elTocList.querySelector('.toc-item.on');
         if (onItem) onItem.classList.remove('on');
         const curItem = elTocList.querySelector('.toc-item[data-index="' + i + '"]');
         if (curItem) curItem.classList.add('on');
+        if (curItem) curItem.scrollIntoView({ block: 'nearest' });
         elFrame.scrollTop = 0;
         requestAnimationFrame(() => {
           const overflow = elFrame.scrollHeight > elFrame.clientHeight + 4;
@@ -666,7 +720,7 @@
       const dx = e.changedTouches[0].clientX - sx;
       if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
     });
-    // Table of contents drawer
+    // 目录
     const elTocList = document.getElementById('tocList');
     const elTocSearch = document.getElementById('tocSearch');
     const elTocPanel = document.getElementById('tocPanel');

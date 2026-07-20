@@ -7,7 +7,7 @@
 <meta name="description" content="岛主的诗：把日常、月光和说不出口的话，写成句子。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../design-system/tokens.css">
 
 <!-- 51.la analytics -->
@@ -17,14 +17,30 @@
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
+  :root {
+    --night: #14110f;
+    --night-soft: #1c1815;
+    --paper: #f4f0e8;
+    --paper-dim: #e8e2d6;
+    --gold: #c9a66b;
+    --gold-soft: rgba(201, 166, 107, 0.14);
+    --ink-dark: #3a2f26;
+    --ink-soft: #8a7f70;
+    --ink-dim: #5c544b;
+    --line-night: rgba(201, 166, 107, 0.22);
+    --mono: 'Fragment Mono', ui-monospace, monospace;
+    --serif: 'Noto Serif SC', 'Songti SC', serif;
+    --sans: 'Noto Sans SC', -apple-system, 'PingFang SC', sans-serif;
+    --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  }
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--sans);
+    background: var(--night);
+    color: var(--ink-soft);
+    font-family: var(--serif);
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
   }
-  ::selection { background: var(--accent-soft); color: var(--ink); }
+  ::selection { background: var(--gold-soft); color: var(--paper); }
 
   /* 顶部导航 */
   .topbar {
@@ -33,126 +49,118 @@
     padding: 22px 28px;
   }
   .back {
-    font-family: var(--sans); font-size: 13px; font-weight: 400;
-    letter-spacing: 0.02em; color: var(--mid); text-decoration: none;
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.06em; color: var(--ink-soft); text-decoration: none;
     display: inline-flex; align-items: center; gap: 8px;
     transition: color 300ms var(--ease);
   }
-  .back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; }
-  .back:hover { color: var(--accent); }
+  .back svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .back:hover { color: var(--paper); }
   .topbar-right { display: flex; align-items: center; gap: 18px; }
   .count {
-    font-family: var(--sans); font-size: 12px; font-weight: 400;
-    letter-spacing: 0.12em; color: var(--faint);
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.18em; color: var(--ink-dim);
   }
   .toc-btn {
-    font-family: var(--sans); font-size: 13px; font-weight: 400;
-    color: var(--mid); background: transparent;
-    border: 1px solid var(--line); border-radius: var(--radius-full);
-    padding: 5px 14px; cursor: pointer;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    color: var(--ink-soft); background: transparent;
+    border: 1px solid var(--line-night); border-radius: 999px;
+    padding: 6px 15px; cursor: pointer;
     transition: color 300ms var(--ease), border-color 300ms var(--ease), background 300ms var(--ease);
   }
-  .toc-btn:hover { color: var(--accent); border-color: var(--accent-soft); background: var(--surface); }
+  .toc-btn:hover { color: var(--gold); border-color: var(--gold); background: var(--gold-soft); }
 
   /* 主舞台 */
   .stage {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 100px 80px 96px;
+    padding: 96px 80px 92px;
   }
   .poem {
-    width: 100%; max-width: 680px; max-height: 100%;
+    width: 100%; max-width: 640px; max-height: 100%;
     display: flex; flex-direction: column; align-items: center;
     transition: opacity 420ms var(--ease), transform 420ms var(--ease);
   }
-  .poem.fade { opacity: 0; transform: translateY(12px); }
+  .poem.fade { opacity: 0; transform: translateY(10px); }
 
-  .eyebrow {
-    font-family: var(--serif); font-size: 11px; letter-spacing: 0.35em;
-    color: var(--accent); text-transform: uppercase; margin-bottom: 18px;
-  }
   .poem-title {
-    text-align: center;
-    font-family: var(--serif); font-size: clamp(26px, 4.2vw, 38px);
-    font-weight: 600; line-height: 1.35; letter-spacing: 0.02em;
-    color: var(--ink); padding: 0 12px;
+    flex: 0 0 auto; text-align: center;
+    font-family: var(--serif); font-size: clamp(24px, 3.8vw, 32px);
+    font-weight: 500; letter-spacing: 0.04em;
+    margin-bottom: 26px; color: var(--paper);
+    padding: 0 12px;
   }
-  .poem-meta {
-    margin-top: 14px; margin-bottom: 42px;
-    font-family: var(--serif); font-size: 13px; letter-spacing: 0.08em;
-    color: var(--faint); display: flex; gap: 14px; align-items: center;
-  }
-  .poem-meta::before, .poem-meta::after {
-    content: ''; display: block; width: 24px; height: 1px; background: var(--line);
-  }
-
-  /* 正文卡片 */
-  .poem-card {
-    width: 100%; max-height: 58vh;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: 48px 56px 56px;
-    overflow-y: auto; -webkit-overflow-scrolling: touch;
+  .poem-frame {
+    position: relative; width: 100%;
+    max-height: 54vh;
+    background: var(--paper);
+    border-radius: 6px;
+    box-shadow:
+      0 24px 70px rgba(0, 0, 0, 0.42),
+      0 6px 18px rgba(0, 0, 0, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    padding: 52px 72px 52px 120px;
   }
-  .poem-card::-webkit-scrollbar { display: none; }
-  .poem-card.faded {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 32px), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 32px), transparent 100%);
+  .poem-frame::-webkit-scrollbar { display: none; }
+  .poem-frame.faded {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  }
+  .poem-number {
+    position: absolute; left: 42px; top: 50px;
+    font-family: var(--mono); font-size: 64px; font-weight: 400;
+    line-height: 1; color: var(--gold); opacity: 0.9;
+    user-select: none;
   }
   .poem-body {
-    font-family: var(--serif); font-size: 17.5px; line-height: 2.1;
+    font-family: var(--serif); font-size: 17px; line-height: 2.45;
     white-space: pre-wrap; word-break: break-word;
-    text-align: left; color: var(--ink);
-  }
-  .poem-body::first-letter {
-    font-size: 2.4em; font-weight: 600; line-height: 1;
-    float: left; margin-right: 0.12em; margin-top: 0.05em;
-    color: var(--accent);
+    text-align: center; color: var(--ink-dark);
   }
   .poem-date {
-    flex: 0 0 auto; margin-top: 30px;
-    font-family: var(--serif); font-size: 12px; letter-spacing: 0.1em;
-    color: var(--faint);
+    flex: 0 0 auto; margin-top: 24px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em;
+    color: var(--ink-dim);
   }
 
   /* 翻页按钮 */
   .nav-btn {
     position: fixed; top: 50%; transform: translateY(-50%); z-index: 6;
-    width: 44px; height: 44px; border-radius: 50%;
-    background: transparent; border: 1px solid var(--line);
-    color: var(--mid); cursor: pointer;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: transparent; border: 1px solid var(--ink-dim);
+    color: var(--ink-soft); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: color 300ms var(--ease), border-color 300ms var(--ease), background 300ms var(--ease), transform 300ms var(--ease);
+    transition: border-color 260ms var(--ease), color 260ms var(--ease), background 260ms var(--ease), transform 260ms var(--ease);
     user-select: none;
   }
-  .nav-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; }
-  .nav-btn:hover { color: var(--accent); border-color: var(--accent-soft); background: var(--surface); transform: translateY(-50%) scale(1.06); }
-  .nav-prev { left: 32px; }
-  .nav-next { right: 32px; }
+  .nav-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+  .nav-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); transform: translateY(-50%) scale(1.06); }
+  .nav-prev { left: 30px; }
+  .nav-next { right: 30px; }
 
-  /* 底部进度与提示 */
+  /* 底部进度 */
   .footer {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 6;
     display: flex; flex-direction: column; align-items: center; gap: 10px;
     padding: 18px 22px 22px;
   }
   .progress-bar {
-    width: 120px; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden;
+    width: 120px; height: 2px; background: rgba(201, 166, 107, 0.18); border-radius: 2px; overflow: hidden;
   }
   .progress-fill {
-    height: 100%; width: 0%; background: var(--accent); border-radius: 2px;
+    height: 100%; width: 0%; background: var(--gold); border-radius: 2px;
     transition: width 300ms var(--ease);
   }
   .hint {
-    font-family: var(--sans); font-size: 11px; letter-spacing: 0.12em; color: var(--faint);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ink-dim);
   }
 
   /* 目录抽屉 */
   .toc-overlay {
-    position: fixed; inset: 0; z-index: 18; background: rgba(43, 38, 34, 0.25);
+    position: fixed; inset: 0; z-index: 18; background: rgba(0, 0, 0, 0.45);
     opacity: 0; visibility: hidden;
     transition: opacity 260ms var(--ease), visibility 260ms var(--ease);
   }
@@ -160,50 +168,53 @@
   .toc-panel {
     position: fixed; top: 0; right: 0; bottom: 0; z-index: 19;
     width: 320px; max-width: 84vw;
-    background: var(--surface); color: var(--ink);
+    background: var(--night-soft); color: var(--paper);
     display: flex; flex-direction: column;
     transform: translateX(100%); transition: transform 300ms var(--ease);
-    box-shadow: var(--shadow-xl);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.45);
+    border-left: 1px solid var(--line-night);
   }
   .toc-panel.open { transform: translateX(0); }
   .toc-head {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 22px 14px; border-bottom: 1px solid var(--line);
+    padding: 20px 22px 14px; border-bottom: 1px solid var(--line-night);
   }
-  .toc-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--ink); }
+  .toc-title { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--paper); }
   .toc-close {
-    background: transparent; border: none; font-size: 24px; line-height: 1;
-    color: var(--faint); cursor: pointer; padding: 0 4px;
+    background: transparent; border: none; font-size: 26px; line-height: 1;
+    color: var(--ink-soft); cursor: pointer; padding: 0 4px;
     transition: color 200ms var(--ease);
   }
-  .toc-close:hover { color: var(--ink); }
+  .toc-close:hover { color: var(--paper); }
   .toc-search {
     margin: 16px 18px; padding: 10px 14px; font-size: 13px; font-family: var(--sans);
-    border: 1px solid var(--line); border-radius: var(--radius-md);
-    background: var(--bg); color: var(--ink); outline: none;
+    border: 1px solid var(--line-night); border-radius: 6px;
+    background: rgba(20, 17, 15, 0.7); color: var(--paper); outline: none;
     transition: border-color 200ms var(--ease);
   }
-  .toc-search:focus { border-color: var(--accent-soft); }
+  .toc-search:focus { border-color: var(--gold); }
+  .toc-search::placeholder { color: var(--ink-dim); }
   .toc-list { flex: 1; overflow-y: auto; padding: 4px 14px 22px; }
   .toc-item {
     display: block; width: 100%; text-align: left;
     font-family: var(--serif); font-size: 14px; line-height: 1.5;
-    color: var(--mid); background: transparent; border: none;
-    padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer;
+    color: var(--ink-soft); background: transparent; border: none;
+    padding: 10px 12px; border-radius: 4px; cursor: pointer;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     transition: color 200ms var(--ease), background 200ms var(--ease);
   }
-  .toc-item:hover { color: var(--ink); background: var(--bg-2); }
-  .toc-item.on { color: var(--accent-strong); background: rgba(200, 101, 75, 0.08); }
+  .toc-item:hover { color: var(--paper); background: rgba(201, 166, 107, 0.1); }
+  .toc-item.on { color: var(--gold); background: var(--gold-soft); }
 
   @media (max-width: 720px) {
-    .stage { padding: 90px 22px 90px; }
-    .poem-card { padding: 34px 28px 40px; max-height: 62vh; }
-    .poem-title { font-size: 24px; }
-    .poem-body { font-size: 16px; line-height: 2.0; }
-    .nav-prev { left: 14px; }
-    .nav-next { right: 14px; }
-    .nav-btn { background: var(--surface); }
+    .stage { padding: 88px 22px 88px; }
+    .poem-frame { padding: 34px 26px 36px 26px; max-height: 58vh; }
+    .poem-number { position: static; text-align: center; margin-bottom: 18px; font-size: 42px; }
+    .poem-title { font-size: 22px; margin-bottom: 18px; }
+    .poem-body { font-size: 16px; line-height: 2.25; }
+    .nav-prev { left: 12px; }
+    .nav-next { right: 12px; }
+    .nav-btn { background: rgba(20, 17, 15, 0.6); }
   }
   @media (prefers-reduced-motion: reduce) {
     .poem, .nav-btn, .toc-panel, .toc-overlay, .progress-fill { transition: none; }
@@ -231,10 +242,9 @@
 
   <main class="stage">
     <article class="poem" id="poem">
-      <div class="eyebrow">POEM</div>
       <h1 class="poem-title" id="title"></h1>
-      <div class="poem-meta" id="meta"></div>
-      <div class="poem-card" id="frame">
+      <div class="poem-frame" id="frame">
+        <div class="poem-number" id="number">01</div>
         <div class="poem-body" id="body"></div>
       </div>
       <div class="poem-date" id="date"></div>
@@ -672,7 +682,7 @@
 
     const elPoem = document.getElementById('poem');
     const elTitle = document.getElementById('title');
-    const elMeta = document.getElementById('meta');
+    const elNumber = document.getElementById('number');
     const elBody = document.getElementById('body');
     const elDate = document.getElementById('date');
     const elCount = document.getElementById('count');
@@ -685,10 +695,10 @@
       elPoem.classList.add('fade');
       elFrame.classList.remove('faded');
       setTimeout(() => {
-        elTitle.textContent = p.title.replace(/^\d+/, '').trim(); // 去掉标题前序号，由 eyebrow 承担
-        elMeta.textContent = 'NO. ' + pad(i + 1) + (p.date ? ' · ' + p.date : '');
+        elTitle.textContent = p.title;
+        elNumber.textContent = pad(i + 1);
         elBody.textContent = p.body;
-        elDate.textContent = '';
+        elDate.textContent = p.date || '';
         elCount.textContent = '— ' + pad(i + 1) + ' / ' + pad(poems.length) + ' —';
         elProgress.style.width = ((i + 1) / poems.length * 100) + '%';
         const onItem = elTocList.querySelector('.toc-item.on');

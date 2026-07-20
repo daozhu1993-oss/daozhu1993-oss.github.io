@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岛主 · 在岛上，慢慢长出来的东西</title>
+<meta name="description" content="岛主的个人小岛 —— 给女儿的绘本、写下来的诗、借古讽今的故事、一堆思维模型，还有一杯随时能聊的咖啡。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  :root{
+    --bg:#FBF8F1;
+    --bg-2:#F4EEE2;
+    --surface:#FFFFFF;
+    --ink:#2B2622;
+    --mid:#8C8377;
+    --faint:#B6AE9F;
+    --line:#ECE5D7;
+    --accent:#C8654B;      /* 砖红 */
+    --accent-soft:#E7B7A8;
+    --sage:#6F8C7A;        /* 苔绿 */
+    --coffee:#6F4E37;
+    --shadow:rgba(60,45,30,0.10);
+    --ease:cubic-bezier(0.22,1,0.36,1);
+    --serif:'Noto Serif SC','Songti SC',serif;
+    --sans:'Noto Sans SC',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+
+  /* ── 滚动进度条 ── */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--sage));z-index:60;transition:width .1s linear;}
+
+  /* ── 右侧旅程导航 ── */
+  .journey{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px;z-index:50;}
+  .journey button{width:11px;height:11px;border:1.5px solid var(--faint);background:transparent;border-radius:50%;cursor:pointer;padding:0;transition:all .35s var(--ease);position:relative;}
+  .journey button::after{content:attr(data-label);position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--mid);white-space:nowrap;opacity:0;transition:opacity .3s var(--ease);pointer-events:none;font-family:var(--serif);}
+  .journey button:hover::after{opacity:1;}
+  .journey button.active{border-color:var(--accent);background:var(--accent);transform:scale(1.25);}
+  .journey button.active::after{opacity:1;color:var(--accent);}
+
+  /* ── 音乐开关 ── */
+  .music-btn{position:fixed;right:24px;bottom:24px;z-index:55;width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--surface);box-shadow:0 8px 24px var(--shadow);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease),border-color .3s var(--ease);}
+  .music-btn:hover{transform:translateY(-3px);border-color:var(--accent-soft);}
+  .music-btn svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.6;}
+  .music-btn.playing{border-color:var(--accent);}
+  .music-btn.playing .note{animation:notePulse 1.8s var(--ease) infinite;}
+  @keyframes notePulse{0%,100%{transform:scale(1);opacity:.9;}50%{transform:scale(1.18);opacity:1;}}
+  .music-btn .bars{display:none;gap:2px;align-items:flex-end;height:18px;}
+  .music-btn.playing .bars{display:flex;}
+  .music-btn.playing .note{display:none;}
+  .music-btn .bars span{width:3px;background:var(--accent);border-radius:2px;animation:eq 1s ease-in-out infinite;}
+  .music-btn .bars span:nth-child(1){height:6px;animation-delay:0s;}
+  .music-btn .bars span:nth-child(2){height:14px;animation-delay:.2s;}
+  .music-btn .bars span:nth-child(3){height:9px;animation-delay:.4s;}
+  .music-btn .bars span:nth-child(4){height:16px;animation-delay:.1s;}
+  @keyframes eq{0%,100%{transform:scaleY(.5);}50%{transform:scaleY(1);}}
+
+  /* ── 通用 section ── */
+  section{position:relative;padding:120px 8vw;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+  .eyebrow{font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
+  .sec-title{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.25;letter-spacing:.01em;margin-bottom:14px;}
+  .sec-sub{color:var(--mid);max-width:540px;font-size:15px;margin-bottom:48px;}
+
+  /* 滚动渐显 */
+  .reveal{opacity:0;transform:translateY(38px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal.d1{transition-delay:.12s;}
+  .reveal.d2{transition-delay:.24s;}
+  .reveal.d3{transition-delay:.36s;}
+  .reveal.d4{transition-delay:.48s;}
+  .reveal.d5{transition-delay:.60s;}
+
+  /* ══ 0. 封面 ══ */
+  .cover{text-align:center;align-items:center;background:
+      radial-gradient(120% 80% at 50% 0%, #FFFDF8 0%, var(--bg) 55%),
+      var(--bg);}
+  .cover .island{width:min(360px,70vw);margin:0 auto 36px;}
+  .cover .island .wave{animation:waveMove 6s ease-in-out infinite;}
+  @keyframes waveMove{0%,100%{transform:translateX(0);}50%{transform:translateX(-8px);}}
+  .cover h1{font-family:var(--serif);font-weight:700;font-size:clamp(46px,9vw,96px);letter-spacing:.04em;line-height:1.05;}
+  .cover h1 .dot{color:var(--accent);}
+  .cover .tag{font-family:var(--serif);font-size:clamp(15px,2.4vw,20px);color:var(--mid);margin-top:22px;letter-spacing:.04em;}
+  .enter-btn{margin-top:46px;display:inline-flex;align-items:center;gap:10px;padding:15px 38px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:var(--serif);font-size:16px;cursor:pointer;border:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease);box-shadow:0 10px 30px rgba(43,38,34,.18);}
+  .enter-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(43,38,34,.26);}
+  .enter-btn svg{width:18px;height:18px;stroke:var(--bg);fill:none;stroke-width:1.8;}
+  .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--faint);font-size:12px;letter-spacing:.2em;font-family:var(--serif);display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .scroll-hint .arrow{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
+
+  /* ══ 1. 认识岛主 ══ */
+  .meet{flex-direction:row;gap:7vw;align-items:center;}
+  .meet .art{flex:0 0 38%;max-width:420px;}
+  .meet .art svg{width:100%;}
+  .meet .bio{flex:1;max-width:560px;text-align:left;}
+  .meet .bio p{font-size:16px;color:#4a443c;margin-bottom:18px;}
+  .meet .bio .name{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:6px;}
+  .meet .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
+  .meet .tags span{font-size:12px;color:var(--mid);border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:var(--surface);}
+
+  /* ══ 2. 翻内容 ══ */
+  .content{background:var(--bg-2);}
+  .content .list{border-top:1px solid var(--line);}
+  .row{display:flex;align-items:center;gap:24px;padding:28px 8px;border-bottom:1px solid var(--line);cursor:pointer;transition:padding .35s var(--ease),background .35s var(--ease);}
+  .row:hover{padding-left:22px;background:linear-gradient(90deg,rgba(200,101,75,.05),transparent 70%);}
+  .row .idx{font-family:var(--serif);font-size:14px;color:var(--faint);width:42px;flex:0 0 42px;}
+  .row .body{flex:1;}
+  .row .body h3{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:4px;transition:color .3s var(--ease);}
+  .row:hover .body h3{color:var(--accent);}
+  .row .body p{font-size:13.5px;color:var(--mid);}
+  .row .meta{font-size:13px;color:var(--mid);font-family:var(--serif);white-space:nowrap;}
+  .row .arrow{width:22px;height:22px;flex:0 0 22px;stroke:var(--faint);fill:none;stroke-width:1.6;transition:transform .35s var(--ease),stroke .35s var(--ease);}
+  .row:hover .arrow{transform:translateX(6px);stroke:var(--accent);}
+
+  /* ══ 3. 逛产品 ══ */
+  .products{}
+  .prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;}
+  .prod-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px 28px;cursor:pointer;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);position:relative;overflow:hidden;}
+  .prod-card::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(200,101,75,.06),transparent 60%);opacity:0;transition:opacity .4s var(--ease);}
+  .prod-card:hover{transform:translateY(-8px);box-shadow:0 26px 50px var(--shadow);border-color:var(--accent-soft);}
+  .prod-card:hover::before{opacity:1;}
+  .prod-card .ico{width:46px;height:46px;margin-bottom:18px;}
+  .prod-card .ico svg{width:100%;height:100%;stroke:var(--accent);fill:none;stroke-width:1.5;}
+  .prod-card h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:8px;}
+  .prod-card .num{font-size:12px;color:var(--accent);letter-spacing:.05em;margin-bottom:10px;font-family:var(--serif);}
+  .prod-card p{font-size:13.5px;color:var(--mid);line-height:1.7;}
+  .prod-card .go{margin-top:16px;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:6px;opacity:.55;transition:opacity .3s var(--ease),gap .3s var(--ease);}
+  .prod-card:hover .go{opacity:1;gap:10px;color:var(--accent);}
+
+  /* ══ 4. 喝杯咖啡聊聊 ══ */
+  .contact{text-align:center;align-items:center;background:
+      radial-gradient(120% 90% at 50% 100%, #FFFDF8 0%, var(--bg) 55%),
+      var(--bg);}
+  .contact .cup{width:min(150px,40vw);margin:0 auto 34px;}
+  .contact .cup .steam{animation:steam 3.4s ease-in-out infinite;transform-origin:bottom;}
+  .contact .cup .steam.s2{animation-delay:.8s;}
+  .contact .cup .steam.s3{animation-delay:1.6s;}
+  @keyframes steam{0%{opacity:0;transform:translateY(4px) scaleY(.8);}40%{opacity:.7;}100%{opacity:0;transform:translateY(-14px) scaleY(1.15);}}
+  .contact .sec-sub{margin-left:auto;margin-right:auto;}
+  .contact .links{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:8px;}
+  .contact .links a{padding:14px 30px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-family:var(--serif);font-size:15px;transition:transform .35s var(--ease),border-color .35s var(--ease),color .35s var(--ease);}
+  .contact .links a:hover{transform:translateY(-3px);border-color:var(--accent);color:var(--accent);}
+  .contact .links a.wechat-trigger{color:var(--accent);border-color:var(--accent-soft);}
+  .contact .links a.wechat-trigger:hover{color:var(--accent);border-color:var(--accent);}
+  .qr-wrap{max-height:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease);opacity:0;}
+  .qr-wrap.open{max-height:320px;opacity:1;}
+  .qr-wrap img{width:min(200px,55vw);height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:0 18px 42px var(--shadow);margin:18px 0 10px;}
+  .qr-wrap p{font-size:13px;color:var(--mid);}
+  .contact .closing{margin-top:54px;font-family:var(--serif);font-size:15px;color:var(--faint);letter-spacing:.05em;}
+  .footer{text-align:center;padding:30px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);font-family:var(--serif);letter-spacing:.04em;}
+
+  /* ── 移动端 ── */
+  @media (max-width:880px){
+    .journey{display:none;}
+    section{padding:90px 7vw;min-height:auto;}
+    .cover{min-height:100vh;}
+    .meet{flex-direction:column;align-items:flex-start;gap:40px;}
+    .meet .art{flex:none;max-width:300px;}
+    .meet .tags{justify-content:flex-start;}
+    .meet .bio{text-align:left;}
+    .row .meta{display:none;}
+    .row{flex-wrap:wrap;gap:10px;}
+  }
+  @media (max-width:560px){
+    .prod-grid{grid-template-columns:1fr;}
+    .row .idx{width:28px;flex-basis:28px;}
+    .music-btn{width:46px;height:46px;right:16px;bottom:16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="journey" id="journey">
+  <button data-target="cover"   data-label="进入"     class="active"></button>
+  <button data-target="meet"    data-label="认识岛主"></button>
+  <button data-target="content" data-label="翻内容"></button>
+  <button data-target="products" data-label="逛产品"></button>
+  <button data-target="contact" data-label="喝杯咖啡聊聊"></button>
+</nav>
+
+<button class="music-btn" id="musicBtn" aria-label="背景音乐开关" title="背景音乐">
+  <svg class="note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+  <span class="bars"><span></span><span></span><span></span><span></span></span>
+</button>
+
+<audio id="bgm" loop preload="auto" src="assets/bgm.mp3"></audio>
+
+<!-- ════ 0. 封面 / 进入 ════ -->
+<section class="cover" id="cover">
+  <div class="island reveal in">
+    <svg viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 远山 -->
+      <path d="M20 150 Q70 95 130 140 Q170 110 220 145 Q280 100 340 148" stroke="#C9BFAE" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+      <!-- 岛 -->
+      <path d="M70 168 Q120 120 180 130 Q250 120 300 170 Q300 188 180 190 Q60 188 70 168 Z" fill="#EAD9C2" stroke="#C8654B" stroke-width="1.6"/>
+      <!-- 小屋 -->
+      <path d="M168 132 l16 -16 l16 16 Z" fill="#C8654B"/>
+      <rect x="176" y="132" width="16" height="16" rx="1.5" fill="#FBF8F1" stroke="#C8654B" stroke-width="1.2"/>
+      <!-- 树 -->
+      <path d="M132 150 l0 -18 M132 138 q-9 -4 -12 -12 M132 142 q9 -3 13 -11" stroke="#6F8C7A" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <circle cx="132" cy="120" r="9" fill="#6F8C7A" opacity=".85"/>
+      <!-- 波浪 -->
+      <g class="wave" stroke="#B6AE9F" stroke-width="1.3" fill="none" stroke-linecap="round">
+        <path d="M30 198 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
+        <path d="M44 208 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" opacity=".55"/>
+      </g>
+      <!-- 太阳 -->
+      <circle cx="288" cy="64" r="16" fill="#E7B7A8"/>
+    </svg>
+  </div>
+  <h1 class="reveal in d1">岛主<span class="dot">.</span></h1>
+  <p class="tag reveal in d2">在岛上，慢慢长出来的东西</p>
+  <button class="enter-btn reveal in d3" id="enterBtn">
+    进入小岛
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </button>
+  <div class="scroll-hint">
+    <span>向下</span>
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- ════ 1. 认识岛主 ════ -->
+<section class="meet" id="meet">
+  <div class="art reveal">
+    <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 小岛底座 -->
+      <path d="M20 310 Q90 250 160 270 Q240 250 300 310 L300 360 L20 360 Z" fill="#EAD9C2" stroke="#C8654B" stroke-width="1.5"/>
+      <!-- 海浪 -->
+      <path d="M0 335 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#B6AE9F" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M20 350 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#B6AE9F" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/>
+      <!-- 小书桌 -->
+      <rect x="86" y="218" width="148" height="82" rx="3" fill="#FFFDF8" stroke="#2B2622" stroke-width="1.8"/>
+      <line x1="100" y1="300" x2="100" y2="322" stroke="#2B2622" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="220" y1="300" x2="220" y2="322" stroke="#2B2622" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M86 218 L234 218 L222 210 L98 210 Z" fill="#ECE5D7" stroke="#2B2622" stroke-width="1.2"/>
+      <!-- 台灯 -->
+      <path d="M120 218 L120 188 Q120 176 132 178 L148 182" stroke="#2B2622" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M148 182 L168 186 L164 198 L144 194 Z" fill="#FBF8F1" stroke="#2B2622" stroke-width="1.5"/>
+      <!-- 灯光 -->
+      <path d="M150 196 L110 260 L190 260 Z" fill="url(#lampGlow)" opacity=".35"/>
+      <defs>
+        <linearGradient id="lampGlow" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#E7B7A8"/>
+          <stop offset="100%" stop-color="#E7B7A8" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- 纸和笔 -->
+      <rect x="154" y="232" width="58" height="42" rx="2" fill="#FFFDF8" stroke="#2B2622" stroke-width="1.3"/>
+      <line x1="166" y1="246" x2="200" y2="246" stroke="#B6AE9F" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="166" y1="256" x2="194" y2="256" stroke="#B6AE9F" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="166" y1="266" x2="188" y2="266" stroke="#B6AE9F" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="140" y1="228" x2="118" y2="254" stroke="#2B2622" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="118" y1="254" x2="114" y2="250" stroke="#2B2622" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="118" y1="254" x2="122" y2="258" stroke="#2B2622" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- 咖啡杯 -->
+      <path d="M104 244 h26 v18 a13 13 0 0 1 -26 0 Z" fill="#FFFDF8" stroke="#2B2622" stroke-width="1.5"/>
+      <path d="M130 252 q8 0 8 6 q0 8 -8 6" fill="none" stroke="#2B2622" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="108" y1="240" x2="112" y2="232" stroke="#6F4E37" stroke-width="1.4" stroke-linecap="round" opacity=".5"/>
+      <line x1="118" y1="238" x2="120" y2="228" stroke="#6F4E37" stroke-width="1.4" stroke-linecap="round" opacity=".5"/>
+      <!-- 小树 -->
+      <path d="M250 308 q0 -24 0 -40 M250 288 q12 -6 18 -16 M250 296 q-12 -5 -18 -14" stroke="#6F8C7A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <circle cx="250" cy="266" r="8" fill="#6F8C7A" opacity=".85"/>
+      <!-- 飞鸟 -->
+      <path d="M70 120 q8 -6 16 0 M86 120 q8 -6 16 0" stroke="#8C8377" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".6"/>
+      <path d="M260 90 q6 -5 12 0 M272 90 q6 -5 12 0" stroke="#8C8377" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/>
+    </svg>
+  </div>
+  <div class="bio">
+    <div class="name reveal">我是岛主</div>
+    <p class="reveal d1">一个在写东西的爸爸。干过十年编剧——最早在学而思写动画，后来转去做产品经理，现在更多是个 AI 内容创作者：写故事、做产品、折腾 AI。</p>
+    <p class="reveal d2">日常是给女儿一一画成长绘本、把神话翻成新编、写诗和小说；也顺手把商业方法论和 AI 的那些思考，讲得人话一点。这个岛不大，但装的东西不少。</p>
+    <div class="tags reveal d3">
+      <span>十年编剧 · 学而思动画起步</span>
+      <span>产品经理 / AI 内容创作者</span>
+      <span>给女儿画绘本</span>
+      <span>神话新编 · 诗 · 小说</span>
+      <span>商业方法论 &amp; AI 思考</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════ 2. 翻内容 ════ -->
+<section class="content" id="content">
+  <div class="eyebrow reveal">WRITINGS</div>
+  <h2 class="sec-title reveal d1">翻翻我写的内容</h2>
+  <p class="sec-sub reveal d1">零碎的、认真的、借古讽今的，都在这里。</p>
+  <div class="list">
+    <a class="row reveal d1" href="../poetry/index.html">
+      <span class="idx">01</span>
+      <div class="body"><h3>岛主的诗</h3><p>现代诗，写在情绪落下来的时候。</p></div>
+      <span class="meta">82 首</span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="row reveal d2" href="../myth/index.html">
+      <span class="idx">02</span>
+      <div class="body"><h3>故事别传</h3><p>把神话拆开，借古人的壳，说今天的事。</p></div>
+      <span class="meta">11 篇</span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="row reveal d3" href="../ai-thinking/index.html">
+      <span class="idx">03</span>
+      <div class="body"><h3>岛主的AI思考</h3><p>关于 AI、产品与普通人如何用好工具的思考。</p></div>
+      <span class="meta">持续更新</span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="row reveal d4" href="../novel/index.html">
+      <span class="idx">04</span>
+      <div class="body"><h3>岛主的奇思妙想</h3><p>短篇小说、长篇小说，还有一些没想好放哪的故事。</p></div>
+      <span class="meta">待补录</span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+    <a class="row reveal d5" href="https://xhslink.com/m/2h5SdBrgtiq" target="_blank" rel="noopener">
+      <span class="idx">05</span>
+      <div class="body"><h3>岛主和佳佳的旅行日记</h3><p>和佳佳一起，慢慢走中国。</p></div>
+      <span class="meta">↗ 小红书</span>
+      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ════ 3. 逛产品 ════ -->
+<section class="products" id="products">
+  <div class="eyebrow reveal">WORKS</div>
+  <h2 class="sec-title reveal d1">逛逛岛上的一些事</h2>
+  <p class="sec-sub reveal d1">未必都是标准意义上的产品，但都是我真做出来的东西。</p>
+  <div class="prod-grid">
+    <a class="prod-card reveal d1" href="../picturebook/index.html">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M18 3v18"/></svg></div>
+      <h3>给女儿的绘本</h3>
+      <div class="num">17 本 · 持续更新</div>
+      <p>文 / 图 都是我。一一从出生到现在，每一件小事都被画成了故事。</p>
+      <span class="go">翻开 →</span>
+    </a>
+    <a class="prod-card reveal d2" href="../models/index.html">
+      <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+      <h3>思维模型图鉴 · 知识库</h3>
+      <div class="num">230 颗模型</div>
+      <p>我把常用的思维模型做成单文件笔记，随时翻、随时用。</p>
+      <span class="go">翻翻 →</span>
+    </a>
+    <a class="prod-card reveal d3" href="../portfolio/index.html">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+      <h3>职业档案</h3>
+      <div class="num">编剧 → 产品</div>
+      <p>一个人怎么从写剧本，走到做产品，又走回一个人做内容。</p>
+      <span class="go">看看 →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ════ 4. 喝杯咖啡聊聊 ════ -->
+<section class="contact" id="contact">
+  <div class="cup reveal in">
+    <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g class="steam" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M66 40 q-8 -10 0 -20 q8 -10 0 -20"/>
+      </g>
+      <g class="steam s2" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M84 40 q-8 -10 0 -20 q8 -10 0 -20"/>
+      </g>
+      <g class="steam s3" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M102 40 q-8 -10 0 -20 q8 -10 0 -20"/>
+      </g>
+      <!-- 杯身 -->
+      <path d="M40 56 h80 v34 a40 40 0 0 1 -80 0 Z" fill="#FFFDF8" stroke="#6F4E37" stroke-width="2.4"/>
+      <path d="M120 64 q26 0 26 22 q0 22 -26 22" fill="none" stroke="#6F4E37" stroke-width="2.4"/>
+      <!-- 咖啡液面 -->
+      <path d="M48 64 h64" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
+      <!-- 碟 -->
+      <path d="M30 134 h100" stroke="#6F4E37" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="eyebrow reveal in">LET'S TALK</div>
+  <h2 class="sec-title reveal in d1">喝杯咖啡，聊聊？</h2>
+  <p class="sec-sub reveal in d2">想法、合作、或者只是想说说话——岛上一直有位置。来这几个地方找我：</p>
+  <div class="links reveal in d3">
+    <a class="wechat-trigger" href="javascript:;" id="wechatTrigger">微信 · 岛主王仙客</a>
+    <a href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener">知乎 · wang-xianke-52</a>
+    <a href="#cover">回到岛上顶上</a>
+  </div>
+  <div class="qr-wrap" id="qrWrap">
+    <img src="assets/wechat-qr.jpg" alt="岛主王仙客微信二维码">
+    <p>扫码添加我为好友</p>
+  </div>
+  <p class="closing reveal in d4">—— 岛主，在岛上等你</p>
+</section>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西 · 背景音乐来自你本地放的 bgm.mp3</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ── 滚动进度条 ── */
+  var progress = document.getElementById('progress');
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
+    progress.style.width = p + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ── 滚动渐显 ── */
+  var reveals = document.querySelectorAll('.reveal:not(.in)');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ── 右侧旅程导航 ── */
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.journey button'));
+  var sections = dots.map(function(d){ return document.getElementById(d.dataset.target); });
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){
+      var t = document.getElementById(d.dataset.target);
+      if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+  if('IntersectionObserver' in window){
+    var navIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var id = e.target.id;
+          dots.forEach(function(d){ d.classList.toggle('active', d.dataset.target === id); });
+        }
+      });
+    }, {threshold:0.5});
+    sections.forEach(function(s){ if(s) navIo.observe(s); });
+  }
+
+  /* ── 背景音乐 ── */
+  var bgm = document.getElementById('bgm');
+  var musicBtn = document.getElementById('musicBtn');
+  var enterBtn = document.getElementById('enterBtn');
+  var musicOn = false;
+  var usingAudio = false;
+  var usingAmbient = false;
+  var audioBroken = false;
+  var ambientCtx = null;
+  var ambientMaster = null;
+  var ambientDelay = null;
+  var ambientTimer = null;
+  var ambientNext = 0;
+  var mbStep = 0;
+
+  bgm.addEventListener('error', function(){ audioBroken = true; });
+
+  function setMusicUI(){
+    musicBtn.classList.toggle('playing', musicOn);
+    musicBtn.title = musicOn ? '暂停音乐' : '播放音乐';
+  }
+
+  // Web Audio 兜底：没有 bgm.mp3 时，合成一段轻快的八音盒循环（不是嗡嗡声）
+  var MB_NOTES = [523.25, 587.33, 659.25, 783.99, 880.00]; // C5 D5 E5 G5 A5 五声音阶
+  var MB_PATTERN = [0,2,4,2, 1,3,4,3, 0,2,1,2, 4,3,2,0];
+  function mbNote(ctx, master, delay, freq, t){
+    var o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = freq;
+    var o2 = ctx.createOscillator(); o2.type = 'sine'; o2.frequency.value = freq * 2.0;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.8, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.0);
+    var g2 = ctx.createGain(); g2.gain.value = 0.15;
+    o.connect(g); o2.connect(g2); g2.connect(g);
+    g.connect(master); g.connect(delay);
+    o.start(t); o2.start(t); o.stop(t + 1.1); o2.stop(t + 1.1);
+  }
+  function mbStart(){
+    if(!ambientCtx || ambientTimer) return;
+    ambientNext = ambientCtx.currentTime + 0.1;
+    ambientTimer = setInterval(function(){
+      while(ambientNext < ambientCtx.currentTime + 0.4){
+        var idx = MB_PATTERN[mbStep % MB_PATTERN.length];
+        mbNote(ambientCtx, ambientMaster, ambientDelay, MB_NOTES[idx], ambientNext);
+        if(mbStep % 4 === 0) mbNote(ambientCtx, ambientMaster, ambientDelay, MB_NOTES[idx] / 2, ambientNext);
+        mbStep++;
+        ambientNext += 0.4;
+      }
+    }, 60);
+  }
+  function ensureAmbient(){
+    if(ambientCtx) return;
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      var ctx = new AC();
+      var master = ctx.createGain(); master.gain.value = 0.13; master.connect(ctx.destination);
+      var delay = ctx.createDelay(); delay.delayTime.value = 0.26;
+      var fb = ctx.createGain(); fb.gain.value = 0.22;
+      delay.connect(fb); fb.connect(delay); delay.connect(master);
+      ambientCtx = ctx; ambientMaster = master; ambientDelay = delay;
+    }catch(e){ /* 不支持就静默 */ }
+  }
+
+  function playMusic(){
+    if(audioBroken){
+      ensureAmbient();
+      if(ambientCtx){ ambientCtx.resume && ambientCtx.resume(); mbStart(); }
+      usingAmbient = true; musicOn = true; setMusicUI(); return;
+    }
+    var p = bgm.play();
+    if(p && p.then){
+      p.then(function(){ usingAudio = true; musicOn = true; setMusicUI(); })
+       .catch(function(){
+          ensureAmbient();
+          if(ambientCtx){ ambientCtx.resume && ambientCtx.resume(); mbStart(); }
+          usingAmbient = true; musicOn = true; setMusicUI();
+       });
+    } else {
+      usingAudio = true; musicOn = true; setMusicUI();
+    }
+  }
+
+  function pauseMusic(){
+    if(usingAudio) bgm.pause();
+    if(usingAmbient && ambientCtx){
+      if(ambientTimer){ clearInterval(ambientTimer); ambientTimer = null; }
+      ambientCtx.suspend && ambientCtx.suspend();
+    }
+    musicOn = false; setMusicUI();
+  }
+
+  musicBtn.addEventListener('click', function(){
+    if(musicOn) pauseMusic(); else playMusic();
+  });
+
+  // 进入小岛：播放音乐 + 滑到「认识岛主」
+  enterBtn.addEventListener('click', function(){
+    playMusic();
+    var meet = document.getElementById('meet');
+    if(meet) meet.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  // 微信二维码展开
+  var wechatTrigger = document.getElementById('wechatTrigger');
+  var qrWrap = document.getElementById('qrWrap');
+  if(wechatTrigger && qrWrap){
+    wechatTrigger.addEventListener('click', function(e){
+      e.preventDefault();
+      qrWrap.classList.toggle('open');
+    });
+  }
+
+  setMusicUI();
+})();
+</script>
+</body>
+</html>

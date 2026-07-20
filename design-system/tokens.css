@@ -1,0 +1,78 @@
+/* ============================================================
+   岛主 · 设计系统 Token (Design Tokens)
+   统一全站：颜色 / 字体 / 字号 / 间距 / 圆角 / 阴影 / 动效
+   颜色对比度已按 WCAG 2.1 AA 验证（正常文本 ≥ 4.5:1）
+   引用方式：页面 <style> 最前一行加
+     @import url('design-system/tokens.css');
+   （路径按页面层级调整：v2/ 用 ../design-system/tokens.css）
+   ============================================================ */
+:root {
+  /* ── 背景层级 ── */
+  --bg: #FBF8F1;
+  --bg-2: #F4EEE2;
+  --surface: #FFFFFF;
+
+  /* ── 文字（AA 验证，on --bg）── */
+  --ink: #2B2622;     /* 主文字   14.11:1 ✅ */
+  --mid: #6B635A;     /* 次要文字  5.57:1 ✅ */
+  --faint: #9A938A;   /* 装饰文字（非正文，约 3.0:1） */
+  --line: #ECE5D7;    /* 分隔线 */
+
+  /* ── 品牌色 ── */
+  --accent: #C8654B;        /* 砖红·装饰/大标题/背景块  3.65:1（仅大文本/装饰） */
+  --accent-soft: #E7B7A8;   /* 砖红·浅底 */
+  --accent-strong: #A8432B; /* 砖红·白字按钮 & 文字链接  5.65:1 ✅ / 白字 6.00:1 ✅ */
+  --sage: #52715E;          /* 苔绿·辅助文字  5.10:1 ✅ */
+  --coffee: #6F4E37;        /* 咖啡·深棕 */
+
+  /* ── 阴影基色 ── */
+  --shadow: rgba(60, 45, 30, 0.10);
+
+  /* ── 缓动曲线 ── */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── 字体族 ── */
+  --serif: 'Noto Serif SC', 'Songti SC', serif;
+  --sans: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+  /* ── 字号阶梯 (px) ── */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 14px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 20px;
+  --fs-2xl: 24px;
+  --fs-3xl: 30px;
+  --fs-4xl: 36px;
+  --fs-5xl: 44px;
+
+  /* ── 间距（8pt 系统）── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+
+  /* ── 圆角 ── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* ── 阴影层级 ── */
+  --shadow-sm: 0 1px 2px rgba(60, 45, 30, 0.06);
+  --shadow-md: 0 8px 24px rgba(60, 45, 30, 0.10);
+  --shadow-lg: 0 18px 50px rgba(60, 45, 30, 0.14);
+
+  /* ── 动效时长 ── */
+  --dur-fast: 160ms;
+  --dur-normal: 300ms;
+  --dur-slow: 500ms;
+}

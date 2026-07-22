@@ -91,6 +91,7 @@
   .enter-btn{margin-top:46px;display:inline-flex;align-items:center;gap:10px;padding:15px 38px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:var(--serif);font-size:16px;cursor:pointer;border:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease);box-shadow:0 10px 30px rgba(43,38,34,.18);}
   .enter-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(43,38,34,.26);}
   .enter-btn svg{width:18px;height:18px;stroke:var(--bg);fill:none;stroke-width:1.8;}
+  .enter-note{margin-top:18px;font-size:12px;letter-spacing:.08em;color:var(--faint);font-family:var(--serif);}
   .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--faint);font-size:12px;letter-spacing:.2em;font-family:var(--serif);display:flex;flex-direction:column;align-items:center;gap:8px;}
   .scroll-hint .arrow{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
@@ -234,6 +235,7 @@
     进入小岛
     <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
   </button>
+  <p class="enter-note">进入即播放《Best of Me》 · 右下角可随时暂停</p>
   <div class="scroll-hint">
     <span>向下</span>
     <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
@@ -551,8 +553,9 @@
     if(musicOn) pauseMusic(); else playMusic();
   });
 
-  // 进入小岛：仅平滑滑到「认识岛主」（音乐不再自动播放，留给悬浮按钮手动开启）
+  // 进入小岛：平滑滑到「认识岛主」，同时起播背景音乐（用户手势触发，浏览器允许自动播放），之后可随时用悬浮按钮暂停
   enterBtn.addEventListener('click', function(){
+    playMusic();
     var meet = document.getElementById('meet');
     if(meet) meet.scrollIntoView({behavior:'smooth', block:'start'});
   });

@@ -198,7 +198,7 @@
   <button data-target="contact" data-label="喝杯咖啡聊聊"></button>
 </nav>
 
-<button class="music-btn" id="musicBtn" aria-label="背景音乐开关" title="背景音乐">
+<button class="music-btn" id="musicBtn" aria-label="背景音乐：Best of Me — Daniel Powter" title="背景音乐 · Best of Me — Daniel Powter">
   <svg class="note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
   <span class="bars"><span></span><span></span><span></span><span></span></span>
 </button>
@@ -406,7 +406,7 @@
   <p class="closing reveal in d4">—— 岛主，在岛上等你</p>
 </section>
 
-<div class="footer">© 岛主 · 在岛上慢慢长出来的东西 · 背景音乐来自你本地放的 bgm.mp3</div>
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西 · 背景音乐《Best of Me》— Daniel Powter</div>
 
 <script>
 (function(){
@@ -475,7 +475,7 @@
 
   function setMusicUI(){
     musicBtn.classList.toggle('playing', musicOn);
-    musicBtn.title = musicOn ? '暂停音乐' : '播放音乐';
+    musicBtn.title = musicOn ? '暂停 · Best of Me' : '播放 · Best of Me';
   }
 
   // Web Audio 兜底：没有 bgm.mp3 时，合成一段轻快的八音盒循环（不是嗡嗡声）

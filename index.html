@@ -9,6 +9,7 @@
   <meta property="og:title" content="岛主 · 王仙客在岛上">
   <meta property="og:description" content="方法论文章、思维模型、绘本与神话新编。">
   <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏝️%3C/text%3E%3C/svg%3E">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +41,9 @@
       display: flex; flex-direction: column; gap: 38px;
       z-index: 10;
     }
+    .sidebar::-webkit-scrollbar { width: 7px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
     .main {
       margin-left: 312px; flex: 1; height: 100vh;
       display: flex; flex-direction: column;
@@ -115,10 +119,14 @@
     .wall-grid {
       flex: 1;
       display: flex; flex-wrap: wrap; gap: 28px 34px;
-      align-content: center; justify-content: flex-start;
-      overflow: hidden;
+      align-content: safe center; justify-content: flex-start;
+      overflow-y: auto; overflow-x: hidden;
       padding-bottom: 8px;
+      scrollbar-width: thin; scrollbar-color: var(--line) transparent;
     }
+    .wall-grid::-webkit-scrollbar { width: 8px; }
+    .wall-grid::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+    .wall-grid::-webkit-scrollbar-track { background: transparent; }
     .work-card {
       width: 230px; text-decoration: none; color: var(--ink);
       background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
@@ -318,16 +326,6 @@
       </div>
 
       <div class="sidebar-section">
-        <div class="sidebar-title">Filter</div>
-        <div class="filter-list">
-          <a href="#" class="filter-link active" data-filter="all">全部</a>
-          <a href="#" class="filter-link" data-filter="framework">思维模型</a>
-          <a href="#" class="filter-link" data-filter="create">创作</a>
-          <a href="#" class="filter-link" data-filter="lab">实验</a>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
         <div class="sidebar-title">Projects</div>
         <div class="project-list">
           <div class="project-row"><a href="picturebook/index.html">给女儿的绘本</a><span class="year">2024</span></div>
@@ -365,35 +363,35 @@
 
       <div class="wall-grid" id="wall">
         <a class="work-card" href="picturebook/index.html" data-filter="create">
-          <div class="work-thumb"><img src="img/picturebook.png" alt="给女儿的绘本封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/picturebook.png" alt="给女儿的绘本封面" ></div>
           <div class="work-meta"><div class="work-title">给女儿的绘本</div><div class="work-sub">创作</div></div>
         </a>
         <a class="work-card" href="myth/index.html" data-filter="create">
-          <div class="work-thumb"><img src="img/myth.png" alt="故事别传封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/myth.png" alt="故事别传封面" ></div>
           <div class="work-meta"><div class="work-title">故事别传</div><div class="work-sub">创作</div></div>
         </a>
         <a class="work-card" href="poetry/index.html" data-filter="create">
-          <div class="work-thumb"><img src="img/poetry.png" alt="诗歌封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/poetry.png" alt="诗歌封面" ></div>
           <div class="work-meta"><div class="work-title">诗歌</div><div class="work-sub">创作</div></div>
         </a>
         <a class="work-card" href="novel/index.html" data-filter="create">
-          <div class="work-thumb"><img src="img/novel.png" alt="小说封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/novel.png" alt="小说封面" ></div>
           <div class="work-meta"><div class="work-title">小说</div><div class="work-sub">创作</div></div>
         </a>
         <a class="work-card" href="models/index.html" data-filter="framework">
-          <div class="work-thumb"><img src="img/thinking.png" alt="思维模型图鉴封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/thinking.png" alt="思维模型图鉴封面" ></div>
           <div class="work-meta"><div class="work-title">思维模型 · 图鉴</div><div class="work-sub">230 颗模型 · 单文件笔记</div></div>
         </a>
         <a class="work-card" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener" data-filter="framework">
-          <div class="work-thumb"><img src="img/wechat.png" alt="王仙客在岛上公众号封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/wechat.png" alt="王仙客在岛上公众号封面" ></div>
           <div class="work-meta"><div class="work-title">王仙客在岛上</div><div class="work-sub">微信合集 ↗</div></div>
         </a>
         <a class="work-card" href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener" data-filter="lab">
-          <div class="work-thumb"><img src="img/zhihu.png" alt="知乎主页封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/zhihu.png" alt="知乎主页封面" ></div>
           <div class="work-meta"><div class="work-title">知乎主页</div><div class="work-sub">wang-xianke-52 ↗</div></div>
         </a>
         <a class="work-card" href="portfolio/index.html" data-filter="lab">
-          <div class="work-thumb"><img src="img/archive.png" alt="职业档案封面" loading="lazy"></div>
+          <div class="work-thumb"><img src="img/archive.png" alt="职业档案封面" ></div>
           <div class="work-meta"><div class="work-title">职业档案</div><div class="work-sub">编剧 → 产品 ↗</div></div>
         </a>
       </div>
@@ -404,12 +402,12 @@
   <a class="floating-cta" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener">来岛上坐坐 · 微信 <span class="arrow">↗</span></a>
 
   <!-- Letter Modal -->
-  <div class="letter-overlay" id="letterOverlay" aria-hidden="true">
+  <div class="letter-overlay" id="letterOverlay" role="dialog" aria-modal="true" aria-labelledby="letterHeading" aria-hidden="true">
     <div class="letter-stage">
       <button class="letter-close" id="closeLetter" aria-label="关闭">×</button>
       <div class="letter-paper">
         <div class="letter-content" id="letterContent">
-          <h2>Dear you,</h2>
+          <h2 id="letterHeading">Dear you,</h2>
           <div id="typewriter"></div><span class="letter-cursor" id="letterCursor"></span>
         </div>
         <div class="letter-actions">
@@ -535,12 +533,14 @@
         overlay.setAttribute('aria-hidden', 'false');
         resetTypewriter();
         setTimeout(typeNext, 360);
+        closeBtn.focus();
       }
 
       function closeLetter() {
         overlay.classList.remove('open');
         overlay.setAttribute('aria-hidden', 'true');
         clearTimeout(typeTimer);
+        openBtn.focus();
       }
 
       openBtn.addEventListener('click', () => { enableSound(); openLetter(); });
@@ -558,7 +558,13 @@
           fromSub = !!sessionStorage.getItem('daoFromSub');
           sessionStorage.removeItem('daoFromSub');
         } catch (_) {}
-        if (!fromSub) setTimeout(openLetter, 400);
+        let seen = false;
+        try { seen = !!localStorage.getItem('daoLetterSeen'); } catch (_) {}
+        // 仅首次访问自动展开信笺；之后由「关于我」按钮触发，避免每次刷新都打断浏览
+        if (!fromSub && !seen) {
+          setTimeout(openLetter, 400);
+          try { localStorage.setItem('daoLetterSeen', '1'); } catch (_) {}
+        }
       });
       document.addEventListener('click', function once() {
         enableSound();

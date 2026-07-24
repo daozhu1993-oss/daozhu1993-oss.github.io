@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>岛主 · 在岛上，慢慢长出来的东西</title>
 <meta name="description" content="岛主的个人小岛 —— 给女儿的绘本、写下来的诗、借古讽今的故事、一堆思维模型，还有一杯随时能聊的咖啡。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%9D%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="岛主 · 在岛上，慢慢长出来的东西">
+<meta property="og:description" content="给女儿的绘本、写下来的诗、借古讽今的故事、一堆思维模型，还有一杯随时能聊的咖啡。">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/img/myth.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="岛主 · 在岛上，慢慢长出来的东西">
+<meta name="twitter:description" content="给女儿的绘本、写下来的诗、借古讽今的故事、一堆思维模型，还有一杯随时能聊的咖啡。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -92,7 +100,7 @@
   .enter-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(43,38,34,.26);}
   .enter-btn svg{width:18px;height:18px;stroke:var(--bg);fill:none;stroke-width:1.8;}
   .enter-note{margin-top:18px;font-size:12px;letter-spacing:.08em;color:var(--faint);font-family:var(--serif);}
-  .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--faint);font-size:12px;letter-spacing:.2em;font-family:var(--serif);display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--mid);font-size:12px;letter-spacing:.2em;font-family:var(--serif);display:flex;flex-direction:column;align-items:center;gap:8px;}
   .scroll-hint .arrow{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
 
@@ -154,7 +162,7 @@
   .qr-wrap.open{max-height:320px;opacity:1;}
   .qr-wrap img{width:min(200px,55vw);height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:0 18px 42px var(--shadow);margin:18px 0 10px;}
   .qr-wrap p{font-size:13px;color:var(--mid);}
-  .contact .closing{margin-top:54px;font-family:var(--serif);font-size:15px;color:var(--faint);letter-spacing:.05em;}
+  .contact .closing{margin-top:54px;font-family:var(--serif);font-size:15px;color:var(--mid);letter-spacing:.05em;}
   .footer{text-align:center;padding:30px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);font-family:var(--serif);letter-spacing:.04em;}
 
   /* ── 移动端 ── */
@@ -185,18 +193,35 @@
     .row .idx{width:28px;flex-basis:28px;}
     .music-btn{width:46px;height:46px;right:16px;bottom:16px;}
   }
+
+  /* ── 键盘焦点可见性 ── */
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:3px;border-radius:6px;}
+  .journey button:focus-visible{outline-offset:4px;}
+
+  /* ── 跳到主内容（键盘/屏读用户） ── */
+  .skip-link{position:absolute;left:12px;top:-48px;z-index:100;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-family:var(--serif);font-size:14px;transition:top .25s var(--ease);}
+  .skip-link:focus{top:12px;}
+
+  /* ── 尊重系统「减弱动态效果」设置 ── */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+    .reveal{opacity:1 !important;transform:none !important;}
+    .cover .island .wave,.contact .cup .steam,.scroll-hint .arrow,.music-btn.playing .note,.music-btn.playing .bars span{animation:none !important;}
+  }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#meet">跳到主内容</a>
+
 <div class="progress" id="progress"></div>
 
-<nav class="journey" id="journey">
-  <button data-target="cover"   data-label="进入"     class="active"></button>
-  <button data-target="meet"    data-label="认识岛主"></button>
-  <button data-target="content" data-label="翻内容"></button>
-  <button data-target="products" data-label="逛产品"></button>
-  <button data-target="contact" data-label="喝杯咖啡聊聊"></button>
+<nav class="journey" id="journey" aria-label="岛屿旅程导航">
+  <button data-target="cover"   data-label="进入"     class="active" aria-label="进入"></button>
+  <button data-target="meet"    data-label="认识岛主" aria-label="认识岛主"></button>
+  <button data-target="content" data-label="翻内容" aria-label="翻内容"></button>
+  <button data-target="products" data-label="逛产品" aria-label="逛产品"></button>
+  <button data-target="contact" data-label="喝杯咖啡聊聊" aria-label="喝杯咖啡聊聊"></button>
 </nav>
 
 <button class="music-btn" id="musicBtn" aria-label="背景音乐：Best of Me — Daniel Powter" title="背景音乐 · Best of Me — Daniel Powter">
@@ -204,7 +229,7 @@
   <span class="bars"><span></span><span></span><span></span><span></span></span>
 </button>
 
-<audio id="bgm" loop preload="auto" src="assets/bgm.mp3"></audio>
+<audio id="bgm" loop preload="none" src="assets/bgm.mp3"></audio>
 
 <!-- ════ 0. 封面 / 进入 ════ -->
 <section class="cover" id="cover">
@@ -243,7 +268,7 @@
 </section>
 
 <!-- ════ 1. 认识岛主 ════ -->
-<section class="meet" id="meet">
+<section class="meet" id="meet" tabindex="-1">
   <div class="art reveal">
     <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- 小岛底座 -->
@@ -402,13 +427,13 @@
     <a href="#cover">回到岛上顶上</a>
   </div>
   <div class="qr-wrap" id="qrWrap">
-    <img src="assets/wechat-qr.jpg" alt="岛主王仙客微信二维码">
+    <img src="assets/wechat-qr.jpg" alt="岛主王仙客微信二维码" width="200" height="200" loading="lazy">
     <p>扫码添加我为好友</p>
   </div>
   <p class="closing reveal in d4">—— 岛主，在岛上等你</p>
 </section>
 
-<div class="footer">© 岛主 · 在岛上慢慢长出来的东西 · 背景音乐《Best of Me》— Daniel Powter</div>
+<footer class="footer">© 岛主 · 在岛上慢慢长出来的东西 · 背景音乐《Best of Me》— Daniel Powter</footer>
 
 <script>
 (function(){
@@ -549,13 +574,18 @@
     musicOn = false; setMusicUI();
   }
 
+  // 记住用户对音乐的选择：手动暂停→记为关闭；手动播放→清除。进入小岛的自动播放不写偏好，只读偏好。
+  function setMusicPref(off){ try{ if(off) localStorage.setItem('daoMusicOff','1'); else localStorage.removeItem('daoMusicOff'); }catch(_){} }
+  function musicOptedOut(){ try{ return localStorage.getItem('daoMusicOff') === '1'; }catch(_){ return false; } }
+
   musicBtn.addEventListener('click', function(){
-    if(musicOn) pauseMusic(); else playMusic();
+    if(musicOn){ pauseMusic(); setMusicPref(true); }
+    else { playMusic(); setMusicPref(false); }
   });
 
-  // 进入小岛：平滑滑到「认识岛主」，同时起播背景音乐（用户手势触发，浏览器允许自动播放），之后可随时用悬浮按钮暂停
+  // 进入小岛：平滑滑到「认识岛主」；仅当用户没主动关过音乐时才自动起播（尊重上次选择）
   enterBtn.addEventListener('click', function(){
-    playMusic();
+    if(!musicOptedOut()) playMusic();
     var meet = document.getElementById('meet');
     if(meet) meet.scrollIntoView({behavior:'smooth', block:'start'});
   });

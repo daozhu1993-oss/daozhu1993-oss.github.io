@@ -115,9 +115,6 @@
     .page img { max-height: 100vh; width: auto; margin: 0 auto; }
   }
 </style>
-<!-- 51.la analytics -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
 </head>
 <body>
 
@@ -289,7 +286,7 @@
 <div style="position:fixed;top:16px;right:16px;z-index:999">
 <a href="index.html" id="backToCatalogBtn" style="display:none;padding:8px 18px;background:rgba(0,0,0,.55);color:#fff;border-radius:20px;font-size:13px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">← 回到目录</a>
 </div>
-<script>if(sessionStorage.getItem('fromCatalog')){document.getElementById('backToCatalogBtn').style.display='block'}</script>
+<script>(function(){try{if(sessionStorage.getItem('fromCatalog')){document.getElementById('backToCatalogBtn').style.display='block'}}catch(e){}})()</script>
 
 </body>
 </html>

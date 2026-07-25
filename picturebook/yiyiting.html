@@ -127,9 +127,6 @@
     .back-page { display: flex !important; }
   }
 </style>
-<!-- 51.la analytics -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
 </head>
 <body>
 
@@ -276,5 +273,11 @@
 <div style="text-align:center;padding:12px 0;background:#f5efe3;border-top:1px solid #efe8d8;">
 <a href="index.html" style="display:inline-block;padding:8px 24px;background:#6BCB77;color:#fff;border-radius:20px;text-decoration:none;font-family:'Noto Serif SC',serif;font-size:14px;letter-spacing:0.05em;">← 返回绘本目录</a>
 </div>
+
+<div style="position:fixed;top:16px;right:16px;z-index:999">
+<a href="index.html" id="backToCatalogBtn" style="display:none;padding:8px 18px;background:rgba(0,0,0,.55);color:#fff;border-radius:20px;font-size:13px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">← 回到目录</a>
+</div>
+<script>(function(){try{if(sessionStorage.getItem('fromCatalog')){document.getElementById('backToCatalogBtn').style.display='block'}}catch(e){}})()</script>
+
 </body>
 </html>

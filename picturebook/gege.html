@@ -113,9 +113,6 @@
     .page img { max-height: 100vh; width: auto; margin: 0 auto; }
   }
 </style>
-<!-- 51.la analytics -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
 </head>
 <body>
 
@@ -273,12 +270,10 @@
 </script>
 
 
-<a href="index.html" style="position:fixed;top:14px;left:14px;z-index:9999;background:rgba(43,38,32,.9);color:#fff;font:13px/1.4 'PingFang SC',sans-serif;padding:8px 14px;border-radius:999px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.25)">← 绘本目录</a>
-<script>
-document.addEventListener('click',function(e){
-  var a=e.target.closest&&e.target.closest('a[href="index.html"]');
-  if(a){try{sessionStorage.setItem('daoFromSub','1')}catch(_){}}
-});
-</script>
+<div style="position:fixed;top:16px;right:16px;z-index:999">
+<a href="index.html" id="backToCatalogBtn" style="display:none;padding:8px 18px;background:rgba(0,0,0,.55);color:#fff;border-radius:20px;font-size:13px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">← 回到目录</a>
+</div>
+<script>(function(){try{if(sessionStorage.getItem('fromCatalog')){document.getElementById('backToCatalogBtn').style.display='block'}}catch(e){}})()</script>
+
 </body>
 </html>

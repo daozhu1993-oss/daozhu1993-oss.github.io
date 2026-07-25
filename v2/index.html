@@ -375,7 +375,7 @@
     <a class="prod-card reveal d1" href="../picturebook/index.html">
       <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M18 3v18"/></svg></div>
       <h3>给女儿的绘本</h3>
-      <div class="num">17 本 · 持续更新</div>
+      <div class="num">30 本 · 持续更新</div>
       <p>文 / 图 都是我。一一从出生到现在，每一件小事都被画成了故事。</p>
       <span class="go">翻开 →</span>
     </a>
@@ -546,19 +546,24 @@
     }catch(e){ /* 不支持就静默 */ }
   }
 
+  function startAmbientFallback(){
+    ensureAmbient();
+    if(ambientCtx){ ambientCtx.resume && ambientCtx.resume(); mbStart(); }
+    usingAmbient = true; musicOn = true; setMusicUI();
+  }
   function playMusic(){
-    if(audioBroken){
-      ensureAmbient();
-      if(ambientCtx){ ambientCtx.resume && ambientCtx.resume(); mbStart(); }
-      usingAmbient = true; musicOn = true; setMusicUI(); return;
-    }
+    if(audioBroken){ startAmbientFallback(); return; }
     var p = bgm.play();
     if(p && p.then){
       p.then(function(){ usingAudio = true; musicOn = true; setMusicUI(); })
        .catch(function(){
-          ensureAmbient();
-          if(ambientCtx){ ambientCtx.resume && ambientCtx.resume(); mbStart(); }
-          usingAmbient = true; musicOn = true; setMusicUI();
+          // 首次被拒（多为媒体尚未就绪）：重载后重试一次，仍失败才用八音盒兜底
+          try { bgm.load(); } catch(_){}
+          var p2 = bgm.play();
+          if(p2 && p2.then){
+            p2.then(function(){ usingAudio = true; musicOn = true; setMusicUI(); })
+               .catch(function(){ startAmbientFallback(); });
+          } else { usingAudio = true; musicOn = true; setMusicUI(); }
        });
     } else {
       usingAudio = true; musicOn = true; setMusicUI();

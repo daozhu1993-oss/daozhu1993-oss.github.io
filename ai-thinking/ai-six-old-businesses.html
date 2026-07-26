@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 工具层，正在重做这六门老生意 · 岛主的AI思考</title>
+<meta name="description" content="Codex 换皮肤、Coze 卖 Skills、MJ 卖风格代码——新平台一来，旧地图就得重画一遍。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../index.html">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar"><span class="tag">平台生态</span><span class="tag">机会地图</span><span>2026</span></div>
+<p>Codex 换皮肤、Coze 卖 Skills、MJ 卖风格代码——新平台一来，旧地图就得重画一遍。</p>
+<p>这两天有人给 Codex 的 UI 换了套皮肤。我看完那张图，就一个反应：一个 UI 皮肤，就是一门生意。</p>
+<p>这不是孤例。把时间轴拉长是同一个剧本，演了三遍： - iPhone 出现，壁纸、主题、App 生意重做了一遍； - 微信出现，表情包、公众号代运营重做了一遍； - 现在 AI 工具层（Claude / Codex / Coze）出现，正在重做第六轮。</p>
+<p>哪六门？皮肤、模板、插件、素材包、工作流、教程。</p>
+<p>这六类老生意，每次平台跃迁都会重新长出来一次。我跟人聊这个发现时，对方第一反应是&quot;这不就是卖周边嘛&quot;。错。卖周边是结果，机制才是重点——而且机制一旦看懂，你就会发现这是一张给普通人的机会地图。</p>
+<p>我翻了自己存的那批 AI 工具存档（685 篇公众号历史文章），六类在里头全有真实落点，不是我拍脑袋。下面边拆边给证据。</p>
+<h2>一、为什么新平台必然催生老生意重做</h2>
+<p>先用第一性原理拆一句：平台革命解决的永远是&quot;底层能力&quot;。</p>
+<p>iPhone 把&quot;随身计算&quot;打平了，ChatGPT / Claude 把&quot;通用智能&quot;打平了。但能力一普惠，反作用就来了——平台把&quot;智能&quot;做成了水电，可&quot;我的审美、我的行业、我的习惯&quot;反而成了稀缺品。</p>
+<p>一句话收束：能力普惠化之后，差异化需求更贵了。</p>
+<p>平台顾得上 80% 的人，顾不上你这 20% 的长尾；平台给你通用能力，不给你&quot;我的味道&quot;。这中间空出来的，就是生态位。而历史上填满这个生态位的，永远是同一批东西：皮肤、模板、插件、素材包、工作流、教程。</p>
+<p>它们本质都是一件事——把&quot;平台没做的最后一公里&quot;产品化。</p>
+<p>下面一个个拆。</p>
+<h2>二、六门老生意，正在 AI 平台上重做</h2>
+<p><strong>1）皮肤 / 主题</strong> 旧平台对应物：iPhone 壁纸、微信主题。 AI 平台新形态：Codex / Claude Code 的 UI 皮肤（开头那个活证）、Midjourney 的风格代码（藏师傅 2024 年那篇&quot;宝藏提示词和风格代码&quot;卖的就是这个）、Obsidian 主题，还有人用 4o 十分钟做两套表情包。 岛主观点：皮肤卖的不是功能，是审美主权。平台统一审美的地方，个性化就是溢价空间。</p>
+<p><strong>2）模板</strong> 旧平台对应物：PPT 模板、简历模板。 AI 平台新形态：MJ 提示词模板、Runway 提示词模板、GPTs 系统提示词、Gemini 的 PPT 模板提示词。 岛主观点：模板 = 把试错成本打包卖。好模板卖的不是格式，是确定性结果——你照抄就能出图，不用自己从零踩坑。</p>
+<p><strong>3）插件</strong> 旧平台对应物：浏览器插件、微信插件。 AI 平台新形态：Codex 刚在 2026 年 3 月支持了 Plugins，内置了不少；更早的 Bing 接 ChatGPT 插件、Stable Diffusion 的 ControlNet 插件、MJ 网站增强插件。 岛主观点：插件 = 在平台能力上开捷径。离平台越近越值钱，但也最怕平台自己补上这一刀——这是六类里风险最高的。</p>
+<p><strong>4）素材包</strong> 旧平台对应物：字体包、图标库。 AI 平台新形态：LoRA 模型（用 OneTrainer 就能训）、AI 孙燕姿声音模型、各种风格模型。 岛主观点：素材包 = 把训练好的偏好产品化。一次性生产，近乎无限次售，边际成本趋零——这是六类里最性感的生意模型。</p>
+<p><strong>5）工作流</strong> 旧平台对应物：Excel 自动化、RPA 脚本、SOP 文档。 AI 平台新形态：ComfyUI 工作流（别人导出的 JSON 你拖进来就能跑）、Coze 的 Skills（官方说 3 分钟做出可变现）、手机端的 Agent 商店、Dify 应用。 岛主观点：工作流 = 把 Know-how 封装成可复用资产。它最靠近&quot;咨询 / 代运营&quot;，客单最高，也最不怕平台抄——因为抄得了流程，抄不了信任。</p>
+<p><strong>6）教程</strong> 旧平台对应物：书籍、培训班。 AI 平台新形态：保姆级图文（MJ、Pika、Gemini CLI 都有）、&quot;邪修&quot;教程（Suno、Seedream）、Vibe Coding 通关长文。 岛主观点：教程 = 把时间差变现。新工具的窗口期，就是教程的红利期。工具越新，愿意为&quot;有人教我&quot;付钱的人越多。</p>
+<h2>三、对创作者：六个入口，选一个下场</h2>
+<p>六类不是让你全做，是给你一张机会地图。怎么选切口？给你一个 MECE 决策维度： 看&quot;平台会不会自己下场&quot;。</p>
+<p>平台必争之地（通用模板市场、底层插件）：别硬刚，会被收编。 平台懒得做 / 做不细的长尾：小众审美皮肤、垂直行业工作流、带人味的教程——这些才是普通人的机会。</p>
+<p>一条判断红线：重&quot;人味 / 社区 / 信任&quot;的，最难被取代；纯功能、纯格式的，活不过平台的一次更新。</p>
+<p>如果你问我普通人从哪下手最稳——我的建议是工作流和带人味的教程。前者卖的是你踩过的坑（Know-how 别人抄不走），后者卖的是你愿意手把手教（信任别人替代不了）。这两类，平台越想自己做，越做不出&quot;人味&quot;。</p>
+<h2>收尾</h2>
+<p>新平台出现，等于旧地图重新画一遍。 画地图的人不一定是技术最强的人，但一定是第一批看懂&quot;哪六门老生意要重做&quot;的人。 会画地图的人，先富。</p>
+<h2>题图思路</h2>
+<p>一张三段时间轴——iPhone / 微信 / AI 工具层，每层下方并列六类小图标（皮肤/模板/插件/素材包/工作流/教程），用&quot;重做&quot;箭头串联。</p>
+<h3>素材来源（回链知识库，供四步闭环第②步找缝隙）</h3>
+<ul>
+<li><strong>资源层归档 <code>30-Resources/</code></strong>：歸藏 AI 工具箱（685 篇公众号历史文章，六类均有真实落点：Codex 皮肤 / MJ 风格代码 / Coze Skills / LoRA / ComfyUI 工作流 / 保姆级教程）</li>
+<li><strong>原子笔记 <code>90-Atomic/</code>（20 条）</strong>：第一性原理思维（能力普惠化后差异化更贵）、MECE（平台会不会自己下场）、结果思维（Know-how 封装成可复用资产）；黄金圈/金字塔可二次校验结构</li>
+<li><strong>注</strong>：核心证据均可回溯到原存档标题与日期；本篇为「岛主的 AI 思考」合集第二篇</li>
+</ul>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../index.html">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

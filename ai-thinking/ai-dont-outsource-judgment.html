@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别让 AI 替你做判断，它只是你脑子里的快进键 · 岛主的AI思考</title>
+<meta name="description" content="别让 AI 替你做判断，它只是你脑子里的快进键。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../index.html">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar"><span class="tag">AI分工</span><span class="tag">判断力</span><span>2026</span></div>
+<p>前两天有个朋友跟我聊，说他现在的流程是：让 AI 帮他选题、帮他定方向、帮他判断&quot;哪篇发出去数据会更好&quot;——一套下来，他自己几乎不动脑子了。</p>
+<p>我听完心里咯噔一下。</p>
+<p>倒不是说他懒。是这件事的本质，他可能搞反了。</p>
+<p><strong>AI 最值钱的地方，从来不是替你判断，而是把你脑子里那个&quot;好的效果&quot;，用光速实现出来。</strong></p>
+<p>判断权，永远是你的。交出去，你就从导演变成了观众。</p>
+<hr>
+<h2>先用第一性原理拆：AI 到底是个什么</h2>
+<p>别被那些&quot;AI 比你更懂你&quot;的营销话术带跑。</p>
+<p>第一性原理看：AI 是个超强的<strong>执行器</strong>。你给它一个足够清晰的&quot;想要什么&quot;，它能用惊人的速度把那个东西做出来——写、画、剪、搭、跑。它能把原本要花你三天的事，压成三分钟。</p>
+<p>但&quot;你想要什么&quot;&quot;什么才算好&quot;，这两个问题，它一个都回答不了。</p>
+<p>它不知道你的审美边界在哪，不知道你这条内容的魂是什么，不知道你这次想戳中谁的心。它只会基于训练数据里&quot;大概率被喜欢&quot;的答案，给你一个平均值的、安全的、讨好概率的结果。</p>
+<p>乔布斯有句话，我越想越准：<strong>&quot;苹果的执行力非常好，只是他们用在了错误的道路上。&quot;</strong></p>
+<p>把主语换一下你就懂了——<strong>AI 的执行力非常好，只是它不知道该走在哪条道路上。</strong></p>
+<p>路，得你指。</p>
+<hr>
+<h2>为什么判断不能外包给 AI</h2>
+<p>判断这件事，底层是&quot;价值观 + 品味 + 边界&quot;。这三样，AI 一样都没有。</p>
+<p>段永平说：&quot;知道自己的能力圈有多大，往往比自己能力圈有多大更重要。&quot;——能力圈的边界，是你用无数次试错、复盘、被打脸换来的，是你的，不是 AI 的。你把判断权交给 AI，等于把能力圈外包了。</p>
+<p>乔布斯在谈人才时也说过：&quot;他们会做出判断：你在做什么选择，你秉承何种价值观。&quot;——注意，判断的前提是&quot;你秉承何种价值观&quot;。AI 没有价值观，它只有概率。让一个没有价值观的东西替你判断，出来的东西只能是&quot;最不难看的平均值&quot;，而不是&quot;最像你的那个好&quot;。</p>
+<p>很多人没意识到：<strong>判断力的稀缺，在 AI 时代不是被缓解了，是被放大了。</strong></p>
+<p>AI 把&quot;做出来&quot;的成本打到地板，于是市面上的内容一夜之间多了一万倍。在全是平均值的海里，你那个&quot;不一样的好&quot;反而成了唯一的灯塔。这时候谁还愿意把灯塔的开关交给 AI？</p>
+<hr>
+<h2>正确的分工：你定好坏，AI 提速</h2>
+<p>说回那个朋友。我跟他讲了个更顺的姿势——</p>
+<p><strong>人负责两件事：判断&quot;什么是对的&quot;，定义&quot;好的效果长什么样&quot;。</strong> <strong>AI 负责一件：把那个效果，快速实现出来。</strong></p>
+<p>你是甲方，AI 是你手下执行力最强的乙方。甲方把&quot;我要什么、什么算达标&quot;说清楚，乙方玩命交付。反过来就完了。</p>
+<p>我知识库里存了一批 AI 工具存档，三个活生生的例子，全是这个分工：</p>
+<ul>
+<li><strong>藏师傅的 MJ 风格代码</strong>：他脑子里先有一套明确的审美——某种质感、某种光影、某种&quot;对味&quot;。然后他把它写成风格代码，让 AI 把这套审美批量实现出来。是先有&quot;判断&quot;，后有&quot;实现&quot;。</li>
+<li><strong>有人给 Codex 换 UI 皮肤</strong>：审美主权在他自己手里，AI 只是帮他更快把那套皮肤落地。卖的不是功能，是&quot;我的味道&quot;。</li>
+<li><strong>vibe coding</strong>：你脑子里有张图、有个流程，用嘴把它说出来，AI 帮你写。核心是&quot;你脑子里已经有东西了&quot;，AI 是翻译器，不是发明家。</li>
+</ul>
+<p>你看，这三个生意能成立，前提是<strong>人先有判断</strong>。AI 只是把&quot;已经有了的好&quot;，加速了。</p>
+<hr>
+<h2>反例：把判断外包，会发生什么</h2>
+<p>段永平还有句狠的：&quot;做对的事情最后会有好结果；做错的事情最后会有大麻烦。&quot;</p>
+<p>让 AI 替你判断，就是典型的&quot;做错的事情&quot;——而且因为 AI 执行力太强，它会在错误的方向上，以十倍速把你送到沟里。</p>
+<p>你让 AI 选选题，它给你一组&quot;安全话题&quot;，你发，数据平平，因为每个人都被喂了一样的&quot;安全话题&quot;。你让 AI 定调性，它给你一个&quot;通用爆款脸&quot;，你用，慢慢你就没了脸。</p>
+<p>更要命的是：你越依赖它判断，你自己的判断力越锈。等哪天 AI 给你的答案你隐约觉得不对、却又说不出哪不对的时候——你就已经不会判断了。</p>
+<hr>
+<h2>怎么练：把判断权攥紧，把 AI 当放大器</h2>
+<p>不复杂，三件事：</p>
+<p><strong>第一，建立你自己的&quot;好&quot;的标准。</strong> 这个我上篇讲过（见合集第三篇《创作者的判断力》）：喂最好的东西给自己，做&quot;产—评&quot;闭环，用结果思维把每次判断沉淀成可复用的标准。标准在你脑子里，AI 才有的用。</p>
+<p><strong>第二，用 AI 加速你的验证，不加速你的决策。</strong> 方向你定，让 AI 半小时给你出十个版本，你从中判断哪个最接近你要的&quot;好&quot;。它是你的草稿机，不是你的评委。</p>
+<p><strong>第三，芒格那句话要常挂心上：&quot;我特别注重汲取各学科的主要知识，这样才不至于只见树木，不见森林。&quot;</strong> 判断靠的是&quot;见森林&quot;的视野，AI 给你的是&quot;树木&quot;的密度。密度再高，替代不了你站在山顶看的那一眼。</p>
+<hr>
+<h2>收个尾</h2>
+<p>AI 不替你思考。</p>
+<p>它只是让你脑子里那个好的东西，更快落地而已。</p>
+<p>会判断的人，用 AI 放大自己——一个人活成一支队伍。 不会判断的人，被 AI 放大平庸——一个人，活成一万条一模一样的平均値。</p>
+<p>方向盘在你手里。AI 是引擎，不是司机。</p>
+<hr>
+<blockquote>
+<p>题图思路：左半边一个人皱眉&quot;判断&quot;（大脑亮着），右半边 AI 飞速把&quot;好效果&quot;打印出来；中间一道箭头写&quot;你定方向，AI 提速&quot;。</p>
+</blockquote>
+<p>素材来源：本人知识库金句库（段永平能力圈/做对的事、乔布斯执行力用错道路/做出判断价值观、芒格多元思维见森林）+ 归档 AI 工具存档（藏师傅 MJ 风格代码、Codex 皮肤、vibe coding）；核心论点承接合集第三篇《创作者的判断力》。</p>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../index.html">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

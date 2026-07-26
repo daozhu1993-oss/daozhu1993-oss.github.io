@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用了 AI 还算你写的吗：判断在谁手里，就是谁写的 · 岛主的AI思考</title>
+<meta name="description" content="用了 AI 还算你写的吗？判断在谁手里，就是谁写的。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../index.html">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar"><span class="tag">作者性</span><span class="tag">AI</span><span>2026</span></div>
+<p>有个读者私信我：&quot;你这些文章，好多不是 AI 帮你写的吗？那还算你自己写的吗？&quot;</p>
+<p>我猜很多人心里都转过这念头。尤其当你看一个人用 AI 产出的东西又快又好的时候，&quot;这到底算谁的&quot;会变成一个微妙的问题。</p>
+<p>我的答案特别干脆：<strong>判断在谁手里，就是谁写的。</strong></p>
+<p>不是谁敲的键盘，不是谁调的参数，是——谁定的好坏、谁做的取舍、谁为最后那一下&quot;就它了&quot;负责。</p>
+<hr>
+<h2>先用第一性原理拆：&quot;写&quot;到底是什么</h2>
+<p>别被&quot;写&quot;这个动作骗了。第一性原理看，任何一篇拿得出手的内容，完成的不是&quot;码字&quot;，是&quot;判断 + 表达&quot;。</p>
+<p>表达，是把手里想清楚的东西落成字句——这部分天然能被工具接管。从毛笔到打字机到 word 到 AI，表达的效率一直在被外包，从来没人问&quot;用 word 写的还算自己写的吗&quot;。</p>
+<p>判断，是想清楚&quot;到底要说什么、说给谁、什么语气、哪句留哪句砍、这一版对不对味&quot;。这部分的&quot;想清楚&quot;，工具替不了。</p>
+<p>所以&quot;用 AI 写&quot;和&quot;用键盘写&quot;本质没区别——都是表达层换了更顺手的工具。真正定义&quot;作者&quot;的，是判断层有没有在你这儿。</p>
+<p>帕斯卡那根&quot;会思考的芦苇&quot;放到这儿刚好：思想组成人的全部尊严。AI 能产出接近思想的结果，但&quot;把意义、目的、好坏归属于自己&quot;的那一层，是它永远没有的。执行可以外包，思考不能外包——署名权，跟着思考走。</p>
+<hr>
+<h2>放到具体事上：三个类比就清楚了</h2>
+<p><strong>摄影。</strong> 你用最贵的相机、开全自动模式，按下快门——这张照片算谁的？当然算摄影师的。因为构图、时机、你要的这个瞬间、你盯着取景器说&quot;就这个角度&quot;的那一下，是你的。相机只是把你的判断落成成像。没人会因为&quot;机器帮着成像&quot;就说这照片不是你拍的。</p>
+<p><strong>乐器。</strong> 合成器帮你发声、效果器帮你润色，但旋律、节奏、哪段该留白，是你的。没人说&quot;你用了合成器就不算作曲&quot;。工具越强，反而越考验你脑子里的那个东西。</p>
+<p><strong>计算器。</strong> 你列式子、你判断&quot;该用除法还是开方&quot;、你看结果不对立刻知道是哪儿错了——算的过程交给机器，但&quot;为什么要算、怎么算、算得对不对&quot;是你的。考试时你可以用计算器，卷子上写的还是你的名字。</p>
+<p>AI 写作，就是写作界的&quot;合成器 + 计算器&quot;。它接管表达和运算，你保留判断和署名。</p>
+<hr>
+<h2>判断在谁手，署名就归谁</h2>
+<p>回到那个读者的疑问。我写这些文章，流程是：我先想清楚这期要戳谁、核心一句是什么、哪个案例最狠、哪段必须砍——这些判断落定之后，才让 AI 帮我起草、铺结构、出变体、润色。</p>
+<p>最后&quot;用这版、不用那版、这句改重音&quot;的，是我。</p>
+<p>所以署名写我的名字，天经地义。不是因为键盘在我手，是因为方向盘在我手。</p>
+<p>反过来想：如果一篇文章，方向是 AI 定的、调性是 AI 选的、好坏是 AI 判的，只有&quot;发送&quot;那一下是你点的——那它署你的名才奇怪。那不叫&quot;你写的&quot;，那叫&quot;你转发的&quot;。</p>
+<p>段永平有句话放在这儿特别合适：&quot;做对的事情最后会有好结果；做错的事情最后会有大麻烦。&quot;判断权在你手里，你就为&quot;对不对&quot;负责；判断权在 AI 手里，你连&quot;错没错&quot;都说不清，却照样要挨读者的信任或唾沫。</p>
+<hr>
+<h2>真正要警惕的，不是&quot;用了 AI&quot;</h2>
+<p>真正该警惕的，是把判断也交出去之后，还想要作者的荣誉。</p>
+<p>有人用 AI 生成一整套：选题、正文、标题、配图、发布文案，自己只负责点发送。这种内容不算&quot;他写的&quot;——不是因为用了 AI，是因为从头到尾没有一处判断是他做的。他不是作者，是分发员。</p>
+<p>而一个人哪怕全文每个字都是 AI 敲的，只要方向、态度、取舍、署名全在他那儿，那就是他写的。读者认的，是那个&quot;判断的角&quot;，不是那双手。</p>
+<p>乔布斯谈人才时说的：&quot;他们会做出判断：你在做什么选择，你秉承何种价值观。&quot;——注意，判断的前提是&quot;你秉承何种价值观&quot;。当你的价值观、你的选择、你的&quot;就它了&quot;清晰地落在内容上，作者就是你，工具只是工具。</p>
+<hr>
+<h2>收个尾</h2>
+<p>用了 AI，当然还算你写的。只要判断在你手里。</p>
+<p>AI 是笔，不是手。笔再智能，落不落、落在哪、为什么落，还是你说了算。</p>
+<p>别因为用了好笔，就不好意思署名。也别因为用了好笔，就把&quot;想清楚&quot;那一步省了——省掉的不是工具活，是作者本身。</p>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../index.html">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>写作里，哪些活能交给 AI，哪些一步都不能让 · 岛主的AI思考</title>
+<meta name="description" content="写作里能交给 AI 的是执行层，一步都不能让的是判断层。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../index.html">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar"><span class="tag">AI写作</span><span class="tag">判断层</span><span>2026</span></div>
+<p>有个朋友前阵子特兴奋地跟我展示他的&quot;全 AI 写作流&quot;：选题让 AI 给、大纲让 AI 列、正文让 AI 写、连标题和结尾的金句都让 AI 配好，他只负责点一下&quot;发送&quot;。</p>
+<p>我问他：&quot;那你自己做了啥？&quot;</p>
+<p>他想了想说：&quot;我……审了一下错别字？&quot;</p>
+<p>那一刻我意识到，很多人对&quot;用 AI 写作&quot;的理解，从根上就歪了。他们不是在用 AI 写作，是在把&quot;写作&quot;这件事整个交出去。</p>
+<p>写作里确实有大量活能交给 AI。但有一类活，一步都不能让。混为一谈，你就从作者变成了校对。</p>
+<hr>
+<h2>先用第一性原理拆：写作到底由哪两层组成</h2>
+<p>别被&quot;我在用 AI 写&quot;这句话骗了。第一性原理看，任何一篇拿得出手的内容，都由两层叠出来：</p>
+<p><strong>第一层是判断层</strong>——你想戳中谁、要表达什么态度、什么算好、什么该砍、这一句留不留、那一段移到哪。这是&quot;决定权&quot;。</p>
+<p><strong>第二层是执行层</strong>——把上面那堆决定，落成具体的字、句、段落、结构、排版。这是&quot;动手做&quot;。</p>
+<p>AI 在这两层里的位置，天差地别。</p>
+<p>它是个恐怖的执行器：你给它一个足够清楚的&quot;我要什么、什么算达标&quot;，它能用三分钟干完你三天干的活——起十版开头、把口语转成书面、把长句拆短、把散点排成结构、找贴切的案例、甚至按你的语气润色。</p>
+<p>但&quot;我要什么、什么算达标&quot;这一句，它给不了。乔布斯谈人才那句话，挪到这儿准得可怕：&quot;他们会做出判断：你在做什么选择，你秉承何种价值观。&quot;判断的前提是&quot;你秉承何种价值观&quot;——AI 没有价值观，它只有概率。</p>
+<p>所以真正的分工，是按层切，不是按&quot;写不写&quot;切。</p>
+<hr>
+<h2>能交给 AI 的：执行层的所有苦力活</h2>
+<p>这一类活，放心扔给 AI，它比你快、比你稳、还不知疲倦。</p>
+<p><strong>找素材、做调研。</strong> 你定好方向，让它把相关案例、数据、反方观点铺出来。它给你一片材料林，你挑哪棵用。</p>
+<p><strong>起草稿、铺结构。</strong> 你口述核心观点，让它扩成提纲、补过渡、把逻辑缝起来。它产出的是&quot;毛坯&quot;，你来做精装。</p>
+<p><strong>做变体、搞 A/B。</strong> 同一观点要三个开头？要一个更狠的、一个更柔的、一个更适合短视频口播的？它十分钟给你一打，你挑最对味的。</p>
+<p><strong>润色、压缩、转译。</strong> 把啰嗦的改利落、把长的压短、把书面腔转成你的口语、把一篇长文拆成小红书体和口播稿。这是它最舒服的区间。</p>
+<p><strong>格式与排版。</strong> 标题分级、引用块、配图建议、甚至导出成不同平台的版式。纯执行，交给它别心疼。</p>
+<p>你看，执行层的核心特征是：<strong>有明确标准，结果可验收</strong>。你只要能说清&quot;我要什么样&quot;，它就能交付。藏师傅的 MJ 风格代码、有人给 Codex 换的 UI 皮肤、vibe coding 里你用嘴描述、AI 写代码——本质上都是&quot;人把判断说清，AI 把执行跑完&quot;。</p>
+<hr>
+<h2>一步都不能让的：判断层的全部主权</h2>
+<p>这一类活，但凡让出去一分，你就少一分作者性。</p>
+<p><strong>定方向、定态度。</strong> 这篇到底想戳谁、站在哪边、敢不敢说那句别人不敢说的。这是内容的魂，魂交出去，剩下的只是漂亮的空壳。</p>
+<p><strong>定好坏、做取舍。</strong> 帕斯卡有句特别准的话：&quot;删除和省略之美，就是判断之美。&quot;判断的本质是品味——知道什么该留、什么该砍，不是套公式。十版草稿摆这儿，哪一版&quot;对&quot;、砍掉哪些铺垫，这个&quot;对&quot;字归你。不会判断的人不是缺工具，是缺&quot;好&quot;的标本。</p>
+<p><strong>署名与责任。</strong> 发出去署的是你的名，挨骂、被追责、被读者信任的，也都是你。判断外包了，好处没你的（因为不是你的判断），雷却全炸你身上。</p>
+<p>段永平那句要常念：&quot;知道自己的能力圈有多大，往往比自己能力圈有多大更重要。&quot;能力圈的边界，是你用无数次试错、复盘、被打脸换来的——是你的，不是 AI 的。把判断权交给 AI，等于把能力圈外包了。</p>
+<p>更隐蔽的代价是：你越把判断层让出去，你自己的判断力越锈。等哪天 AI 给的答案你隐约觉得不对、却又说不出哪不对的时候，你就已经不会写了。</p>
+<hr>
+<h2>正确的活法：你是甲方，AI 是执行力最强的乙方</h2>
+<p>把两层摆清楚，姿势就顺了——</p>
+<p><strong>你负责说清&quot;我要什么、什么算好&quot;，AI 负责把它光速做出来。</strong></p>
+<p>你是甲方。甲方把需求讲明白，乙方玩命交付。反过来就完了：乙方替甲方定了需求，甲方只剩签字。</p>
+<p>具体落地，三件事：</p>
+<p><strong>第一，把判断层先做完，再开 AI。</strong> 动键盘前，先拿张纸写清楚：这篇给谁看、核心一句是什么、我想让读者带走什么、哪些话必须留。这几行字，就是给 AI 的&quot;需求文档&quot;。没它，AI 给你的是平均值。</p>
+<p><strong>第二，让 AI 加速你的验证，不加速你的决策。</strong> 方向你定，让 AI 半小时出十个版本，你从中挑最接近你要的&quot;好&quot;。它是你的草稿机，不是你的评委。芒格那句话要挂心上：&quot;我特别注重汲取各学科的主要知识，这样才不至于只见树木，不见森林。&quot;判断靠的是&quot;见森林&quot;的视野，AI 给你的是&quot;树木&quot;的密度——密度再高，替代不了你站在山顶看的那一眼。</p>
+<p><strong>第三，每写完一篇，回头标一句&quot;我为什么这么判&quot;。</strong> 这是养判断力的土办法：把每次取舍的理由写下来，慢慢你脑子里的&quot;好&quot;就有形了，下次 AI 出活你一眼就能分高下。</p>
+<hr>
+<h2>收个尾</h2>
+<p>写作里能交给 AI 的，是所有的&quot;做&quot;；一步都不能让的，是所有的&quot;定&quot;。</p>
+<p>把&quot;做&quot;外包出去，你腾出精力去&quot;定&quot;更狠的、更准的、更像你的东西——这是杠杆。把&quot;定&quot;也外包出去，你腾出的不是精力，是作者身份本身。</p>
+<p>AI 是引擎，不是司机。油门它踩，方向盘你得攥着。</p>
+<p>哪天你发现自己只在审错别字，就该停下来想想：我到底把&quot;写&quot;这件事，让出去多少了。</p>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../index.html">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

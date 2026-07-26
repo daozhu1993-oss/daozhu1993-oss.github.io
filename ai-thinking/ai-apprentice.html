@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 是我的学徒，不是我的替身：这两者差在哪 · 岛主的AI思考</title>
+<meta name="description" content="AI 是我的学徒，不是我的替身。你教、它练、你判，它越懂你，你越会判。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../index.html">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar"><span class="tag">AI学徒</span><span class="tag">判断力</span><span>2026</span></div>
+<p>&quot;你把 AI 当学徒用，还是当替身用？&quot;——这俩词差一个字，却是天壤之别。</p>
+<p>太多人以为自己在&quot;用 AI&quot;，其实是在&quot;被 AI 用&quot;。区别不在工具，在那个姿势：你是师傅，还是观众。</p>
+<hr>
+<h2>学徒是什么：你教、它练、你判</h2>
+<p>一个好学徒，关系是这样的——</p>
+<p><strong>你教它。</strong> 不是扔一句&quot;写篇干货文&quot;就完事，是把你的标准喂给它：这篇要给谁看、语气要什么调、哪些词你雷区、上次那版哪里不对。你把自己的&quot;好&quot;拆成它能听懂的指令。</p>
+<p><strong>它练。</strong> 它根据你的标准出活，十版、二十版，越快越好。它不在乎对错，它在乎&quot;够不够接近你刚说的那个好&quot;。</p>
+<p><strong>你判。</strong> 最关键的一步——你看它出的活，说&quot;这版对、那版偏了、这句留那句砍&quot;。你的判断回灌给它，它下次更懂你。</p>
+<p>这一圈跑下来，学徒会越长越像你。它记住你的口味、你的雷区、你那个&quot;对味&quot;的标准。到最后，你说半句它就知道你要什么。</p>
+<p>我知识库里存的那些 AI 工具案例，能成立的全是学徒逻辑：藏师傅先把自己那套审美——某种质感、某种光影、某种&quot;对味&quot;——写成 MJ 风格代码喂给 AI，AI 才把那套审美批量实现出来。是他教了 AI 什么是&quot;他的好&quot;，AI 才成了他的学徒。vibe coding 也是：你脑子里有张图、有个流程，用嘴说出来，AI 写。核心是&quot;你已经有东西了&quot;，AI 是翻译器。</p>
+<p>帕斯卡讲&quot;习惯是第二本性&quot;——判断力不是天生的，是反复&quot;做 + 判&quot;养出来的肌肉记忆。你拿 AI 当学徒，每天做&quot;生成—判断—反馈&quot;的闭环，养的不是 AI 的判断力，是你自己的。</p>
+<hr>
+<h2>替身是什么：它做、你躺、你锈</h2>
+<p>替身关系，长这样——</p>
+<p>方向它定、草稿它写、调性它选、连&quot;哪篇发出去数据好&quot;它都替你判断了。你呢？你负责点发送，偶尔改个错别字。</p>
+<p>表面看省事了。实际发生的是两件事：</p>
+<p><strong>第一，你的判断力在锈。</strong> 段永平说：&quot;知道自己的能力圈有多大，往往比自己能力圈有多大更重要。&quot;能力圈是你用无数次试错、复盘、被打脸换来的。你把判断外包，等于把能力圈停了电。等哪天 AI 给的答案你隐约觉得不对、却又说不出哪不对——你就已经不会判了。学徒养你，替身废你。</p>
+<p><strong>第二，你的作者性在蒸发。</strong> 全替身产出的内容，没有一处是你的判断。读者认的是&quot;判断的角&quot;，不是那双手。当所有决定都是概率平均值，你的声音就淹没在十万个别人的平均值里。慢慢你就没了脸。</p>
+<p>乔布斯有句话越想越准：&quot;苹果的执行力非常好，只是他们用在了错误的道路上。&quot;让 AI 当替身，就是给它一身好执行力，却没给它道路——而道路，本该是你的。执行力越强，它在错路上送你越远。</p>
+<hr>
+<h2>差在哪：一句话</h2>
+<p>学徒和替身，差在&quot;谁在长本事&quot;。</p>
+<p><strong>学徒模式：AI 替你干活，你趁机长判断力。</strong> 它出活、你判、你反馈，每次闭环你的标准更清楚、眼光更毒。一年下来，你从&quot;不会写&quot;变成&quot;很会判&quot;。工具越强，你越强。</p>
+<p><strong>替身模式：AI 替你干活，也替你思考。</strong> 它出活、它判、你签字。一年下来，你从&quot;不太会写&quot;变成&quot;彻底不会写&quot;。工具越强，你越废。</p>
+<p>芒格那句话是照妖镜：&quot;我特别注重汲取各学科的主要知识，这样才不至于只见树木，不见森林。&quot;学徒是让你站在山顶看森林，替身是把你按在树坑里——AI 给你满坑的树，你却忘了森林长啥样。</p>
+<hr>
+<h2>怎么把 AI 养成学徒，而不是供成替身</h2>
+<p>不复杂，三个动作：</p>
+<p><strong>一，给它需求文档，别给它决策权。</strong> 动笔前先写清：给谁、核心一句、要带走什么、必留的话。这是教，不是甩。</p>
+<p><strong>二，永远自己判第一稿。</strong> AI 出十个版本，你逐个说&quot;为什么留、为什么砍&quot;。这一句&quot;为什么&quot;，就是养判断力的土办法。</p>
+<p><strong>三，定期回头看自己的成长。</strong> 一个月前你判稿要十分钟，现在要十秒——那是你长本事了，不是 AI 变乖了。替身模式里你永远看不到这条曲线，因为曲线是平的。</p>
+<hr>
+<h2>收个尾</h2>
+<p>学徒和替身，一字之差，是&quot;你驾驭工具&quot;和&quot;工具驾驭你&quot;的分界。</p>
+<p>把 AI 当学徒养：你教、它练、你判，它越来越懂你，你越来越会判。</p>
+<p>把 AI 当替身供：它做、你躺，它越来越像你（的平均值），你越来越不像你。</p>
+<p>选哪个，决定了三年后，写作这件事上，你还在不在场。</p>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../index.html">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

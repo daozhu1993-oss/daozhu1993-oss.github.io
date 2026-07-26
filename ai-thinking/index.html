@@ -34,14 +34,15 @@
   h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.25;margin-bottom:12px;}
   .lead{color:var(--mid);font-size:15px;max-width:560px;margin-bottom:54px;}
 
-  .article-list{display:flex;flex-direction:column;gap:18px;}
-  .article-card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 28px;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease);}
-  .article-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px var(--shadow);border-color:var(--accent-soft);}
-  .article-card h2{font-family:var(--serif);font-weight:500;font-size:20px;margin-bottom:8px;transition:color .3s var(--ease);}
-  .article-card:hover h2{color:var(--accent);}
-  .article-card p{font-size:13.5px;color:var(--mid);line-height:1.7;margin-bottom:12px;}
-  .article-card .meta{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--faint);font-family:var(--serif);}
-  .article-card .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .index-list{border-top:1px solid var(--line);}
+  .index-list li{list-style:none;}
+  .index-list a{display:flex;align-items:baseline;gap:14px;padding:24px 6px;border-bottom:1px solid var(--line);transition:padding .35s var(--ease),background .35s var(--ease);}
+  .index-list a:hover{padding-left:18px;background:linear-gradient(90deg,rgba(200,101,75,.05),transparent 70%);}
+  .index-list .ix-title{font-family:var(--serif);font-weight:600;font-size:21px;transition:color .3s var(--ease);flex:0 0 auto;max-width:46%;}
+  .index-list a:hover .ix-title{color:var(--accent);}
+  .index-list .ix-desc{font-size:13.5px;color:var(--mid);flex:1;line-height:1.7;}
+  .index-list .ix-arrow{font-size:18px;color:var(--faint);transition:transform .35s var(--ease),color .35s var(--ease);flex:0 0 auto;}
+  .index-list a:hover .ix-arrow{transform:translateX(5px);color:var(--accent);}
 
   .empty-note{text-align:center;padding:48px 24px;color:var(--faint);font-size:14px;border:1px dashed var(--line);border-radius:16px;}
 
@@ -70,13 +71,15 @@
   <h1>岛主的AI思考</h1>
   <p class="lead">关于 AI、产品与普通人如何用好工具的思考。会持续更新，先把想到的记下来。</p>
 
-  <div class="article-list">
-    <a class="article-card" href="ai-vibe-coding.html">
-      <h2>你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意</h2>
-      <p>普通人现在最该学 AI，不是学"怎么用 AI 聊天、写周报、做 PPT"，而是学 vibe coding：用自然语言，让 AI 帮你把脑子里的东西变成能跑的东西。</p>
-      <div class="meta"><span class="tag">vibe coding</span><span>2026 · 普通人学 AI</span></div>
-    </a>
-  </div>
+  <ul class="index-list">
+    <li>
+      <a href="ai-vibe-coding.html">
+        <span class="ix-title">你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意</span>
+        <span class="ix-desc">普通人现在最该学 AI，不是学"怎么用 AI 聊天、写周报、做 PPT"，而是学 vibe coding：用自然语言，让 AI 帮你把脑子里的东西变成能跑的东西。</span>
+        <span class="ix-arrow" aria-hidden="true">↗</span>
+      </a>
+    </li>
+  </ul>
 
   <p class="empty-note" style="margin-top:48px;">更多文章还在路上，先喝着咖啡等一等。</p>
 </main>

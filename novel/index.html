@@ -167,9 +167,10 @@
         front.closest('[data-drawer]').classList.toggle('open');
       });
     });
-    // open the first drawer by default
-    var first = document.querySelector('[data-drawer]');
-    if (first) first.classList.add('open');
+    // open all drawers by default so the intros are visible
+    document.querySelectorAll('[data-drawer]').forEach(function (d) {
+      d.classList.add('open');
+    });
   </script>
   <script>
     document.addEventListener('click', function (e) {

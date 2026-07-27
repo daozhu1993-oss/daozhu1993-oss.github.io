@@ -154,6 +154,12 @@
     .pcard .pc { font-size: 12px; color: var(--pf-mid); white-space: nowrap; }
     .pcard .pd { font-size: 14px; color: var(--pf-ink); line-height: 1.75; margin-top: 10px; opacity: .82; }
 
+    /* ── 待更新占位 ── */
+    .pf-empty {
+      font-size: 14px; color: var(--pf-mid); font-family: var(--serif);
+      padding: 18px 0; letter-spacing: .02em;
+    }
+
     /* ── 联系 ── */
     .pf-contact { border-top: 1px solid var(--pf-line); padding-top: 30px; }
     .pf-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 16px; }
@@ -243,11 +249,14 @@
 
     <section class="pf-section reveal">
       <div class="pf-kicker">挑几件作品 · Selected Works</div>
-      <div class="pf-grid"></div>
+      <div class="pf-grid">
+        <div class="pf-empty">部分作品正在整理中，敬请期待 · 待更新</div>
+      </div>
     </section>
 
     <section class="pf-section reveal">
       <div class="pf-kicker">产品项目 · Product Work</div>
+      <div class="pf-empty">产品案例正在重新梳理，敬请期待 · 待更新</div>
     </section>
 
     <footer class="pf-contact reveal">
@@ -256,8 +265,9 @@
         <a href="mailto:291716178@qq.com">291716178@qq.com</a>
         <a href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener">知乎 ↗</a>
         <a href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzIxOTE5OTczNA==&amp;action=getalbum&amp;album_id=4578372974411530241#wechat_redirect" target="_blank" rel="noopener">公众号 ↗</a>
+        <a href="../v2/assets/wechat-qr.jpg" target="_blank" rel="noopener">微信 ↗</a>
       </div>
-      <p class="pf-note">电话暂不公开，合作请走邮箱或公众号。</p>
+      <p class="pf-note">电话暂不公开，合作请走邮箱、公众号，或扫码添加岛主微信。</p>
     </footer>
   </div>
 

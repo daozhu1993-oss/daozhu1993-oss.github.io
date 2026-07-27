@@ -692,9 +692,12 @@
     musicOn = false; setMusicUI();
   }
 
-  // 记住用户对音乐的选择：手动暂停→记为关闭；手动播放→清除。进入小岛的自动播放不写偏好，只读偏好。
-  function setMusicPref(off){ try{ if(off) localStorage.setItem('daoMusicOff','1'); else localStorage.removeItem('daoMusicOff'); }catch(_){} }
-  function musicOptedOut(){ try{ return localStorage.getItem('daoMusicOff') === '1'; }catch(_){ return false; } }
+  // 记住用户对音乐的选择：仅作用于「本次会话」（sessionStorage）。
+  // 同一标签内手动暂停后不再自动响；关掉重开 / 新标签进入仍自动播放，符合封面「进入即播放」承诺。
+  // 旧版本把偏好写进了 localStorage（永久），会导致进入永远不响，这里改为 session 级并清掉旧标记。
+  try{ localStorage.removeItem('daoMusicOff'); }catch(_){}
+  function setMusicPref(off){ try{ if(off) sessionStorage.setItem('daoMusicOff','1'); else sessionStorage.removeItem('daoMusicOff'); }catch(_){} }
+  function musicOptedOut(){ try{ return sessionStorage.getItem('daoMusicOff') === '1'; }catch(_){ return false; } }
 
   musicBtn.addEventListener('click', function(){
     if(musicOn){ pauseMusic(); setMusicPref(true); }

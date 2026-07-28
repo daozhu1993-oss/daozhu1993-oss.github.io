@@ -104,7 +104,7 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="../index.html">← 回到岛主的主页</a>
+    <a class="back" href="../v2/index.html#products">← 回到岛主的主页</a>
     <div class="hero">
       <h1>给女儿的绘本</h1>
       <p class="lead">做了十年儿童动画编剧，写过很多别人的故事。直到女儿一一出生，才第一次想把主角换成她。这里画下的这些绘本，记录了她出生后的第一次笑、第一次翻身、第一次理发，以及我想讲给她听的那些小事。</p>
@@ -226,7 +226,7 @@
     // mark that we're navigating back to the homepage, so the letter modal
     // won't auto-open (it only shows on first open / refresh).
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      var a = e.target.closest && e.target.closest('a[href="../v2/index.html#products"]');
       if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
     });
   </script>

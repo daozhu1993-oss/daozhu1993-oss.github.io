@@ -198,7 +198,7 @@
 </head>
 <body>
   <div class="pf-wrap">
-    <a class="pf-back" href="../v2/index.html">← 回到岛上</a>
+    <a class="pf-back" href="../v2/index.html#products">← 回到岛上</a>
 
     <header class="pf-hero reveal">
       <div class="pf-name">岛主</div>
@@ -290,7 +290,7 @@
 
       /* ── 返回主站时记住来源，便于 B 版旅程导航定位 ── */
       document.addEventListener('click', function (e) {
-        var a = e.target.closest && e.target.closest('a[href="../v2/index.html"]');
+        var a = e.target.closest && e.target.closest('a[href="../v2/index.html#products"]');
         if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
       });
     })();

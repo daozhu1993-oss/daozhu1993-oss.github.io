@@ -90,6 +90,7 @@
       border-color: var(--gold); transform: translateY(-4px);
       box-shadow: 0 22px 44px rgba(0,0,0,.5);
     }
+    .file.clickable { cursor: pointer; }
     .file:hover .file-stamp { opacity: .95; transform: rotate(-8deg) scale(1); }
 
     .file-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
@@ -132,7 +133,7 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="../index.html">← 回到岛主的主页</a>
+    <a class="back" href="../v2/index.html#content">← 回到岛主的主页</a>
 
     <div class="masthead">
       <div class="dept">天庭 · 神仙人事与遗留事务档案处</div>
@@ -185,12 +186,19 @@
         '<div class="file-note">' + f.note + '</div>' +
         link +
         '<div class="file-stamp">' + f.stamp + '</div>';
+      if (f.wechatUrl) {
+        el.classList.add('clickable');
+        el.addEventListener('click', function(e){
+          if (e.target.closest && e.target.closest('a')) return;
+          window.open(f.wechatUrl, '_blank', 'noopener,noreferrer');
+        });
+      }
       grid.appendChild(el);
     });
   </script>
   <script>
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      var a = e.target.closest && e.target.closest('a[href="../v2/index.html#content"]');
       if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
     });
   </script>

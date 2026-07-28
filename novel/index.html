@@ -103,7 +103,7 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="../index.html">← 回到岛主的主页</a>
+    <a class="back" href="../v2/index.html#content">← 回到岛主的主页</a>
     <div class="hero">
       <div class="kicker">Manuscript · 手稿抽屉</div>
       <h1>小说</h1>
@@ -174,7 +174,7 @@
   </script>
   <script>
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href="../index.html"]');
+      var a = e.target.closest && e.target.closest('a[href="../v2/index.html#content"]');
       if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
     });
   </script>

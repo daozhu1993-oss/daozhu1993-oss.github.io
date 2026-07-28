@@ -91,6 +91,7 @@
       box-shadow: 0 22px 44px rgba(0,0,0,.5);
     }
     .file.clickable { cursor: pointer; }
+    .file.clickable:hover { background: linear-gradient(180deg, var(--paper-hi), #fff6e6); }
     .file:hover .file-stamp { opacity: .95; transform: rotate(-8deg) scale(1); }
 
     .file-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
@@ -188,6 +189,7 @@
         '<div class="file-stamp">' + f.stamp + '</div>';
       if (f.wechatUrl) {
         el.classList.add('clickable');
+        el.title = '点击阅读《' + f.name + '》原文';
         el.addEventListener('click', function(e){
           if (e.target.closest && e.target.closest('a')) return;
           window.open(f.wechatUrl, '_blank', 'noopener,noreferrer');

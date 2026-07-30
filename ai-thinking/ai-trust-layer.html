@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别做 AI 工具，做 AI 替不了你的那层信任 · 岛主的AI思考</title>
+<meta name="description" content="很多人一上来想做 AI 工具：做个写作助手、做个绘图插件，上线——然后发现第二天就有人做了一个更好的，还免费的。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">信任</span><span class="tag">商业</span><span>2026</span></div>
+<p>很多人一上来想做 AI 工具：做个写作助手、做个绘图插件，上线——然后发现第二天就有人做了一个更好的，还免费的。</p>
+<p>工具太容易被复制。你有的算法，大厂下个月就有；你想的创意，别人今晚上就能抄。</p>
+<h2>一、工具会过时，信任会复利</h2>
+<p>为什么读者在你这买，不在一个更好的免费工具那用？因为他信你这个人——信你不会坑他、信你懂他的处境、信你长期替他着想。</p>
+<p>这种信，要时间和真人互动来攒，不是写两篇爆款就能建立。工具比的是功能，信任比的是时间。功能可以被超车，时间里的积累偷不走。你今天做一个写作助手，明天 GPT-7 自带这个功能，你的工具一文不值。但你用三年攒下的那一千个「因为信你才留下来」的读者，GPT-7 拿不走。</p>
+<p>所以别卷功能，卷「你们之间的那种长期默契」。功能是速朽的，默契是复利的。</p>
+<h2>二、信任是怎么攒的</h2>
+<p>毛泽东在《关心群众生活》里讲「过河要有船」——你得像船一样，真把人渡过去，不是卖他一张船的图纸。</p>
+<p>群众路线也是这理：从群众中来、到群众中去。你得来来回回真人互动——回复留言、回答私信、记住某个粉丝三个月前说过的一句话。这些 AI 能辅助，但不能替代。能替代的，就不叫信任。信任的本质是「我知道你真的在看」，而 AI 永远给不了那个「真的」。</p>
+<h2>三、信任的三层货币化</h2>
+<p>第一层，用你的免费内容建立基本面。文章、视频、播客——让足够多的人先认识你、验证你。第二层，用你的真人互动转化成付费关系。回复、直播、一对一咨询——把读者变成客户。第三层，用你的长期一致性铸成品牌。三年不变的价值主张，比三篇爆款值钱一百倍。</p>
+<p>工具是入口，信任是留存。当所有人都在跑功能、比速度、追 prompt 的时候，你在慢慢攒信任。那层信任一旦长成，就是真正的护城河——静水深流。</p>
+<h2>写在最后</h2>
+<p>别卷工具，卷那层 AI 替不了的、人和人之间的东西。</p>
+<p>信任这种东西，急不来，也抄不走。</p>
+<blockquote><p>岛主的 AI 思考 · 第 21 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

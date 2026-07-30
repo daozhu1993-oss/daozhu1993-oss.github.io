@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你把 AI 当搜索引擎，别人把 AI 当外脑 · 岛主的AI思考</title>
+<meta name="description" content="同样是 ChatGPT。有人打开它问「今天天气怎么样」，复制关闭。有人把一页财报扔进去，请它标出异常数字，然后追问：这几个异常哪个最像财务造假的信号？——再把它…">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">认知</span><span class="tag">用法</span><span>2026</span></div>
+<p>同样是 ChatGPT。有人打开它问「今天天气怎么样」，复制关闭。有人把一页财报扔进去，请它标出异常数字，然后追问：这几个异常哪个最像财务造假的信号？——再把它的分析当成自己思考的起点。</p>
+<p>同一个工具，两个世界。</p>
+<h2>一、三个层次，你卡在哪一层</h2>
+<p>第一层，搜索引擎层——你问「是什么」。查天气、查定义、查资料。AI 替你省掉了打开百度的动作。第二层，助手层——你问「帮我做什么」。写邮件、翻译、做表格，效率翻倍，但本质上还是在「找人干活」。第三层，外脑层——你问「你怎么看」。把 AI 当成可以对撞的思维伙伴：让它分析你的方案，再让它反驳你的分析，再让它找出你自己都没想到的第三种可能。你从它给出的材料里，长出你自己的新想法。</p>
+<h2>二、为什么大多数人卡在第一层</h2>
+<p>不是不会用，是没「带着问题来」。你打开 AI 的时候脑子里如果没有一个具体的、你想了一小时还没想通的问题，AI 就只能给你天气预报。问题质量决定使用层次。</p>
+<p>毛泽东在《实践论》里讲认识螺旋——你得先在现实里撞到问题、产生感性认识，再拿它跟 AI 对撞上升到理性认识，再回到现实去检验。这个循环得你自己走，AI 替你省不了一寸。</p>
+<h2>三、三点，升级你的使用层</h2>
+<p>第一，每次打开 AI 之前，先在脑子里把问题写清楚。不是「帮我看看这个」，是「我怀疑这个数据有季节性偏差，帮我核实」。第二，养成追问的习惯。AI 给你答案后，至少追问两次——一次让它展开依据，一次让它站在对立面反驳自己。第三，用了 AI 之后关上它，用自己的话把结论过一遍。写出来才是你的；光看一遍还是 AI 的。</p>
+<h2>写在最后</h2>
+<p>AI 给你的从来不是「答案」，是「原材料」。有人拿它砌墙，有人拿它炼钢。</p>
+<p>你是砌墙的还是炼钢的，不取决于 AI，取决于你每次打开它时脑子里带着什么。</p>
+<blockquote><p>岛主的 AI 思考 · 第 25 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

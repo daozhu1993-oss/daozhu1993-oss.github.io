@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 让你以为自己懂了，其实只是离懂更近了一步 · 岛主的AI思考</title>
+<meta name="description" content="有个很隐蔽的陷阱：你问 AI 一个问题，它洋洋洒洒答了八百字，逻辑清晰、案例详实。你读完觉得「懂了」。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">认知</span><span class="tag">学习</span><span>2026</span></div>
+<p>有个很隐蔽的陷阱：你问 AI 一个问题，它洋洋洒洒答了八百字，逻辑清晰、案例详实。你读完觉得「懂了」。</p>
+<p>第二天让你讲给同事听，你卡壳了。不是记性差——是 AI 给了你「懂的形状」，没给你「懂本身」。</p>
+<h2>一、懂的错觉，比不懂更危险</h2>
+<p>懂，是你在自己脑子里长出来的东西。AI 的答案停在外头，你只是路过看了一眼。</p>
+<p>很多人用 AI 之后陷入一个循环：搜问题 → 看答案 → 觉得懂了 → 过两天发现不会 → 再搜。不是在学，是在「路过」。你路过了一百个知识点，一个都没带走。不懂但自知，你会去学。不懂却以为懂，你就停在原地了。这才是 AI 时代最隐蔽的陷阱——它让你产生了「我会了」的错觉，而真正的学习才刚刚要开始。</p>
+<h2>二、认识是螺旋上升的，AI 帮你跑了第一圈</h2>
+<p>《实践论》里讲得透：真知是摔出来的——从感性认识跳到理性认识，再拿去实践，再回头修正，一圈一圈螺旋上去。</p>
+<p>你看 AI 答一遍，连第一圈都没走完。AI 给了你起点，没给你过程。而那个「错了 → 修正 → 再错 → 再修正」的过程，才是长本事的地方。AI 替你省掉了错误，也就替你省掉了学习——错误是理解的入口，把入口堵住了，你只能绕过去，绕过去的都不是你的。</p>
+<p>费曼说「教是最好的学」——你得能用自己的话说出来、能让别人听懂，才证明你脑子里真的长出了那条回路。AI 告诉你答案那会儿，回路还没长，只是短暂地亮了那么一下。</p>
+<h2>三、三点，检验你是否真懂</h2>
+<p>一，能教别人才算真懂。读完 AI 的回答，合上屏幕，试着讲给一个外行听。讲不顺，就是没懂。讲顺了，才算你的。二，上手做一遍。想学某个工具，别只看教程，直接开干。AI 给你标准答案，反而省掉了试错的过程——而试错正是深度学习的核心。三，错一次比读十遍深。别怕错，怕的是一路滑过去、什么都不沾。每一次犯错，你的神经元都会长一个新的连接——那是机器没有的东西。</p>
+<h2>写在最后</h2>
+<p>AI 是全世界最好的老师：永远在线、永远耐心、永远免费。但它没法替你「长脑子」。</p>
+<p>它让你离懂更近，仅此而已。剩下那截路——用自己的手、用自己的错、用自己的体感——得你自己走。</p>
+<blockquote><p>岛主的 AI 思考 · 第 15 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

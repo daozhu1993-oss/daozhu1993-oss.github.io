@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>岛主的AI思考 · 岛主</title>
-<meta name="description" content="岛主关于 AI、产品与普通人如何用好工具的思考。持续更新。">
+<meta name="description" content="岛主关于 AI、产品与普通人如何用好工具的思考。31 篇，7 阶段，持续更新。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -21,7 +21,6 @@
   a{color:inherit;text-decoration:none;}
   ::selection{background:var(--accent-soft);color:var(--ink);}
 
-  /* 头部 */
   .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
   .site-header nav{max-width:820px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
   .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
@@ -32,20 +31,23 @@
   main{max-width:760px;margin:0 auto;padding:72px 24px 120px;}
   .eyebrow{font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
   h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.25;margin-bottom:12px;}
-  .lead{color:var(--mid);font-size:15px;max-width:560px;margin-bottom:54px;}
+  .lead{color:var(--mid);font-size:15px;max-width:560px;margin-bottom:28px;}
+
+  .phase{margin-bottom:40px;}
+  .phase-title{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--accent);padding:18px 0 8px;border-bottom:2px solid var(--accent-soft);margin-bottom:0;}
+  .phase-sub{font-size:13px;color:var(--mid);margin-bottom:0;}
 
   .index-list{border-top:1px solid var(--line);}
+  .phase + .index-list{border-top:none;}
   .index-list li{list-style:none;}
-  .index-list a{display:flex;align-items:baseline;gap:14px;padding:24px 6px;border-bottom:1px solid var(--line);transition:padding .35s var(--ease),background .35s var(--ease);}
+  .index-list a{display:flex;align-items:baseline;gap:14px;padding:22px 6px;border-bottom:1px solid var(--line);transition:padding .35s var(--ease),background .35s var(--ease);}
   .index-list a:hover{padding-left:18px;background:linear-gradient(90deg,rgba(200,101,75,.05),transparent 70%);}
   .index-list .ix-num{font-family:var(--serif);font-size:13px;font-weight:600;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:2px 10px;flex:0 0 auto;}
-  .index-list .ix-title{font-family:var(--serif);font-weight:600;font-size:21px;transition:color .3s var(--ease);flex:0 0 auto;max-width:46%;}
+  .index-list .ix-title{font-family:var(--serif);font-weight:600;font-size:19px;transition:color .3s var(--ease);flex:0 0 auto;max-width:44%;}
   .index-list a:hover .ix-title{color:var(--accent);}
   .index-list .ix-desc{font-size:13.5px;color:var(--mid);flex:1;line-height:1.7;}
   .index-list .ix-arrow{font-size:18px;color:var(--faint);transition:transform .35s var(--ease),color .35s var(--ease);flex:0 0 auto;}
   .index-list a:hover .ix-arrow{transform:translateX(5px);color:var(--accent);}
-
-  .empty-note{text-align:center;padding:48px 24px;color:var(--faint);font-size:14px;border:1px dashed var(--line);border-radius:16px;}
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
@@ -70,109 +72,76 @@
 <main>
   <div class="eyebrow">AI THINKING</div>
   <h1>岛主的AI思考</h1>
-  <p class="lead">关于 AI、产品与普通人如何用好工具的思考。会持续更新，先把想到的记下来。</p>
+  <p class="lead">关于 AI、产品与普通人如何用好工具的思考。31 篇，按 7 阶段编排，持续更新。</p>
 
+  <!-- ① -->
+  <div class="phase"><span class="phase-title">① 认知重启</span><span class="phase-sub"> · AI 到底改变了什么</span></div>
   <ul class="index-list">
-    <li>
-      <a href="ai-vibe-coding.html">
-        <span class="ix-num">01</span>
-        <span class="ix-title">你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意</span>
-        <span class="ix-desc">普通人现在最该学 AI，不是学"怎么用 AI 聊天、写周报、做 PPT"，而是学 vibe coding：用自然语言，让 AI 帮你把脑子里的东西变成能跑的东西。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-six-old-businesses.html">
-        <span class="ix-num">02</span>
-        <span class="ix-title">AI 工具层，正在重做这六门老生意</span>
-        <span class="ix-desc">皮肤、模板、插件、素材包、工作流、教程。平台跃迁时，这六类生意会重新长出来一次。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-judgment.html">
-        <span class="ix-num">03</span>
-        <span class="ix-title">AI 一天能产一千条内容，可你凭什么说哪条好？</span>
-        <span class="ix-desc">当产能不再稀缺，"知道什么才是好内容"反而成了创作者真正的护城河。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-dont-outsource-judgment.html">
-        <span class="ix-num">04</span>
-        <span class="ix-title">别让 AI 替你做判断，它只是你脑子里的快进键</span>
-        <span class="ix-desc">AI 是引擎，不是司机。你定方向，AI 提速；判断权一旦交出去，你就从导演变成了观众。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-writing-delegation.html">
-        <span class="ix-num">05</span>
-        <span class="ix-title">写作里，哪些活能交给 AI，哪些一步都不能让</span>
-        <span class="ix-desc">把「做」外包，你腾出精力定更狠的；把「定」也外包，你腾出的是作者身份。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-authored.html">
-        <span class="ix-num">06</span>
-        <span class="ix-title">用了 AI 还算你写的吗：判断在谁手里，就是谁写的</span>
-        <span class="ix-desc">不是谁敲键盘，是谁定好坏、做取舍、为最后那一下负责。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-apprentice.html">
-        <span class="ix-num">07</span>
-        <span class="ix-title">AI 是我的学徒，不是我的替身：这两者差在哪</span>
-        <span class="ix-desc">学徒养你，替身废你。选哪个，决定三年后写作这事儿你还在不在场。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-think-deeper.html">
-        <span class="ix-num">08</span>
-        <span class="ix-title">让 AI 替你思考是偷懒，让 AI 逼你想更透是本事</span>
-        <span class="ix-desc">问「帮我写」，你交出思考；问「帮我驳」，你抓住思考。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-one-vs-team.html">
-        <span class="ix-num">09</span>
-        <span class="ix-title">AI 时代，一个人到底能不能干一个团队的活</span>
-        <span class="ix-desc">八个人加班，一个人周五下班。不是人家神，是你团队里大半的活儿，本该被 AI 吃掉。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-taste-worth-more.html">
-        <span class="ix-num">10</span>
-        <span class="ix-title">AI 越强，人的品味越值钱</span>
-        <span class="ix-desc">十秒出一张能发的图，人人都能产，那慢慢挑的人图啥？工具越强，会挑的人越贵。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-slower-with-ai.html">
-        <span class="ix-num">11</span>
-        <span class="ix-title">为什么我用 AI 反而写得更慢了</span>
-        <span class="ix-desc">以前的快是假的——建立在「不思考」上。现在 AI 逼我面对没想清楚的地方，慢在想，不在磨。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
-    <li>
-      <a href="ai-writers-moat.html">
-        <span class="ix-num">12</span>
-        <span class="ix-title">AI 时代，写作者真正的护城河是什么</span>
-        <span class="ix-desc">不是「会写」，是「你是谁 + 你信什么 + 你能判」。护城河是镜子里那个值不值得被放大的自己。</span>
-        <span class="ix-arrow" aria-hidden="true">↗</span>
-      </a>
-    </li>
+    <li><a href="ai-vibe-coding.html"><span class="ix-num">01</span><span class="ix-title">你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意</span><span class="ix-desc">普通人最该学的不是 prompt，是 vibe coding——用自然语言让 AI 帮你把想法变成能跑的东西。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-six-old-businesses.html"><span class="ix-num">02</span><span class="ix-title">AI 工具层，正在重做这六门老生意</span><span class="ix-desc">皮肤、模板、插件、素材包、工作流、教程。平台跃迁时，这六类生意重新长出来一次。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-one-vs-team.html"><span class="ix-num">03</span><span class="ix-title">AI 时代，一个人到底能不能干一个团队的活</span><span class="ix-desc">一个人能干掉团队的"执行"，但干不了"决策 + 关系"。会判断的那个人，才是灵魂。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+  </ul>
+
+  <!-- ② -->
+  <div class="phase"><span class="phase-title">② 判断与品味</span><span class="phase-sub"> · 你的脑子才是稀缺品</span></div>
+  <ul class="index-list">
+    <li><a href="ai-judgment.html"><span class="ix-num">04</span><span class="ix-title">AI 一天能产一千条内容，可你凭什么说哪条好？</span><span class="ix-desc">当产能不再稀缺，"知道什么才是好内容"成了创作者真正的护城河。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-taste-worth-more.html"><span class="ix-num">05</span><span class="ix-title">AI 越强，人的品味越值钱</span><span class="ix-desc">十秒出一张能发的图，人人都能产。工具越强，会挑的人越贵。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-dont-outsource-judgment.html"><span class="ix-num">06</span><span class="ix-title">别让 AI 替你做判断，它只是你脑子里的快进键</span><span class="ix-desc">AI 是引擎，不是司机。判断权交出去，你就从导演变成了观众。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-authored.html"><span class="ix-num">07</span><span class="ix-title">用了 AI 还算你写的吗：判断在谁手里，就是谁写的</span><span class="ix-desc">不是谁敲键盘，是谁定好坏、做取舍、为最后那一下负责。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-apprentice.html"><span class="ix-num">08</span><span class="ix-title">AI 是我的学徒，不是我的替身：这两者差在哪</span><span class="ix-desc">学徒养你，替身废你。选哪个，决定三年后写作这事儿你还在不在场。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+  </ul>
+
+  <!-- ③ -->
+  <div class="phase"><span class="phase-title">③ 写作实践</span><span class="phase-sub"> · 手里有 AI，脑子不能丢</span></div>
+  <ul class="index-list">
+    <li><a href="ai-writing-delegation.html"><span class="ix-num">09</span><span class="ix-title">写作里，哪些活能交给 AI，哪些一步都不能让</span><span class="ix-desc">把「做」外包，你腾出精力；把「定」也外包，你腾出的是作者身份。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-think-deeper.html"><span class="ix-num">10</span><span class="ix-title">让 AI 替你思考是偷懒，让 AI 逼你想更透是本事</span><span class="ix-desc">问「帮我写」，你交出思考；问「帮我驳」，你抓住思考。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-slower-with-ai.html"><span class="ix-num">11</span><span class="ix-title">为什么我用 AI 反而写得更慢了</span><span class="ix-desc">以前的快是假的——建立在「不思考」上。慢在想，不在磨。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-writers-moat.html"><span class="ix-num">12</span><span class="ix-title">AI 时代，写作者真正的护城河是什么</span><span class="ix-desc">不是「会写」，是「你是谁 + 你信什么 + 你能判」。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+  </ul>
+
+  <!-- ④ -->
+  <div class="phase"><span class="phase-title">④ 学习与知识</span><span class="phase-sub"> · 信息免费了，怎么学才不白学</span></div>
+  <ul class="index-list">
+    <li><a href="ai-learn-not-waste.html"><span class="ix-num">13</span><span class="ix-title">AI 时代怎么学才不白学</span><span class="ix-desc">学「怎么用」不学「是什么」，学判断不学结论，学提问不学答案。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-100-prompts-unused.html"><span class="ix-num">14</span><span class="ix-title">为什么你收藏了 100 个 prompt，却一个都没用</span><span class="ix-desc">收藏的那一刻你已经「学完了」。一条好 prompt 不如一个磨熟了的工作流。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-think-you-understand.html"><span class="ix-num">15</span><span class="ix-title">AI 让你以为自己懂了，其实只是离懂更近了一步</span><span class="ix-desc">AI 给了你「懂的形状」，没给你「懂本身」。剩下那截路得自己走。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-ask-good-question.html"><span class="ix-num">16</span><span class="ix-title">AI 时代最该练的，是提一个好问题的能力</span><span class="ix-desc">答案不值钱了，问题才值钱。把提问练好，等于给 AI 装了瞄准镜。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+  </ul>
+
+  <!-- ⑤ -->
+  <div class="phase"><span class="phase-title">⑤ 价值创造</span><span class="phase-sub"> · 发现需求，封装成产品</span></div>
+  <ul class="index-list">
+    <li><a href="ai-maoxuan-knowledge-base.html"><span class="ix-num">17</span><span class="ix-title">有人把毛选做成知识库卖掉了：AI 时代最值钱的，是发现小需求的能力</span><span class="ix-desc">AI 把「做」打平了，把「发现需求」抬高了。小需求，一人一周末就能交付。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-price-to-zero.html"><span class="ix-num">18</span><span class="ix-title">AI 让价格归零，那什么还能卖钱</span><span class="ix-desc">价格归零的是标准化产出。省时间、信信任、稀缺体验——卖这三层。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-time-after-delegating.html"><span class="ix-num">19</span><span class="ix-title">把活拆给 AI 之后，你自己的时间到底去了哪</span><span class="ix-desc">杠杆的意义不是更忙是更准。省下的时间别急着填满。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-kpi-for-tireless-colleague.html"><span class="ix-num">20</span><span class="ix-title">你怎么给一个不会累的同事定 KPI</span><span class="ix-desc">管 AI 只要三件事：说清交付物、划清边界、定期验收。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+  </ul>
+
+  <!-- ⑥ -->
+  <div class="phase"><span class="phase-title">⑥ 信任与未来</span><span class="phase-sub"> · 什么是 AI 拿不走的</span></div>
+  <ul class="index-list">
+    <li><a href="ai-trust-layer.html"><span class="ix-num">21</span><span class="ix-title">别做 AI 工具，做 AI 替不了你的那层信任</span><span class="ix-desc">工具会过时，信任会复利。别卷功能，卷那份人和人之间的长期默契。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-scarcity-when-everyone-has-ai.html"><span class="ix-num">22</span><span class="ix-title">当所有人都有 AI，你的稀缺性到底从哪来</span><span class="ix-desc">经历、品味、信任——这三样 AI 永远没有。别比产出，比来历。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-wont-take-your-job.html"><span class="ix-num">23</span><span class="ix-title">AI 不会抢你饭碗，这话只对了一半</span><span class="ix-desc">旧法子废了别慌，新本事长出来。饭碗不是被抢走的，是自己没跟上。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+  </ul>
+
+  <!-- ⑦ -->
+  <div class="phase"><span class="phase-title">⑦ 人与工具</span><span class="phase-sub"> · AI 时代的新生存法则</span></div>
+  <ul class="index-list">
+    <li><a href="ai-good-student-danger.html"><span class="ix-num">24</span><span class="ix-title">为什么「听话的好学生」反而最危险</span><span class="ix-desc">学校教的 AI 全会，学校没教的才是你的命。别做那个永远满分的听话学生。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-search-engine-vs-exobrain.html"><span class="ix-num">25</span><span class="ix-title">你把 AI 当搜索引擎，别人把 AI 当外脑</span><span class="ix-desc">同一把刀，有人切葱有人解牛。差的不是刀，是你每次打开它时脑子里带着什么。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-novice-vs-expert.html"><span class="ix-num">26</span><span class="ix-title">新手和老手用同一个 AI，差的不在 prompt</span><span class="ix-desc">prompt 抄得来，十年踩坑长的行业直觉抄不来。先做一百遍再问 prompt。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-talk-to-real-people.html"><span class="ix-num">27</span><span class="ix-title">为什么用 AI 越多，越该多跟真人说话</span><span class="ix-desc">AI 是社交代糖——给你被陪伴的错觉，不给真实的连接。真比漂亮值钱。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-do-one-thing.html"><span class="ix-num">28</span><span class="ix-title">当 AI 能做一切，「只做一件事」的人反而赢了</span><span class="ix-desc">AI 是散装的万能。窄到极致就是宽——专一到 AI 够不着，护城河就有了。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-master-or-feeder.html"><span class="ix-num">29</span><span class="ix-title">你是 AI 的主人，还是 AI 的「投喂工」</span><span class="ix-desc">打开 AI 前先写清楚要解决什么问题。保留「先想想」的习惯就是保留主体性。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-learn-coding.html"><span class="ix-num">30</span><span class="ix-title">AI 能写代码了，那学编程还有用吗</span><span class="ix-desc">语法不值钱了，拆问题越来越值钱。学编程 = 学怎么把模糊需求拆成明确步骤。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
+    <li><a href="ai-no-jack-of-all-trades.html"><span class="ix-num">31</span><span class="ix-title">AI 时代最不需要的，是「什么都懂一点」的人</span><span class="ix-desc">你简历有 20 个技能，ChatGPT 有两万个。砍到三个，磨成刀。</span><span class="ix-arrow" aria-hidden="true">↗</span></a></li>
   </ul>
 </main>
 
-<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+<div class="footer">&copy; 岛主 · 在岛上慢慢长出来的东西</div>
 
 </body>
 </html>

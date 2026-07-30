@@ -74,6 +74,13 @@
   .gallery-item{flex:0 0 auto;width:min(380px,80vw);scroll-snap-align:start;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 24px rgba(34,24,14,.07);}
   .gallery-item img{width:100%;height:auto;display:block;}
 
+  /* 滑动提示 */
+  .scroll-hint{text-align:center;padding:10px 0 4px;font-size:13px;color:var(--faint);font-family:var(--serif);display:flex;align-items:center;justify-content:center;gap:8px;animation:hint-fade 3s ease forwards;}
+  .scroll-hint svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;animation:hint-bounce 1.4s ease-in-out infinite;}
+  .scroll-hint svg:last-child{animation-delay:.2s;}
+  @keyframes hint-fade{0%,70%{opacity:1}100%{opacity:0;pointer-events:none}}
+  @keyframes hint-bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+
   /* 增值权益 */
   .bonus{margin-top:52px;background:linear-gradient(135deg,var(--surface),rgba(182,31,37,.04));border:1px solid var(--accent-soft);border-radius:18px;padding:28px;}
   .bonus h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-bottom:12px;color:var(--ink);}
@@ -161,6 +168,11 @@
       <div class="gallery-item"><img src="../img/strategy-advisor/05-私有托管AI参谋入口.png" alt="这不是资料包，是一个私有托管的AI参谋入口" loading="lazy"></div>
       <div class="gallery-item"><img src="../img/strategy-advisor/06-真实卡点怎么问.png" alt="你可以直接把真实卡点丢进去问" loading="lazy"></div>
       <div class="gallery-item"><img src="../img/strategy-advisor/07-先带一个真实问题试一次.png" alt="先带一个真实问题进去试一次" loading="lazy"></div>
+    </div>
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      左右滑动查看更多
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </div>
   </section>
 

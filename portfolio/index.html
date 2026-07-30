@@ -153,6 +153,13 @@
     .pcard .pt { font-family: var(--serif); font-size: 18px; font-weight: 600; }
     .pcard .pc { font-size: 12px; color: var(--pf-mid); white-space: nowrap; }
     .pcard .pd { font-size: 14px; color: var(--pf-ink); line-height: 1.75; margin-top: 10px; opacity: .82; }
+    .pcard .pgo {
+      display: inline-block; margin-top: 14px;
+      font-family: var(--serif); font-size: 14px; color: var(--pf-accent);
+      text-decoration: none; border-bottom: 1px solid var(--pf-line); padding-bottom: 2px;
+      transition: color .3s var(--pf-ease), border-color .3s var(--pf-ease);
+    }
+    .pcard .pgo:hover { color: var(--pf-accent-strong); border-color: var(--pf-accent); }
 
     /* ── 待更新占位 ── */
     .pf-empty {
@@ -256,7 +263,14 @@
 
     <section class="pf-section reveal">
       <div class="pf-kicker">产品项目 · Product Work</div>
-      <div class="pf-empty">产品案例正在重新梳理，敬请期待 · 待更新</div>
+      <div class="pcard">
+        <div class="ph">
+          <span class="pt">现实判断战略参谋</span>
+          <span class="pc">AI 顾问产品 · 2026</span>
+        </div>
+        <div class="pd">一个跑在我私有知识库上的 AI 顾问。用战略思维与思维模型，把你的现实卡点，拆成可判断、可行动、可复盘、能落地的下一步。每位买家拿到独立授权码，调用后端知识库，但拿不到源文件。</div>
+        <a class="pgo" href="../ai-thinking/reality-strategy-advisor.html">查看产品 →</a>
+      </div>
     </section>
 
     <footer class="pf-contact reveal">

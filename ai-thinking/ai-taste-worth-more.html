@@ -42,6 +42,13 @@
   article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
   article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
   article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+  /* 文末产品引导 */
+  .cta-box{margin-top:40px;padding:26px 28px;border-radius:14px;background:linear-gradient(135deg,var(--accent-soft),rgba(212,165,133,.10));border:1px solid var(--accent-soft);}
+  .cta-box .cta-label{font-size:12px;letter-spacing:.14em;color:var(--accent);font-family:var(--serif);margin-bottom:10px;}
+  .cta-box p{font-size:16px;color:var(--ink);margin-bottom:14px;}
+  .cta-box a.cta-link{display:inline-flex;align-items:center;gap:7px;font-family:var(--serif);font-weight:600;font-size:16px;color:var(--accent);text-decoration:none;transition:gap .25s var(--ease);}
+  .cta-box a.cta-link:hover{gap:12px;}
+  .cta-box a.cta-link svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;}
 
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
@@ -99,6 +106,14 @@
 <blockquote>
 <p>这是「岛主的 AI 思考」第十篇。前面聊了判断力最稀缺、判断权不能让、品味即判断。这篇接着讲：当工具人人都有，你身上那点&quot;挑得出好&quot;的本事，才是身价。核心就一句：AI 越强，会挑的人越贵。</p>
 </blockquote>
+  <div class="cta-box">
+    <div class="cta-label">延伸 · 把判断这件事交给一个 AI 参谋</div>
+    <p>判断是护城河，但真遇到事，该用哪个框架、怎么落地，往往还是一片模糊。我做了一个跑在私有知识库上的 AI 参谋，专门帮你把现实卡点拆成可判断、可行动的下一步。</p>
+    <a class="cta-link" href="reality-strategy-advisor.html">
+      如果你也想有个 AI 参谋帮你判断，看这里
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
   </article>
 
   <div class="article-nav">

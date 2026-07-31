@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>诗笺 · 诗歌排版工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=Liu+Jian+Mao+Cao&family=Long+Cang&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">笺</span>
+    <div class="brand-text">
+      <h1>诗笺</h1>
+      <p>诗歌排版工具 · 把诗排成可以发的图</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button id="btnRandom" class="ghost-btn" title="随机换一种风格">🎲 随机风格</button>
+    <button id="btnExport" class="primary-btn">⬇ 导出 PNG</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <!-- 控制区 -->
+  <section class="panel controls">
+    <div class="field">
+      <label>标题</label>
+      <input id="inTitle" type="text" placeholder="留空则自动取正文首行" />
+    </div>
+    <div class="field row2">
+      <div>
+        <label>署名</label>
+        <input id="inSign" type="text" value="岛主" placeholder="如：岛主" />
+      </div>
+      <div>
+        <label>日期</label>
+        <input id="inDate" type="text" placeholder="2026.5.15" />
+      </div>
+    </div>
+    <div class="field">
+      <label>正文（空行分段）</label>
+      <textarea id="inBody" rows="9" placeholder="把诗贴进来，空一行即分一节…">失眠夜
+
+黑夜的光
+散落一地南风窗
+失眠的月
+悬挂窗户正中央
+心忧的人
+无法梦入安眠乡
+世上的事
+烦恼惆怅没人尝</textarea>
+    </div>
+
+    <div class="field">
+      <label>风格 <span class="hint" id="hintSuggest"></span></label>
+      <div class="style-groups" id="styleGroups"><!-- 由 JS 渲染 --></div>
+    </div>
+
+    <div class="field row2">
+      <div>
+        <label>字号 <span id="fsVal">18</span></label>
+        <input id="inFs" type="range" min="13" max="34" value="18" />
+      </div>
+      <div>
+        <label>水印（可选）</label>
+        <input id="inMark" type="text" placeholder="@岛主" />
+      </div>
+    </div>
+
+    <div class="field toggles">
+      <label class="chk"><input id="inShowMeta" type="checkbox" checked /> 显示署名/日期</label>
+      <label class="chk"><input id="inShowTag" type="checkbox" /> 显示栏目标签</label>
+    </div>
+  </section>
+
+  <!-- 预览区 -->
+  <section class="panel preview">
+    <div class="preview-scroll">
+      <div id="stage">
+        <div id="card" class="pc l-card s-magazine"><!-- 由 JS 填充 --></div>
+      </div>
+    </div>
+    <p class="preview-tip">实时预览 · 选中风格即变 · 右侧留白处可滚动长图</p>
+  </section>
+</main>
+
+<canvas id="exportCanvas" style="display:none"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

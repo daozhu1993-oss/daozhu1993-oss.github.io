@@ -1,0 +1,390 @@
+/* ===== 诗笺 · 诗歌排版工具 样式 ===== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Noto Sans SC", system-ui, sans-serif;
+  background: #ece7df;
+  color: #2b2622;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- 顶栏 ---- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 22px; background: #fbf8f2;
+  border-bottom: 1px solid #e3dccd; position: sticky; top: 0; z-index: 20;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark {
+  width: 42px; height: 42px; display: grid; place-items: center;
+  background: #2b2622; color: #f3ead6; border-radius: 10px;
+  font-family: "Ma Shan Zheng", serif; font-size: 26px; line-height: 1;
+}
+.brand-text h1 { margin: 0; font-family: "Ma Shan Zheng", serif; font-size: 26px; letter-spacing: 4px; }
+.brand-text p { margin: 2px 0 0; font-size: 12px; color: #8a8073; }
+.topbar-actions { display: flex; gap: 10px; }
+.primary-btn {
+  background: #2b2622; color: #f3ead6; border: none; padding: 10px 16px;
+  border-radius: 9px; font-size: 14px; cursor: pointer; font-family: inherit;
+}
+.primary-btn:hover { background: #423a32; }
+.ghost-btn {
+  background: transparent; color: #5a5147; border: 1px solid #d8cfbd;
+  padding: 10px 14px; border-radius: 9px; font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.ghost-btn:hover { background: #f1ece1; }
+
+/* ---- 工作区 ---- */
+.workspace { display: grid; grid-template-columns: 380px 1fr; gap: 0; min-height: calc(100vh - 71px); }
+.panel { padding: 22px; }
+.controls { background: #fbf8f2; border-right: 1px solid #e3dccd; overflow-y: auto; max-height: calc(100vh - 71px); }
+.preview { background: #e6e0d6; display: flex; flex-direction: column; }
+
+.field { margin-bottom: 18px; }
+.field > label { display: block; font-size: 13px; color: #6b6155; margin-bottom: 6px; font-weight: 500; }
+.field .hint { color: #b08a3e; font-size: 12px; font-weight: 400; }
+.field .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row2 > div { min-width: 0; }
+input[type=text], textarea {
+  width: 100%; border: 1px solid #ddd4c2; border-radius: 8px;
+  padding: 10px 12px; font-size: 14px; font-family: inherit; background: #fff; color: #2b2622;
+}
+textarea { resize: vertical; line-height: 1.7; }
+input:focus, textarea:focus { outline: none; border-color: #b08a3e; }
+input[type=range] { width: 100%; accent-color: #b08a3e; }
+
+.toggles { display: flex; gap: 18px; flex-wrap: wrap; }
+.chk { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #5a5147; }
+
+/* ---- 风格选择 ---- */
+.style-groups { display: flex; flex-direction: column; gap: 14px; }
+.style-group-title { font-size: 12px; color: #9a8f7e; letter-spacing: 1px; margin: 2px 0 6px; }
+.style-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.style-chip {
+  border: 1.5px solid #e0d8c6; background: #fff; border-radius: 9px;
+  padding: 9px 6px; font-size: 12.5px; cursor: pointer; text-align: center;
+  color: #4a4239; transition: all .15s; line-height: 1.3;
+}
+.style-chip:hover { border-color: #b08a3e; }
+.style-chip.active { border-color: #2b2622; background: #2b2622; color: #f3ead6; }
+.style-chip .sw { display: block; height: 6px; border-radius: 3px; margin-bottom: 6px; }
+
+/* ---- 预览区 ---- */
+.preview { align-items: center; }
+.preview-scroll {
+  flex: 1; width: 100%; overflow: auto; display: flex; justify-content: center;
+  align-items: flex-start; padding: 34px 20px;
+}
+#stage { display: flex; justify-content: center; }
+.preview-tip { font-size: 12px; color: #8a8073; text-align: center; padding: 8px 0 14px; }
+
+/* =========================================================
+   诗歌卡基础 (.pc) + CSS 变量
+   ========================================================= */
+.pc {
+  --card-bg: #fbf6ec;
+  --ink: #2f2a24;
+  --muted: #8a8073;
+  --accent: #b08a3e;
+  --line: #e0d6c2;
+  --tfont: "Noto Serif SC", serif;
+  --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif;
+  --radius: 14px;
+  --pad: 42px;
+  --fs: 18px;
+  position: relative;
+  background: var(--card-bg);
+  color: var(--ink);
+  width: 480px;
+  padding: var(--pad);
+  box-shadow: 0 12px 40px rgba(40,30,20,.18);
+  overflow: hidden;
+}
+.pc-inner { position: relative; z-index: 2; }
+.pc-tag {
+  display: none;
+  font-family: var(--sfont); font-size: 12px; letter-spacing: 3px;
+  color: var(--accent); border: 1px solid var(--accent); border-radius: 20px;
+  padding: 3px 12px; margin: 0 auto 18px; width: fit-content;
+}
+.pc-title {
+  font-family: var(--tfont); font-weight: 700; color: var(--ink);
+  text-align: center; margin: 0 0 22px; line-height: 1.3;
+  font-size: calc(var(--fs) * 1.7);
+}
+.pc-body { display: flex; flex-direction: column; gap: 16px; }
+.stanza {
+  font-family: var(--bfont); font-size: var(--fs); line-height: 2;
+  text-align: center; color: var(--ink); margin: 0; white-space: pre-wrap;
+}
+.pc-meta {
+  margin-top: 26px; display: flex; justify-content: flex-end; gap: 14px;
+  font-family: var(--sfont); font-size: 13px; color: var(--muted);
+}
+.pc-seal {
+  position: absolute; left: 28px; bottom: 26px; z-index: 3;
+  width: 52px; height: 52px; border: 2.5px solid #a8312a; border-radius: 4px;
+  color: #a8312a; font-family: "Ma Shan Zheng", serif; font-size: 22px;
+  display: grid; place-items: center; line-height: 1; background: rgba(168,49,42,.04);
+}
+.pc-watermark {
+  position: absolute; right: 14px; bottom: 10px; z-index: 4;
+  font-size: 11px; color: var(--muted); opacity: .7; font-family: var(--sfont);
+}
+.pc-deco { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+/* =========================================================
+   布局：l-card（横向卡片，多数风格共用）
+   ========================================================= */
+.l-card .pc-inner { display: flex; flex-direction: column; align-items: center; }
+.l-card .pc-body { align-items: center; }
+
+/* =========================================================
+   布局：l-vertical（竖排：手写海报 / 古籍竖排）
+   ========================================================= */
+.l-vertical { width: 520px; }
+.l-vertical .pc-inner {
+  writing-mode: vertical-rl; text-orientation: upright;
+  display: flex; flex-direction: row-reverse; gap: 26px;
+  justify-content: flex-start; align-items: flex-start;
+  height: auto; min-height: 560px;
+}
+.l-vertical .pc-title {
+  writing-mode: vertical-rl; margin: 0; text-align: start;
+  font-size: calc(var(--fs) * 2.1); letter-spacing: 6px; flex: 0 0 auto;
+}
+.l-vertical .pc-body { display: flex; flex-direction: row-reverse; gap: 22px; align-items: flex-start; }
+.l-vertical .stanza { writing-mode: vertical-rl; text-align: start; line-height: 1.9; letter-spacing: 2px; }
+.l-vertical .pc-meta {
+  writing-mode: vertical-rl; margin: 0; flex-direction: row; gap: 10px;
+  align-self: flex-end; letter-spacing: 2px;
+}
+
+/* =========================================================
+   布局：l-scroll（长卷目录）
+   ========================================================= */
+.l-scroll { width: 460px; }
+.l-scroll .pc-body { align-items: stretch; gap: 22px; }
+.l-scroll .stanza { text-align: left; position: relative; padding-left: 40px; }
+.l-scroll .stanza::before {
+  counter-increment: stz; content: counter(stz, decimal-leading-zero);
+  position: absolute; left: 0; top: 4px; font-family: var(--sfont);
+  font-size: 13px; color: var(--accent); opacity: .55; letter-spacing: 0;
+}
+.l-scroll .pc-body { counter-reset: stz; }
+
+/* =========================================================
+   布局：l-poster（图文编辑 / 丝网印）
+   ========================================================= */
+.l-poster .pc-title { font-size: calc(var(--fs) * 2.4); letter-spacing: 4px; }
+.l-poster .pc-body { align-items: center; }
+
+/* =========================================================
+   布局：l-collage（手账拼贴）
+   ========================================================= */
+.l-collage { width: 500px; }
+.l-collage .pc-inner { display: flex; flex-direction: column; align-items: center; }
+.l-collage .stanza:nth-child(odd) { transform: rotate(-1.2deg); }
+.l-collage .stanza:nth-child(even) { transform: rotate(1deg); }
+.l-collage .pc-deco::before, .l-collage .pc-deco::after {
+  content: ""; position: absolute; width: 120px; height: 30px;
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,.5) 0 8px, rgba(230,210,180,.5) 8px 16px);
+  border: 1px solid rgba(0,0,0,.06); opacity: .8;
+}
+.l-collage .pc-deco::before { top: 18px; left: -18px; transform: rotate(-32deg); }
+.l-collage .pc-deco::after { bottom: 60px; right: -16px; transform: rotate(28deg); }
+
+/* =========================================================
+   风格 01 · 手写诗展 (A)  — vertical + brush
+   ========================================================= */
+.s-brush {
+  --card-bg: #f4ecda; --ink: #36302a; --muted: #8a7d6a; --accent: #a8312a;
+  --line: #e4d8bf; --tfont: "Ma Shan Zheng", serif; --bfont: "Ma Shan Zheng", serif;
+  --sfont: "Ma Shan Zheng", serif; --radius: 8px; --pad: 46px;
+}
+.s-brush .pc-deco::after {
+  content: ""; position: absolute; top: 40px; right: 46px; width: 84px; height: 84px;
+  border-radius: 50%; background: radial-gradient(circle at 38% 38%, #f7e9c8 0 38%, #efe0bb 39% 60%, transparent 62%);
+  opacity: .6;
+}
+
+/* =========================================================
+   风格 02 · 古籍竖排 (B)
+   ========================================================= */
+.s-classical {
+  --card-bg: #efe6d2; --ink: #3a3026; --muted: #8c7c63; --accent: #9a5b3a;
+  --line: #d8c8a8; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Serif SC", serif; --radius: 4px; --pad: 50px;
+}
+.s-classical .pc-deco {
+  background-image: repeating-linear-gradient(to left, transparent 0 46px, rgba(120,90,50,.10) 46px 47px);
+}
+
+/* =========================================================
+   风格 03 · 极简诗卡 (C)
+   ========================================================= */
+.s-card {
+  --card-bg: #f7f3ea; --ink: #34302a; --muted: #9a9082; --accent: #c08a3e;
+  --line: #e6ddcb; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 16px; --pad: 46px;
+}
+.s-card .pc-title { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; }
+.s-card .pc-body { margin-top: 8px; }
+
+/* =========================================================
+   风格 04 · 手账拼贴 (D)
+   ========================================================= */
+.s-journal {
+  --card-bg: #fff7ef; --ink: #4a4138; --muted: #a08c78; --accent: #e08aa0;
+  --line: #f0dcc8; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Liu Jian Mao Cao", cursive;
+  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 18px; --pad: 40px;
+}
+.s-journal .pc-title { color: #e0708a; }
+
+/* =========================================================
+   风格 05 · 杂志编辑 (E)
+   ========================================================= */
+.s-magazine {
+  --card-bg: #fbf6ec; --ink: #2f2a24; --muted: #8a8073; --accent: #b08a3e;
+  --line: #e0d6c2; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 14px; --pad: 46px;
+}
+.s-magazine .pc-tag { display: block; }
+.s-magazine .pc-body { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; }
+
+/* =========================================================
+   风格 06 · 长卷目录 (F)
+   ========================================================= */
+.s-scroll {
+  --card-bg: #f6efe0; --ink: #3a342b; --muted: #91866f; --accent: #b08a3e;
+  --line: #e2d8c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 44px;
+}
+
+/* =========================================================
+   风格 07 · 图文编辑 (G) — poster
+   ========================================================= */
+.s-imagetext {
+  --card-bg: #f3efe6; --ink: #2f2a24; --muted: #8a8073; --accent: #c2632f;
+  --line: #e2d8c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 48px;
+}
+.s-imagetext .pc-deco::before {
+  content: ""; position: absolute; left: 8%; top: 22%; width: 30%; height: 46%;
+  background: linear-gradient(135deg, #e9b04a, #d2682f); border-radius: 8px; opacity: .85;
+}
+
+/* =========================================================
+   通用卡片 · 暖色 warm
+   ========================================================= */
+.s-warm {
+  --card-bg: #fff3e2; --ink: #4a3b2e; --muted: #a98a6c; --accent: #d98a3d;
+  --line: #f0dcc2; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 18px; --pad: 46px;
+}
+
+/* 清新 fresh */
+.s-fresh {
+  --card-bg: #eef6f2; --ink: #2f4a42; --muted: #6f9588; --accent: #3fae8e;
+  --line: #d6e8e0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 18px; --pad: 46px;
+}
+
+/* 马卡龙 macaron */
+.s-macaron {
+  --card-bg: #fdeef4; --ink: #5a4a55; --muted: #b08aa0; --accent: #e87aa6;
+  --line: #f6d8e6; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 22px; --pad: 44px;
+}
+
+/* 复古 retro */
+.s-retro {
+  --card-bg: #efe3cb; --ink: #4a3a28; --muted: #9a8260; --accent: #9c5a2c;
+  --line: #ddcaa6; --tfont: "ZCOOL XiaoWei", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 46px;
+  filter: sepia(.12);
+}
+
+/* 极简 minimal */
+.s-minimal {
+  --card-bg: #ffffff; --ink: #2b2b2b; --muted: #b0b0b0; --accent: #888;
+  --line: #eaeaea; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 52px;
+}
+.s-minimal { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
+
+/* 粗体 bold */
+.s-bold {
+  --card-bg: #fffbe9; --ink: #16130c; --muted: #6b6450; --accent: #e23b2e;
+  --line: #1a1710; --tfont: "Noto Sans SC", sans-serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 8px; --pad: 46px;
+}
+.s-bold .pc-title { font-weight: 900; letter-spacing: 1px; }
+.s-bold .stanza { font-weight: 700; }
+
+/* 可爱 cute */
+.s-cute {
+  --card-bg: #fff0f5; --ink: #574a52; --muted: #b094a6; --accent: #ff8fb3;
+  --line: #ffd9e8; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "ZCOOL KuaiLe", sans-serif;
+  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 26px; --pad: 44px;
+}
+
+/* 黑板 chalkboard */
+.s-chalkboard {
+  --card-bg: #2c3138; --ink: #f3efe6; --muted: #b9c2c8; --accent: #ffd76a;
+  --line: #4a525c; --tfont: "Liu Jian Mao Cao", cursive; --bfont: "Liu Jian Mao Cao", cursive;
+  --sfont: "Long Cang", cursive; --radius: 10px; --pad: 46px;
+}
+.s-chalkboard .pc-title { color: #ffd76a; }
+.s-chalkboard .pc-deco::before {
+  content: ""; position: absolute; inset: 8px; border: 2px dashed rgba(255,255,255,.18); border-radius: 6px;
+}
+
+/* Notion */
+.s-notion {
+  --card-bg: #ffffff; --ink: #37352f; --muted: #9b9a97; --accent: #2f80ed;
+  --line: #ededec; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 50px;
+}
+.s-notion .pc-title { font-weight: 700; }
+
+/* 速写笔记 sketch */
+.s-sketch {
+  --card-bg: #fdf6e9; --ink: #3a352c; --muted: #9a8e76; --accent: #d98a3d;
+  --line: #e3d4b4; --tfont: "ZCOOL XiaoWei", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 46px;
+  border: 2px solid #3a352c;
+}
+.s-sketch .pc-body { border: 1.5px solid #3a352c; border-radius: 8px; padding: 18px 16px; }
+
+/* 学习笔记 study */
+.s-study {
+  --card-bg: #fffdf5; --ink: #244a8c; --muted: #b04a4a; --accent: #d4a017;
+  --line: #cfe0f5; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 48px;
+}
+.s-study .pc-deco {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 33px, #cfe0f5 33px 34px);
+}
+
+/* 丝网印 screen-print — poster */
+.s-screenprint {
+  --card-bg: #f4ede0; --ink: #1f1b16; --muted: #7a6f5a; --accent: #d8332a;
+  --line: #1f1b16; --tfont: "Noto Sans SC", sans-serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 48px;
+}
+.s-screenprint .pc-title { font-weight: 900; text-transform: none; }
+.s-screenprint .pc-deco::before {
+  content: ""; position: absolute; right: 8%; top: 16%; width: 120px; height: 120px;
+  border-radius: 50%; background: radial-gradient(circle, #d8332a 0 60%, transparent 62%); opacity: .9;
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 860px) {
+  .workspace { grid-template-columns: 1fr; }
+  .controls { max-height: none; border-right: none; border-bottom: 1px solid #e3dccd; }
+  .preview-scroll { padding: 20px 10px; }
+  .pc { width: 100% !important; max-width: 480px; }
+}

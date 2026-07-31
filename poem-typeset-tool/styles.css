@@ -42,10 +42,13 @@ body {
 .preview { background: #e6e0d6; display: flex; flex-direction: column; }
 
 .field { margin-bottom: 18px; }
-.field > label { display: block; font-size: 13px; color: #6b6155; margin-bottom: 6px; font-weight: 500; }
+.field > label,
+.field.row2 > div > label { display: block; font-size: 13px; color: #6b6155; margin-bottom: 6px; font-weight: 500; }
 .field .hint { color: #b08a3e; font-size: 12px; font-weight: 400; }
-.field .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.row2 > div { min-width: 0; }
+.field .hint.pickable { cursor: pointer; border-bottom: 1px dashed #b08a3e; }
+.field .hint.pickable:hover { color: #8c6a26; }
+.field.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field.row2 > div { min-width: 0; }
 input[type=text], textarea {
   width: 100%; border: 1px solid #ddd4c2; border-radius: 8px;
   padding: 10px 12px; font-size: 14px; font-family: inherit; background: #fff; color: #2b2622;
@@ -76,7 +79,7 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
   flex: 1; width: 100%; overflow: auto; display: flex; justify-content: center;
   align-items: flex-start; padding: 34px 20px;
 }
-#stage { display: flex; justify-content: center; }
+#stage { display: flex; justify-content: center; flex: 0 0 auto; }
 .preview-tip { font-size: 12px; color: #8a8073; text-align: center; padding: 8px 0 14px; }
 
 /* =========================================================
@@ -99,6 +102,7 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
   color: var(--ink);
   width: 480px;
   padding: var(--pad);
+  border-radius: var(--radius);
   box-shadow: 0 12px 40px rgba(40,30,20,.18);
   overflow: hidden;
 }
@@ -144,7 +148,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 /* =========================================================
    布局：l-vertical（竖排：手写海报 / 古籍竖排）
    ========================================================= */
-.l-vertical { width: 520px; }
+/* 宽度随列数自适应：长诗竖排不再被 overflow:hidden 裁掉 */
+.l-vertical { width: auto; min-width: 520px; max-width: 1100px; flex: 0 0 auto; }
 .l-vertical .pc-inner {
   writing-mode: vertical-rl; text-orientation: upright;
   display: flex; flex-direction: row-reverse; gap: 26px;

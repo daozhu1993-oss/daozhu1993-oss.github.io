@@ -30,6 +30,8 @@ const $ = (id) => document.getElementById(id);
 const card = $('card');
 
 let currentStyle = 'magazine';
+/* 用户是否手动挑过风格：挑过就不再自动跟着推荐跳，只在提示里给出建议 */
+let userPicked = false;
 
 /* 渲染风格选择 */
 function renderStyleChips() {
@@ -48,7 +50,10 @@ function renderStyleChips() {
       chip.className = 'style-chip' + (s.id === currentStyle ? ' active' : '');
       chip.dataset.id = s.id;
       chip.innerHTML = `<span class="sw" style="background:${s.sw}"></span>${s.name}`;
-      chip.onclick = () => { currentStyle = s.id; updateActiveChips(); render(); };
+      chip.onclick = () => {
+        currentStyle = s.id; userPicked = true;
+        updateActiveChips(); refreshSuggest(); render();
+      };
       grid.appendChild(chip);
     });
     wrap.appendChild(gt);
@@ -71,6 +76,33 @@ function suggestStyle(bodyText) {
   const classical = /(古风|乐府|绝句|律诗|词牌|词|赋|辞|游园|禅|咏|怀古|拟古|古意|诗经|楚辞|唐诗|宋词)/;
   if (classical.test(bodyText)) return 'classical';
   return 'magazine';
+}
+
+/* 正文变化时实时重算推荐：没手动挑过就自动跟随，挑过则只提示（可点击应用） */
+function refreshSuggest() {
+  const hint = $('hintSuggest');
+  const sug = suggestStyle($('inBody').value);
+  const s = STYLES.find(x => x.id === sug);
+  hint.onclick = null;
+  hint.title = '';
+  if (!s) { hint.className = 'hint'; hint.textContent = ''; return; }
+
+  if (!userPicked) {
+    if (sug !== currentStyle) { currentStyle = sug; updateActiveChips(); }
+    hint.className = 'hint';
+    hint.textContent = `（按长度推荐：${s.name}）`;
+  } else if (sug !== currentStyle) {
+    hint.className = 'hint pickable';
+    hint.textContent = `（推荐改用：${s.name}）`;
+    hint.title = '点击应用推荐风格';
+    hint.onclick = () => {
+      currentStyle = sug; userPicked = false;
+      updateActiveChips(); refreshSuggest(); render();
+    };
+  } else {
+    hint.className = 'hint';
+    hint.textContent = `（当前即推荐：${s.name}）`;
+  }
 }
 
 /* 解析标题：优先输入；否则取正文首行 */
@@ -137,10 +169,15 @@ function esc(s) {
 
 $('inFs').addEventListener('input', () => { $('fsVal').textContent = $('inFs').value; });
 
+/* 正文改动 → 重算推荐（可能自动切风格），再渲染 */
+$('inBody').addEventListener('input', () => { refreshSuggest(); render(); });
+
 $('btnRandom').addEventListener('click', () => {
   const pool = STYLES.filter(s => s.id !== currentStyle);
   currentStyle = pool[Math.floor(Math.random() * pool.length)].id;
+  userPicked = true;
   updateActiveChips();
+  refreshSuggest();
   render();
 });
 
@@ -167,14 +204,10 @@ $('btnExport').addEventListener('click', async () => {
   }
 });
 
-/* 初始化：自动建议一次 */
+/* 初始化 */
 (function init() {
   renderStyleChips();
-  const sug = suggestStyle($('inBody').value);
-  if (sug && STYLES.some(s => s.id === sug)) {
-    currentStyle = sug;
-    $('hintSuggest').textContent = `（按长度推荐：${STYLES.find(s => s.id === sug).name}）`;
-  }
+  refreshSuggest();
   updateActiveChips();
   render();
 })();

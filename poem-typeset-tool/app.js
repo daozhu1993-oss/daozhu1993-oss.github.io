@@ -66,10 +66,12 @@ function updateActiveChips() {
   });
 }
 
-/* 按长度自动推荐风格 */
+/* 按长度自动推荐风格（首行若是标题则不计，与 render 去重逻辑一致） */
 function suggestStyle(bodyText) {
   const lines = bodyText.split('\n').map(l => l.trim()).filter(Boolean);
-  const n = lines.length;
+  const titleGuess = (lines[0] || '').replace(/^\d{1,3}[、.．\s]*/, '');
+  const bodyLines = (lines[0] && lines[0] === titleGuess) ? lines.slice(1) : lines;
+  const n = bodyLines.length;
   if (n <= 8) return 'brush';
   if (n >= 25) return 'scroll';
   // 9–24 行：含古典词 → 古籍竖排，否则杂志
@@ -119,11 +121,20 @@ function render() {
   const title = resolveTitle();
   const sign = $('inSign').value.trim();
   const date = $('inDate').value.trim();
-  const body = $('inBody').value;
+  let body = $('inBody').value;
   const fs = $('inFs').value;
   const showMeta = $('inShowMeta').checked;
   const showTag = $('inShowTag').checked;
   const mark = $('inMark').value.trim();
+
+  // 去重：如果正文首行就是标题，跳过首行避免标题/正文重复渲染
+  if (title) {
+    const lines = body.split('\n');
+    const firstIdx = lines.findIndex(l => l.trim());
+    if (firstIdx >= 0 && lines[firstIdx].trim() === title) {
+      body = lines.slice(firstIdx + 1).join('\n');
+    }
+  }
 
   // 分段：空行分隔
   const stanzas = body.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);

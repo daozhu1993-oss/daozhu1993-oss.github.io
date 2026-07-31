@@ -276,10 +276,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
   --line: #e2d8c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
   --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 48px;
 }
-.s-imagetext .pc-deco::before {
-  content: ""; position: absolute; left: 8%; top: 22%; width: 30%; height: 46%;
-  background: linear-gradient(135deg, #e9b04a, #d2682f); border-radius: 8px; opacity: .85;
-}
+/* 标题下加一条强调线，替代原来像占位块的橙色色块 */
+.s-imagetext .pc-title { border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
 
 /* =========================================================
    通用卡片 · 暖色 warm

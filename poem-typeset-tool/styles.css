@@ -151,22 +151,27 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 /* 宽度随列数自适应：长诗竖排不再被 overflow:hidden 裁掉 */
 .l-vertical { width: auto; min-width: 520px; max-width: 1100px; flex: 0 0 auto; }
 .l-vertical .pc-inner {
-  writing-mode: vertical-rl; text-orientation: upright;
   display: flex; flex-direction: row-reverse; gap: 26px;
   justify-content: flex-start; align-items: flex-start;
   height: auto; min-height: 560px;
 }
 .l-vertical .pc-title {
-  writing-mode: vertical-rl; margin: 0; text-align: start;
+  writing-mode: vertical-rl; text-orientation: upright;
+  margin: 0; text-align: start;
   font-size: calc(var(--fs) * 2.1); letter-spacing: 6px; flex: 0 0 auto;
+  align-self: flex-start;
   /* 让竖排标题贴卡片最右边缘：抵消 .pc 的右侧 padding */
   margin-right: calc(-1 * var(--pad) + 4px);
 }
 .l-vertical .pc-body { display: flex; flex-direction: row-reverse; gap: 22px; align-items: flex-start; }
-.l-vertical .stanza { writing-mode: vertical-rl; text-align: start; line-height: 1.9; letter-spacing: 2px; }
+.l-vertical .stanza {
+  writing-mode: vertical-rl; text-orientation: upright;
+  text-align: start; line-height: 1.9; letter-spacing: 2px;
+}
 .l-vertical .pc-meta {
-  writing-mode: vertical-rl; margin: 0; flex-direction: row; gap: 10px;
-  align-self: flex-end; letter-spacing: 2px;
+  position: absolute; left: 28px; top: 28px; z-index: 3;
+  writing-mode: vertical-rl; text-orientation: upright;
+  margin: 0; letter-spacing: 4px; font-size: 13px;
 }
 
 /* =========================================================

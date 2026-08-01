@@ -2,7 +2,7 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  font-family: "Noto Sans SC", system-ui, sans-serif;
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   background: #ece7df;
   color: #2b2622;
   -webkit-font-smoothing: antialiased;
@@ -19,9 +19,9 @@ body {
 .brand-mark {
   width: 42px; height: 42px; display: grid; place-items: center;
   background: #2b2622; color: #f3ead6; border-radius: 10px;
-  font-family: "Ma Shan Zheng", serif; font-size: 26px; line-height: 1;
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; font-size: 26px; line-height: 1;
 }
-.brand-text h1 { margin: 0; font-family: "Ma Shan Zheng", serif; font-size: 26px; letter-spacing: 4px; }
+.brand-text h1 { margin: 0; font-family: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; font-size: 26px; letter-spacing: 4px; }
 .brand-text p { margin: 2px 0 0; font-size: 12px; color: #8a8073; }
 .topbar-actions { display: flex; gap: 10px; }
 .primary-btn {
@@ -91,9 +91,9 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
   --muted: #8a8073;
   --accent: #b08a3e;
   --line: #e0d6c2;
-  --tfont: "Noto Serif SC", serif;
-  --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif;
+  --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
   --radius: 14px;
   --pad: 42px;
   --fs: 18px;
@@ -130,7 +130,7 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 .pc-seal {
   position: absolute; left: 28px; bottom: 26px; z-index: 3;
   width: 52px; height: 52px; border: 2.5px solid #a8312a; border-radius: 4px;
-  color: #a8312a; font-family: "Ma Shan Zheng", serif; font-size: 22px;
+  color: #a8312a; font-family: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; font-size: 22px;
   display: grid; place-items: center; line-height: 1; background: rgba(168,49,42,.04);
 }
 .pc-watermark {
@@ -206,8 +206,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-brush {
   --card-bg: #f4ecda; --ink: #36302a; --muted: #8a7d6a; --accent: #a8312a;
-  --line: #e4d8bf; --tfont: "Ma Shan Zheng", serif; --bfont: "Ma Shan Zheng", serif;
-  --sfont: "Ma Shan Zheng", serif; --radius: 8px; --pad: 46px;
+  --line: #e4d8bf; --tfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; --bfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif;
+  --sfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; --radius: 8px; --pad: 46px;
 }
 .s-brush .pc-deco::after {
   content: ""; position: absolute; top: 40px; right: 46px; width: 84px; height: 84px;
@@ -220,8 +220,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-classical {
   --card-bg: #efe6d2; --ink: #3a3026; --muted: #8c7c63; --accent: #9a5b3a;
-  --line: #d8c8a8; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Serif SC", serif; --radius: 4px; --pad: 50px;
+  --line: #d8c8a8; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --radius: 4px; --pad: 50px;
 }
 .s-classical .pc-deco {
   background-image: repeating-linear-gradient(to left, transparent 0 46px, rgba(120,90,50,.10) 46px 47px);
@@ -232,8 +232,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-card {
   --card-bg: #f7f3ea; --ink: #34302a; --muted: #9a9082; --accent: #c08a3e;
-  --line: #e6ddcb; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 16px; --pad: 46px;
+  --line: #e6ddcb; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 16px; --pad: 46px;
 }
 .s-card .pc-title { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; }
 .s-card .pc-body { margin-top: 8px; }
@@ -243,8 +243,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-journal {
   --card-bg: #fff7ef; --ink: #4a4138; --muted: #a08c78; --accent: #e08aa0;
-  --line: #f0dcc8; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Liu Jian Mao Cao", cursive;
-  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 18px; --pad: 40px;
+  --line: #f0dcc8; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 18px; --pad: 40px;
 }
 .s-journal .pc-title { color: #e0708a; }
 
@@ -253,8 +253,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-magazine {
   --card-bg: #fbf6ec; --ink: #2f2a24; --muted: #8a8073; --accent: #b08a3e;
-  --line: #e0d6c2; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 14px; --pad: 46px;
+  --line: #e0d6c2; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 14px; --pad: 46px;
 }
 .s-magazine .pc-tag { display: block; }
 .s-magazine .pc-body { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; }
@@ -264,8 +264,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-scroll {
   --card-bg: #f6efe0; --ink: #3a342b; --muted: #91866f; --accent: #b08a3e;
-  --line: #e2d8c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 44px;
+  --line: #e2d8c0; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 6px; --pad: 44px;
 }
 
 /* =========================================================
@@ -273,8 +273,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-imagetext {
   --card-bg: #f3efe6; --ink: #2f2a24; --muted: #8a8073; --accent: #c2632f;
-  --line: #e2d8c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 48px;
+  --line: #e2d8c0; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 10px; --pad: 48px;
 }
 /* 标题下加一条强调线，替代原来像占位块的橙色色块 */
 .s-imagetext .pc-title { border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
@@ -284,45 +284,45 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-warm {
   --card-bg: #fff3e2; --ink: #4a3b2e; --muted: #a98a6c; --accent: #d98a3d;
-  --line: #f0dcc2; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 18px; --pad: 46px;
+  --line: #f0dcc2; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 18px; --pad: 46px;
 }
 
 /* 清新 fresh */
 .s-fresh {
   --card-bg: #eef6f2; --ink: #2f4a42; --muted: #6f9588; --accent: #3fae8e;
-  --line: #d6e8e0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 18px; --pad: 46px;
+  --line: #d6e8e0; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 18px; --pad: 46px;
 }
 
 /* 马卡龙 macaron */
 .s-macaron {
   --card-bg: #fdeef4; --ink: #5a4a55; --muted: #b08aa0; --accent: #e87aa6;
-  --line: #f6d8e6; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 22px; --pad: 44px;
+  --line: #f6d8e6; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 22px; --pad: 44px;
 }
 
 /* 复古 retro */
 .s-retro {
   --card-bg: #efe3cb; --ink: #4a3a28; --muted: #9a8260; --accent: #9c5a2c;
-  --line: #ddcaa6; --tfont: "ZCOOL XiaoWei", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 46px;
+  --line: #ddcaa6; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 6px; --pad: 46px;
   filter: sepia(.12);
 }
 
 /* 极简 minimal */
 .s-minimal {
   --card-bg: #ffffff; --ink: #2b2b2b; --muted: #b0b0b0; --accent: #888;
-  --line: #eaeaea; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 52px;
+  --line: #eaeaea; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 4px; --pad: 52px;
 }
 .s-minimal { box-shadow: 0 4px 24px rgba(0,0,0,.08); }
 
 /* 粗体 bold */
 .s-bold {
   --card-bg: #fffbe9; --ink: #16130c; --muted: #6b6450; --accent: #e23b2e;
-  --line: #1a1710; --tfont: "Noto Sans SC", sans-serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 8px; --pad: 46px;
+  --line: #1a1710; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 8px; --pad: 46px;
 }
 .s-bold .pc-title { font-weight: 900; letter-spacing: 1px; }
 .s-bold .stanza { font-weight: 700; }
@@ -330,15 +330,15 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 /* 可爱 cute */
 .s-cute {
   --card-bg: #fff0f5; --ink: #574a52; --muted: #b094a6; --accent: #ff8fb3;
-  --line: #ffd9e8; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "ZCOOL KuaiLe", sans-serif;
-  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 26px; --pad: 44px;
+  --line: #ffd9e8; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 26px; --pad: 44px;
 }
 
 /* 黑板 chalkboard */
 .s-chalkboard {
   --card-bg: #2c3138; --ink: #f3efe6; --muted: #b9c2c8; --accent: #ffd76a;
-  --line: #4a525c; --tfont: "Liu Jian Mao Cao", cursive; --bfont: "Liu Jian Mao Cao", cursive;
-  --sfont: "Long Cang", cursive; --radius: 10px; --pad: 46px;
+  --line: #4a525c; --tfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; --bfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif;
+  --sfont: "Kaiti SC", "STKaiti", "KaiTi", serif; --radius: 10px; --pad: 46px;
 }
 .s-chalkboard .pc-title { color: #ffd76a; }
 .s-chalkboard .pc-deco::before {
@@ -348,16 +348,16 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 /* Notion */
 .s-notion {
   --card-bg: #ffffff; --ink: #37352f; --muted: #9b9a97; --accent: #2f80ed;
-  --line: #ededec; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 50px;
+  --line: #ededec; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 4px; --pad: 50px;
 }
 .s-notion .pc-title { font-weight: 700; }
 
 /* 速写笔记 sketch */
 .s-sketch {
   --card-bg: #fdf6e9; --ink: #3a352c; --muted: #9a8e76; --accent: #d98a3d;
-  --line: #e3d4b4; --tfont: "ZCOOL XiaoWei", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 46px;
+  --line: #e3d4b4; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 10px; --pad: 46px;
   border: 2px solid #3a352c;
 }
 .s-sketch .pc-body { border: 1.5px solid #3a352c; border-radius: 8px; padding: 18px 16px; }
@@ -365,8 +365,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 /* 学习笔记 study */
 .s-study {
   --card-bg: #fffdf5; --ink: #244a8c; --muted: #b04a4a; --accent: #d4a017;
-  --line: #cfe0f5; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 48px;
+  --line: #cfe0f5; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 4px; --pad: 48px;
 }
 .s-study .pc-deco {
   background-image: repeating-linear-gradient(to bottom, transparent 0 33px, #cfe0f5 33px 34px);
@@ -375,8 +375,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 /* 丝网印 screen-print — poster */
 .s-screenprint {
   --card-bg: #f4ede0; --ink: #1f1b16; --muted: #7a6f5a; --accent: #d8332a;
-  --line: #1f1b16; --tfont: "Noto Sans SC", sans-serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 48px;
+  --line: #1f1b16; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 4px; --pad: 48px;
 }
 .s-screenprint .pc-title { font-weight: 900; text-transform: none; }
 .s-screenprint .pc-deco::before {
@@ -405,8 +405,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-collection {
   --card-bg: #f3ecdb; --ink: #34291c; --muted: #8a7a5c; --accent: #9c7b3e;
-  --line: #d9caa6; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 52px;
+  --line: #d9caa6; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 4px; --pad: 52px;
   border: 1px solid #cdb98e;
 }
 .s-collection .pc-deco::before {
@@ -428,8 +428,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-seal {
   --card-bg: #f6efe1; --ink: #2f2a24; --muted: #8a8073; --accent: #a8312a;
-  --line: #e0d6c2; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 46px;
+  --line: #e0d6c2; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 6px; --pad: 46px;
 }
 .s-seal .pc-seal { left: auto; right: 26px; top: 26px; bottom: auto; }
 
@@ -438,9 +438,9 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-typewriter {
   --card-bg: #f7f3e8; --ink: #2b2620; --muted: #8a8068; --accent: #6b5a3e;
-  --line: #cfc6ad; --tfont: "Courier Prime","Noto Sans SC",monospace;
-  --bfont: "Courier Prime","Noto Sans SC",monospace;
-  --sfont: "Courier Prime","Noto Sans SC",monospace; --radius: 2px; --pad: 46px;
+  --line: #cfc6ad; --tfont: "Courier New", "Menlo", "Consolas", "PingFang SC", monospace;
+  --bfont: "Courier New", "Menlo", "Consolas", "PingFang SC", monospace;
+  --sfont: "Courier New", "Menlo", "Consolas", "PingFang SC", monospace; --radius: 2px; --pad: 46px;
 }
 .s-typewriter .pc-deco {
   background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(120,105,70,.18) 31px 32px);
@@ -454,8 +454,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-ambernight {
   --card-bg: #2a1810; --ink: #ffe9cf; --muted: #d6a574; --accent: #ff9d4d;
-  --line: #5a3a24; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 12px; --pad: 48px;
+  --line: #5a3a24; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 12px; --pad: 48px;
 }
 .s-ambernight .pc-deco {
   background: radial-gradient(circle at 50% 120%, rgba(255,150,60,.35), transparent 60%);
@@ -468,8 +468,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-exhibition {
   --card-bg: #fbf6ee; --ink: #2f2a24; --muted: #8a8073; --accent: #b08a3e;
-  --line: #e0d6c2; --tfont: "Ma Shan Zheng", serif; --bfont: "Ma Shan Zheng", serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 14px; --pad: 46px;
+  --line: #e0d6c2; --tfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif; --bfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 14px; --pad: 46px;
   border: 1.5px solid var(--line);
 }
 .s-exhibition .pc-tag { display: inline-block; }
@@ -485,8 +485,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-product {
   --card-bg: #f3e7cf; --ink: #4a3b28; --muted: #9a8260; --accent: #c08a3e;
-  --line: #d8c2a0; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 46px;
+  --line: #d8c2a0; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 10px; --pad: 46px;
 }
 .s-product .pc-deco::before {
   content: ""; position: absolute; inset: 16px; border: 2px solid var(--accent);
@@ -500,8 +500,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-fancient {
   --card-bg: #efe6d2; --ink: #3a3026; --muted: #8c7c63; --accent: #9a5b3a;
-  --line: #d8c8a8; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
-  --sfont: "Noto Serif SC", serif; --radius: 4px; --pad: 46px;
+  --line: #d8c8a8; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
+  --sfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --radius: 4px; --pad: 46px;
 }
 .s-fancient .pc-deco {
   background-image: repeating-linear-gradient(to left, transparent 0 46px, rgba(120,90,50,.12) 46px 47px);
@@ -512,8 +512,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-envelope {
   --card-bg: #f7f1e6; --ink: #3a342b; --muted: #9a8e76; --accent: #b07a4a;
-  --line: #e2d6c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 48px;
+  --line: #e2d6c0; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 6px; --pad: 48px;
 }
 .s-envelope .pc-deco::before {
   content: ""; position: absolute; top: 0; left: 0; width: 0; height: 0;
@@ -526,8 +526,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-urban {
   --card-bg: #f4f5f7; --ink: #23262b; --muted: #6b7280; --accent: #2f80ed;
-  --line: #d9dde3; --tfont: "Noto Sans SC", sans-serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 46px;
+  --line: #d9dde3; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 10px; --pad: 46px;
 }
 .s-urban .pc-title { text-align: left; font-weight: 900; letter-spacing: 1px; }
 .s-urban .pc-body { align-items: stretch; gap: 14px; }
@@ -539,8 +539,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-tornbilingual {
   --card-bg: #fbfaf5; --ink: #2b2b2b; --muted: #8a8a8a; --accent: #c0392b;
-  --line: #e2e2da; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
-  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 48px;
+  --line: #e2e2da; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 4px; --pad: 48px;
   border: 1px dashed var(--line);
 }
 .s-tornbilingual .pc-deco::after {
@@ -557,8 +557,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
    ========================================================= */
 .s-bigjournal {
   --card-bg: #fff7ef; --ink: #4a4138; --muted: #a08c78; --accent: #e08aa0;
-  --line: #f0dcc8; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Liu Jian Mao Cao", cursive;
-  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 18px; --pad: 46px;
+  --line: #f0dcc8; --tfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --bfont: "Kaiti SC", "STKaiti", "KaiTi", "楷体", serif;
+  --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 18px; --pad: 46px;
 }
 .s-bigjournal .pc-title { font-size: calc(var(--fs) * 2.6); color: #e0708a; }
 .s-bigjournal .stanza { font-size: calc(var(--fs) * 1.5); line-height: 1.7; }

@@ -384,6 +384,185 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
   border-radius: 50%; background: radial-gradient(circle, #d8332a 0 60%, transparent 62%); opacity: .9;
 }
 
+/* =========================================================
+   布局：l-seal（题款印章：横排，标题竖排居右 + 印章）
+   ========================================================= */
+.l-seal { width: auto; min-width: 470px; max-width: 780px; flex: 0 0 auto; }
+.l-seal .pc-inner {
+  display: flex; flex-direction: row-reverse; align-items: flex-start; gap: 30px;
+}
+.l-seal .pc-title {
+  writing-mode: vertical-rl; text-orientation: upright; margin: 0;
+  font-size: calc(var(--fs) * 2.2); letter-spacing: 8px; text-align: start;
+  flex: 0 0 auto; padding-left: 20px; border-left: 1px solid var(--line);
+}
+.l-seal .pc-body { align-items: flex-start; }
+.l-seal .stanza { text-align: start; line-height: 2.1; }
+.l-seal .pc-meta { justify-content: flex-start; }
+
+/* =========================================================
+   新增风格 · 诗集分卷 collection
+   ========================================================= */
+.s-collection {
+  --card-bg: #f3ecdb; --ink: #34291c; --muted: #8a7a5c; --accent: #9c7b3e;
+  --line: #d9caa6; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 52px;
+  border: 1px solid #cdb98e;
+}
+.s-collection .pc-deco::before {
+  content: ""; position: absolute; inset: 14px; border: 1px solid rgba(156,123,62,.35); pointer-events: none;
+}
+.s-collection .pc-title { font-weight: 700; letter-spacing: 6px; }
+.s-collection .pc-body {
+  border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent);
+  padding: 22px 0; margin-top: 4px;
+}
+.s-collection .pc-body::before,
+.s-collection .pc-body::after {
+  content: "❧"; display: block; text-align: center; color: var(--accent);
+  opacity: .5; font-size: 18px; margin: 2px 0;
+}
+
+/* =========================================================
+   新增风格 · 题款印章 seal
+   ========================================================= */
+.s-seal {
+  --card-bg: #f6efe1; --ink: #2f2a24; --muted: #8a8073; --accent: #a8312a;
+  --line: #e0d6c2; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 46px;
+}
+.s-seal .pc-seal { left: auto; right: 26px; top: 26px; bottom: auto; }
+
+/* =========================================================
+   新增风格 · 复古打字 typewriter
+   ========================================================= */
+.s-typewriter {
+  --card-bg: #f7f3e8; --ink: #2b2620; --muted: #8a8068; --accent: #6b5a3e;
+  --line: #cfc6ad; --tfont: "Courier Prime","Noto Sans SC",monospace;
+  --bfont: "Courier Prime","Noto Sans SC",monospace;
+  --sfont: "Courier Prime","Noto Sans SC",monospace; --radius: 2px; --pad: 46px;
+}
+.s-typewriter .pc-deco {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(120,105,70,.18) 31px 32px);
+}
+.s-typewriter .pc-title { font-weight: 700; letter-spacing: 0; text-align: left; border-bottom: 2px dashed var(--line); padding-bottom: 10px; }
+.s-typewriter .pc-body { align-items: flex-start; gap: 14px; }
+.s-typewriter .stanza { text-align: left; line-height: 32px; letter-spacing: .4px; }
+
+/* =========================================================
+   新增风格 · 暖橙夜话 ambernight
+   ========================================================= */
+.s-ambernight {
+  --card-bg: #2a1810; --ink: #ffe9cf; --muted: #d6a574; --accent: #ff9d4d;
+  --line: #5a3a24; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 12px; --pad: 48px;
+}
+.s-ambernight .pc-deco {
+  background: radial-gradient(circle at 50% 120%, rgba(255,150,60,.35), transparent 60%);
+}
+.s-ambernight .pc-title { color: #ffb866; text-shadow: 0 0 18px rgba(255,140,60,.4); }
+.s-ambernight .pc-meta, .s-ambernight .pc-watermark { color: #d6a574; }
+
+/* =========================================================
+   新增风格 · 手写展签 exhibition
+   ========================================================= */
+.s-exhibition {
+  --card-bg: #fbf6ee; --ink: #2f2a24; --muted: #8a8073; --accent: #b08a3e;
+  --line: #e0d6c2; --tfont: "Ma Shan Zheng", serif; --bfont: "Ma Shan Zheng", serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 14px; --pad: 46px;
+  border: 1.5px solid var(--line);
+}
+.s-exhibition .pc-tag { display: inline-block; }
+.s-exhibition .pc-title { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.s-exhibition .pc-deco::before {
+  content: "展"; position: absolute; top: 14px; right: 16px; width: 30px; height: 30px;
+  display: grid; place-items: center; background: var(--accent); color: #fff;
+  font-family: var(--sfont); font-size: 15px; border-radius: 4px; opacity: .85;
+}
+
+/* =========================================================
+   新增风格 · 手账商品 product
+   ========================================================= */
+.s-product {
+  --card-bg: #f3e7cf; --ink: #4a3b28; --muted: #9a8260; --accent: #c08a3e;
+  --line: #d8c2a0; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 46px;
+}
+.s-product .pc-deco::before {
+  content: ""; position: absolute; inset: 16px; border: 2px solid var(--accent);
+  border-radius: 6px; opacity: .5;
+}
+.s-product .pc-title { color: #9a5b2c; }
+.s-product .pc-meta { color: #9a8260; }
+
+/* =========================================================
+   新增风格 · 古籍注音 fancient（竖排 + 经折装栏线 + 印章）
+   ========================================================= */
+.s-fancient {
+  --card-bg: #efe6d2; --ink: #3a3026; --muted: #8c7c63; --accent: #9a5b3a;
+  --line: #d8c8a8; --tfont: "Noto Serif SC", serif; --bfont: "Noto Serif SC", serif;
+  --sfont: "Noto Serif SC", serif; --radius: 4px; --pad: 46px;
+}
+.s-fancient .pc-deco {
+  background-image: repeating-linear-gradient(to left, transparent 0 46px, rgba(120,90,50,.12) 46px 47px);
+}
+
+/* =========================================================
+   新增风格 · 信封信纸 envelope
+   ========================================================= */
+.s-envelope {
+  --card-bg: #f7f1e6; --ink: #3a342b; --muted: #9a8e76; --accent: #b07a4a;
+  --line: #e2d6c0; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 6px; --pad: 48px;
+}
+.s-envelope .pc-deco::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 0; height: 0;
+  border-left: 240px solid transparent; border-right: 240px solid transparent;
+  border-top: 88px solid rgba(176,122,74,.14);
+}
+
+/* =========================================================
+   新增风格 · 城市分点 urban
+   ========================================================= */
+.s-urban {
+  --card-bg: #f4f5f7; --ink: #23262b; --muted: #6b7280; --accent: #2f80ed;
+  --line: #d9dde3; --tfont: "Noto Sans SC", sans-serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 10px; --pad: 46px;
+}
+.s-urban .pc-title { text-align: left; font-weight: 900; letter-spacing: 1px; }
+.s-urban .pc-body { align-items: stretch; gap: 14px; }
+.s-urban .stanza { text-align: left; padding-left: 16px; border-left: 3px solid var(--accent); line-height: 1.9; }
+.s-urban .pc-meta { justify-content: flex-start; }
+
+/* =========================================================
+   新增风格 · 撕纸双语 tornbilingual（便签 + 胶带）
+   ========================================================= */
+.s-tornbilingual {
+  --card-bg: #fbfaf5; --ink: #2b2b2b; --muted: #8a8a8a; --accent: #c0392b;
+  --line: #e2e2da; --tfont: "Noto Serif SC", serif; --bfont: "Noto Sans SC", sans-serif;
+  --sfont: "Noto Sans SC", sans-serif; --radius: 4px; --pad: 48px;
+  border: 1px dashed var(--line);
+}
+.s-tornbilingual .pc-deco::after {
+  content: ""; position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+  width: 92px; height: 26px; background: rgba(192,57,43,.22);
+  border: 1px dashed rgba(192,57,43,.4);
+}
+.s-tornbilingual .pc-title { font-weight: 700; }
+.s-tornbilingual .stanza:nth-child(odd) { transform: rotate(-1.2deg); }
+.s-tornbilingual .stanza:nth-child(even) { transform: rotate(1deg); }
+
+/* =========================================================
+   新增风格 · 手账大字 bigjournal
+   ========================================================= */
+.s-bigjournal {
+  --card-bg: #fff7ef; --ink: #4a4138; --muted: #a08c78; --accent: #e08aa0;
+  --line: #f0dcc8; --tfont: "ZCOOL KuaiLe", sans-serif; --bfont: "Liu Jian Mao Cao", cursive;
+  --sfont: "ZCOOL KuaiLe", sans-serif; --radius: 18px; --pad: 46px;
+}
+.s-bigjournal .pc-title { font-size: calc(var(--fs) * 2.6); color: #e0708a; }
+.s-bigjournal .stanza { font-size: calc(var(--fs) * 1.5); line-height: 1.7; }
+
 /* ---- 响应式 ---- */
 @media (max-width: 860px) {
   .workspace { grid-template-columns: 1fr; }

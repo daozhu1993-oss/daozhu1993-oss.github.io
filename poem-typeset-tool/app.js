@@ -24,6 +24,18 @@ const STYLES = [
   { id: 'sketch',     name: '速写笔记', group: '通用卡片', layout: 'card', sw: '#d98a3d' },
   { id: 'study',      name: '学习笔记', group: '通用卡片', layout: 'card', sw: '#244a8c' },
   { id: 'screenprint',name: '丝网印',   group: '通用卡片', layout: 'poster', sw: '#d8332a' },
+  // —— 新增风格（与诗笺 Skill 同步）——
+  { id: 'collection',    name: '诗集分卷', group: '新增风格', layout: 'card',     sw: '#9c7b3e' },
+  { id: 'seal',          name: '题款印章', group: '新增风格', layout: 'seal',     sw: '#a8312a' },
+  { id: 'typewriter',    name: '复古打字', group: '新增风格', layout: 'card',     sw: '#6b5a3e' },
+  { id: 'ambernight',    name: '暖橙夜话', group: '新增风格', layout: 'card',     sw: '#ff9d4d' },
+  { id: 'exhibition',    name: '手写展签', group: '新增风格', layout: 'card',     sw: '#b08a3e' },
+  { id: 'product',       name: '手账商品', group: '新增风格', layout: 'card',     sw: '#c08a3e' },
+  { id: 'fancient',      name: '古籍注音', group: '新增风格', layout: 'vertical', sw: '#9a5b3a' },
+  { id: 'envelope',      name: '信封信纸', group: '新增风格', layout: 'card',     sw: '#b07a4a' },
+  { id: 'urban',         name: '城市分点', group: '新增风格', layout: 'card',     sw: '#2f80ed' },
+  { id: 'tornbilingual', name: '撕纸双语', group: '新增风格', layout: 'card',     sw: '#c0392b' },
+  { id: 'bigjournal',    name: '手账大字', group: '新增风格', layout: 'card',     sw: '#e08aa0' },
 ];
 
 const $ = (id) => document.getElementById(id);
@@ -72,11 +84,11 @@ function suggestStyle(bodyText) {
   const titleGuess = (lines[0] || '').replace(/^\d{1,3}[、.．\s]*/, '');
   const bodyLines = (lines[0] && lines[0] === titleGuess) ? lines.slice(1) : lines;
   const n = bodyLines.length;
-  if (n <= 8) return 'brush';
+  // 含古典词 → 短诗用题款印章，长诗用古籍注音
+  const classical = /(古风|乐府|绝句|律诗|词牌|词|赋|辞|游园|禅|咏|怀古|拟古|古意|诗经|楚辞|唐诗|宋词|七绝|五绝|七言|五言)/;
+  if (classical.test(bodyText)) return n <= 8 ? 'seal' : 'fancient';
+  if (n <= 6) return 'brush';
   if (n >= 25) return 'scroll';
-  // 9–24 行：含古典词 → 古籍竖排，否则杂志
-  const classical = /(古风|乐府|绝句|律诗|词牌|词|赋|辞|游园|禅|咏|怀古|拟古|古意|诗经|楚辞|唐诗|宋词)/;
-  if (classical.test(bodyText)) return 'classical';
   return 'magazine';
 }
 
@@ -161,8 +173,8 @@ function render() {
   }
   html += '</div>';
 
-  // 印章（手写 / 古籍）
-  if (currentStyle === 'brush' || currentStyle === 'classical') {
+  // 印章（手写 / 古籍 / 题款 / 注音）
+  if (currentStyle === 'brush' || currentStyle === 'classical' || currentStyle === 'seal' || currentStyle === 'fancient') {
     html += '<div class="pc-seal">島主</div>';
   }
   if (mark) html += `<div class="pc-watermark">${esc(mark)}</div>`;

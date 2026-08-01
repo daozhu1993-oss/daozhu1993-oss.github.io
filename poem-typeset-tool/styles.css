@@ -159,6 +159,8 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
 .l-vertical .pc-title {
   writing-mode: vertical-rl; margin: 0; text-align: start;
   font-size: calc(var(--fs) * 2.1); letter-spacing: 6px; flex: 0 0 auto;
+  /* 让竖排标题贴卡片最右边缘：抵消 .pc 的右侧 padding */
+  margin-right: calc(-1 * var(--pad) + 4px);
 }
 .l-vertical .pc-body { display: flex; flex-direction: row-reverse; gap: 22px; align-items: flex-start; }
 .l-vertical .stanza { writing-mode: vertical-rl; text-align: start; line-height: 1.9; letter-spacing: 2px; }
@@ -431,7 +433,9 @@ input[type=range] { width: 100%; accent-color: #b08a3e; }
   --line: #e0d6c2; --tfont: "Songti SC", "STSong", "SimSun", "宋体", serif; --bfont: "Songti SC", "STSong", "SimSun", "宋体", serif;
   --sfont: "PingFang SC", "Microsoft YaHei", "微软雅黑", sans-serif; --radius: 6px; --pad: 46px;
 }
-.s-seal .pc-seal { left: auto; right: 26px; top: 26px; bottom: auto; }
+.s-seal .pc-seal { /* 印章移到左下角，避开右上竖排标题 */
+  left: 28px; right: auto; top: auto; bottom: 26px;
+}
 
 /* =========================================================
    新增风格 · 复古打字 typewriter

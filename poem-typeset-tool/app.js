@@ -165,7 +165,8 @@ function render() {
   });
   html += '</div>';
 
-  if (showMeta && (sign || date)) {
+  // seal 风格印章已是署名，不再渲染文字署名，避免"岛主"出现两次
+  if (showMeta && (sign || date) && currentStyle !== 'seal') {
     html += '<div class="pc-meta">';
     if (sign) html += `<span class="pc-sign">${esc(sign)}</span>`;
     if (date) html += `<span class="pc-date">${esc(date)}</span>`;
@@ -173,8 +174,8 @@ function render() {
   }
   html += '</div>';
 
-  // 印章（手写 / 古籍 / 题款 / 注音）
-  if (currentStyle === 'brush' || currentStyle === 'classical' || currentStyle === 'seal' || currentStyle === 'fancient') {
+  // 印章：仅 seal（题款印章）保留作核心署名；其他风格由 pc-meta 文字署名承担，避免"岛主"出现两次
+  if (currentStyle === 'seal') {
     html += '<div class="pc-seal">島主</div>';
   }
   if (mark) html += `<div class="pc-watermark">${esc(mark)}</div>`;

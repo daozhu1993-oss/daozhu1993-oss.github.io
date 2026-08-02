@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>现实判断战略参谋 · 一个跑在私有知识库上的 AI 顾问</title>
-<meta name="description" content="用战略思维与思维模型，把你的现实卡点拆成可判断、可行动、可复盘、能落地的下一步。">
+<title>现实判断战略参谋 · 一个开源、免费、可一键安装的 AI 判断工作台</title>
+<meta name="description" content="用战略思维与思维模型，把你的现实卡点拆成可判断、可行动、可复盘、能落地的下一步。无需付费，无需授权码。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
   a{color:inherit;text-decoration:none;}
   ::selection{background:var(--accent-soft);color:var(--ink);}
 
-  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header{position:sticky;top:0;background:rgba(251,248,251,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
   .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
   .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
   .site-header .back:hover{color:var(--accent);}
@@ -33,7 +33,7 @@
   .hero-avatar{width:84px;height:84px;border-radius:50%;overflow:hidden;border:2px solid var(--accent-soft);margin-bottom:22px;box-shadow:0 8px 24px rgba(34,24,14,.08);background:var(--surface);}
   .hero-avatar img{width:100%;height:100%;object-fit:cover;}
 
-  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:30px;}
+  .meta-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:30px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
   h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5.5vw,40px);line-height:1.3;margin-bottom:18px;letter-spacing:.01em;}
   .lede{font-size:17px;color:var(--mid);margin-bottom:14px;line-height:1.75;}
@@ -45,21 +45,14 @@
   ul{margin:0 0 20px 22px;}
   li{font-size:16px;color:#4a443c;margin-bottom:12px;}
 
-  .step{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--line);}
+  .step{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-top:1px solid var(--line);}
   .step:first-of-type{border-top:none;}
   .step .n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-family:var(--serif);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:15px;}
   .step .t{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);}
   .step .d{font-size:14px;color:var(--mid);margin-top:4px;line-height:1.7;}
 
-  /* 定价卡 */
-  .price-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px 28px 32px;margin-top:8px;}
-  .price-row{display:flex;align-items:baseline;gap:10px;}
-  .price{font-family:var(--serif);font-weight:700;font-size:40px;color:var(--ink);}
-  .price-unit{font-size:14px;color:var(--mid);}
-  .price-note{font-size:13px;color:var(--faint);margin-top:6px;}
-  .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:24px;padding-top:24px;border-top:1px solid var(--line);}
-  .qr-box{width:200px;height:200px;border:1px dashed var(--line);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--faint);padding:14px;line-height:1.6;}
-  .qr-cap{font-size:12px;color:var(--mid);}
+  .code-box{background:var(--ink);color:#f3ece0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;padding:14px 16px;border-radius:12px;overflow-x:auto;margin-top:14px;line-height:1.6;word-break:break-all;}
+  .code-cap{font-size:12px;color:var(--mid);margin-top:8px;}
 
   .cta{display:inline-flex;align-items:center;gap:8px;margin-top:26px;background:var(--accent);color:#fff;font-family:var(--serif);font-size:16px;padding:14px 26px;border-radius:999px;transition:transform .25s var(--ease),box-shadow .25s var(--ease);box-shadow:0 10px 26px var(--accent-soft);}
   .cta:hover{transform:translateY(-2px);box-shadow:0 16px 34px var(--accent-soft);}
@@ -67,33 +60,18 @@
 
   .note{font-size:13px;color:var(--faint);margin-top:24px;line-height:1.75;border-left:3px solid var(--accent-soft);padding-left:16px;}
 
-  /* 详情画廊 */
-  .gallery{margin-top:52px;}
-  .gallery h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-bottom:18px;color:var(--ink);}
-  .gallery-scroll{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:16px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--line) transparent;}
-  .gallery-scroll::-webkit-scrollbar{height:6px;}
-  .gallery-scroll::-webkit-scrollbar-track{background:transparent;}
-  .gallery-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px;}
-  .gallery-item{flex:0 0 auto;width:min(380px,80vw);scroll-snap-align:start;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 24px rgba(34,24,14,.07);}
-  .gallery-item img{width:100%;height:auto;display:block;}
+  /* 内置方法论 */
+  .method{list-style:none;margin:0;padding:0;}
+  .method li{font-size:15px;color:#4a443c;padding:11px 0 11px 28px;position:relative;border-bottom:1px solid rgba(222,211,194,.4);}
+  .method li:last-child{border-bottom:none;}
+  .method li::before{content:"✦";position:absolute;left:0;color:var(--accent);font-size:14px;font-weight:700;}
 
-  /* 滑动提示 */
-  .scroll-hint{text-align:center;padding:10px 0 4px;font-size:13px;color:var(--faint);font-family:var(--serif);display:flex;align-items:center;justify-content:center;gap:8px;animation:hint-fade 3s ease forwards;}
-  .scroll-hint svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6;animation:hint-bounce 1.4s ease-in-out infinite;}
-  .scroll-hint svg:last-child{animation-delay:.2s;}
-  @keyframes hint-fade{0%,70%{opacity:1}100%{opacity:0;pointer-events:none}}
-  @keyframes hint-bounce{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
-
-  /* 增值权益 */
-  .bonus{margin-top:52px;background:linear-gradient(135deg,var(--surface),rgba(182,31,37,.04));border:1px solid var(--accent-soft);border-radius:18px;padding:28px;}
-  .bonus h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-bottom:12px;color:var(--ink);}
-  .bonus .badge{display:inline-block;font-size:11px;color:#fff;background:var(--accent);border-radius:999px;padding:3px 12px;margin-bottom:14px;font-weight:500;letter-spacing:.5px;}
-  .bonus p{font-size:15px;color:#4a443c;margin-bottom:14px;line-height:1.75;}
-  .bonus ul{list-style:none;margin:0 0 16px 0;padding:0;}
-  .bonus li{font-size:15px;color:#4a443c;padding:10px 0 10px 28px;position:relative;border-bottom:1px solid rgba(222,211,194,.4);}
-  .bonus li:last-child{border-bottom:none;}
-  .bonus li::before{content:"✦";position:absolute;left:0;color:var(--accent);font-size:14px;font-weight:700;}
-  .bonus .hint{font-size:12px;color:var(--faint);font-style:italic;}
+  /* 微信引流卡 */
+  .wechat{margin-top:52px;background:linear-gradient(135deg,var(--surface),rgba(182,31,37,.04));border:1px solid var(--accent-soft);border-radius:18px;padding:28px;}
+  .wechat h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-bottom:12px;color:var(--ink);}
+  .wechat .badge{display:inline-block;font-size:11px;color:#fff;background:var(--accent);border-radius:999px;padding:3px 12px;margin-bottom:14px;font-weight:500;letter-spacing:.5px;}
+  .wechat p{font-size:15px;color:#4a443c;margin-bottom:14px;line-height:1.75;}
+  .wechat .wx-id{font-family:var(--serif);font-weight:600;color:var(--accent);font-size:17px;background:rgba(182,31,37,.06);border:1px dashed var(--accent-soft);border-radius:10px;padding:10px 14px;display:inline-block;margin:4px 0 12px;}
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
@@ -101,7 +79,6 @@
     main{padding:48px 18px 80px;}
     h1{font-size:26px;}
     p,li{font-size:15px;}
-    .price{font-size:34px;}
   }
 </style>
 </head>
@@ -118,102 +95,82 @@
 </header>
 
 <main>
-  <div class="hero-avatar"><img src="../img/strategy-advisor/avatar-option-a.jpg" alt="现实判断战略参谋 · 伟人剪影头像"></div>
-  <div class="meta-bar"><span class="tag">AI 顾问</span><span class="tag">知识库产品</span><span>2026</span></div>
+  <div class="hero-avatar"><img src="../img/strategy-advisor/avatar-option-a.jpg" alt="现实判断战略参谋 · 头像"></div>
+  <div class="meta-bar"><span class="tag">开源免费</span><span class="tag">AI 工作台</span><span class="tag">免授权码</span><span>2026</span></div>
   <h1>现实判断战略参谋</h1>
-  <p class="lede">你缺的不是更多信息，是一套<strong>能替你做判断的系统</strong>。它跑在我私有知识库上，把你卡住的现实问题，拆成可判断、可行动、可复盘、能落地的下一步。</p>
-  <p class="sub">每位买家拿到独立授权码，调用后端知识库——你得到思路与判断，但拿不到源文件。<strong>¥99，终生使用。</strong></p>
+  <p class="lede">你缺的不是更多信息，是一套<strong>能替你做判断的系统</strong>。现在它完全开源——无需付费、无需授权码，复制一条链接或加个专家源，就能在 WorkBuddy 里装上它，直接对话。</p>
+  <p class="sub">一个跑在你自己 WorkBuddy 里的判断工作台，把现实卡点拆成可判断、可行动、可复盘的下一步。</p>
 
   <section class="block">
     <h2>它帮你解决什么</h2>
-    <p>你脑子里装了一堆方法论，但真遇到事的时候，<strong>该用哪个、怎么用、先做什么</strong>——还是一片模糊。它不做鸡汤，不灌理论。你抛一个真实卡点，它从知识库里调出最匹配的判断框架，直接给你一条能走的路。</p>
+    <p>你脑子里装了一堆方法论，但真遇到事的时候，<strong>该用哪个、怎么用、先做什么</strong>——还是一片模糊。它不做鸡汤，不灌理论。你抛一个真实卡点，它从内置方法论里调出最匹配的框架，直接给你一条能走的路。</p>
     <ul>
-      <li><strong>「内容已经很多了，该继续补还是先拿出去测？」</strong>——不是"看情况"，而是帮你定位当前阶段的主要矛盾：补什么、测什么、什么时候切换。</li>
-      <li><strong>「手上有三个方向，资源只能压一个」</strong>——用集中优势兵力的思路做取舍，不是拍脑袋选，而是把每个方向的"赢面"和"代价"摊开来看。</li>
+      <li><strong>「内容已经很多了，该继续补还是先拿出去测？」</strong>——帮你定位当前阶段的主要矛盾：补什么、测什么、什么时候切换。</li>
+      <li><strong>「手上有三个方向，资源只能压一个」</strong>——用集中优势兵力的思路做取舍，把每个方向的"赢面"和"代价"摊开来看。</li>
       <li><strong>「做了半天没反馈，是不是方向错了」</strong>——帮你区分"没做透需要坚持"和"真走不通该止损"，别在错误的方向上再耗三个月。</li>
-      <li><strong>「想清楚战略，但执行总塌」</strong>——给你一个 15 分钟就能落地的行动卡，做完一件今天能完成的事，而不是又多了一个待办清单。</li>
+      <li><strong>「想清楚战略，但执行总塌」</strong>——给你一张 15 分钟就能落地的行动卡，做完一件今天能完成的事，而不是又多一个待办清单。</li>
     </ul>
   </section>
 
   <section class="block">
-    <h2>怎么用</h2>
-    <div class="step">
-      <div class="n">1</div>
-      <div><div class="t">拿到授权码</div><div class="d">付款后我把独立授权码发你，一人一码，仅本人使用。</div></div>
-    </div>
-    <div class="step">
-      <div class="n">2</div>
-      <div><div class="t">点「去使用」进入顾问</div><div class="d">在 WorkBuddy 里粘贴授权码，描述一个正在卡住的现实问题（别问太大、太虚的问题）。</div></div>
-    </div>
-    <div class="step">
-      <div class="n">3</div>
-      <div><div class="t">拿 8 段式回答 + 行动卡</div><div class="d">返回判断方向、问题入口、工具表、落地动作；做完一件今天能完成的事，把结果发回，持续迭代。</div></div>
-    </div>
-  </section>
+    <h2>怎么装（三种方式，任选其一）</h2>
 
-  <!-- 详情画廊 -->
-  <section class="gallery">
-    <h2>产品详情</h2>
-    <div class="gallery-scroll">
-      <!-- 商品介绍图 -->
-      <div class="gallery-item"><img src="../img/strategy-advisor/01-毛选战略参谋-主图.png" alt="毛选战略参谋 · 把现实问题交给一套判断系统" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/02-不用从头读完-问题入口.png" alt="不用从头读完，先找到与你有关的那几类问题" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/03-固定流程-八段式回答.png" alt="每一次回答，都按固定流程拆成行动" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/04-决策工具表.png" alt="不只告诉你怎么想，还给你可以直接使用的决策工具" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/05-购买后收到什么.png" alt="购买后，你会收到这些东西" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/06-私有托管防扩散.png" alt="核心知识库私有托管，买家只拿调用入口" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/07-适合人群.png" alt="谁最适合拥有这套 AI 参谋" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/08-第一次使用三步.png" alt="第一次使用，只做三步就够了" loading="lazy"></div>
-      <!-- 小红书传播图 -->
-      <div class="gallery-item"><img src="../img/strategy-advisor/01-成年人难的是看不清代价.png" alt="成年人真正难的，不是没选择，是看不清代价" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/02-以问题为导向地学习.png" alt="以问题为导向地学习，效率最高" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/03-同一篇文章按需求读.png" alt="同一篇文章，可以按你的时间和需求来读" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/04-AI按固定流程回答.png" alt="遇到新问题，AI按固定流程回答你" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/05-私有托管AI参谋入口.png" alt="这不是资料包，是一个私有托管的AI参谋入口" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/06-真实卡点怎么问.png" alt="你可以直接把真实卡点丢进去问" loading="lazy"></div>
-      <div class="gallery-item"><img src="../img/strategy-advisor/07-先带一个真实问题试一次.png" alt="先带一个真实问题进去试一次" loading="lazy"></div>
+    <div class="step">
+      <div class="n">A</div>
+      <div>
+        <div class="t">一键链接安装（朋友间最顺手）</div>
+        <div class="d">点我发给你的分享链接 → 自动拉起 WorkBuddy → 点「添加专家」→ 直接对话。链接由我在 WorkBuddy 专家中心点「分享」生成，你发给谁、谁点开即装，无码无付费。</div>
+      </div>
     </div>
-    <div class="scroll-hint">
-      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      左右滑动查看更多
-      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </div>
-  </section>
 
-  <!-- 增值权益 -->
-  <section class="bonus">
-    <span class="badge">买家专属增值</span>
-    <h2>附赠：岛主 Notion 知识库访问权限</h2>
-    <p>付款后，除 AI 参谋授权码外，我还会额外发你一个<strong>专属 Notion 文档链接</strong>。打开后申请权限，通过即可阅读我在 Notion 上沉淀的全部知识资产。</p>
-    <ul>
-      <li>思维模型图鉴：30+ 模型的结构化解读（BLM、MECE、RIDE、第一性原理…）</li>
-      <li>商业框架笔记：战略判断、产品决策、内容方法论等实战框架</li>
-      <li>公众号文章合集：已发布的全部深度文章，按主题索引可检索</li>
-      <li>持续更新：新写的笔记和文章会同步到文档中</li>
-    </ul>
-    <p class="hint">使用方式：付款后截图发微信 → 我回你授权码 + Notion 链接 → 打开链接点「请求访问」→ 我在后台通过即可。无需额外付费，随产品一同赠送。</p>
+    <div class="step">
+      <div class="n">B</div>
+      <div>
+        <div class="t">GitHub 自定义专家源（自助，推荐）</div>
+        <div class="d">在 WorkBuddy「添加自定义专家源」中填入下面的仓库地址订阅即可，无需平台审核、不依赖分享链接：</div>
+        <div class="code-box">https://github.com/daozhu1993-oss/reality-strategy-advisor.git</div>
+        <div class="code-cap">订阅后专家出现在你的列表里，一键添加即可使用。</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n">C</div>
+      <div>
+        <div class="t">手动复制目录（进阶）</div>
+        <div class="d">把仓库里的 <code>plugins/reality-strategy-advisor</code> 拷进本地专家目录 <code>~/.workbuddy/plugins/marketplaces/my-experts/plugins/</code>，再用官方脚本注册即可。</div>
+      </div>
+    </div>
   </section>
 
   <section class="block">
-    <h2>定价</h2>
-    <div class="price-card">
-      <div class="price-row">
-        <span class="price">¥99</span>
-        <span class="price-unit">/ 终生使用</span>
-      </div>
-      <div class="price-note">一次性付款，终生有效。知识库持续更新，无需续费。</div>
-
-      <div class="qr-wrap">
-        <img src="../img/strategy-advisor/wechat-pay-qr.jpg" alt="微信收款码" style="width:200px;height:200px;border-radius:12px;object-fit:cover;">
-        <div class="qr-cap">扫码付款后，截图发我微信（岛主王仙客），我把授权码 + Notion 文档链接发你。</div>
-      </div>
-    </div>
-    <a class="cta" href="https://www.workbuddy.cn/work/launch/?sharecode=NpRq6hoDSrrzJ_51x_WTzeGr0WOceoBgpvc4_V7nbvxQO_6USg7bIdRTAfXolhlC&expertname=%E7%8E%B0%E5%AE%9E%E5%88%A4%E6%96%AD%E6%88%98%E7%95%A5%E5%8F%82%E8%B0%8B&buddy_type=workbuddy" target="_blank" rel="noopener">
-      去使用
-      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-    <p class="note">说明：本产品以「授权调用」形式交付，不含知识库源文件。授权码与设备绑定、不可转售；需要更换或补充授权，联系岛主微信。若对内容或服务有疑问，随时找我。</p>
+    <h2>它内置什么</h2>
+    <p>专家包<strong>完全自包含</strong>（离线可用，不依赖任何服务器），内置岛主整理的战略判断方法论：</p>
+    <ul class="method">
+      <li>问题入口表 —— 10 类常见现实卡点的提问入口</li>
+      <li>AI 提问协议 —— 怎么把问题问对，才拿得到对的判断</li>
+      <li>问题映射表</li>
+      <li>主要矛盾判断卡</li>
+      <li>动态力量对比表</li>
+      <li>阶段判断表</li>
+      <li>三方案决策沙盘</li>
+      <li>15 分钟行动卡</li>
+    </ul>
+    <p class="note">方法论仅引用经典战略篇目名（如《实践论》《矛盾论》），不打包、不提供原文；输出区分事实 / 推断 / 假设。不承诺确定性结果，不替你做不可逆的重大决定。</p>
   </section>
+
+  <!-- 微信引流 -->
+  <section class="wechat">
+    <span class="badge">想交流 / 需要手把手安装？</span>
+    <h2>加岛主微信，我帮你装好</h2>
+    <p>这个专家我选择<strong>公开免费</strong>，目的就是让更多人用上「战略判断」这件事。如果你装的时候卡住了，或者想一起练判断，加我微信：</p>
+    <div class="wx-id">（在此替换为你的真实微信号）</div>
+    <p>加我后我可以：① 手把手帮你把专家装好；② 拉你进「现实判断」交流社群，一起拿真实问题练手；③ 持续同步方法论的更新与实战案例。</p>
+  </section>
+
+  <a class="cta" href="https://github.com/daozhu1993-oss/reality-strategy-advisor" target="_blank" rel="noopener">
+    去 GitHub 看仓库
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
 </main>
 
 <div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>

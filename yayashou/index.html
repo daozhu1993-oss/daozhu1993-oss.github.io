@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>芽芽兽 · 原创 IP 与品牌 VI</title>
+<meta name="description" content="芽芽兽——一只从岛上长出来的小兽。IP 长图介绍与品牌视觉规范。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500&family=Fragment+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf8f3;
+    --ink:#2c2a26;
+    --ink-soft:#5f5e5a;
+    --ink-dim:#888780;
+    --line:rgba(44,42,38,0.12);
+    --gold:#B8893F;
+    --gold-soft:rgba(184,137,63,0.10);
+    --serif:'Noto Serif SC',serif;
+    --sans:'Noto Sans SC',sans-serif;
+    --mono:'Fragment Mono',monospace;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    padding:0 24px 96px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+  .topbar{
+    position:sticky;top:0;z-index:5;
+    background:rgba(250,248,243,0.86);
+    backdrop-filter:saturate(140%) blur(8px);
+    border-bottom:1px solid var(--line);
+    margin:0 -24px 40px;padding:14px 24px;
+  }
+  .topbar a{
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+    color:var(--ink-soft);text-decoration:none;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:color .2s var(--ease);
+  }
+  .topbar a:hover{color:var(--gold);}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.32em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:14px;
+  }
+  h1{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(40px,8vw,64px);letter-spacing:.04em;
+    line-height:1.1;margin-bottom:18px;
+  }
+  .tagline{font-family:var(--serif);font-size:18px;color:var(--ink-soft);margin-bottom:24px;}
+  .lead{max-width:620px;color:var(--ink-soft);font-size:15px;margin-bottom:56px;}
+  .sec-title{
+    font-family:var(--serif);font-weight:600;font-size:26px;
+    letter-spacing:.03em;margin:64px 0 8px;
+    display:flex;align-items:baseline;gap:14px;
+  }
+  .sec-title .idx{font-family:var(--mono);font-size:13px;color:var(--gold);}
+  .sec-sub{color:var(--ink-dim);font-size:14px;margin-bottom:28px;}
+  .long-img{
+    width:100%;border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;background:#fff;
+  }
+  .long-img img{display:block;width:100%;height:auto;}
+  .placeholder{
+    aspect-ratio:16/9;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:10px;
+    border:1.5px dashed rgba(184,137,63,0.5);border-radius:14px;
+    color:var(--ink-dim);font-family:var(--mono);font-size:13px;
+    background:var(--gold-soft);text-align:center;padding:24px;
+  }
+  .placeholder .hint{font-size:12px;color:var(--ink-dim);}
+  .vi-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:18px;margin-top:8px;
+  }
+  .vi-card{
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:#fff;transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+  }
+  .vi-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(44,42,38,.08);}
+  .vi-card .thumb{
+    aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
+    border-bottom:1px solid var(--line);
+    background:repeating-linear-gradient(45deg,#faf8f3,#faf8f3 12px,#f4f1ea 12px,#f4f1ea 24px);
+    color:var(--ink-dim);font-family:var(--mono);font-size:12px;
+  }
+  .vi-card .meta{padding:14px 16px;}
+  .vi-card .meta h4{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:4px;}
+  .vi-card .meta p{font-size:12px;color:var(--ink-dim);}
+  footer{
+    margin-top:80px;padding-top:24px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:12px;color:var(--ink-dim);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  }
+  footer a{color:var(--ink-soft);text-decoration:none;}
+  footer a:hover{color:var(--gold);}
+  @media (max-width:560px){
+    body{padding:0 18px 72px;}
+    .topbar{margin:0 -18px 32px;}
+    .vi-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap" style="padding:0;">
+      <a href="../v2/index.html">← 回到岛上</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">ORIGINAL IP · BRAND VI</div>
+      <h1>芽芽兽</h1>
+      <div class="tagline">一只从岛上长出来的小兽。</div>
+      <p class="lead">芽芽兽是岛主设计的一个原创角色 IP，带着品牌视觉规范一起生长。下面收着它的长图介绍和品牌 VI——随它一起慢慢长大。</p>
+    </header>
+
+    <section>
+      <h2 class="sec-title"><span class="idx">01</span>IP 长图介绍</h2>
+      <p class="sec-sub">一张讲清芽芽兽是谁、从哪来、长什么样的长图。</p>
+      <!-- 在此放置 IP 长图：把图片放进 yayashou/assets/ 后，取消下一行注释并填路径 -->
+      <!-- <div class="long-img"><img src="assets/ip-long.png" alt="芽芽兽 IP 长图介绍"></div> -->
+      <div class="placeholder">
+        <span>IP 长图占位</span>
+        <span class="hint">把长图放进 yayashou/assets/，再替换上面的 &lt;img&gt; 即可</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec-title"><span class="idx">02</span>品牌 VI</h2>
+      <p class="sec-sub">标志、色彩、字体、角色与应用规范。</p>
+      <div class="vi-grid">
+        <div class="vi-card">
+          <div class="thumb">标志 LOGO</div>
+          <div class="meta"><h4>标志</h4><p>主标 / 反白 / 组合</p></div>
+        </div>
+        <div class="vi-card">
+          <div class="thumb">色彩</div>
+          <div class="meta"><h4>色彩规范</h4><p>主色 / 辅助色 / 渐变</p></div>
+        </div>
+        <div class="vi-card">
+          <div class="thumb">字体</div>
+          <div class="meta"><h4>字体</h4><p>中英文标准字</p></div>
+        </div>
+        <div class="vi-card">
+          <div class="thumb">角色</div>
+          <div class="meta"><h4>角色三视图</h4><p>正面 / 侧面 / 表情</p></div>
+        </div>
+        <div class="vi-card">
+          <div class="thumb">辅助图形</div>
+          <div class="meta"><h4>辅助图形</h4><p>纹理 / 延展元素</p></div>
+        </div>
+        <div class="vi-card">
+          <div class="thumb">应用</div>
+          <div class="meta"><h4>应用示例</h4><p>周边 / 场景规范</p></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>芽芽兽 · 原创 IP</span>
+      <a href="../v2/index.html">← 回到岛上主页</a>
+    </footer>
+  </div>
+</body>
+</html>

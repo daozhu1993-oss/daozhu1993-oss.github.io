@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我让三个 AI 共用一个大脑，效果比我想的还好 · 岛主的AI思考</title>
+<meta name="description" content="单 AI 会失忆、会偏科。让三个 AI 共用一份交接文档，你从「用一个 AI」变成「编排多个 AI」。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">多 AI</span><span class="tag">协作</span><span>2026</span></div>
+<p>上个月我干了件有点"折腾"的事。我手头同时养着三个 AI——Claude 写东西最有灵气，Codex 干工程活最利索，WorkBuddy 像个管家，管知识库、接各种连接器。一开始它们各干各的，挺顺。但问题很快来了：我让 Claude 出了个脚本大纲，转头让 Codex 去实现，Codex 一脸茫然——上一个 AI 干过什么、做到哪了、踩过什么坑，它全不知道。每换一个 AI，就像换了个新同事，得从头把背景讲一遍。</p>
+<p>后来我做了个小小的改变：让三个 AI 共用一份"中枢文档"，并且定下一条铁律——每次干完活，必须先往这份文档里写一份交接，再交棒。跑了大半个月，效果意外地好。今天我想认真聊聊这件事：它可能不只是一点效率技巧，而是用 AI 的一种新姿势。</p>
+<h2>一、一个 AI 的尽头，是上下文的边界</h2>
+<p>我们容易把 AI 想成一个全能同事，但它有两个绕不开的硬伤。</p>
+<p>第一是失忆。不管多强的模型，上下文窗口都有上限。你跟它聊到第三十轮，前面定的规则、踩过的坑，它就慢慢"忘了"。你以为它在延续你的思路，其实它早就飘了。</p>
+<p>第二是偏科。没有哪个 AI 样样都行。Claude 文笔好但工程经常翻车，Codex 代码利索但写不了有温度的长文，WorkBuddy 连接器和知识库强但干重活不如前两个。你逼一个 AI 干它不擅长的，就是在用它的短板打你的刚需。</p>
+<p>这两个问题，靠"换更强的模型"解决不了——上限会一直都在，偏科也一直都在。得换一种组织方式。</p>
+<h2>二、共享中枢的核心，是一份"不会失忆的文档"</h2>
+<p>我的解法很简单：造一个三个 AI 都能读、都能写的"公共大脑"。</p>
+<p>它本质是一份共享文档（我用的是知识库里的一个目录）。每个 AI 启动时，先读这份文档——等于先看了"前任留下的工作记录"；干完活，再把结论写回去。于是记忆不再装在每个 AI 的脑子里，而是落在文档里。文档不会忘，也不会因为换了个 AI 就清零。</p>
+<p>这跟人带团队一个道理：靠谱的团队靠的不是每个人记性好，而是一块谁都能看的公共白板。白板在，人就散不了；白板清了，团队就失忆了。</p>
+<h2>三、交接文档的模板，就是协作的协议</h2>
+<p>光有文档不够，得有格式，不然三个 AI 各写各的，读的人照样头大。我给交接定了个简单模板：本次任务、读取了什么、完成了什么、产出在哪、还缺什么、下一棒交给谁、要不要写进长期记忆。</p>
+<p>别小看这七行。它逼着每个 AI 在交棒前，把"做到哪了、留下了什么"说清楚。这其实就是一份协作协议——协议定了，三个 AI 之间才真正能接力，而不是各说各话。</p>
+<p>我甚至发现，写交接这个过程本身就在帮 AI 收尾。它得把零散的活儿，归纳成一段别人能接手的话。归纳完，它自己也更清楚了。</p>
+<h2>四、真正的红利，是让每个 AI 只做自己最擅长的事</h2>
+<p>前面三步搭好，最大的好处才显出来：我开始像分活儿一样，把任务派给最对的那个。</p>
+<p>要写有质感的长文，给 Claude；要写代码、做自动化，给 Codex；要查资料、接外部工具、管知识库，给 WorkBuddy。它们通过那块"公共白板"接力——A 干完写一笔，B 接着干。没有重复劳动，也没有谁在短板里打转。</p>
+<p>这已经不是"用一个 AI"，而是"编排多个 AI"。你从它们的使用者，变成了它们的调度者。</p>
+<h2>写在最后</h2>
+<p>我越来越觉得，未来用 AI 的能力，不在于你跟某一个 AI 聊得多好，而在于你能不能把几个 AI 编排成一支队伍。</p>
+<p>而编排一支队伍，靠的不是某个神级 Prompt，而是那块谁都能写、谁都能读的"公共白板"——加上一条朴素的纪律：干完活，先写交接，再交棒。</p>
+<p>这件事我还会继续跑下去。目前看，它值得。</p>
+<blockquote><p>岛主的 AI 思考 · 第 32 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

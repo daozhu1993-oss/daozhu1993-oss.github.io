@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>芽芽兽 · 原创 IP 与品牌 VI</title>
-<meta name="description" content="芽芽兽——一只从岛上长出来的小兽。IP 长图介绍与品牌视觉规范。">
+<meta name="description" content="芽芽兽——面向 2—6 岁孩子的成长陪伴 IP。IP 长图介绍、品牌视觉规范与科普绘本，随它一起慢慢长大。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500&family=Fragment+Mono&display=swap" rel="stylesheet">
@@ -21,6 +21,7 @@
     --sans:'Noto Sans SC',sans-serif;
     --mono:'Fragment Mono',monospace;
     --ease:cubic-bezier(.22,.61,.36,1);
+    --sprout:#7fa86b;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
@@ -56,46 +57,58 @@
     font-size:clamp(40px,8vw,64px);letter-spacing:.04em;
     line-height:1.1;margin-bottom:18px;
   }
-  .tagline{font-family:var(--serif);font-size:18px;color:var(--ink-soft);margin-bottom:24px;}
-  .lead{max-width:620px;color:var(--ink-soft);font-size:15px;margin-bottom:56px;}
+  .tagline{font-family:var(--serif);font-size:18px;color:var(--ink-soft);margin-bottom:24px;max-width:640px;}
+  .lead{max-width:640px;color:var(--ink-soft);font-size:15px;margin-bottom:48px;}
   .sec-title{
     font-family:var(--serif);font-weight:600;font-size:26px;
-    letter-spacing:.03em;margin:64px 0 8px;
+    letter-spacing:.03em;margin:72px 0 8px;
     display:flex;align-items:baseline;gap:14px;
   }
   .sec-title .idx{font-family:var(--mono);font-size:13px;color:var(--gold);}
   .sec-sub{color:var(--ink-dim);font-size:14px;margin-bottom:28px;}
+
+  /* 长图 */
   .long-img{
     width:100%;border:1px solid var(--line);border-radius:14px;
     overflow:hidden;background:#fff;
   }
   .long-img img{display:block;width:100%;height:auto;}
-  .placeholder{
-    aspect-ratio:16/9;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:10px;
-    border:1.5px dashed rgba(184,137,63,0.5);border-radius:14px;
-    color:var(--ink-dim);font-family:var(--mono);font-size:13px;
-    background:var(--gold-soft);text-align:center;padding:24px;
+
+  /* VI 分组 */
+  .vi-group{margin-top:36px;}
+  .vi-group:first-of-type{margin-top:8px;}
+  .vi-group-title{
+    font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+    color:var(--ink-soft);text-transform:uppercase;
+    margin-bottom:14px;padding-bottom:8px;border-bottom:1px dashed var(--line);
   }
-  .placeholder .hint{font-size:12px;color:var(--ink-dim);}
   .vi-grid{
     display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:18px;margin-top:8px;
+    gap:18px;
   }
   .vi-card{
     border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    background:#fff;transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+    background:#fff;cursor:pointer;
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease);
   }
   .vi-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(44,42,38,.08);}
-  .vi-card .thumb{
-    aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;
-    border-bottom:1px solid var(--line);
-    background:repeating-linear-gradient(45deg,#faf8f3,#faf8f3 12px,#f4f1ea 12px,#f4f1ea 24px);
-    color:var(--ink-dim);font-family:var(--mono);font-size:12px;
-  }
+  .vi-card .thumb{aspect-ratio:4/3;overflow:hidden;border-bottom:1px solid var(--line);background:#f4f1ea;}
+  .vi-card .thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease);}
+  .vi-card:hover .thumb img{transform:scale(1.04);}
   .vi-card .meta{padding:14px 16px;}
   .vi-card .meta h4{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:4px;}
   .vi-card .meta p{font-size:12px;color:var(--ink-dim);}
+
+  /* 科普绘本占位 */
+  .coming{
+    border:1.5px dashed rgba(127,168,107,0.55);border-radius:14px;
+    padding:28px;color:var(--ink-soft);background:rgba(127,168,107,0.06);
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .coming .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--sprout);text-transform:uppercase;}
+  .coming h4{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--ink);}
+  .coming p{font-size:14px;}
+
   footer{
     margin-top:80px;padding-top:24px;border-top:1px solid var(--line);
     font-family:var(--mono);font-size:12px;color:var(--ink-dim);
@@ -103,10 +116,27 @@
   }
   footer a{color:var(--ink-soft);text-decoration:none;}
   footer a:hover{color:var(--gold);}
+
+  /* lightbox */
+  .lightbox{
+    position:fixed;inset:0;z-index:50;display:none;
+    align-items:center;justify-content:center;
+    background:rgba(28,27,24,0.92);padding:32px;cursor:zoom-out;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:8px;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+  .lightbox .cap{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    color:#f4f1ea;font-family:var(--mono);font-size:13px;letter-spacing:.06em;
+  }
+
   @media (max-width:560px){
     body{padding:0 18px 72px;}
-    .topbar{margin:0 -18px 32px;}
+    .topbar{margin:0 -18px 32px;padding:12px 18px;}
     .vi-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto;}
   }
 </style>
 </head>
@@ -121,48 +151,74 @@
     <header>
       <div class="eyebrow">ORIGINAL IP · BRAND VI</div>
       <h1>芽芽兽</h1>
-      <div class="tagline">一只从岛上长出来的小兽。</div>
-      <p class="lead">芽芽兽是岛主设计的一个原创角色 IP，带着品牌视觉规范一起生长。下面收着它的长图介绍和品牌 VI——随它一起慢慢长大。</p>
+      <div class="tagline">陪孩子把生活里的小麻烦，变成小行动。</div>
+      <p class="lead">芽芽兽是一个面向 2—6 岁孩子的成长陪伴 IP，首季聚焦 2—4 岁。她从真实的吃饭、等待、收拾、表达与探索出发，把发展心理学和生活科普变成孩子看得懂、跟得上的小动作。下面收着它的长图介绍、品牌 VI，以及正在生长的科普绘本。</p>
     </header>
 
     <section>
       <h2 class="sec-title"><span class="idx">01</span>IP 长图介绍</h2>
-      <p class="sec-sub">一张讲清芽芽兽是谁、从哪来、长什么样的长图。</p>
-      <!-- 在此放置 IP 长图：把图片放进 yayashou/assets/ 后，取消下一行注释并填路径 -->
-      <!-- <div class="long-img"><img src="assets/ip-long.png" alt="芽芽兽 IP 长图介绍"></div> -->
-      <div class="placeholder">
-        <span>IP 长图占位</span>
-        <span class="hint">把长图放进 yayashou/assets/，再替换上面的 &lt;img&gt; 即可</span>
+      <p class="sec-sub">一张讲清芽芽兽是谁、从哪来、长什么样，以及它打算陪孩子做点什么。</p>
+      <div class="long-img">
+        <img src="assets/ip-long.jpg" alt="芽芽兽 IP 长图介绍" loading="lazy" decoding="async">
       </div>
     </section>
 
     <section>
       <h2 class="sec-title"><span class="idx">02</span>品牌 VI</h2>
-      <p class="sec-sub">标志、色彩、字体、角色与应用规范。</p>
+      <p class="sec-sub">从角色、朋友、场景，到品牌延展与产品——一套可持续生长的亲子共读视觉系统。点图可放大。</p>
+
+      <div class="vi-group">
+        <div class="vi-group-title">角色系统</div>
+        <div class="vi-grid">
+          <div class="vi-card" data-cap="朋友群像主视觉"><div class="thumb"><img src="assets/vi-00.jpg" alt="朋友群像主视觉" loading="lazy"></div><div class="meta"><h4>朋友群像主视觉</h4><p>芽芽兽与朋友团</p></div></div>
+          <div class="vi-card" data-cap="芽芽兽 · 三视图"><div class="thumb"><img src="assets/vi-01.jpg" alt="芽芽兽三视图" loading="lazy"></div><div class="meta"><h4>芽芽兽 · 三视图</h4><p>正面 / 侧面 / 背面</p></div></div>
+          <div class="vi-card" data-cap="九宫格表情系统"><div class="thumb"><img src="assets/vi-02.jpg" alt="九宫格表情系统" loading="lazy"></div><div class="meta"><h4>九宫格表情系统</h4><p>情绪与动作表达</p></div></div>
+          <div class="vi-card" data-cap="朋友团角色板"><div class="thumb"><img src="assets/vi-04.jpg" alt="朋友团角色板" loading="lazy"></div><div class="meta"><h4>朋友团角色板</h4><p>四位朋友设定</p></div></div>
+          <div class="vi-card" data-cap="成长宇宙地图"><div class="thumb"><img src="assets/vi-05.jpg" alt="成长宇宙地图" loading="lazy"></div><div class="meta"><h4>成长宇宙地图</h4><p>世界观与关系</p></div></div>
+        </div>
+      </div>
+
+      <div class="vi-group">
+        <div class="vi-group-title">朋友团</div>
+        <div class="vi-grid">
+          <div class="vi-card" data-cap="朋友 · 蓝蓝"><div class="thumb"><img src="assets/vi-06.jpg" alt="朋友蓝蓝" loading="lazy"></div><div class="meta"><h4>朋友 · 蓝蓝</h4><p>蓝蓝的动作与表情</p></div></div>
+          <div class="vi-card" data-cap="朋友 · 咕噜"><div class="thumb"><img src="assets/vi-07.jpg" alt="朋友咕噜" loading="lazy"></div><div class="meta"><h4>朋友 · 咕噜</h4><p>咕噜的动作与表情</p></div></div>
+          <div class="vi-card" data-cap="朋友 · 光豆"><div class="thumb"><img src="assets/vi-08.jpg" alt="朋友光豆" loading="lazy"></div><div class="meta"><h4>朋友 · 光豆</h4><p>光豆的动作与表情</p></div></div>
+          <div class="vi-card" data-cap="朋友 · 盒盒"><div class="thumb"><img src="assets/vi-09.jpg" alt="朋友盒盒" loading="lazy"></div><div class="meta"><h4>朋友 · 盒盒</h4><p>盒盒的动作与表情</p></div></div>
+        </div>
+      </div>
+
+      <div class="vi-group">
+        <div class="vi-group-title">固定场景</div>
+        <div class="vi-grid">
+          <div class="vi-card" data-cap="场景 · 小小饭桌"><div class="thumb"><img src="assets/vi-10.jpg" alt="场景小小饭桌" loading="lazy"></div><div class="meta"><h4>场景 · 小小饭桌</h4><p>吃饭与等待</p></div></div>
+          <div class="vi-card" data-cap="场景 · 蓝蓝积木屋"><div class="thumb"><img src="assets/vi-11.jpg" alt="场景蓝蓝积木屋" loading="lazy"></div><div class="meta"><h4>场景 · 蓝蓝积木屋</h4><p>搭建与收拾</p></div></div>
+          <div class="vi-card" data-cap="场景 · 微光角"><div class="thumb"><img src="assets/vi-12.jpg" alt="场景微光角" loading="lazy"></div><div class="meta"><h4>场景 · 微光角</h4><p>表达与安抚</p></div></div>
+          <div class="vi-card" data-cap="场景 · 地毯游乐场"><div class="thumb"><img src="assets/vi-13.jpg" alt="场景地毯游乐场" loading="lazy"></div><div class="meta"><h4>场景 · 地毯游乐场</h4><p>探索与游戏</p></div></div>
+          <div class="vi-card" data-cap="场景 · 户外小路"><div class="thumb"><img src="assets/vi-14.jpg" alt="场景户外小路" loading="lazy"></div><div class="meta"><h4>场景 · 户外小路</h4><p>出门与观察</p></div></div>
+        </div>
+      </div>
+
+      <div class="vi-group">
+        <div class="vi-group-title">品牌 VI 与产品</div>
+        <div class="vi-grid">
+          <div class="vi-card" data-cap="应用样机"><div class="thumb"><img src="assets/vi-03.jpg" alt="应用样机" loading="lazy"></div><div class="meta"><h4>应用样机</h4><p>周边与场景规范</p></div></div>
+          <div class="vi-card" data-cap="品牌 VI · 产品世界"><div class="thumb"><img src="assets/vi-15.jpg" alt="品牌VI产品世界" loading="lazy"></div><div class="meta"><h4>品牌 VI · 产品世界</h4><p>色彩 / 字体 / 延展</p></div></div>
+          <div class="vi-card" data-cap="亲子练习卡"><div class="thumb"><img src="assets/vi-16.jpg" alt="亲子练习卡" loading="lazy"></div><div class="meta"><h4>亲子练习卡</h4><p>在故事里练一次</p></div></div>
+          <div class="vi-card" data-cap="成长记录册"><div class="thumb"><img src="assets/vi-17.jpg" alt="成长记录册" loading="lazy"></div><div class="meta"><h4>成长记录册</h4><p>留下一个小痕迹</p></div></div>
+          <div class="vi-card" data-cap="日常小套装"><div class="thumb"><img src="assets/vi-18.jpg" alt="日常小套装" loading="lazy"></div><div class="meta"><h4>日常小套装</h4><p>饭桌上的小动作</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="sec-title"><span class="idx">03</span>科普绘本</h2>
+      <p class="sec-sub">围绕芽芽兽的科普向绘本——和「给一一的绘本」不同，这一辑更偏生活科普。第一辑两本正在收尾，收到书稿即更新。</p>
       <div class="vi-grid">
-        <div class="vi-card">
-          <div class="thumb">标志 LOGO</div>
-          <div class="meta"><h4>标志</h4><p>主标 / 反白 / 组合</p></div>
-        </div>
-        <div class="vi-card">
-          <div class="thumb">色彩</div>
-          <div class="meta"><h4>色彩规范</h4><p>主色 / 辅助色 / 渐变</p></div>
-        </div>
-        <div class="vi-card">
-          <div class="thumb">字体</div>
-          <div class="meta"><h4>字体</h4><p>中英文标准字</p></div>
-        </div>
-        <div class="vi-card">
-          <div class="thumb">角色</div>
-          <div class="meta"><h4>角色三视图</h4><p>正面 / 侧面 / 表情</p></div>
-        </div>
-        <div class="vi-card">
-          <div class="thumb">辅助图形</div>
-          <div class="meta"><h4>辅助图形</h4><p>纹理 / 延展元素</p></div>
-        </div>
-        <div class="vi-card">
-          <div class="thumb">应用</div>
-          <div class="meta"><h4>应用示例</h4><p>周边 / 场景规范</p></div>
+        <div class="coming">
+          <span class="tag">COMING SOON</span>
+          <h4>第一辑 · 待发布</h4>
+          <p>两本科普绘本收稿中，上线后这里会变成可点开的绘本卡片。</p>
         </div>
       </div>
     </section>
@@ -172,5 +228,37 @@
       <a href="../v2/index.html">← 回到岛上主页</a>
     </footer>
   </div>
+
+  <div class="lightbox" id="lightbox">
+    <img id="lightboxImg" src="" alt="">
+    <div class="cap" id="lightboxCap"></div>
+  </div>
+
+  <script>
+    (function(){
+      var lb = document.getElementById('lightbox');
+      var lbImg = document.getElementById('lightboxImg');
+      var lbCap = document.getElementById('lightboxCap');
+      document.querySelectorAll('.vi-card').forEach(function(card){
+        card.addEventListener('click', function(){
+          var img = card.querySelector('img');
+          lbImg.src = img.src;
+          lbCap.textContent = card.getAttribute('data-cap') || '';
+          lb.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      lb.addEventListener('click', function(){
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && lb.classList.contains('open')){
+          lb.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>现实判断战略参谋 · 一个开源、免费、可一键安装的 AI 判断工作台</title>
-<meta name="description" content="用战略思维与思维模型，把你的现实卡点拆成可判断、可行动、可复盘、能落地的下一步。无需付费，无需授权码。">
+<title>现实判断战略参谋 · 基于《毛选》战略思维的 AI 判断工作台 | 开源免费</title>
+<meta name="description" content="基于《毛选》战略思维打造的 AI 判断工作台。把你的现实卡点拆成可判断、可行动、可复盘的下一步。开源免费，无需授权码，一键安装到 WorkBuddy 即可直接对话。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -66,12 +66,23 @@
   .method li:last-child{border-bottom:none;}
   .method li::before{content:"✦";position:absolute;left:0;color:var(--accent);font-size:14px;font-weight:700;}
 
-  /* 微信引流卡 */
-  .wechat{margin-top:52px;background:linear-gradient(135deg,var(--surface),rgba(182,31,37,.04));border:1px solid var(--accent-soft);border-radius:18px;padding:28px;}
-  .wechat h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-bottom:12px;color:var(--ink);}
-  .wechat .badge{display:inline-block;font-size:11px;color:#fff;background:var(--accent);border-radius:999px;padding:3px 12px;margin-bottom:14px;font-weight:500;letter-spacing:.5px;}
-  .wechat p{font-size:15px;color:#4a443c;margin-bottom:14px;line-height:1.75;}
-  .wechat .wx-id{font-family:var(--serif);font-weight:600;color:var(--accent);font-size:17px;background:rgba(182,31,37,.06);border:1px dashed var(--accent-soft);border-radius:10px;padding:10px 14px;display:inline-block;margin:4px 0 12px;}
+  /* 商品图画廊 */
+  .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px;}
+  .gallery img{width:100%;border-radius:10px;border:1px solid var(--line);transition:transform .3s var(--ease);}
+  .gallery img:hover{transform:scale(1.02);}
+
+  /* 导流卡 */
+  .traffic-card{margin-top:52px;background:linear-gradient(135deg,var(--surface),rgba(182,31,37,.04));border:1px solid var(--accent-soft);border-radius:18px;padding:28px;}
+  .traffic-card h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-bottom:12px;color:var(--ink);}
+  .traffic-card .badge{display:inline-block;font-size:11px;color:#fff;background:var(--accent);border-radius:999px;padding:3px 12px;margin-bottom:14px;font-weight:500;letter-spacing:.5px;}
+  .traffic-card p{font-size:15px;color:#4a443c;margin-bottom:14px;line-height:1.75;}
+  .traffic-card .wx-id{font-family:var(--serif);font-weight:600;color:var(--accent);font-size:17px;background:rgba(182,31,37,.06);border:1px dashed var(--accent-soft);border-radius:10px;padding:10px 14px;display:inline-block;margin:4px 0 12px;}
+
+  /* 导流链接组 */
+  .links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+  .links a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-family:var(--serif);font-weight:500;color:var(--accent);background:rgba(182,31,37,.06);border:1px solid var(--accent-soft);border-radius:999px;padding:8px 16px;transition:background .2s;}
+  .links a:hover{background:rgba(182,31,37,.12);}
+  .links a svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;}
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
@@ -79,6 +90,7 @@
     main{padding:48px 18px 80px;}
     h1{font-size:26px;}
     p,li{font-size:15px;}
+    .gallery{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -96,14 +108,30 @@
 
 <main>
   <div class="hero-avatar"><img src="../img/strategy-advisor/avatar-option-a.jpg" alt="现实判断战略参谋 · 头像"></div>
-  <div class="meta-bar"><span class="tag">开源免费</span><span class="tag">AI 工作台</span><span class="tag">免授权码</span><span>2026</span></div>
+  <div class="meta-bar"><span class="tag">开源免费</span><span class="tag">基于毛选战略思维</span><span class="tag">AI 工作台</span><span class="tag">免授权码</span><span>2026</span></div>
   <h1>现实判断战略参谋</h1>
-  <p class="lede">你缺的不是更多信息，是一套<strong>能替你做判断的系统</strong>。现在它完全开源——无需付费、无需授权码，复制一条链接或加个专家源，就能在 WorkBuddy 里装上它，直接对话。</p>
-  <p class="sub">一个跑在你自己 WorkBuddy 里的判断工作台，把现实卡点拆成可判断、可行动、可复盘的下一步。</p>
+  <p class="lede">基于<strong>《毛选》战略思维</strong>打造的一套 AI 判断工作台。你缺的不是更多信息，是一套能替你做判断的系统——现在它完全开源，无需付费、无需授权码。</p>
+  <p class="sub">把实践论、矛盾论、主要矛盾、集中优势兵力……翻译成能直接拿来用的判断工具表，嵌进 AI 对话里。装上就能用。</p>
+
+  <!-- 效果预览图 -->
+  <section class="block">
+    <h2>它长什么样</h2>
+    <div class="gallery">
+      <img src="../img/strategy-advisor/01-毛选战略参谋-主图.png" alt="主视觉">
+      <img src="../img/strategy-advisor/02-不用从头读完-问题入口.png" alt="问题入口">
+      <img src="../img/strategy-advisor/03-固定流程-八段式回答.png" alt="八段式回答流程">
+      <img src="../img/strategy-advisor/04-决策工具表.png" alt="决策工具表">
+      <img src="../img/strategy-advisor/05-购买后收到什么.png" alt="收到什么">
+      <img src="../img/strategy-advisor/06-真实卡点怎么问.png" alt="真实卡点怎么问">
+      <img src="../img/strategy-advisor/07-适合人群.png" alt="适合人群">
+      <img src="../img/strategy-advisor/08-第一次使用三步.png" alt="第一次使用三步">
+      <img src="../img/strategy-advisor/01-成年人难的是看不清代价.png" alt="成年人难的是看不清代价">
+    </div>
+  </section>
 
   <section class="block">
     <h2>它帮你解决什么</h2>
-    <p>你脑子里装了一堆方法论，但真遇到事的时候，<strong>该用哪个、怎么用、先做什么</strong>——还是一片模糊。它不做鸡汤，不灌理论。你抛一个真实卡点，它从内置方法论里调出最匹配的框架，直接给你一条能走的路。</p>
+    <p>你脑子里装了一堆方法论，但真遇到事的时候，<strong>该用哪个、怎么用、先做什么</strong>——还是一片模糊。它不做鸡汤，不灌理论。你抛一个真实卡点，它从内置的毛选战略框架里调出最匹配的工具，直接给你一条能走的路。</p>
     <ul>
       <li><strong>「内容已经很多了，该继续补还是先拿出去测？」</strong>——帮你定位当前阶段的主要矛盾：补什么、测什么、什么时候切换。</li>
       <li><strong>「手上有三个方向，资源只能压一个」</strong>——用集中优势兵力的思路做取舍，把每个方向的"赢面"和"代价"摊开来看。</li>
@@ -113,23 +141,23 @@
   </section>
 
   <section class="block">
-    <h2>怎么装（三种方式，任选其一）</h2>
+    <h2>怎么装（三种方式）</h2>
 
     <div class="step">
       <div class="n">A</div>
       <div>
-        <div class="t">一键链接安装（朋友间最顺手）</div>
-        <div class="d">点我发给你的分享链接 → 自动拉起 WorkBuddy → 点「添加专家」→ 直接对话。链接由我在 WorkBuddy 专家中心点「分享」生成，你发给谁、谁点开即装，无码无付费。</div>
+        <div class="t">分享链接（朋友间最顺手）</div>
+        <div class="d">点分享链接 → 自动拉起 WorkBuddy → 点「添加专家」→ 直接对话。无码无付费。</div>
       </div>
     </div>
 
     <div class="step">
       <div class="n">B</div>
       <div>
-        <div class="t">GitHub 自定义专家源（自助，推荐）</div>
-        <div class="d">在 WorkBuddy「添加自定义专家源」中填入下面的仓库地址订阅即可，无需平台审核、不依赖分享链接：</div>
+        <div class="t">GitHub 自定义专家源（推荐自助）</div>
+        <div class="d">在 WorkBuddy「添加自定义专家源」中填入下面的地址订阅即可：</div>
         <div class="code-box">https://github.com/daozhu1993-oss/reality-strategy-advisor.git</div>
-        <div class="code-cap">订阅后专家出现在你的列表里，一键添加即可使用。</div>
+        <div class="code-cap">订阅后专家出现在列表里，一键添加即可使用。无需平台审核。</div>
       </div>
     </div>
 
@@ -143,32 +171,45 @@
   </section>
 
   <section class="block">
-    <h2>它内置什么</h2>
-    <p>专家包<strong>完全自包含</strong>（离线可用，不依赖任何服务器），内置岛主整理的战略判断方法论：</p>
+    <h2>内置方法论</h2>
+    <p>专家包<strong>完全自包含</strong>（离线可用，零服务器依赖），内置基于《毛选》战略思维的方法论：</p>
     <ul class="method">
       <li>问题入口表 —— 10 类常见现实卡点的提问入口</li>
       <li>AI 提问协议 —— 怎么把问题问对，才拿得到对的判断</li>
-      <li>问题映射表</li>
-      <li>主要矛盾判断卡</li>
-      <li>动态力量对比表</li>
-      <li>阶段判断表</li>
-      <li>三方案决策沙盘</li>
-      <li>15 分钟行动卡</li>
+      <li>主要矛盾判断卡 —— 当前阶段什么才是真正该解决的</li>
+      <li>动态力量对比表 —— 各方力量消长，谁在上风</li>
+      <li>阶段判断表 —— 事情走到哪一步了</li>
+      <li>三方案决策沙盘 —— 做取舍时把选项摊开比</li>
+      <li>15 分钟行动卡 —— 想清楚之后今天就能做的第一件事</li>
     </ul>
-    <p class="note">方法论仅引用经典战略篇目名（如《实践论》《矛盾论》），不打包、不提供原文；输出区分事实 / 推断 / 假设。不承诺确定性结果，不替你做不可逆的重大决定。</p>
+    <p class="note">方法论仅引用经典篇目名（《实践论》《矛盾论》《论持久战》等），不打包原文；输出区分事实 / 推断 / 假设。AI 辅助判断 ≠ 替代人类判断。</p>
   </section>
 
-  <!-- 微信引流 -->
-  <section class="wechat">
-    <span class="badge">想交流 / 需要手把手安装？</span>
-    <h2>加岛主微信，我帮你装好</h2>
-    <p>这个专家我选择<strong>公开免费</strong>，目的就是让更多人用上「战略判断」这件事。如果你装的时候卡住了，或者想一起练判断，加我微信：</p>
-    <div class="wx-id">（在此替换为你的真实微信号）</div>
-    <p>加我后我可以：① 手把手帮你把专家装好；② 拉你进「现实判断」交流社群，一起拿真实问题练手；③ 持续同步方法论的更新与实战案例。</p>
+  <!-- 导流卡 -->
+  <section class="traffic-card">
+    <span class="badge">想交流？来认识岛主</span>
+    <h2>加微信 · 拉群 · 一起练判断</h2>
+    <p>这个专家选择<strong>公开免费</strong>，就是想让更多人用上「战略判断」。如果你装的时候卡住了、或者想拿真实问题练手，加我微信：</p>
+    <div class="wx-id">wangxianke_</div>
+    <p>加我后：① 手把手帮你装好专家；② 拉你进交流群，一起练；③ 方法论更新与实战案例同步。</p>
+    <div class="links">
+      <a href="https://daozhu1993-oss.github.io/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        个人站
+      </a>
+      <a href="https://xhslink.cn/m/3O5MECEWI23" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+        小红书
+      </a>
+      <a href="https://github.com/daozhu1993-oss/reality-strategy-advisor" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub
+      </a>
+    </div>
   </section>
 
   <a class="cta" href="https://github.com/daozhu1993-oss/reality-strategy-advisor" target="_blank" rel="noopener">
-    去 GitHub 看仓库
+    去 GitHub 看仓库 & 安装
     <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
   </a>
 </main>

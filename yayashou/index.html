@@ -99,15 +99,22 @@
   .vi-card .meta h4{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:4px;}
   .vi-card .meta p{font-size:12px;color:var(--ink-dim);}
 
-  /* 科普绘本占位 */
-  .coming{
-    border:1.5px dashed rgba(127,168,107,0.55);border-radius:14px;
-    padding:28px;color:var(--ink-soft);background:rgba(127,168,107,0.06);
-    display:flex;flex-direction:column;gap:8px;
+  /* 科普绘本卡片 */
+  .book-card{
+    display:block;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:#fff;text-decoration:none;color:var(--ink);
+    transition:transform .25s var(--ease),box-shadow .25s var(--ease);
   }
-  .coming .tag{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--sprout);text-transform:uppercase;}
-  .coming h4{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--ink);}
-  .coming p{font-size:14px;}
+  .book-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(44,42,38,.1);}
+  .book-card .thumb{aspect-ratio:2/3;overflow:hidden;border-bottom:1px solid var(--line);background:#f4f1ea;}
+  .book-card .thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease);}
+  .book-card:hover .thumb img{transform:scale(1.03);}
+  .book-card .meta{padding:18px 16px;display:flex;flex-direction:column;gap:8px;}
+  .book-card .meta h4{font-family:var(--serif);font-size:17px;font-weight:600;}
+  .book-card .age{display:inline-flex;align-items:center;width:fit-content;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--sprout);border:1px solid rgba(127,168,107,.4);border-radius:999px;padding:3px 10px;}
+  .book-card .desc{font-size:13px;color:var(--ink-soft);line-height:1.65;}
+  .book-card .go{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--gold);display:inline-flex;align-items:center;gap:6px;margin-top:4px;}
+  .book-card:hover .go{gap:10px;}
 
   footer{
     margin-top:80px;padding-top:24px;border-top:1px solid var(--line);
@@ -211,15 +218,28 @@
       </div>
     </section>
 
-    <section>
+    <section id="books">
       <h2 class="sec-title"><span class="idx">03</span>科普绘本</h2>
-      <p class="sec-sub">围绕芽芽兽的科普向绘本——和「给一一的绘本」不同，这一辑更偏生活科普。第一辑两本正在收尾，收到书稿即更新。</p>
+      <p class="sec-sub">围绕芽芽兽的科普向绘本——和「给一一的绘本」不同，这一辑更偏生活科普。每一本都从一个小麻烦开始，陪孩子做一次小行动。</p>
       <div class="vi-grid">
-        <div class="coming">
-          <span class="tag">COMING SOON</span>
-          <h4>第一辑 · 待发布</h4>
-          <p>两本科普绘本收稿中，上线后这里会变成可点开的绘本卡片。</p>
-        </div>
+        <a class="book-card" href="books/book01.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="assets/book01-cover.jpg" alt="《芽芽的小勺子》封面" loading="lazy"></div>
+          <div class="meta">
+            <span class="age">1.5—2 岁 · 成长科学</span>
+            <h4>芽芽的小勺子</h4>
+            <p class="desc">舀一点，慢慢来。从一把小勺子开始，陪孩子练习手眼协调与自我喂养。</p>
+            <span class="go">阅读 →</span>
+          </div>
+        </a>
+        <a class="book-card" href="books/book02.html" target="_blank" rel="noopener">
+          <div class="thumb"><img src="assets/book02-cover.jpg" alt="《这是芽芽的》封面" loading="lazy"></div>
+          <div class="meta">
+            <span class="age">1.5—2 岁 · 物权与等待</span>
+            <h4>这是芽芽的</h4>
+            <p class="desc">蓝蓝小屋，等一等。从“我的”和“你的”之间，练习等待与分享。</p>
+            <span class="go">阅读 →</span>
+          </div>
+        </a>
       </div>
     </section>
 

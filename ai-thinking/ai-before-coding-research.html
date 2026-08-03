@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>让 AI 写代码前，先逼它去 GitHub 抄作业 · 岛主的AI思考</title>
+<meta name="description" content="让 AI 一上来就写代码是「最高效的低效」。开发前先去 GitHub 调研，找经真实验证的方案、研究别人踩过的坑、做技术取舍，确认后再动手。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">AI</span><span class="tag">开发</span><span>2026</span></div>
+<p>上个月我给自己定了一条规矩，现在越用越觉得值。说出来很简单：以后只要我说"我要开发一个什么什么"，AI 的第一反应不应该是建文件、更不是输出代码——而是先去 GitHub 上把同类开源项目摸一遍。</p>
+<p>这事儿看着不起眼，但它直接决定了你最后拿到的是"能用的东西"，还是"看起来能用的东西"。</p>
+<h2>一、我们太容易让 AI 一上来就写代码</h2>
+<p>你有了一个想法，兴奋地跟 AI 说"帮我做个 X"。它二话不说，唰唰唰开始建目录、写函数、跑起来。你看着代码一行行冒出来，很有成就感。</p>
+<p>但冷静下来想：它写的这套架构，真的是这个场景里最适合的吗？它踩过的那些坑，是真的踩过了，还是凭训练数据"猜"的？</p>
+<p>我越来越确信，让 AI 一上来就写代码，是"最高效的低效"。它确实快，快到让你来不及发现方向是偏的。</p>
+<h2>二、没有调研的代码，是闭门造车</h2>
+<p>AI 写代码，依据的是它见过的训练数据。它给出的方案，往往是"它以为对的"方案。但真实世界里，你这个想法，大概率已经有人做过、验证过、踩过坑、改良过了。</p>
+<p>不调研就动手，等于让 AI 在黑屋子里重新发明轮子——而且重新发明出来的，常常是个方的。</p>
+<p>开源社区最值钱的地方，不是代码本身，是那句没写进文档里的"这里当初为什么这么设计""那个坑我们花了三周才爬出来"。这些东西，AI 不主动去翻，是给不出来的。</p>
+<h2>三、一条我给自己定的铁律</h2>
+<p>现在我的规矩是这样：当我说"我要开发一个 X"，AI（尤其负责工程的 Codex）的第一动作，不是建文件、不是写代码，而是——去 GitHub 调研同类开源项目。</p>
+<p>具体要干这么几件事：</p>
+<p>先筛选出最有参考价值的几个方案，别贪多。然后逐个分析：它们解决了什么问题、用了什么架构、依赖哪些技术、目前还活不活跃。最重要的是，哪些设计值得我直接复用，哪些坑我得绕着走。</p>
+<p>等这些摸清了，再结合我自己的需求，给出四样东西：技术选型、系统架构、MVP 范围、开发顺序。</p>
+<p>注意，到这里为止，一行代码都没有。我要先看懂"该往哪走"，确认无误了，再让它进实现阶段。</p>
+<h2>四、这样 AI 会先做三件事</h2>
+<p>把"先调研"焊死在流程前面，你会发现 AI 进场时的状态完全不一样：</p>
+<p><strong>1️⃣ 找到经过真实项目验证的方案。</strong> 不是教科书理论，是有人真刀真枪跑过、Star 数和时间检验过的路子。</p>
+<p><strong>2️⃣ 研究别人已经踩过的坑。</strong> 别人用三个月趟平的雷，你一天就能绕开。这才是开源最大的红利。</p>
+<p><strong>3️⃣ 根据你的需求做技术取舍。</strong> 同样一个功能，A 项目为性能牺牲了可读性，B 项目为简单放弃了扩展性——你的场景到底要哪个，调研完才清楚。</p>
+<p>等方向定了，再让它写代码。这时候写出来的东西，才是站在巨人肩膀上的，不是从零开始瞎摸。</p>
+<h2>写在最后</h2>
+<p>用 AI 开发，最贵的从来不是 token，是方向。</p>
+<p>让 AI 先去 GitHub 调研，本质上是让它替你做"前期尽职调查"——把"怎么做得不蠢"这件事，交给已经被现实校验过的方案；而把"要不要做、做成什么样"这个确认权，攥在你自己手里。</p>
+<p>这跟上一篇说的"编排多个 AI"是一回事：你不是在让 AI 写代码，是在让 AI 替你把最难、最容易被忽略的那段路先走完。</p>
+<p>这件事我刚跑起来，但回头看已经省下了不止一个"推倒重来"。</p>
+<blockquote><p>岛主的 AI 思考 · 第 33 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

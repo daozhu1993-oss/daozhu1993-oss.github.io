@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>做完一个工具只算一半：用元技能把「能用」收拾成「好用」 · 岛主的AI思考</title>
+<meta name="description" content="做完一个工具只算完成一半。「能用」和「好用」之间差的那一步叫呈现。用 向阳乔木 的 qiaomu-meta-skill 把一个能跑但不好看的诗笺工具，收拾成能逛的展厅——30 套样式分三组。">
+<meta property="og:title" content="做完一个工具只算一半：用元技能把「能用」收拾成「好用」 · 岛主的AI思考">
+<meta property="og:description" content="做完一个工具只算完成一半。「能用」和「好用」之间差的那一步叫呈现。用 qiaomu-meta-skill 把诗笺工具收拾成能逛的展厅——30 套样式分三组。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-poem-skill-meta.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="做完一个工具只算一半：用元技能把「能用」收拾成「好用」 · 岛主的AI思考">
+<meta name="twitter:description" content="做完一个工具只算完成一半。「能用」和「好用」之间差的那一步叫呈现。用 qiaomu-meta-skill 把诗笺工具收拾成能逛的展厅——30 套样式分三组。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">工具</span><span class="tag">元技能</span><span>2026</span></div>
+<p>前阵子我有个诗笺图像工具，能把中文诗排成 30 种好看的版式。功能早跑通了，可它一直躺在文件夹里没敢往外发——因为那个展示页我自己看了都头大：一堆文件，没有目录，不知道从哪看起。</p>
+<p>上周我拿一个"专门造技能的元技能"qiaomu-meta-skill，把整个东西重新收拾了一遍。出来的页面，我自己都愿意截图发出去了：<a href="https://daozhu1993-oss.github.io/poem-shijian-skill/">https://daozhu1993-oss.github.io/poem-shijian-skill/</a></p>
+<p>这件事不大，但它把我一直没说清的一个道理砸实了：<strong>做完一个工具，只算完成一半；「能用」和「好用」之间，差的那一步，叫呈现。</strong></p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 230" role="img" aria-label="诗笺 30 套样式分组图">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+  </defs>
+  <!-- 顶栏 -->
+  <text x="320" y="34" text-anchor="middle" class="ct" font-size="22" fill="#2b2620">诗笺 · 30 套诗歌排版风格</text>
+  <line x1="180" y1="50" x2="460" y2="50" stroke="#e3dccf" stroke-width="1"/>
+
+  <!-- 三列 -->
+  <rect x="24" y="72" width="184" height="120" rx="12" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="116" y="104" text-anchor="middle" class="st" font-size="18" fill="#2b2620">诗歌专属</text>
+  <text x="116" y="138" text-anchor="middle" class="ct" font-size="30" fill="#9a7b3f">7</text>
+  <text x="116" y="166" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">竖排 · 古籍 · 长卷</text>
+
+  <rect x="228" y="72" width="184" height="120" rx="12" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="320" y="104" text-anchor="middle" class="st" font-size="18" fill="#2b2620">题款文艺</text>
+  <text x="320" y="138" text-anchor="middle" class="ct" font-size="30" fill="#9a7b3f">11</text>
+  <text x="320" y="166" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">印章 · 打字机 · 信笺</text>
+
+  <rect x="432" y="72" width="184" height="120" rx="12" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="524" y="104" text-anchor="middle" class="st" font-size="18" fill="#2b2620">通用卡片</text>
+  <text x="524" y="138" text-anchor="middle" class="ct" font-size="30" fill="#9a7b3f">12</text>
+  <text x="524" y="166" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">朋友圈 · 笔记 · 海报</text>
+
+  <text x="320" y="218" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">从「一堆散文件」→「一个能逛的展厅」</text>
+</svg>
+</div>
+
+<h2>一、大多数工具，死在"做完了"那一刻</h2>
+<p>我们写代码、做工具，习惯把"功能跑通"当成终点。但用户和读者看到的，从来不是你的功能，是你的呈现。</p>
+<p>呈现一烂，能力归零。一个能生成 30 种诗笺版式的工具，如果打开是一堆散文件、没有引导、不知道能干嘛，那在别人眼里，它约等于"没法用"。</p>
+<p>我那个诗笺之前就是这样：30 套样式全在，但散落着，没有分类，没有名字，没有一眼能逛的入口。能力是满的，呈现是零。</p>
+
+<h2>二、元技能：一种"造技能"的技能</h2>
+<p>这次帮我收拾的，是 向阳乔木（X <a href="https://x.com/vista8">@vista8</a>）做的 qiaomu-meta-skill。</p>
+<p>它不是一个帮你生成内容的工具，而是一个"元技能"——专门把你已有的零散 prompt、脚本、示例，收拾成结构清晰、可复用、好看的 skill 包。</p>
+<p>它会逼你想清楚几件事：这个技能是给谁用的、触发条件是什么、输入输出长啥样、有哪些示例。想清楚这些，零散的东西自然就归位了。</p>
+<p>它正好补上了我的短板：我擅长把一个工具做出来，不擅长把它摆好看、讲清楚。这一直是我"能用但发不出去"的根源。</p>
+
+<h2>三、收拾完，发生了什么变化</h2>
+<p>最明显的变化，是 30 套样式被分成了三组，每组有了名字和归属：</p>
+<ul>
+<li>诗歌专属 7 套：竖排、古籍、长卷，把文字当主角；</li>
+<li>题款文艺 11 套：印章、打字机、信笺，带文人气；</li>
+<li>通用卡片 12 套：朋友圈、笔记、海报能直接用的轻量卡。</li>
+</ul>
+<p>从"一堆文件"，变成了"一个能逛的展厅"。别人打开，三秒就知道这是啥、能干嘛、该从哪进。</p>
+<p>但更关键的变化是心态。呈现一好，我的感觉就从"将就用吧"变成了"拿得出手"。之前不是能力不够，是不敢示人；现在敢了，因为它看起来就值得被看。</p>
+
+<h2>四、这件事的更大启发</h2>
+<p>往深想一层，AI 时代，呈现本身就是产品力。</p>
+<p>同样一个能力，躺在 GitHub 角落里，和摆在一个干净、有目录、有预览的页面上，价值差的不止十倍——前者没人发现，后者自己会说话。</p>
+<p>而像 qiaomu-meta-skill 这种"二阶工具"（专门收拾一阶工具的工具），最大的价值，是帮你把"你不爱做、但必须做"的那一步，交给一个方法清晰的框架。你只管做你擅长的创作，把整理交给结构。</p>
+<p>这恰好接上了我前一篇说的：AI 不替你找方向，但它能帮你把卡住的那一步往前拱一点。这次我的方向早有了——诗笺本身。我卡在的是"怎么让人一眼看懂"。元技能没替我想方向，它把我卡住的那步，拱完了。</p>
+
+<h2>写在最后</h2>
+<p>如果你手头也有个"能用但丑"的工具或作品，别卡在"功能做完了"就停。去找一个能帮你收拾的元技能，或者像我一样用 qiaomu-meta-skill。</p>
+<p>把"能用"收拾成"好用"，是普通人最容易忽略、也最容易拉开差距的一步。它不是额外的活，它是那一半没做完的活。</p>
+<p>顺手推荐一下 向阳乔木 的 qiaomu-meta-skill（X <a href="https://x.com/vista8">@vista8</a>）——如果你也在做自己的技能或工具，值得试试。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 40 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

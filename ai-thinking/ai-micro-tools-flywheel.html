@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别憋大招了，好工具都是小需求逼出来的 · 岛主的AI思考</title>
+<meta name="description" content="一上来就做「大产品」容易烂尾。改用「需求→小工具→开源沉淀」飞轮：从真实小需求入手，做把小刀，大方沉淀出去——大产品会被一把把小刀拼出来。">
+<meta property="og:title" content="别憋大招了，好工具都是小需求逼出来的 · 岛主的AI思考">
+<meta property="og:description" content="一上来就做「大产品」容易烂尾。改用「需求→小工具→开源沉淀」飞轮：从真实小需求入手，做把小刀，大方沉淀出去——大产品会被一把把小刀拼出来。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-micro-tools-flywheel.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="别憋大招了，好工具都是小需求逼出来的 · 岛主的AI思考">
+<meta name="twitter:description" content="一上来就做「大产品」容易烂尾。改用「需求→小工具→开源沉淀」飞轮：从真实小需求入手，做把小刀，大方沉淀出去——大产品会被一把把小刀拼出来。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">工具</span><span class="tag">方法论</span><span>2026</span></div>
+<p>上个月（7 月 31 日）我给自己定了一条很朴素的规矩，越用越觉得它值：从真实需求入手，记录每一个"有可能成为工具"的小需求，沉下心，慢慢来。</p>
+<p>说出来不性感。但对比我过去那些"憋大招"的惨痛经历，这条规矩救了我不少烂尾项目。</p>
+<h2>一、我们太容易一上来就做"大产品"</h2>
+<p>你有了一个想法，兴奋，立刻开始规划：要做成一个"产品"——得有架构、有用户系统、有商业模式。你画原型、写文档、列路线图，壮志凌云。</p>
+<p>然后呢？然后你卡在第三周。因为"大产品"太大了，大到你每天打开电脑都不知道从哪下手。热情被工程量一点点磨没，最后这个"产品"躺在草稿箱里，和你之前那七个一样。</p>
+<p>我后来发现，大多数创作者不是败在能力，是败在一上来就选了最重的那条路。</p>
+<h2>二、7 月 31 日，我改了起跑姿势</h2>
+<p>那天我没憋大招，就做了件具体的琐事：给我在写的诗歌重新排版。排着排着，发现"诗歌排版"本身是个反复要用的动作，干脆顺手写了个小工具，把流程固化下来——而且我决定把它开源出去，别人也能用。</p>
+<p>同一天，原先那个"毛选战略参谋"的大计划，我主动把它改成可开源的内容，不再关起门来憋付费大招。</p>
+<p>这两个动作背后是同一件事：我不是在"做产品"，我是在回应一个刚冒出来的真实小需求，顺手把它变成一把能复用的"小刀"。</p>
+<p>我那天的沉淀原则就三句：从真实需求入手；记录每一件有可能成为工具的小需求；沉下心，慢慢来。</p>
+<h2>三、一个飞轮，替代"憋大招"心态</h2>
+<p>把上面那三句串起来，就是一个能一直转的飞轮：</p>
+<p><strong>需求 → 小工具 → 开源沉淀。</strong></p>
+<p>你遇到一个真实的小麻烦，别想着"系统性解决"，先写个最小的东西把它搞定——这是"小工具"。搞定后别藏着，开源出去、或至少写篇笔记沉淀下来——这是"开源沉淀"。沉淀多了，别人来用、来反馈，你又发现新需求。飞轮转起来。</p>
+<p>注意，每一步都很轻：一个小需求、一把小刀、一次轻量沉淀。没有任何一步需要你"闭关三个月"。</p>
+<h2>四、为什么这个飞轮更扛用</h2>
+<p>憋大招是"赌一把"：把所有筹码押在"我预判的需求"上，赌赢了封神，赌输了全烂。</p>
+<p>飞轮是"滚雪球"：每一个小工具都来自已经发生的真实需求，不是你猜的。所以它几乎不会偏。而且因为轻，你失败的成本极低——一个不顺手的小工具，弃了就弃了，不心疼。</p>
+<p>更重要的是，开源沉淀这件事会反过来养你。你把一个工具放出去，别人用、提 issue、改 PR，这些反馈又会变成你的新需求、新工具。你不是在孤军奋战，是在借社区的手帮你迭代。</p>
+<h2>写在最后</h2>
+<p>我现在基本不信"憋大招"了。</p>
+<p>好工具很少是被"规划"出来的，都是被一个又一个具体的小需求，一点点逼出来的。你只要做对三件事：真实地遇到问题、诚实地做把小刀、大方地沉淀出去。</p>
+<p>飞轮转起来之后，你会发现——那些你曾经想"憋"的大产品，其实早就被这一把把小刀，悄悄拼出来了。</p>
+<blockquote><p>岛主的 AI 思考 · 第 34 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

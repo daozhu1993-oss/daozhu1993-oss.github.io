@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>结果思维：先定义"做成"什么样，再倒推动作 · 岛主的AI思考</title>
+<meta name="description" content="很多人用一整天的「做了」掩盖「没做成」。结果思维：先定义可验收的结果，再倒推最少动作，做完验收——把交付物说清，AI 才不交漂亮废话。">
+<meta property="og:title" content="结果思维：先定义「做成」什么样，再倒推动作 · 岛主的AI思考">
+<meta property="og:description" content="很多人用一整天的「做了」掩盖「没做成」。结果思维：先定义可验收的结果，再倒推最少动作，做完验收——把交付物说清，AI 才不交漂亮废话。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-result-thinking.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="结果思维：先定义「做成」什么样，再倒推动作 · 岛主的AI思考">
+<meta name="twitter:description" content="很多人用一整天的「做了」掩盖「没做成」。结果思维：先定义可验收的结果，再倒推最少动作，做完验收——把交付物说清，AI 才不交漂亮废话。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">效率</span><span class="tag">思维</span><span>2026</span></div>
+<p>我以前特别容易"忙了一天，回头一想啥也没落下"。后来发现，问题不在效率低，在于我只问了"做了没"，从没认真问过"做成了没"。</p>
+<p>这俩差很多。"做了"是动作，"做成"是交付；"做了"是过程，"做成"是结果。很多人用一整天的"做了"，掩盖了"没做成"。我管这套解法叫<strong>结果思维</strong>。</p>
+<h2>一、结果思维的第一步：先定义结果</h2>
+<p>动手前先写清楚：这次要的"结果"长什么样？可验收的标准是什么？</p>
+<p>不是"写一篇文章"，是"写出一篇能直接发、读者看完知道下一步干嘛的文章"。结果写得越像一张验收单，动作越不会跑偏。大多数人一上来就干，干到哪算哪，最后交的差，全是"做了"的残影。</p>
+<h2>二、再倒推，砍到最少动作</h2>
+<p>有了明确结果，倒着问：为了这个验收标准，最少必须做哪几步？把"锦上添花"全部砍掉。</p>
+<p>结果思维是减法。它逼你承认——很多你忙着做的事，根本不指向结果。砍掉它们，不是偷懒，是把弹药留给真正决定成败的那几下。</p>
+<h2>三、做完，验收</h2>
+<p>交付不是结束，验收才是。对着开头写的结果清单，一条条勾。没勾上的，就是没做成，别用"我做了"糊弄过去。</p>
+<p>这一条最反人性，也最有用。它把你从自我感动里拽出来：你累不累不重要，结果在不在才重要。</p>
+<h2>四、把结果思维交给 AI</h2>
+<p>很多人给 AI 的指令是"帮我写个方案"——这是"做了"思维，AI 会交你一堆看起来很忙的废话。</p>
+<p>换成"帮我写个能让客户当场拍板的方案，包含背景、三个选项、推荐项和理由，控制在一页"——这是"做成"思维。把交付物说清，AI 才知道往哪使劲，不会用长度冒充完成度。</p>
+<h2>五、个人产品同理</h2>
+<p>别同时"在做"五个半成品。发布一篇、跑通一个流程，比"在做好几个"强十倍。以终为始：先想清楚要"做成"什么，再让动作追上去，而不是用动作的自我感动，假装自己已经成了。</p>
+<h2>写在最后</h2>
+<p>现在我每天开工前，先写一句话：今天要做成什么。就这一句，把我从"瞎忙"拽回"交付"。忙和成之间，差的就是这行字——你先把它写下来，还是先让自己动起来。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 38 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

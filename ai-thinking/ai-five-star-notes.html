@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>五星笔记法：把"收藏即学会"的幻觉，变成真能用的知识 · 岛主的AI思考</title>
+<meta name="description" content="收藏不是学习，是把焦虑存起来。五星笔记法用五个星级（摘录→转述→关联→提炼→行动），把知识从「看见」推到「用上」，并直接落进 PARA + 原子库。">
+<meta property="og:title" content="五星笔记法：把「收藏即学会」的幻觉，变成真能用的知识 · 岛主的AI思考">
+<meta property="og:description" content="收藏不是学习，是把焦虑存起来。五星笔记法用五个星级（摘录→转述→关联→提炼→行动），把知识从「看见」推到「用上」，并直接落进 PARA + 原子库。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-five-star-notes.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="五星笔记法：把「收藏即学会」的幻觉，变成真能用的知识 · 岛主的AI思考">
+<meta name="twitter:description" content="收藏不是学习，是把焦虑存起来。五星笔记法用五个星级（摘录→转述→关联→提炼→行动），把知识从「看见」推到「用上」，并直接落进 PARA + 原子库。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .diagram{margin:8px 0 36px;background:#fbf6ef;border:1px solid var(--line);border-radius:14px;padding:22px 18px;display:flex;flex-direction:column;align-items:center;}
+  .diagram svg{width:100%;max-width:440px;height:auto;}
+  .diagram .cap{font-size:13px;color:var(--mid);margin-top:16px;text-align:center;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">知识管理</span><span class="tag">方法论</span><span>2026</span></div>
+<p>我收藏夹里躺着三百多篇"以后一定看"的文章，真去看的不到十分之一。后来我想明白一件事：收藏不是学习，是把焦虑暂时存了起来。</p>
+<p>真正的知识管理，从来不是"存得多"，而是"能落进脑子里、用得出来"。围绕这个，我把自己用了两年的笔记法叫<strong>五星笔记法</strong>——五个星级，对应一条知识从"看见"到"用上"的五个层次。</p>
+<h2>一、一张图讲清五星</h2>
+<div class="diagram">
+<svg viewBox="0 0 680 430" role="img" aria-label="五星笔记法金字塔：从一星摘录收藏到五星行动产出">
+  <polygon points="340,40 408,112 272,112" fill="#bd6b4f"/>
+  <polygon points="272,112 408,112 476,184 204,184" fill="#c9866f"/>
+  <polygon points="204,184 476,184 544,256 136,256" fill="#d9a892"/>
+  <polygon points="136,256 544,256 612,328 68,328" fill="#e7c6b6"/>
+  <polygon points="68,328 612,328 680,400 0,400" fill="#f0ddd2"/>
+  <text x="340" y="92" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="16" font-weight="600" fill="#ffffff">★★★★★　行动产出 · 10-Projects</text>
+  <text x="340" y="160" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="16" font-weight="600" fill="#ffffff">★★★★　提炼模型 · 90-Atomic</text>
+  <text x="340" y="232" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="16" font-weight="600" fill="#4a3f37">★★★　关联连接 · 20-Areas</text>
+  <text x="340" y="304" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="16" font-weight="600" fill="#4a3f37">★★　转述重写 · 20-Areas</text>
+  <text x="340" y="376" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="16" font-weight="600" fill="#4a3f37">★　摘录收藏 · 30-Resources</text>
+</svg>
+<p class="cap">越往上，知识的"成活度"越高，人也越少。绝大多数人卡在最底下那颗星。</p>
+</div>
+<p><strong>★ 一星：摘录收藏。</strong>看到好东西，原样存下来。这是所有人都会的，也是绝大多数人停下的地方。它的价值只是"先别丢"，不是"已学会"。→ 落点：我的知识库 30-Resources，外来资料原样归档，不加工。</p>
+<p><strong>★★ 二星：转述重写。</strong>合上原文，用自己的话写一遍。这一下就能筛出你真懂没——写不出来的，就是没懂。→ 落点：20-Areas 加工区。</p>
+<p><strong>★★★ 三星：关联连接。</strong>把它和你已有的知识、你自己的经历连起来："这个观点和《xxx》里说的互补/矛盾"。知识一旦连成网，就忘不掉。→ 落点：20-Areas，连成网络。</p>
+<p><strong>★★★★ 四星：提炼模型。</strong>从这条知识里抽出一个可复用的方法、原则、模型——一句话能讲清、能迁移到别处。→ 落点：90-Atomic 原子库，我的可复用原则仓库。</p>
+<p><strong>★★★★★ 五星：行动产出。</strong>用这条知识做了什么？改了哪个决定？产出了什么？一篇文、一个工具、一次行动。到这一层，知识才真正变成你的。→ 落点：10-Projects，闭环。</p>
+<h2>二、为什么这套方法能治"收藏癖"</h2>
+<p>大部分人卡在一星，是因为一星最省力、最像"我在学习"。但收藏的那一刻，你只是把焦虑从脑子搬到了文件夹，它没长进你身上。</p>
+<p>五星笔记法的全部意义，就是逼自己往上走。哪怕每天只把一条一星笔记升到二星，半年后你的脑子会和现在完全不同——因为你不是在"保管资料"，是在"长自己的认知"。</p>
+<p>一个有用的小习惯：每次想点"收藏"前，停一秒问自己——这条我打算升到几星？如果答案永远是"就存着"，那它只是在替你保管焦虑，不是在替你长脑子。</p>
+<h2>三、它怎么落进我的知识库</h2>
+<p>我的 PARA + 原子库，本质就是五星笔记法的"物理落地"：</p>
+<ul>
+<li><strong>Resources</strong> 接一星（外来资料原样存）</li>
+<li><strong>Areas</strong> 接二星、三星（加工、连网）</li>
+<li><strong>Atomic</strong> 接四星（可复用原则）</li>
+<li><strong>Projects</strong> 接五星（真实产出）</li>
+</ul>
+<p>结构不是为了好看，是为了让每条知识都知道自己该往哪走——见了好东西知道先扔进 Resources，想通了就往 Areas 升，抽出了模型就进 Atomic，用上了就进 Projects。一条知识在库里从下往上爬，就是它在你脑子里从"看见"到"长出来"的过程。</p>
+<h2>写在最后</h2>
+<p>别再被"收藏即学会"骗了。下次手又想点收藏，先问：这条我要升到几星？能升一颗是一颗，升不动的，就让它走——你的脑子，只装得下你真正打磨过的东西。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 36 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

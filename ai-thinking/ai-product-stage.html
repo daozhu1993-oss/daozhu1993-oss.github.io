@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大家都在问 AI 能做什么，我只问一句：你的产品做到哪一步了 · 岛主的AI思考</title>
+<meta name="description" content="所有人都在问「AI 能做什么」，没人先问「我的产品做到哪一步了」。验证期 AI 帮你做壳、增长期干重复活、交易期藏在结果后——它不负责找方向，只负责把卡住的那一步往前拱一点。">
+<meta property="og:title" content="大家都在问 AI 能做什么，我只问一句：你的产品做到哪一步了 · 岛主的AI思考">
+<meta property="og:description" content="所有人都在问「AI 能做什么」，没人先问「我的产品做到哪一步了」。验证期 AI 帮你做壳、增长期干重复活、交易期藏在结果后——它不负责找方向，只负责把卡住的那一步往前拱一点。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-product-stage.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="大家都在问 AI 能做什么，我只问一句：你的产品做到哪一步了 · 岛主的AI思考">
+<meta name="twitter:description" content="所有人都在问「AI 能做什么」，没人先问「我的产品做到哪一步了」。验证期 AI 帮你做壳、增长期干重复活、交易期藏在结果后——它不负责找方向，只负责把卡住的那一步往前拱一点。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .stage-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .stage-diagram svg{display:block;width:100%;height:auto;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .stage-diagram{padding:20px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">产品</span><span class="tag">AI</span><span>2026</span></div>
+<p>前阵子见了个朋友，兴奋地说"我准备用 AI 做个产品"。我问他：你产品现在到哪一步了？他愣了一下——他根本还没产品，只有"用 AI 做个产品"这个念头。</p>
+<p>这几乎是这两年最常见的病：所有人都在问"AI 能做什么"，没人先问"我的产品做到哪一步了"。AI 最被高估的地方，就是它好像能替你找方向。它不能。</p>
+<p>我后来把这个问题换成一句更实在的——<strong>你卡在哪一步，AI 能帮你拱哪一步。</strong></p>
+
+<div class="stage-diagram">
+<svg viewBox="0 0 640 260" role="img" aria-label="产品三阶段与 AI 角色对应图">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+    </style>
+  </defs>
+  <!-- 阶段框 -->
+  <rect x="20" y="40" width="180" height="80" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="110" y="78" text-anchor="middle" class="st" font-size="20" fill="#2b2620">① 验证期</text>
+  <text x="110" y="102" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">有人要吗？</text>
+
+  <rect x="230" y="40" width="180" height="80" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="320" y="78" text-anchor="middle" class="st" font-size="20" fill="#2b2620">② 增长期</text>
+  <text x="320" y="102" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">更多人来、留住</text>
+
+  <rect x="440" y="40" width="180" height="80" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="530" y="78" text-anchor="middle" class="st" font-size="20" fill="#2b2620">③ 交易期</text>
+  <text x="530" y="102" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">用户掏钱</text>
+
+  <!-- 箭头 -->
+  <path d="M200 80 H230" stroke="#c9a25e" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <path d="M410 80 H440" stroke="#c9a25e" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 z" fill="#c9a25e"/>
+    </marker>
+  </defs>
+
+  <!-- AI 角色 -->
+  <text x="110" y="160" text-anchor="middle" class="st" font-size="15" fill="#9a7b3f">AI 是「手」</text>
+  <text x="110" y="182" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">做壳 · 不替你找需求</text>
+
+  <text x="320" y="160" text-anchor="middle" class="st" font-size="15" fill="#9a7b3f">AI 是「工」</text>
+  <text x="320" y="182" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">吃重复 · 不造好产品</text>
+
+  <text x="530" y="160" text-anchor="middle" class="st" font-size="15" fill="#9a7b3f">AI 是「底」</text>
+  <text x="530" y="182" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">藏结果后 · 不抢戏</text>
+
+  <!-- 底部结论 -->
+  <line x1="20" y1="214" x2="620" y2="214" stroke="#e3dccf" stroke-width="1"/>
+  <text x="320" y="244" text-anchor="middle" class="st" font-size="14" fill="#a23b2e">不负责找方向，只把卡住的那一步往前拱一点</text>
+</svg>
+</div>
+
+<h2>一、还在验证：AI 帮你做壳，不替你找需求</h2>
+<p>产品最早的阶段是验证：这个东西有人要吗？</p>
+<p>这时候 AI 极好用——你半天就能让它吐出一个页面、一个 Demo、一个能点的小版本。以前要雇人、要排期、要两周，现在一个下午就出来。</p>
+<p>但很多人倒在这：把 AI 生成的那坨东西，当成了"用户需求"。页面很漂亮，Demo 能跑，然后呢？没人点，没人付钱，就以为"产品做出来了"。</p>
+<p>生成结果不是需求。AI 帮你把"想法"变成"能看的壳"，省的是你的时间，不是你的市场验证。壳做得再快，该去问用户、该去试错的那一步，一毫米都省不掉。</p>
+
+<h2>二、到了增长：AI 干重复活，造不出好产品</h2>
+<p>验证过了，进入增长——怎么让更多人来、留住、用起来。</p>
+<p>这个阶段 AI 的价值是"处理重复"。整理几百条用户反馈、归类共性、把常见问题写成自动回复、把运营里的脏活累活接了。它把这些你不想干、干了也长不出脑子的事吃掉，让你腾出手想真正重要的事。</p>
+<p>但别指望它凭空造出好产品。增长靠的是你对用户的判断、对节奏的感知、对"什么值得做"的取舍——这些 AI 给不了，因为它没在你的业务里泡过，也没为你担过风险。</p>
+<p>它能帮你跑，不能帮你选路。把"选路"也交给它，增长就会变成在数据上打转，看起来很忙，实则原地。</p>
+
+<h2>三、进入交易：用户买的是结果，不是"AI"两个字</h2>
+<p>再往前，到了交易——用户掏钱的那一刻。</p>
+<p>这时候最该清醒：用户买的是结果。是"这个东西帮我解决了什么问题、省了什么、赚到了什么"。没有人会为"AI"这两个字单独买单。</p>
+<p>你跟客户说"这是 AI 做的"，一分钱都不会多加。你说"这个东西帮你把月报从三天压到半天"，他才掏钱。AI 在这里是成本项、是底层能力，不是卖点。把它当卖点挂出来，反而显得你没东西可卖。</p>
+<p>所以到了交易环节，AI 该退到后面去：用户感知到的，应该是干净的结果，而不是"哇好 AI"的炫技。</p>
+
+<h2>四、AI 不负责方向，只负责拱那一步</h2>
+<p>回到开头那句话：大家问"AI 能做什么"，我改问"你的产品做到哪一步了"。</p>
+<p>因为 AI 的角色，完全取决于你站在哪个台阶上：</p>
+<ul>
+<li>验证期，它是你的手，帮你快速把想法捏成能看的壳；</li>
+<li>增长期，它是你的工，替你吃掉重复，让你专注判断；</li>
+<li>交易期，它是你的底，藏在结果后面，不抢戏。</li>
+</ul>
+<p>它从头到尾不负责一件事：替你找到方向。</p>
+<p>方向是你自己拿的——你得先知道产品在哪一阶段、卡在哪一步，再把 AI 按在那个点上，让它帮你往前拱一点。拱完这一点，下一步往哪走，还是你定。</p>
+<p>很多人把顺序搞反了：先抱起 AI，指望它带着自己飞。结果飞是飞了，飞哪不知道，落下来发现还在原地。</p>
+
+<h2>写在最后</h2>
+<p>所以下次再有人热血沸腾说"我要用 AI 做个产品"，我也想反问一句：你产品现在，到哪一步了？</p>
+<p>AI 是杠杆，不是罗盘。它能把你卡住的那一步放大十倍地往前推，但推去哪，得你先指好方向。</p>
+<p>别让工具替你思考方向——它最擅长的事，是把你已经想清楚的那一下，做得又快又漂亮。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 39 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

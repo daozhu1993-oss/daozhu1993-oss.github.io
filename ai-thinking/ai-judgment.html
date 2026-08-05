@@ -126,6 +126,12 @@
   transition: border-color 0.2s;
 }
 .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -146,6 +152,52 @@
 <p>最近看挺多人炫：&quot;我用 AI 一天发了 20 条视频&quot;&quot;写了 30 篇推文&quot;。产能是真上来了，快得吓人。</p>
 <p>我随口问了其中一位：这 30 篇里，你自己最满意哪篇？他愣了一下。我又问：你觉得哪篇真好、哪篇水？他滑了半天屏幕，来一句&quot;都差不多吧，反正发出去了&quot;。</p>
 <p>那一刻我就知道，真正的瓶颈根本不是&quot;产不出来&quot;。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 288" role="img" aria-label="内容生产的瓶颈搬家：旧世界产能稀缺，产出是卡点，十条成品一眼挑得出；AI 时代产能过剩，一天一千条，判断成了新的卡点，选不出哪条好等于没产">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arJG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">瓶颈搬家了：从「产不出来」搬到「选不出来」</text>
+
+  <!-- 左：旧世界 -->
+  <rect x="20" y="46" width="280" height="202" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="160" y="72" text-anchor="middle" class="st" font-size="14" fill="#a9802f">旧世界 · 产能稀缺</text>
+
+  <polygon points="52,90 268,90 176,164 144,164" fill="#fff" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="160" y="112" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">一堆想法</text>
+  <text x="160" y="156" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">产出</text>
+  <text x="160" y="186" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">≈ 10 条成品</text>
+  <text x="160" y="212" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">✓ 判断几乎不费劲</text>
+  <text x="160" y="234" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">谁能多产，谁就赢</text>
+
+  <!-- 箭头 -->
+  <path d="M304 146 h30" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#arJG)"/>
+
+  <!-- 右：AI 时代 -->
+  <rect x="340" y="46" width="280" height="202" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="480" y="72" text-anchor="middle" class="st" font-size="14" fill="#2f7d5b">AI 时代 · 产能过剩</text>
+
+  <polygon points="356,90 604,90 496,164 464,164" fill="#fff" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="480" y="112" text-anchor="middle" class="lb" font-size="11.5" fill="#5c7a68">一天 1000 条</text>
+  <text x="480" y="156" text-anchor="middle" class="ct" font-size="11.5" fill="#a23b2e">判断</text>
+  <text x="480" y="186" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">「都差不多吧」</text>
+  <text x="480" y="212" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">✕ 挑不出哪条真好</text>
+  <text x="480" y="234" text-anchor="middle" class="lb" font-size="10.5" fill="#8aa693">产了一千条，等于没产</text>
+
+  <text x="320" y="276" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">产出被打平之后，能说清「这条为什么好」的人，才是稀缺品</text>
+</svg>
+  <div class="cap">同一个漏斗，窄口换了位置。以前窄口在「产出」，努力就有回报；现在窄口在「判断」，产能越大，判断力不够就越浪费。</div>
+</div>
+
 <h2>一、先用第一性原理拆：内容生产的本质不是&quot;产出&quot;，是&quot;判断&quot;</h2>
 <p>很多人把 AI 当成&quot;生产工具&quot;，以为自己卡在&quot;我写不写得出来&quot;。但从第一性原理看，内容这件事一直有两步：</p>
 <p>① 做出来；② 知道它好不好、好在哪、差在哪。</p>

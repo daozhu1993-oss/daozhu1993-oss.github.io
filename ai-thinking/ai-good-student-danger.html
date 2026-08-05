@@ -65,11 +65,16 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -91,6 +96,59 @@
 <p>从小到大被夸「听话」「成绩好」的那群孩子，正在进入职场。然后发现一件事：规则变了。</p>
 <p>考试的时候，老师给一道题，往标准答案上靠，靠得越近分越高。工作了，老板给一个模糊的方向，没有标准答案，你得自己定义什么叫「做好了」。</p>
 <p>前一种能力——找标准答案、高效执行——AI 做得比你好一百倍。后一种能力——定义问题、做判断、在没有标准答案时拍板——AI 做不了。</p>
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="回路A听懂要求交标准答案，练了二十年但 AI 三秒跑通；回路B这是对的问题吗，学校没教但 AI 没长这块肌肉；好学生思维的三笔负债：等布置作业、怕犯错、追求完美答案">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar24" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">AI 是全世界最好的好学生</text>
+
+  <!-- 回路 A -->
+  <rect x="24" y="46" width="266" height="96" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="157" y="72" text-anchor="middle" class="st" font-size="12.5" fill="#a9802f">回路 A：听懂要求 → 交标准答案</text>
+  <text x="157" y="96" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">你花了二十年练这条神经</text>
+  <text x="157" y="120" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">AI 三秒跑通，还不会累</text>
+
+  <path d="M294 94 L344 94" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar24)"/>
+  <text x="320" y="84" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">得换</text>
+
+  <!-- 回路 B -->
+  <rect x="350" y="46" width="266" height="96" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="483" y="72" text-anchor="middle" class="st" font-size="12.5" fill="#2f7d5b">回路 B：这真的是对的问题吗？</text>
+  <text x="483" y="96" text-anchor="middle" class="lb" font-size="11" fill="#7a9c8c">学校二十年没教过一次</text>
+  <text x="483" y="120" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">AI 根本没长这块肌肉</text>
+
+  <!-- 三笔负债 -->
+  <text x="320" y="168" text-anchor="middle" class="ct" font-size="12.5" fill="#a23b2e">「好学生思维」的三笔负债</text>
+
+  <rect x="24" y="182" width="176" height="76" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="112" y="208" text-anchor="middle" class="st" font-size="12" fill="#a9802f">① 等老师布置作业</text>
+  <text x="112" y="229" text-anchor="middle" class="lb" font-size="10" fill="#7a7268">没人布置就没方向感</text>
+  <text x="112" y="247" text-anchor="middle" class="lb" font-size="10" fill="#a23b2e">而提问力比执行力值钱</text>
+
+  <rect x="232" y="182" width="176" height="76" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="320" y="208" text-anchor="middle" class="st" font-size="12" fill="#a9802f">② 怕犯错</text>
+  <text x="320" y="229" text-anchor="middle" class="lb" font-size="10" fill="#7a7268">把错误当失败，不敢试</text>
+  <text x="320" y="247" text-anchor="middle" class="lb" font-size="10" fill="#a23b2e">而错误是理解的入口</text>
+
+  <rect x="440" y="182" width="176" height="76" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="528" y="208" text-anchor="middle" class="st" font-size="12" fill="#a9802f">③ 追求完美答案</text>
+  <text x="528" y="229" text-anchor="middle" class="lb" font-size="10" fill="#7a7268">现实大多没有正确答案</text>
+  <text x="528" y="247" text-anchor="middle" class="lb" font-size="10" fill="#a23b2e">先「够好」，摔一跤再修</text>
+
+  <text x="320" y="284" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">你不用再做那个好学生了——你要做的，是那个出题目的人</text>
+</svg>
+  <div class="cap">上排是两条神经回路：练了二十年的那条已经被三秒抹平，没练过的那条才是活路。下排三笔负债，越是「好学生」欠得越多。</div>
+</div>
+
 <h2>一、学校教的，AI 全会；学校没教的，才是你的命</h2>
 <p>你花二十年练的「听懂要求→交标准答案」这条神经回路，AI 用三秒就跑通了。而且它不会累、不会走神、不会因为和同事吵架而效率下降。但另一条回路——「这真的是对的问题吗？我要不要换个方向？」——AI 没有。这不是 AI 的短板，是它根本没长这块肌肉。</p>
 <p>毛泽东在《反对本本主义》里说得透：「没有调查，没有发言权。」学校教的是本本上的东西；社会要的是你亲自去调查、去判断、去拍板。中间差的这条沟，有人一辈子跨不过去。</p>

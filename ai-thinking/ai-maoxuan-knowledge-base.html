@@ -55,6 +55,10 @@
   article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
   article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -70,6 +74,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -94,6 +99,49 @@
 <p>不是卖课，不是卖社群，不是卖咨询。就是卖一个「整理好的知识库」本身。</p>
 <p>我盯着这两条看了挺久。倒不是眼红那点收入——是突然把一件事想通了：</p>
 <p><strong>AI 这一轮，真正被踩平的，是「做出来」的门槛。而真正被抬起来的，是「发现需求」的本事。</strong></p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 280" role="img" aria-label="AI 前后两根柱状对比：AI 之前，做出来的门槛很高是壁垒，发现需求这一项很矮没人在意；AI 之后，做出来的门槛塌下去，发现需求这一项抬起来成了新壁垒">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">AI 踩平「做出来」，抬高「发现需求」</text>
+
+  <rect x="22" y="46" width="264" height="187" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="154" y="72" text-anchor="middle" class="st" font-size="13.5" fill="#a9802f">AI 之前</text>
+  <rect x="70" y="100" width="54" height="100" rx="4" ry="4" fill="#c9a25e"/>
+  <rect x="178" y="166" width="54" height="34" rx="4" ry="4" fill="#e0d5bd"/>
+  <text x="97" y="92" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">门槛高 · 是壁垒</text>
+  <text x="205" y="158" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">没人在意</text>
+  <path d="M50 200 H258" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+  <text x="97" y="218" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">做出来</text>
+  <text x="205" y="218" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">发现需求</text>
+
+  <path d="M294 140 h46" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="354" y="46" width="264" height="187" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="486" y="72" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">AI 之后</text>
+  <rect x="402" y="170" width="54" height="30" rx="4" ry="4" fill="#cfe0cd"/>
+  <rect x="510" y="95" width="54" height="105" rx="4" ry="4" fill="#5f9c72"/>
+  <text x="429" y="162" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">门槛塌了</text>
+  <text x="537" y="87" text-anchor="middle" class="lb" font-size="10.5" fill="#2f7d5b">成了新壁垒</text>
+  <path d="M382 200 H590" stroke="#a3c4a0" stroke-width="1.4" fill="none"/>
+  <text x="429" y="218" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">做出来</text>
+  <text x="537" y="218" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">发现需求</text>
+
+  <text x="320" y="262" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">毛选知识库、育儿知识库卖得动，不是因为做得出，是因为先看见了那个需求</text>
+</svg>
+  <div class="cap">两根柱子换了个位置，整个游戏就变了。过去拼「我能做出来」，现在拼「我看见了别人没看见的需求」。</div>
+</div>
+
 <h2>一、当「做」不值钱了，什么才值钱？</h2>
 <p>过去你想搞点东西出来，成本是高得吓人的。写一本书要熬几个月，做个产品要组队、要开发、要设计。所以「我能做出来」本身就是壁垒。</p>
 <p>AI 把这道墙拆了。</p>

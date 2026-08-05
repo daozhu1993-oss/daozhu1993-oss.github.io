@@ -69,6 +69,12 @@
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
   }
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
+
   .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
   .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
   .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
@@ -95,6 +101,82 @@
       <div class="meta-bar"><span class="tag">战略</span><span class="tag">聚焦</span><span>2026</span></div>
 <p>我见过太多有才华的创作者，把自己耗死在"全面铺开"上——公众号每周更、抖音日更、小报童在写、社群要带、课也想做。一年下来，每个都做了，没有一个做透。</p>
 <p>毛选里一句话，比任何时间管理课都管用：<strong>集中优势兵力，各个歼灭敌人。</strong></p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 340" role="img" aria-label="同样的兵力，摊成十份时六根细箭都被墙挡住、一个都没打穿；压成一点时一根粗箭直接把墙打穿。下方是选支点的三条标准：你最有积累、最能复利、离目标最近，三者交集就是该压的支点">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="argy" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#b9ad99"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">兵力没变多，只是不再平均分给十个点</text>
+
+  <!-- 中缝 -->
+  <path d="M320 40 V236" stroke="#d4c4a0" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 左：摊薄 -->
+  <text x="150" y="52" text-anchor="middle" class="st" font-size="13" fill="#8a6f3a">摊成十份 · 伤其十指</text>
+
+  <circle cx="60" cy="130" r="15" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.5"/>
+  <text x="60" y="134" text-anchor="middle" class="lb" font-size="9" fill="#8a6f3a">兵力</text>
+
+  <path d="M76 130 L258 70" stroke="#b9ad99" stroke-width="1.2" fill="none" marker-end="url(#argy)"/>
+  <path d="M76 130 L258 94" stroke="#b9ad99" stroke-width="1.2" fill="none" marker-end="url(#argy)"/>
+  <path d="M76 130 L258 118" stroke="#b9ad99" stroke-width="1.2" fill="none" marker-end="url(#argy)"/>
+  <path d="M76 130 L258 142" stroke="#b9ad99" stroke-width="1.2" fill="none" marker-end="url(#argy)"/>
+  <path d="M76 130 L258 166" stroke="#b9ad99" stroke-width="1.2" fill="none" marker-end="url(#argy)"/>
+  <path d="M76 130 L258 190" stroke="#b9ad99" stroke-width="1.2" fill="none" marker-end="url(#argy)"/>
+
+  <path d="M265 60 V200" stroke="#d4c4a0" stroke-width="6" stroke-linecap="round"/>
+  <text x="287" y="134" text-anchor="middle" class="lb" font-size="10" fill="#a9802f">墙</text>
+
+  <text x="150" y="224" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">每根只剩十分之一的力，一根都没穿</text>
+
+  <!-- 右：压强 -->
+  <text x="470" y="52" text-anchor="middle" class="st" font-size="13" fill="#3d6b45">压成一点 · 断其一指</text>
+
+  <circle cx="372" cy="130" r="15" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5"/>
+  <text x="372" y="134" text-anchor="middle" class="lb" font-size="9" fill="#3d6b45">兵力</text>
+
+  <path d="M557 60 V116" stroke="#d4c4a0" stroke-width="6" stroke-linecap="round"/>
+  <path d="M557 144 V200" stroke="#d4c4a0" stroke-width="6" stroke-linecap="round"/>
+
+  <path d="M391 130 H598" stroke="#a23b2e" stroke-width="6" fill="none" marker-end="url(#ar)"/>
+  <text x="470" y="118" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">全部压在一个支点</text>
+
+  <text x="470" y="224" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">同样的力，打出了穿透力</text>
+
+  <!-- 下：怎么选那个点 -->
+  <text x="320" y="254" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">至于该压哪个点——三条标准取交集</text>
+
+  <rect x="24" y="264" width="140" height="46" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="94" y="292" text-anchor="middle" class="st" font-size="12" fill="#3d6b45">你最有积累</text>
+
+  <rect x="182" y="264" width="140" height="46" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="252" y="292" text-anchor="middle" class="st" font-size="12" fill="#3d6b45">最能复利</text>
+
+  <rect x="340" y="264" width="140" height="46" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="410" y="292" text-anchor="middle" class="st" font-size="12" fill="#3d6b45">离目标最近</text>
+
+  <path d="M488 287 h16" stroke="#a23b2e" stroke-width="1.7" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="510" y="264" width="106" height="46" rx="10" ry="10" fill="#a23b2e" stroke="#a23b2e" stroke-width="1.4"/>
+  <text x="563" y="292" text-anchor="middle" class="st" font-size="12.5" fill="#fdf6e8">该压的支点</text>
+
+  <text x="320" y="332" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI 是放大压强的杠杆，不是让你多开战线的借口</text>
+</svg>
+  <div class="cap">左边六根箭都射出去了，墙一道口子没破——这就是"每个都做了，没有一个做透"。右边不是力气变大，只是不再摊。</div>
+</div>
+
 <h2>一、创作者最大的敌人，是自己把手摊薄了</h2>
 <p>对个人创作者来说，最大的对手往往不是竞品，是你自己把精力摊成了十份。毛选的"集中优势兵力"，翻译成创作者的语言就是——<strong>压强单点突破</strong>：把手里那点有限的精力（你的"兵力"），全压在一个点上，打透它，而不是摊成十份去点水。</p>
 <p>摊薄的结果是每个点都浅尝辄止，别人记不住你；压强的结果是在一个点上数倍于人的投入，打出辨识度。伤其十指，不如断其一指。</p>

@@ -119,6 +119,12 @@
   transition: border-color 0.2s;
 }
 .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -138,6 +144,61 @@
       <div class="meta-bar"><span class="tag">认知</span><span class="tag">学习</span><span>2026</span></div>
 <p>有个很隐蔽的陷阱：你问 AI 一个问题，它洋洋洒洒答了八百字，逻辑清晰、案例详实。你读完觉得「懂了」。</p>
 <p>第二天让你讲给同事听，你卡壳了。不是记性差——是 AI 给了你「懂的形状」，没给你「懂本身」。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 278" role="img" aria-label="从不懂到真懂的五级台阶：一无所知、AI 答八百字给出懂的形状、上手做一遍、错了再修正、讲给外行听才算真懂。AI 一秒把你送到第二级，后面三级只能自己走">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arTU" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">AI 一秒把你送上第二级，后面三级它一步都替不了</text>
+
+  <!-- 台阶 1 -->
+  <rect x="18" y="196" width="108" height="44" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="72" y="216" text-anchor="middle" class="st" font-size="12.5" fill="#7a7268">一无所知</text>
+  <text x="72" y="232" text-anchor="middle" class="lb" font-size="9.5" fill="#b9ad99">起点</text>
+  <path d="M126 208 L142 190" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+
+  <!-- 台阶 2 -->
+  <rect x="142" y="160" width="108" height="44" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="196" y="180" text-anchor="middle" class="st" font-size="12.5" fill="#a23b2e">「懂了」</text>
+  <text x="196" y="196" text-anchor="middle" class="lb" font-size="9.5" fill="#a9802f">AI 给的懂的形状</text>
+  <path d="M250 172 L266 154" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arTU)"/>
+
+  <!-- 台阶 3 -->
+  <rect x="266" y="124" width="108" height="44" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="320" y="144" text-anchor="middle" class="st" font-size="12.5" fill="#7a7268">上手做一遍</text>
+  <text x="320" y="160" text-anchor="middle" class="lb" font-size="9.5" fill="#9c9384">别只看教程</text>
+  <path d="M374 136 L390 118" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arTU)"/>
+
+  <!-- 台阶 4 -->
+  <rect x="390" y="88" width="108" height="44" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="444" y="108" text-anchor="middle" class="st" font-size="12.5" fill="#7a7268">错了 → 修正</text>
+  <text x="444" y="124" text-anchor="middle" class="lb" font-size="9.5" fill="#9c9384">错误是理解的入口</text>
+  <path d="M498 100 L514 82" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arTU)"/>
+
+  <!-- 台阶 5 -->
+  <rect x="514" y="52" width="108" height="44" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.8"/>
+  <text x="568" y="72" text-anchor="middle" class="st" font-size="12.5" fill="#2f7d5b">讲给外行听</text>
+  <text x="568" y="88" text-anchor="middle" class="lb" font-size="9.5" fill="#2f7d5b">讲顺了才算你的</text>
+
+  <!-- 区间标注 -->
+  <path d="M18 252 v6 h232 v-6" stroke="#d4c4a0" stroke-width="1.2" fill="none"/>
+  <text x="134" y="274" text-anchor="middle" class="lb" font-size="11" fill="#a9802f">AI 免费送到这里 · 一秒钟</text>
+
+  <path d="M266 252 v6 h356 v-6" stroke="#a23b2e" stroke-width="1.4" fill="none"/>
+  <text x="444" y="274" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">这一段只能自己走，也只有这一段长在你脑子里</text>
+</svg>
+  <div class="cap">AI 给了你起点，没给你过程。它替你省掉了错误，也就替你省掉了学习——绕过去的那些，一个都不是你的。</div>
+</div>
+
 <h2>一、懂的错觉，比不懂更危险</h2>
 <p>懂，是你在自己脑子里长出来的东西。AI 的答案停在外头，你只是路过看了一眼。</p>
 <p>很多人用 AI 之后陷入一个循环：搜问题 → 看答案 → 觉得懂了 → 过两天发现不会 → 再搜。不是在学，是在「路过」。你路过了一百个知识点，一个都没带走。不懂但自知，你会去学。不懂却以为懂，你就停在原地了。这才是 AI 时代最隐蔽的陷阱——它让你产生了「我会了」的错觉，而真正的学习才刚刚要开始。</p>

@@ -69,6 +69,12 @@
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
   }
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
+
   .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
   .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
   .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
@@ -95,6 +101,82 @@
       <div class="meta-bar"><span class="tag">效率</span><span class="tag">思维</span><span>2026</span></div>
 <p>我以前特别容易"忙了一天，回头一想啥也没落下"。后来发现，问题不在效率低，在于我只问了"做了没"，从没认真问过"做成了没"。</p>
 <p>这俩差很多。"做了"是动作，"做成"是交付；"做了"是过程，"做成"是结果。很多人用一整天的"做了"，掩盖了"没做成"。我管这套解法叫<strong>结果思维</strong>。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 296" role="img" aria-label="做了路线：一上来就干，排出一堆动作，最后忙了一天啥也没落下；做成路线：先定义结果写成验收单，倒推最少必须哪几步，砍掉锦上添花，最后做成">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="argy" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#b9ad99"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">「做了」是动作，「做成」是交付——中间差的是一张验收单</text>
+
+  <!-- 上：做了 -->
+  <text x="24" y="48" class="lb" font-size="11.5" fill="#a9802f">「做了」：从动作出发</text>
+  <text x="258" y="52" text-anchor="middle" class="lb" font-size="10" fill="#9a8f7d">一堆动作</text>
+
+  <rect x="24" y="58" width="104" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="76" y="86" text-anchor="middle" class="st" font-size="12" fill="#8a6f3a">一上来就干</text>
+
+  <path d="M130 82 h14" stroke="#b9ad99" stroke-width="1.4" fill="none" marker-end="url(#argy)"/>
+
+  <rect x="152" y="58" width="36" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.3"/>
+  <text x="170" y="86" text-anchor="middle" class="lb" font-size="9.5" fill="#9a8f7d">动作</text>
+  <rect x="196" y="58" width="36" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.3"/>
+  <text x="214" y="86" text-anchor="middle" class="lb" font-size="9.5" fill="#9a8f7d">动作</text>
+  <rect x="240" y="58" width="36" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.3"/>
+  <text x="258" y="86" text-anchor="middle" class="lb" font-size="9.5" fill="#9a8f7d">动作</text>
+  <rect x="284" y="58" width="36" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.3"/>
+  <text x="302" y="86" text-anchor="middle" class="lb" font-size="9.5" fill="#9a8f7d">动作</text>
+  <rect x="328" y="58" width="36" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.3"/>
+  <text x="346" y="86" text-anchor="middle" class="lb" font-size="9.5" fill="#9a8f7d">动作</text>
+
+  <path d="M366 82 h22" stroke="#b9ad99" stroke-width="1.4" fill="none" marker-end="url(#argy)"/>
+
+  <rect x="396" y="58" width="220" height="48" rx="10" ry="10" fill="#faf6ee" stroke="#c9b89a" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="506" y="86" text-anchor="middle" class="st" font-size="12.5" fill="#a23b2e">忙了一天，啥也没落下</text>
+
+  <text x="320" y="130" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">动作排得很满，结果那一栏是空的</text>
+
+  <!-- 下：做成 -->
+  <text x="24" y="162" class="lb" font-size="11.5" fill="#4c7a52">「做成」：从结果倒推</text>
+
+  <rect x="24" y="172" width="150" height="52" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5"/>
+  <text x="99" y="196" text-anchor="middle" class="st" font-size="12.5" fill="#3d6b45">先定义结果</text>
+  <text x="99" y="214" text-anchor="middle" class="lb" font-size="10.5" fill="#6f8a72">写成一张验收单</text>
+
+  <path d="M176 198 h20" stroke="#a23b2e" stroke-width="1.7" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="204" y="172" width="150" height="52" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5"/>
+  <text x="279" y="196" text-anchor="middle" class="st" font-size="12.5" fill="#3d6b45">倒着往回问</text>
+  <text x="279" y="214" text-anchor="middle" class="lb" font-size="10.5" fill="#6f8a72">最少必须哪几步</text>
+
+  <path d="M356 198 h20" stroke="#a23b2e" stroke-width="1.7" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="384" y="172" width="110" height="52" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5"/>
+  <text x="439" y="196" text-anchor="middle" class="st" font-size="12.5" fill="#3d6b45">砍掉</text>
+  <text x="439" y="214" text-anchor="middle" class="lb" font-size="10.5" fill="#6f8a72">锦上添花</text>
+
+  <path d="M496 198 h20" stroke="#a23b2e" stroke-width="1.7" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="524" y="172" width="92" height="52" rx="10" ry="10" fill="#a23b2e" stroke="#a23b2e" stroke-width="1.5"/>
+  <text x="570" y="203" text-anchor="middle" class="st" font-size="13.5" fill="#fdf6e8">做成</text>
+
+  <text x="320" y="256" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">有了验收单，才知道哪几步可以砍</text>
+  <text x="320" y="282" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">结果思维是减法：很多你忙着做的事，根本不指向结果</text>
+</svg>
+  <div class="cap">上面那排"动作"每一个都真做了，加起来却交不出东西。下面这排少得多，但每一步都被验收单点过名。</div>
+</div>
+
 <h2>一、结果思维的第一步：先定义结果</h2>
 <p>动手前先写清楚：这次要的"结果"长什么样？可验收的标准是什么？</p>
 <p>不是"写一篇文章"，是"写出一篇能直接发、读者看完知道下一步干嘛的文章"。结果写得越像一张验收单，动作越不会跑偏。大多数人一上来就干，干到哪算哪，最后交的差，全是"做了"的残影。</p>

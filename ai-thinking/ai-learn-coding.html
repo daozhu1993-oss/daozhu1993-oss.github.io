@@ -65,11 +65,17 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  /* 概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +96,59 @@
       <div class="meta-bar"><span class="tag">编程</span><span class="tag">学习</span><span>2026</span></div>
 <p>GitHub Copilot 能写 80% 的代码。Cursor 能帮你从头搭一个网站。那还学编程干嘛？</p>
 <p>答案是反直觉的：不是因为「会写代码」没用，是因为「只会写代码」没用了。「学编程」已经不再等于「学语法」——它等于「学拆问题」。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 282" role="img" aria-label="学编程重心转移图：学语法贬值，学拆问题增值，下方是从模糊需求到明确步骤的拆解链条">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">「学编程」的重心，整个挪了位置</text>
+
+  <!-- 左：学语法 贬值 -->
+  <rect x="32" y="52" width="250" height="76" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="157" y="82" text-anchor="middle" class="st" font-size="16" fill="#2b2620">学语法 ↓ 贬值</text>
+  <text x="157" y="106" text-anchor="middle" class="lb" font-size="11.5" fill="#a08a63">分号 · 缩进 · API —— AI 全包了</text>
+
+  <!-- 右：学拆问题 增值 -->
+  <rect x="358" y="52" width="250" height="76" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="483" y="82" text-anchor="middle" class="st" font-size="16" fill="#2b2620">学拆问题 ↑ 增值</text>
+  <text x="483" y="106" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">谁在用 · 最烦什么 · 哪步最省脑</text>
+
+  <path d="M290 90 h 58" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <text x="320" y="76" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">重心转移</text>
+
+  <!-- 拆问题链条 -->
+  <text x="320" y="158" text-anchor="middle" class="ct" font-size="12.5" fill="#2b2620">「学拆问题」到底在练什么</text>
+
+  <rect x="24" y="172" width="120" height="44" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.5"/>
+  <text x="84" y="199" text-anchor="middle" class="st" font-size="12.5" fill="#2b2620">我想做个记账</text>
+  <rect x="181" y="172" width="120" height="44" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="241" y="199" text-anchor="middle" class="st" font-size="12.5" fill="#2b2620">抓主要矛盾</text>
+  <rect x="338" y="172" width="120" height="44" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="398" y="199" text-anchor="middle" class="st" font-size="12.5" fill="#2b2620">拆成确定步骤</text>
+  <rect x="495" y="172" width="120" height="44" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.5"/>
+  <text x="555" y="199" text-anchor="middle" class="st" font-size="12.5" fill="#2b2620">AI 照着执行</text>
+
+  <path d="M148 194 h 25" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <path d="M305 194 h 25" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <path d="M462 194 h 25" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <path d="M181 224 V 231 H 458 V 224" stroke="#a3c4a0" stroke-width="1.3" fill="none"/>
+  <text x="320" y="248" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">这两步 AI 只能加速，替不了你</text>
+
+  <text x="320" y="270" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">你能把一座山拆成台阶，别人连山在哪都看不清 —— 差别在这儿</text>
+</svg>
+<div class="cap">语法那部分苦，AI 替你省了；拆问题那块肌肉，还得自己练。</div>
+</div>
+
 <h2>一、语法不值钱了，拆问题越来越值钱</h2>
 <p>过去学编程一半时间花在语法上——分号别忘了、缩进对了没有。未来 AI 全包了。但把「我想做个记账软件」拆成「用户需要登录→看到列表→点加号打一个表单→表单有五个字段」——这个过程 AI 只能加速不能替你完成。只有你知道谁在用、他们最烦什么、哪种交互最省脑子。</p>
 <h2>二、未来的「程序员」不是写代码的人</h2>

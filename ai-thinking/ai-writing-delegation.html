@@ -72,6 +72,11 @@
     article p, article li{font-size:15px;}
   }
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
+
 /* 📎 关联思维模型模块 */
 .related-models {
   margin: 2.5em auto;
@@ -141,6 +146,70 @@
 <p>他想了想说：&quot;我……审了一下错别字？&quot;</p>
 <p>那一刻我意识到，很多人对&quot;用 AI 写作&quot;的理解，从根上就歪了。他们不是在用 AI 写作，是在把&quot;写作&quot;这件事整个交出去。</p>
 <p>写作里确实有大量活能交给 AI。但有一类活，一步都不能让。混为一谈，你就从作者变成了校对。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="写作分两层：判断层是决定权，包括戳中谁、什么态度、什么算好、这句留不留、哪段该砍，一步都不能让给 AI；执行层是动手做，包括起十版开头、口语转书面、长句拆短、散点排结构、语气润色，可以大方交给 AI。交出执行层你还是作者，交出判断层你就变成校对">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">同样一句「我在用 AI 写」，让不让这一层，天差地别</text>
+
+  <!-- 判断层：你 -->
+  <circle cx="56" cy="96" r="24" fill="#a23b2e" stroke="#a23b2e" stroke-width="1.5"/>
+  <text x="56" y="102" text-anchor="middle" class="st" font-size="16" fill="#fdf6e8">你</text>
+  <path d="M84 96 h14" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="104" y="52" width="508" height="88" rx="10" ry="10" fill="#fdf6e8" stroke="#a23b2e" stroke-width="1.8"/>
+  <text x="124" y="80" class="st" font-size="13" fill="#a23b2e">判断层 · 决定权</text>
+  <rect x="470" y="62" width="126" height="24" rx="10" ry="10" fill="#a23b2e"/>
+  <text x="533" y="79" text-anchor="middle" class="lb" font-size="11" fill="#fdf6e8">一步都不能让</text>
+
+  <rect x="124" y="100" width="88" height="26" rx="10" ry="10" fill="#fff8ec" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="168" y="117" text-anchor="middle" class="lb" font-size="10.5" fill="#6b6156">戳中谁</text>
+  <rect x="220" y="100" width="88" height="26" rx="10" ry="10" fill="#fff8ec" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="264" y="117" text-anchor="middle" class="lb" font-size="10.5" fill="#6b6156">什么态度</text>
+  <rect x="316" y="100" width="88" height="26" rx="10" ry="10" fill="#fff8ec" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="360" y="117" text-anchor="middle" class="lb" font-size="10.5" fill="#6b6156">什么算好</text>
+  <rect x="412" y="100" width="88" height="26" rx="10" ry="10" fill="#fff8ec" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="456" y="117" text-anchor="middle" class="lb" font-size="10.5" fill="#6b6156">这句留不留</text>
+  <rect x="508" y="100" width="88" height="26" rx="10" ry="10" fill="#fff8ec" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="552" y="117" text-anchor="middle" class="lb" font-size="10.5" fill="#6b6156">哪段该砍</text>
+
+  <!-- 执行层：AI -->
+  <circle cx="56" cy="204" r="24" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.8"/>
+  <text x="56" y="210" text-anchor="middle" class="st" font-size="14" fill="#3d6b45">AI</text>
+  <path d="M84 204 h14" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="104" y="160" width="508" height="88" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="124" y="188" class="st" font-size="13" fill="#3d6b45">执行层 · 动手做</text>
+  <rect x="452" y="170" width="144" height="24" rx="10" ry="10" fill="#3d6b45"/>
+  <text x="524" y="187" text-anchor="middle" class="lb" font-size="10.5" fill="#edf5ec">三分钟干完三天的活</text>
+
+  <rect x="124" y="208" width="88" height="26" rx="10" ry="10" fill="#f6faf5" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="168" y="225" text-anchor="middle" class="lb" font-size="10.5" fill="#4c6b52">起十版开头</text>
+  <rect x="220" y="208" width="88" height="26" rx="10" ry="10" fill="#f6faf5" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="264" y="225" text-anchor="middle" class="lb" font-size="10.5" fill="#4c6b52">口语转书面</text>
+  <rect x="316" y="208" width="88" height="26" rx="10" ry="10" fill="#f6faf5" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="360" y="225" text-anchor="middle" class="lb" font-size="10.5" fill="#4c6b52">长句拆短</text>
+  <rect x="412" y="208" width="88" height="26" rx="10" ry="10" fill="#f6faf5" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="456" y="225" text-anchor="middle" class="lb" font-size="10.5" fill="#4c6b52">散点排结构</text>
+  <rect x="508" y="208" width="88" height="26" rx="10" ry="10" fill="#f6faf5" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="552" y="225" text-anchor="middle" class="lb" font-size="10.5" fill="#4c6b52">语气润色</text>
+
+  <text x="320" y="272" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">交出执行层 → 你还是作者，只是快了十倍</text>
+  <text x="320" y="292" text-anchor="middle" class="ct" font-size="12" fill="#a23b2e">交出判断层 → 你从作者变成了校对</text>
+</svg>
+  <div class="cap">上面那一层，是"决定权"；下面那一层，是"动手做"。朋友把两层一起交了出去，于是只剩下审错别字。</div>
+</div>
+
 <hr>
 <h2>先用第一性原理拆：写作到底由哪两层组成</h2>
 <p>别被&quot;我在用 AI 写&quot;这句话骗了。第一性原理看，任何一篇拿得出手的内容，都由两层叠出来：</p>

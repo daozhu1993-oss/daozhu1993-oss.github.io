@@ -78,6 +78,11 @@
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
   }
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -97,6 +102,68 @@
     <div class="meta-bar"><span class="tag">品味</span><span class="tag">判断力</span><span>2026</span></div>
 <p>前阵子我试了个新模型，出图又快又准，十秒一张，张张能发。我盯着屏幕突然有点慌：这要是人人都能十秒出一张&quot;能发&quot;的图，那我这种慢慢挑、挑半天的人，图啥？</p>
 <p>后来想明白一件事：工具越强，会挑的人越贵。不是反直觉，是数学。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="AI 一次出二十张张张能发，全部落进一个叫品味的漏斗，最后只留下对味的那一张。值钱的位置从会做挪到了会挑">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">工具越强，供给越多；越多，会挑的那个人越贵</text>
+  <text x="320" y="44" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI 十秒一张，二十张张张「能发」</text>
+
+  <!-- 供给：20 个候选 -->
+  <rect x="104" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="148" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="192" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="236" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="280" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="324" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="368" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="412" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="456" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="500" y="52" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+
+  <rect x="104" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="148" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="192" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="236" y="78" width="36" height="20" rx="5" ry="5" fill="#edf5ec" stroke="#a23b2e" stroke-width="1.8"/>
+  <rect x="280" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="324" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="368" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="412" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="456" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+  <rect x="500" y="78" width="36" height="20" rx="5" ry="5" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.2"/>
+
+  <!-- 漏斗：品味 -->
+  <path d="M120 114 L520 114 L344 170 L296 170 Z" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="320" y="140" text-anchor="middle" class="st" font-size="14" fill="#3d6b45">你的品味</text>
+
+  <!-- 两侧：值钱的位置挪了 -->
+  <text x="24" y="134" class="lb" font-size="11" fill="#9a8f7d">从前产出稀缺</text>
+  <text x="24" y="152" class="st" font-size="12" fill="#9a8f7d">会「做」的人贵</text>
+
+  <text x="616" y="134" text-anchor="end" class="lb" font-size="11" fill="#a23b2e">如今产出泛滥</text>
+  <text x="616" y="152" text-anchor="end" class="st" font-size="12" fill="#a23b2e">会「挑」的人贵</text>
+
+  <path d="M320 174 v18" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="248" y="200" width="144" height="46" rx="10" ry="10" fill="#a23b2e" stroke="#a23b2e" stroke-width="1.5"/>
+  <text x="320" y="229" text-anchor="middle" class="st" font-size="13.5" fill="#fdf6e8">这一张，对味</text>
+
+  <text x="320" y="272" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">「删除和省略之美，就是判断之美。」——帕斯卡</text>
+  <text x="320" y="292" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">它没有规则，所以没法写成 prompt 让机器替你做</text>
+</svg>
+  <div class="cap">上面那二十张，挑不出错，也分不出高下。真正稀缺的不是把它们做出来，是从里面拿掉十九张。</div>
+</div>
+
 <h2>一、帕斯卡早就说过：判断，就是品味</h2>
 <p>帕斯卡有句特别狠的话：「删除和省略之美，就是判断之美。」</p>
 <p>什么意思？判断的本质不是套公式，是审美——你知道什么该留、什么该砍。一条短视频口播，AI 给你生成十版，你挑哪一版、砍掉哪些铺垫，这叫判断；一张图出二十张，你一眼锁定&quot;这张对味&quot;，靠的是直觉品味，不是参数。</p>

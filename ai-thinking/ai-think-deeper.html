@@ -62,6 +62,10 @@
   .cta-box a.cta-link:hover{gap:12px;}
   .cta-box a.cta-link svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -77,6 +81,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 
 /* 📎 关联思维模型模块 */
@@ -147,6 +152,45 @@
 <p>一个人问：&quot;帮我写篇关于 XX 的干货文。&quot; 然后把产出的东西直接发了。 另一个人问：&quot;我有个观点，你帮我找找它哪里站不住、反例是什么、我是不是漏了关键前提。&quot;</p>
 <p>这俩人用的同一个工具，一年之后，一个人更不会想了，一个人想得更透了。</p>
 <p>差别不在 AI，在——你让它替你想，还是让它逼你想。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 290" role="img" aria-label="同一台 AI 的两种用法分叉：让它替你想，直接拿产出去发，判断力外包，一年后更不会想了；让它逼你想，追问观点哪里站不住、要反例，把 AI 当陪练，一年后想得更透了">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <rect x="240" y="18" width="160" height="38" rx="10" ry="10" fill="#f2ece0" stroke="#b9ad99" stroke-width="1.6"/>
+  <text x="320" y="42" text-anchor="middle" class="ct" font-size="14" fill="#5a5248">同一台 AI</text>
+
+  <path d="M300 58 L180 86" stroke="#a23b2e" stroke-width="1.7" fill="none" marker-end="url(#ar)"/>
+  <path d="M340 58 L460 86" stroke="#a23b2e" stroke-width="1.7" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="22" y="90" width="266" height="150" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="155" y="116" text-anchor="middle" class="st" font-size="14" fill="#a9802f">让它替你想</text>
+  <text x="155" y="142" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">「帮我写篇 XX 干货文」</text>
+  <text x="155" y="164" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">拿到就发，不追问</text>
+  <text x="155" y="190" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">判断力外包给了 AI</text>
+  <text x="155" y="216" text-anchor="middle" class="lb" font-size="11" fill="#b05a3a">一年后：更不会想了</text>
+
+  <rect x="352" y="90" width="266" height="150" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="485" y="116" text-anchor="middle" class="st" font-size="14" fill="#2f7d5b">让它逼你想</text>
+  <text x="485" y="142" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">「我这观点哪里站不住？」</text>
+  <text x="485" y="164" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">要反例 · 要我漏掉的前提</text>
+  <text x="485" y="190" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">把 AI 当陪练和对手</text>
+  <text x="485" y="216" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">一年后：想得更透了</text>
+
+  <text x="320" y="268" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">方向由你定——AI 是思维放大器，不是思维替代</text>
+</svg>
+  <div class="cap">同一个工具，两条岔路。区别不在模型，在你把它摆成「代笔」还是「对手」。</div>
+</div>
+
 <hr>
 <h2>第一性原理：AI 是思维放大器，不是思维替代</h2>
 <p>先把底层看清。第一性原理看，AI 是个超强的&quot;推理与模式机器&quot;——它能在你给的边界内，把思路铺得很开、把论证补得很全、把反方列得很齐。</p>

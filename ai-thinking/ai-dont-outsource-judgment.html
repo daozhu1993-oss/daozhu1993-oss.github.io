@@ -126,6 +126,12 @@
   transition: border-color 0.2s;
 }
 .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -148,6 +154,68 @@
 <p>倒不是说他懒。是这件事的本质，他可能搞反了。</p>
 <p><strong>AI 最值钱的地方，从来不是替你判断，而是把你脑子里那个&quot;好的效果&quot;，用光速实现出来。</strong></p>
 <p>判断权，永远是你的。交出去，你就从导演变成了观众。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 284" role="img" aria-label="判断权的两种分工：把判断权交给 AI，AI 选题定方向判好坏，你只剩按回车，产出是平均值，你成了观众；把判断权握在手里，你定什么算好，AI 光速实现，你验收否决，你才是导演">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arDO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">AI 是快进键，不是方向盘</text>
+
+  <!-- 左：交出判断权 -->
+  <rect x="20" y="46" width="280" height="196" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="160" y="70" text-anchor="middle" class="st" font-size="13.5" fill="#a23b2e">✕ 判断权交出去</text>
+
+  <rect x="32" y="82" width="74" height="30" rx="10" ry="10" fill="#fff" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="69" y="101" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">AI 选题</text>
+  <line x1="106" y1="97" x2="123" y2="97" stroke="#b9ad99" stroke-width="1.4"/>
+  <rect x="123" y="82" width="74" height="30" rx="10" ry="10" fill="#fff" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="160" y="101" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">AI 定方向</text>
+  <line x1="197" y1="97" x2="214" y2="97" stroke="#b9ad99" stroke-width="1.4"/>
+  <rect x="214" y="82" width="74" height="30" rx="10" ry="10" fill="#fff" stroke="#d4c4a0" stroke-width="1.2"/>
+  <text x="251" y="101" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">AI 判好坏</text>
+
+  <text x="160" y="136" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">你只剩一个动作：按回车</text>
+  <line x1="52" y1="150" x2="268" y2="150" stroke="#d4c4a0" stroke-width="1"/>
+  <text x="160" y="172" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">产出 ＝ 平均值 · 安全 · 讨好概率</text>
+  <text x="160" y="200" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">你 ＝ 观众</text>
+  <text x="160" y="224" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">跑得再快，也是别人的方向</text>
+
+  <!-- 箭头 -->
+  <path d="M304 142 h30" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#arDO)"/>
+
+  <!-- 右：握住判断权 -->
+  <rect x="340" y="46" width="280" height="196" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="480" y="70" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">✓ 判断权握在手里</text>
+
+  <rect x="352" y="82" width="74" height="30" rx="10" ry="10" fill="#fff" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="389" y="101" text-anchor="middle" class="lb" font-size="10" fill="#2f7d5b">你定啥算好</text>
+  <line x1="426" y1="97" x2="443" y2="97" stroke="#a3c4a0" stroke-width="1.4"/>
+  <rect x="443" y="82" width="74" height="30" rx="10" ry="10" fill="#fff" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="480" y="101" text-anchor="middle" class="lb" font-size="10" fill="#2f7d5b">AI 光速实现</text>
+  <line x1="517" y1="97" x2="534" y2="97" stroke="#a3c4a0" stroke-width="1.4"/>
+  <rect x="534" y="82" width="74" height="30" rx="10" ry="10" fill="#fff" stroke="#a3c4a0" stroke-width="1.2"/>
+  <text x="571" y="101" text-anchor="middle" class="lb" font-size="10" fill="#2f7d5b">你验收否决</text>
+
+  <text x="480" y="136" text-anchor="middle" class="lb" font-size="11.5" fill="#5c7a68">AI 只剩一个身份：执行器</text>
+  <line x1="372" y1="150" x2="588" y2="150" stroke="#a3c4a0" stroke-width="1"/>
+  <text x="480" y="172" text-anchor="middle" class="lb" font-size="11" fill="#5c7a68">三天的活压成三分钟，魂还是你的</text>
+  <text x="480" y="200" text-anchor="middle" class="ct" font-size="14" fill="#2f7d5b">你 ＝ 导演</text>
+  <text x="480" y="224" text-anchor="middle" class="lb" font-size="10.5" fill="#8aa693">路你指，速度它给</text>
+
+  <text x="320" y="270" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">「什么才算好」这道题，AI 一个字都答不了——它只有你有答案</text>
+</svg>
+  <div class="cap">AI 的执行力非常好，只是它不知道该走在哪条道路上。交出油门可以，交出方向盘不行——那一交，你就从拍片的变成了看片的。</div>
+</div>
+
 <hr>
 <h2>先用第一性原理拆：AI 到底是个什么</h2>
 <p>别被那些&quot;AI 比你更懂你&quot;的营销话术带跑。</p>

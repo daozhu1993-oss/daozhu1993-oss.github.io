@@ -65,11 +65,16 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -89,6 +94,46 @@
       <article>
       <div class="meta-bar"><span class="tag">就业</span><span class="tag">焦虑</span><span>2026</span></div>
 <p>常听一句话：「AI 不会抢你饭碗，只会让会用 AI 的人抢走你的饭碗。」听着安慰，其实只对一半。</p>
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 292" role="img" aria-label="三层岗位结构：上层纯决策 AI 够不着，中间层能执行够不到决策最危险，下层纯执行替代成本最低；出路是往判断品味关系那头挪">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar23" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">不是你被谁抢了饭碗，是那块活本身不存在了</text>
+
+  <!-- 上层 -->
+  <rect x="24" y="46" width="592" height="60" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="48" y="72" class="st" font-size="13.5" fill="#2f7d5b">上层 · 纯决策</text>
+  <text x="48" y="94" class="lb" font-size="11" fill="#7a9c8c">人情世故 · 拥抱不确定性 · 拍板的胆量和担当</text>
+  <text x="592" y="84" text-anchor="end" class="st" font-size="12.5" fill="#2f7d5b">AI 够不着</text>
+
+  <!-- 中间层 -->
+  <rect x="24" y="116" width="592" height="60" rx="10" ry="10" fill="#fdf6e8" stroke="#a23b2e" stroke-width="2"/>
+  <text x="48" y="142" class="st" font-size="13.5" fill="#a23b2e">中间层 · 能执行，够不到决策</text>
+  <text x="48" y="164" class="lb" font-size="11" fill="#7a7268">活 AI 能替，判断又不够分量 —— 两头不沾</text>
+  <text x="592" y="154" text-anchor="end" class="st" font-size="13" fill="#a23b2e">最危险</text>
+
+  <!-- 下层 -->
+  <rect x="24" y="186" width="592" height="60" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="48" y="212" class="st" font-size="13.5" fill="#a9802f">下层 · 纯执行</text>
+  <text x="48" y="234" class="lb" font-size="11" fill="#7a7268">标准化产出 · 传话 · 搬运 · 初级加工</text>
+  <text x="592" y="224" text-anchor="end" class="st" font-size="12.5" fill="#a9802f">替代成本最低</text>
+
+  <!-- 往上挪 -->
+  <path d="M320 262 L320 254" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar23)"/>
+  <text x="320" y="280" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">往「判断 · 品味 · 关系」那头挪一寸，就稳一寸</text>
+</svg>
+  <div class="cap">被压扁的不是最上面也不是最下面，是中间那层「传话、搬运、初级加工」。危险的从来不是位置低，是两头不沾。</div>
+</div>
+
 <h2>一、这句话对在哪、错在哪</h2>
 <p>对的一半：可怕的不是 AI，是不会用 AI 的人被会用的人甩开。效率差距在指数级拉大。</p>
 <p>不对的一半：AI 不只是「换人用」，它在重塑「活儿本身」。有些岗位不是被某人抢走，是整个协作结构变了。中间那层「传话、搬运、初级加工」的活，被压扁了。不是你被谁抢了饭碗，是那块活在本质上不存在了。就像有了计算器，不是算得快的人抢了算得慢的人的工作——是「人工计算」这个需求缩水了。</p>

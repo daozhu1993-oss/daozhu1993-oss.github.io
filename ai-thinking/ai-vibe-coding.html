@@ -119,6 +119,12 @@
   transition: border-color 0.2s;
 }
 .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -139,6 +145,49 @@
 <p>上周有个事挺戳我。一个做设计的朋友，完全没学过编程，连 Hello World 都没敲过。她被一个重复到吐的活儿烦透了——每天要把几十张图手动改尺寸、加水印、导成不同格式。她没去啃 Python，而是打开一个 AI 编程工具，用大白话跟它说：&quot;帮我写个脚本，把文件夹里的图批量改成 1080×1080，加右下角水印，按名字导出。&quot;</p>
 <p>几轮对话之后，脚本真跑起来了。她把自己的痛点解决完，顺手把这套流程发到社群，有人问&quot;能不能帮我做一个&quot;，她收了顿外卖钱。</p>
 <p>这不是段子。这是 2026 年一个普通人正在经历的真实日常。而这件事背后藏着一个绝大多数人还没反应过来的变化——</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 268" role="img" aria-label="编程接口的更换：旧接口是代码，门槛为英语加逻辑加语法，把普通人挡在门外；新接口是自然语言，门槛换成讲得清、有审美、能判断，普通人可以直接造东西">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arVC" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">门槛没有消失，它只是挪了地方</text>
+
+  <!-- 左：旧接口 -->
+  <rect x="20" y="50" width="268" height="162" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="154" y="78" text-anchor="middle" class="st" font-size="14.5" fill="#a9802f">旧接口 · 代码</text>
+  <text x="154" y="104" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">想法 → 学语法 · 背函数 → 程序</text>
+  <line x1="52" y1="120" x2="256" y2="120" stroke="#d4c4a0" stroke-width="1"/>
+  <text x="154" y="142" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">门槛：英语 ＋ 逻辑 ＋ 语法</text>
+  <text x="154" y="168" text-anchor="middle" class="lb" font-size="12.5" fill="#a23b2e">✕ 普通人被挡在门外</text>
+  <text x="154" y="194" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">只能把「做东西」外包给别人</text>
+
+  <!-- 箭头 -->
+  <path d="M292 133 h52" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#arVC)"/>
+  <text x="318" y="124" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">AI 换接口</text>
+
+  <!-- 右：新接口 -->
+  <rect x="352" y="50" width="268" height="162" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="486" y="78" text-anchor="middle" class="st" font-size="14.5" fill="#2f7d5b">新接口 · 说人话</text>
+  <text x="486" y="104" text-anchor="middle" class="lb" font-size="11.5" fill="#5c7a68">想法 → 大白话说清楚 → AI 施工</text>
+  <line x1="384" y1="120" x2="588" y2="120" stroke="#a3c4a0" stroke-width="1"/>
+  <text x="486" y="142" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">门槛：讲得清 ＋ 审美 ＋ 判断</text>
+  <text x="486" y="168" text-anchor="middle" class="lb" font-size="12.5" fill="#2f7d5b">✓ 普通人也能造东西</text>
+  <text x="486" y="194" text-anchor="middle" class="lb" font-size="10.5" fill="#8aa693">痛点自己解决，顺手就成了生意</text>
+
+  <text x="320" y="248" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">vibe coding 不是学会写代码，是学会把「我要什么」说清楚</text>
+</svg>
+  <div class="cap">编程从来不是记语法，而是「把需求精确地告诉机器」。AI 只是把这个接口从代码换成了自然语言——被筛掉的那批人，重新拿到了入场券。</div>
+</div>
+
 <h2>一、先别问&quot;学不学&quot;，先问&quot;变没变&quot;</h2>
 <p>很多人卡在第一步：我要不要学 AI？这个问题本身就问错了。</p>
 <p>用第一性原理拆一下：编程这件事，底层到底是什么？它从来不是&quot;记语法、背函数&quot;，而是&quot;把你的需求，精确地告诉机器&quot;。过去这个接口是代码——你得先学会英语单词和一堆符号，才能把想法递进去。所以普通人被挡在门外。</p>

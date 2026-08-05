@@ -55,6 +55,10 @@
   article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
   article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -70,6 +74,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +95,46 @@
       <div class="meta-bar"><span class="tag">商业</span><span class="tag">价值</span><span>2026</span></div>
 <p>前面写了怎么把知识封装成产品，有人问：等人人都会做，这玩意儿还卖得动吗？</p>
 <p>好问题。答案是：当「做」免费，「做」本身就不值钱了。值钱的是它周围那圈东西。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="价值分层图：底层标准化产出的文案图片视频代码边际成本趋近于零，卖不动了；往上三层依次是卖省时间、卖信任、卖稀缺体验，越往上溢价越高，AI 越拿不走">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">标准化产出归零，差异化永不归零</text>
+
+  <rect x="60" y="46" width="520" height="48" rx="10" ry="10" fill="#e6f0e5" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="88" y="68" class="st" font-size="12.5" fill="#2f7d5b">第三层 · 卖稀缺体验</text>
+  <text x="88" y="85" class="lb" font-size="10.5" fill="#5c7a63">「只为这一个人而作」—— AI 拿不走的「只有这一张」</text>
+
+  <rect x="60" y="102" width="520" height="48" rx="10" ry="10" fill="#eef3ea" stroke="#b9c9ab" stroke-width="1.6"/>
+  <text x="88" y="124" class="st" font-size="12.5" fill="#4a8560">第二层 · 卖信任</text>
+  <text x="88" y="141" class="lb" font-size="10.5" fill="#6a8a72">同一个知识库，读者买他信的那个人 —— 信任要时间兑现</text>
+
+  <rect x="60" y="158" width="520" height="48" rx="10" ry="10" fill="#f5f0e3" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="88" y="180" class="st" font-size="12.5" fill="#a9802f">第一层 · 卖省时间</text>
+  <text x="88" y="197" class="lb" font-size="10.5" fill="#7a7268">替你筛好 · 排好 · 标好 —— 你买的不是知识，是秩序感</text>
+
+  <rect x="60" y="220" width="520" height="48" rx="10" ry="10" fill="#efe9dd" stroke="#cfc5b2" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="320" y="242" text-anchor="middle" class="lb" font-size="11.5" fill="#9a9182">标准化产出：文案 · 图片 · 视频 · 代码</text>
+  <text x="320" y="259" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">边际成本 → 0，卖不动了</text>
+
+  <path d="M600 258 V62" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#ar)"/>
+  <text x="618" y="160" text-anchor="middle" class="lb" font-size="10" fill="#a23b2e" transform="rotate(-90 618 160)">越往上，AI 越拿不走</text>
+
+  <text x="320" y="292" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">当「做」免费，值钱的不是「做」，是它周围那圈东西</text>
+</svg>
+  <div class="cap">底下那层塌了，别在上面死守。真正还能收钱的三层，AI 一层都替不了：它没有你的秩序感、没有你的信誉、更给不了「只有这一份」。</div>
+</div>
+
 <h2>一、标准化产出归零，差异化永不归零</h2>
 <p>AI 能产出的东西，边际成本趋近于零。文案、图片、视频、代码——只要你描述得够清楚，AI 就给你。</p>
 <p>但那只是「标准化产出」。同样的 prompt，一万个人打出来的是一万个一样的东西吗？看你怎么定义「一样」——结构一样、句式一样、信息密度一样，但配的案例不一样、切的人群不一样、带的那个「我懂你」的口气不一样。差别就在那层 prompt 之外的东西：你知道给谁用、用什么语气、配什么案例。那层「知道」，AI 没有，你有。</p>

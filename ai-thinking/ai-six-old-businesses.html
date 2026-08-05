@@ -119,6 +119,12 @@
   transition: border-color 0.2s;
 }
 .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -142,6 +148,71 @@
 <p>哪六门？皮肤、模板、插件、素材包、工作流、教程。</p>
 <p>这六类老生意，每次平台跃迁都会重新长出来一次。我跟人聊这个发现时，对方第一反应是&quot;这不就是卖周边嘛&quot;。错。卖周边是结果，机制才是重点——而且机制一旦看懂，你就会发现这是一张给普通人的机会地图。</p>
 <p>我翻了自己存的那批 AI 工具存档（685 篇公众号历史文章），六类在里头全有真实落点，不是我拍脑袋。下面边拆边给证据。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 296" role="img" aria-label="平台跃迁与六门老生意：iPhone、微信、AI 工具层三轮平台跃迁，每一轮都重新长出皮肤、模板、插件、素材包、工作流、教程这六门生意">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arSX" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">同一个剧本，已经演了三遍</text>
+
+  <!-- 三轮平台跃迁 -->
+  <rect x="22" y="42" width="176" height="56" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="110" y="66" text-anchor="middle" class="st" font-size="13.5" fill="#7a7268">iPhone · 随身计算</text>
+  <text x="110" y="86" text-anchor="middle" class="lb" font-size="11" fill="#9c9384">壁纸 · 主题 · App</text>
+
+  <path d="M202 70 h26" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arSX)"/>
+
+  <rect x="232" y="42" width="176" height="56" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="320" y="66" text-anchor="middle" class="st" font-size="13.5" fill="#7a7268">微信 · 随身连接</text>
+  <text x="320" y="86" text-anchor="middle" class="lb" font-size="11" fill="#9c9384">表情包 · 公众号代运营</text>
+
+  <path d="M412 70 h26" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arSX)"/>
+
+  <rect x="442" y="42" width="176" height="56" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.8"/>
+  <text x="530" y="66" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">AI 工具层 · 通用智能</text>
+  <text x="530" y="86" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">正在重做 · 窗口期</text>
+
+  <text x="320" y="124" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">能力被平台打平 → 你的审美 · 行业 · 习惯反而变贵 → 重新长出这六门</text>
+
+  <!-- 六门生意 -->
+  <rect x="20" y="138" width="190" height="50" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="115" y="160" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">皮肤</text>
+  <text x="115" y="178" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">同一个工具，换张脸</text>
+
+  <rect x="225" y="138" width="190" height="50" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="320" y="160" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">模板</text>
+  <text x="320" y="178" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">卖别人省下的起步时间</text>
+
+  <rect x="430" y="138" width="190" height="50" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="525" y="160" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">插件</text>
+  <text x="525" y="178" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">补平台没做的那一块</text>
+
+  <rect x="20" y="196" width="190" height="50" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="115" y="218" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">素材包</text>
+  <text x="115" y="236" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">风格代码 · 提示词库</text>
+
+  <rect x="225" y="196" width="190" height="50" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="320" y="218" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">工作流</text>
+  <text x="320" y="236" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">把顺序沉淀成资产</text>
+
+  <rect x="430" y="196" width="190" height="50" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="525" y="218" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">教程</text>
+  <text x="525" y="236" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">把认知差卖一次</text>
+
+  <text x="320" y="276" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">看懂的是机制，不是周边——这是一张给普通人的机会地图</text>
+</svg>
+  <div class="cap">平台革命只解决底层能力。能力一普惠，差异化就变贵，六门老生意就会在新地基上重长一遍。你要认的不是这六个词，是它们为什么每次都回来。</div>
+</div>
+
 <h2>一、为什么新平台必然催生老生意重做</h2>
 <p>先用第一性原理拆一句：平台革命解决的永远是&quot;底层能力&quot;。</p>
 <p>iPhone 把&quot;随身计算&quot;打平了，ChatGPT / Claude 把&quot;通用智能&quot;打平了。但能力一普惠，反作用就来了——平台把&quot;智能&quot;做成了水电，可&quot;我的审美、我的行业、我的习惯&quot;反而成了稀缺品。</p>

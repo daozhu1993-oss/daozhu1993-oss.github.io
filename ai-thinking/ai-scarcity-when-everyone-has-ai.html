@@ -65,11 +65,16 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +95,52 @@
       <div class="meta-bar"><span class="tag">稀缺</span><span class="tag">竞争</span><span>2026</span></div>
 <p>前面写了提问力、品味、护城河。这篇讲更底层的问题——如果人人都有 AI，你凭什么还是你？</p>
 <p>AI 把「做」打平了：你能写的，别人也能写；你能做的图，别人也能做。那什么还让你不一样？</p>
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 278" role="img" aria-label="AI 水位线以下是被抹平的产出能力：会写会画会做表会调 prompt；水位线以上露出三座岛：你的经历、你的品味、你攒下的信任">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar22s" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">AI 拉平的是产出，拉不平的是「你是谁」</text>
+
+  <!-- 水位线以上：三座岛 -->
+  <rect x="44" y="48" width="164" height="76" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="126" y="76" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">你的经历</text>
+  <text x="126" y="99" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">摔过的跤 · 熬过的夜</text>
+  <text x="126" y="116" text-anchor="middle" class="lb" font-size="9.5" fill="#7a9c8c">它没来过，也没疼过</text>
+
+  <rect x="238" y="48" width="164" height="76" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="320" y="76" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">你的品味</text>
+  <text x="320" y="99" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">删掉哪张 · 放弃哪个</text>
+  <text x="320" y="116" text-anchor="middle" class="lb" font-size="9.5" fill="#7a9c8c">AI 只会做加法</text>
+
+  <rect x="432" y="48" width="164" height="76" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="514" y="76" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">你的信任</text>
+  <text x="514" y="99" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">三年攒下的那层关系</text>
+  <text x="514" y="116" text-anchor="middle" class="lb" font-size="9.5" fill="#7a9c8c">它从来没有在那</text>
+
+  <!-- 水位线 -->
+  <path d="M20 138 L236 138" stroke="#b9ad99" stroke-width="1.4" stroke-dasharray="5 4" fill="none"/>
+  <path d="M404 138 L620 138" stroke="#b9ad99" stroke-width="1.4" stroke-dasharray="5 4" fill="none"/>
+  <text x="320" y="142" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">AI 把这条线以下全部拉平</text>
+
+  <!-- 水位线以下 -->
+  <rect x="24" y="160" width="592" height="70" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="320" y="186" text-anchor="middle" class="st" font-size="13" fill="#a9802f">线以下：AI 已经抹平的「做」</text>
+  <text x="320" y="211" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">会写 · 会画 · 会做表 · 会调 prompt —— 你能做的，别人也能做</text>
+
+  <text x="320" y="262" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">别只比「产出」，比「来历」——你的来历，是你独有的那份训练集</text>
+</svg>
+  <div class="cap">虚线是 AI 抬起来的水位：线以下人人都会，早就不值钱了。露在水面上的那三块，才是「凭什么还是你」的答案。</div>
+</div>
+
 <h2>一、稀缺性从你独有的经历来</h2>
 <p>AI 读过全网，没读过你摔过的跤、你见过的那个人、你熬过的那个夜。</p>
 <p>你二十岁在城中村送外卖遇到的那个细节，你做第一份工作时被客户骂的那句话，你带团队时那个让你一夜没睡的决定——这些只有你有。写出来，就带别人替代不了的味道。经历越独特，产出越不可替代。AI 能模仿你的风格，模仿不了你的来历——因为它没有来过，没有疼过，没有在凌晨三点对着天花板发呆过。</p>

@@ -55,6 +55,10 @@
   article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
   article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -70,6 +74,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +95,45 @@
     <div class="meta-bar"><span class="tag">深稿</span><span class="tag">写作</span><span>2026</span></div>
 <p>老实说，用 AI 写半年，我没变快，反而更慢了。</p>
 <p>以前写篇稿两小时，现在经常磨一下午。不是手生了，是以前那个&quot;快&quot;，是假的。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 280" role="img" aria-label="以前的快与现在的慢对比：以前难在产出，卡住就绕就水，产出看起来完整，没想透被产不出来盖住；AI 把产打平后，判断这关躲不掉，慢在定标准、评、删，想透了才敢发">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">AI 抹平了「产」，于是「判」露了出来</text>
+
+  <rect x="22" y="52" width="264" height="168" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="154" y="80" text-anchor="middle" class="st" font-size="14.5" fill="#a9802f">以前的「快」</text>
+  <text x="154" y="106" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">难在「产」——找角度 · 憋例子</text>
+  <text x="154" y="128" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">卡住就绕，绕不过就水</text>
+  <text x="154" y="150" text-anchor="middle" class="lb" font-size="11.5" fill="#b05a3a">产出看起来完整</text>
+  <text x="154" y="178" text-anchor="middle" class="lb" font-size="12.5" fill="#a23b2e">＝ 没想透，被「产不出」盖住</text>
+  <text x="154" y="204" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">快，是因为你没过那一关</text>
+
+  <path d="M292 136 h48" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="354" y="52" width="264" height="168" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="486" y="80" text-anchor="middle" class="st" font-size="14.5" fill="#2f7d5b">现在的「慢」</text>
+  <text x="486" y="106" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">角度 · 结构 · 例子，秒出</text>
+  <text x="486" y="128" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">你被迫问：这版对吗？哪不对？</text>
+  <text x="486" y="150" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">慢在「定标准 · 评 · 删」</text>
+  <text x="486" y="178" text-anchor="middle" class="lb" font-size="12.5" fill="#2f7d5b">＝ 想透了，才敢发</text>
+  <text x="486" y="204" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">慢，是因为这关躲不掉了</text>
+
+  <text x="320" y="252" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI 没让我少想，它让我没法假装想过了</text>
+</svg>
+  <div class="cap">左：以前的「快」，是「产不出来」替你挡住了「没想透」。右：产被打平后，判断这关躲不掉——慢的是评和删，不是手。</div>
+</div>
+
 <h2>一、以前的&quot;快&quot;，是建立在&quot;不思考&quot;上</h2>
 <p>以前写东西，难点在&quot;产&quot;——找角度、凑结构、憋例子、顺句子。卡住就绕、绕不过就水。产出是有了，但很多东西我自己都没想透，只是让它&quot;看起来完整&quot;。</p>
 <p>现在 AI 把&quot;产&quot;打平了。角度、结构、例子、句子，秒出。可问题来了：东西摆在你面前，你得过自己这关——&quot;这版对吗？哪不对？我到底想说啥？&quot;</p>

@@ -63,6 +63,10 @@
   .cta-box a.cta-link:hover{gap:12px;}
   .cta-box a.cta-link svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -78,6 +82,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -99,6 +104,52 @@
 <p>有人问我：&quot;AI 都能写稿了，那作家还有啥用？&quot;</p>
 <p>我反问他：&quot;AI 能写，可它知道自己在写什么吗？&quot;</p>
 <p>它不知道。这才是答案的入口。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="写作者护城河的三层结构：写得好、写得快、会用工具这一层已被 AI 抹平；剩下三层是你是谁的独特样本库、你信什么的取舍尺子、你能判的好坏归属">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <rect x="90" y="16" width="460" height="48" rx="10" ry="10" fill="#efe9dd" stroke="#cfc5b2" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="320" y="38" text-anchor="middle" class="lb" font-size="12.5" fill="#9a9182">写得好 · 写得快 · 会用工具</text>
+  <text x="320" y="56" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">—— 这一层，已经被 AI 抹平</text>
+
+  <path d="M320 68 v20" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="20" y="96" width="190" height="152" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="115" y="124" text-anchor="middle" class="st" font-size="14" fill="#2f7d5b">① 你是谁</text>
+  <text x="115" y="148" text-anchor="middle" class="ct" font-size="11.5" fill="#a23b2e">独特样本库</text>
+  <text x="115" y="174" text-anchor="middle" class="lb" font-size="10.5" fill="#5c7a63">你活过的经历</text>
+  <text x="115" y="192" text-anchor="middle" class="lb" font-size="10.5" fill="#5c7a63">见过的人 · 踩过的坑</text>
+  <text x="115" y="224" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">AI 调不到你的库</text>
+
+  <rect x="225" y="96" width="190" height="152" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="320" y="124" text-anchor="middle" class="st" font-size="14" fill="#2f7d5b">② 你信什么</text>
+  <text x="320" y="148" text-anchor="middle" class="ct" font-size="11.5" fill="#a23b2e">取舍的尺子</text>
+  <text x="320" y="174" text-anchor="middle" class="lb" font-size="10.5" fill="#5c7a63">什么值得写</text>
+  <text x="320" y="192" text-anchor="middle" class="lb" font-size="10.5" fill="#5c7a63">为谁写 · 什么不写</text>
+  <text x="320" y="224" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">AI 不把意义归于自己</text>
+
+  <rect x="430" y="96" width="190" height="152" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="525" y="124" text-anchor="middle" class="st" font-size="14" fill="#2f7d5b">③ 你能判</text>
+  <text x="525" y="148" text-anchor="middle" class="ct" font-size="11.5" fill="#a23b2e">好坏的归属</text>
+  <text x="525" y="174" text-anchor="middle" class="lb" font-size="10.5" fill="#5c7a63">这版好不好</text>
+  <text x="525" y="192" text-anchor="middle" class="lb" font-size="10.5" fill="#5c7a63">该发，还是该删重来</text>
+  <text x="525" y="224" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">AI 不知道写得怎样</text>
+
+  <text x="320" y="278" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">护城河不是「会写」，是「你是谁 ＋ 你信什么 ＋ 你能判」</text>
+</svg>
+  <div class="cap">上面那层被抹平了，慌的是把手艺当护城河的人。真正剩下的三层，都指向同一件事：AI 能写，但不知道自己在写什么。</div>
+</div>
+
 <h2>一、先拆&quot;护城河&quot;：不是手艺，是&quot;你是谁&quot;</h2>
 <p>很多人以为护城河是&quot;写得好&quot;或&quot;会用工具&quot;。错。AI 写得好、写得快，这两层已经被抹平了。</p>
 <p>帕斯卡那句最著名的：「人是一根芦苇，是自然界最脆弱的东西；但这是一根会思考的芦苇。思想组成了人的全部尊严。」</p>

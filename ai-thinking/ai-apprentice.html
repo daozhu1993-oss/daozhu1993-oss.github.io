@@ -71,6 +71,12 @@
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
   }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -90,6 +96,71 @@
     <div class="meta-bar"><span class="tag">AI学徒</span><span class="tag">判断力</span><span>2026</span></div>
 <p>&quot;你把 AI 当学徒用，还是当替身用？&quot;——这俩词差一个字，却是天壤之别。</p>
 <p>太多人以为自己在&quot;用 AI&quot;，其实是在&quot;被 AI 用&quot;。区别不在工具，在那个姿势：你是师傅，还是观众。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 236" role="img" aria-label="学徒模式与替身模式对比：替身模式是它做、你躺、你锈，它越强你越弱；学徒模式是你教、它练、你判，它越强你也越强">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arAP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <!-- 替身模式 -->
+  <text x="23" y="24" class="ct" font-size="12.5" fill="#a23b2e">✕ 把 AI 供成「替身」</text>
+
+  <rect x="23" y="34" width="132" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="89" y="55" text-anchor="middle" class="st" font-size="13" fill="#7a7268">它做</text>
+  <text x="89" y="72" text-anchor="middle" class="lb" font-size="10" fill="#9c9384">出活 · 还替你判</text>
+  <path d="M157 58 h16" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+
+  <rect x="177" y="34" width="132" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="243" y="55" text-anchor="middle" class="st" font-size="13" fill="#7a7268">你躺</text>
+  <text x="243" y="72" text-anchor="middle" class="lb" font-size="10" fill="#9c9384">只负责签字</text>
+  <path d="M311 58 h16" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+
+  <rect x="331" y="34" width="132" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.4"/>
+  <text x="397" y="55" text-anchor="middle" class="st" font-size="13" fill="#7a7268">你锈</text>
+  <text x="397" y="72" text-anchor="middle" class="lb" font-size="10" fill="#9c9384">判断力慢慢退化</text>
+  <path d="M465 58 h16" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arAP)"/>
+
+  <rect x="485" y="34" width="132" height="48" rx="10" ry="10" fill="#fff" stroke="#a23b2e" stroke-width="1.6"/>
+  <text x="551" y="55" text-anchor="middle" class="st" font-size="12.5" fill="#a23b2e">它越强，你越废</text>
+  <text x="551" y="72" text-anchor="middle" class="lb" font-size="10" fill="#a23b2e">成长曲线是平的</text>
+
+  <line x1="23" y1="102" x2="617" y2="102" stroke="#b9ad99" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- 学徒模式 -->
+  <text x="23" y="128" class="ct" font-size="12.5" fill="#2f7d5b">✓ 把 AI 养成「学徒」</text>
+
+  <rect x="23" y="138" width="132" height="48" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="89" y="159" text-anchor="middle" class="st" font-size="13" fill="#2f7d5b">你教</text>
+  <text x="89" y="176" text-anchor="middle" class="lb" font-size="10" fill="#5c7a68">给需求，不给决策权</text>
+  <path d="M157 162 h16" stroke="#a3c4a0" stroke-width="1.4" fill="none"/>
+
+  <rect x="177" y="138" width="132" height="48" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="243" y="159" text-anchor="middle" class="st" font-size="13" fill="#2f7d5b">它练</text>
+  <text x="243" y="176" text-anchor="middle" class="lb" font-size="10" fill="#5c7a68">一口气出十个版本</text>
+  <path d="M311 162 h16" stroke="#a3c4a0" stroke-width="1.4" fill="none"/>
+
+  <rect x="331" y="138" width="132" height="48" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="397" y="159" text-anchor="middle" class="st" font-size="13" fill="#2f7d5b">你判</text>
+  <text x="397" y="176" text-anchor="middle" class="lb" font-size="10" fill="#5c7a68">说清为什么留 · 为什么砍</text>
+  <path d="M465 162 h16" stroke="#2f7d5b" stroke-width="1.6" fill="none"/>
+
+  <rect x="485" y="138" width="132" height="48" rx="10" ry="10" fill="#fff" stroke="#2f7d5b" stroke-width="1.6"/>
+  <text x="551" y="159" text-anchor="middle" class="st" font-size="12.5" fill="#2f7d5b">它越强，你也越强</text>
+  <text x="551" y="176" text-anchor="middle" class="lb" font-size="10" fill="#2f7d5b">判稿从十分钟到十秒</text>
+
+  <text x="320" y="216" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">差的不是工具，是那个姿势：你是师傅，还是观众</text>
+</svg>
+  <div class="cap">同一个 AI，两种养法。区别只在「判」这一步留没留在自己手里——留住了，它替你练手；交出去，它替你退化。</div>
+</div>
+
 <hr>
 <h2>学徒是什么：你教、它练、你判</h2>
 <p>一个好学徒，关系是这样的——</p>

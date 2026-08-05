@@ -119,6 +119,12 @@
   transition: border-color 0.2s;
 }
 .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
 </style>
 </head>
 <body>
@@ -140,6 +146,56 @@
 <p>我猜很多人心里都转过这念头。尤其当你看一个人用 AI 产出的东西又快又好的时候，&quot;这到底算谁的&quot;会变成一个微妙的问题。</p>
 <p>我的答案特别干脆：<strong>判断在谁手里，就是谁写的。</strong></p>
 <p>不是谁敲的键盘，不是谁调的参数，是——谁定的好坏、谁做的取舍、谁为最后那一下&quot;就它了&quot;负责。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 298" role="img" aria-label="写作的两层结构：上层是判断层，决定说什么说给谁什么语气哪句留哪句砍，工具替不了，作者性锚在这里；下层是表达层，把想清楚的落成字句，从毛笔到打字机到 Word 到 AI 一直在被外包">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arAU" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">「写」＝ 判断 ＋ 表达，作者性只锚在上面那一层</text>
+
+  <!-- 判断层 -->
+  <rect x="20" y="40" width="600" height="74" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.8"/>
+  <text x="46" y="83" class="st" font-size="16" fill="#2f7d5b">判断层</text>
+  <line x1="120" y1="56" x2="120" y2="98" stroke="#a3c4a0" stroke-width="1"/>
+  <text x="138" y="70" class="lb" font-size="11.5" fill="#5c7a68">说什么 · 说给谁 · 什么语气 · 哪句留哪句砍 · 这版对不对味</text>
+  <text x="138" y="95" class="lb" font-size="12" fill="#2f7d5b">✓ 外包不掉 —— 谁在这一层，就是谁写的</text>
+
+  <!-- 表达层 -->
+  <rect x="20" y="124" width="600" height="74" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="46" y="167" class="st" font-size="16" fill="#a9802f">表达层</text>
+  <line x1="120" y1="140" x2="120" y2="182" stroke="#d4c4a0" stroke-width="1"/>
+  <text x="138" y="154" class="lb" font-size="11.5" fill="#7a7268">把手里想清楚的东西，落成一句一句的字</text>
+  <text x="138" y="179" class="lb" font-size="12" fill="#a23b2e">✕ 一直在被外包 —— 而且从来没人较真过</text>
+
+  <!-- 表达工具演化 -->
+  <text x="320" y="220" text-anchor="middle" class="lb" font-size="11" fill="#b9ad99">表达工具换了四百年，没人问过「用 Word 写的还算你写的吗」</text>
+
+  <rect x="96" y="230" width="94" height="30" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="143" y="249" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">毛笔</text>
+  <path d="M194 245 h14" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+  <rect x="214" y="230" width="94" height="30" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="261" y="249" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">打字机</text>
+  <path d="M312 245 h14" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+  <rect x="332" y="230" width="94" height="30" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="379" y="249" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">Word</text>
+  <path d="M430 245 h14" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arAU)"/>
+  <rect x="450" y="230" width="94" height="30" rx="10" ry="10" fill="#fff" stroke="#a23b2e" stroke-width="1.6"/>
+  <text x="497" y="249" text-anchor="middle" class="ct" font-size="11.5" fill="#a23b2e">AI</text>
+
+  <text x="320" y="286" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">AI 只是又换了一次表达工具——「就它了」那句话，还是你说的</text>
+</svg>
+  <div class="cap">执行可以外包，思考不能外包。署名权跟着思考走：不是谁敲的键盘，是谁定的好坏、谁做的取舍、谁为最后那一下负责。</div>
+</div>
+
 <hr>
 <h2>先用第一性原理拆：&quot;写&quot;到底是什么</h2>
 <p>别被&quot;写&quot;这个动作骗了。第一性原理看，任何一篇拿得出手的内容，完成的不是&quot;码字&quot;，是&quot;判断 + 表达&quot;。</p>

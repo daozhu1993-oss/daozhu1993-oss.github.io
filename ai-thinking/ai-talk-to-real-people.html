@@ -65,11 +65,17 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  /* 概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +96,53 @@
       <div class="meta-bar"><span class="tag">社交</span><span class="tag">人味</span><span>2026</span></div>
 <p>你有没有这种感觉：用 AI 久了，跟真人聊天反而不习惯了。</p>
 <p>AI 永远耐心。你说什么它都接，不会打断、不会不耐烦、不会转移话题。跟它聊天太舒服了。但舒服不等于健康。AI 正在变成一种「社交代糖」——给你被陪伴的错觉，却不给你真实的连接。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 260" role="img" aria-label="社交代糖对照图：AI 陪伴给的是被陪伴的错觉，真人在场给的是被看见">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">社交代糖 ≠ 真实连接</text>
+
+  <!-- 左：AI 陪伴 -->
+  <rect x="24" y="64" width="250" height="92" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="149" y="94" text-anchor="middle" class="st" font-size="16" fill="#2b2620">AI 陪伴 · 社交代糖</text>
+  <text x="149" y="118" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">永远耐心 · 不打断 · 不转移话题</text>
+  <text x="149" y="140" text-anchor="middle" class="lb" font-size="11" fill="#a08a63">关掉之后，那种感觉很快消失</text>
+
+  <!-- 右：真人在场 -->
+  <rect x="366" y="64" width="250" height="92" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="491" y="94" text-anchor="middle" class="st" font-size="16" fill="#2b2620">真人在场 · 真实连接</text>
+  <text x="491" y="118" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">眼神 · 停顿 · 一句「我不太认同」</text>
+  <text x="491" y="140" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">被看见</text>
+
+  <!-- 中间箭头 -->
+  <path d="M282 110 h 68" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <text x="320" y="98" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">用得越多</text>
+  <text x="320" y="130" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">越该补这个</text>
+
+  <!-- 三样 AI 给不了的 -->
+  <text x="320" y="174" text-anchor="middle" class="ct" font-size="12" fill="#2b2620">AI 一样都给不了的三件事</text>
+  <rect x="64" y="186" width="140" height="28" rx="14" ry="14" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="134" y="204" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">被真实地反驳</text>
+  <rect x="250" y="186" width="140" height="28" rx="14" ry="14" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="320" y="204" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">沉默里的分寸</text>
+  <rect x="436" y="186" width="140" height="28" rx="14" ry="14" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="506" y="204" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">物理在场的信号</text>
+
+  <text x="320" y="240" text-anchor="middle" class="lb" font-size="11" fill="#b9ad99">越多人拿 AI 做社交缓冲，愿意面对面开口的人就越稀缺 —— 稀缺就是价值</text>
+</svg>
+<div class="cap">AI 给的是「被陪伴的错觉」，真人给的是「被看见」。前者越顺手，后者越稀缺。</div>
+</div>
+
 <h2>一、AI 不会让你孤独，但会让你「以为自己不孤独」</h2>
 <p>你跟 AI 聊了两小时，觉得得到了很多。但关了它之后，那个感觉很快消失。因为你没有得到真正的人类互动——眼神、语气里微妙的停顿、对方说「我不太认同你」时那一丝紧张。这些才是让你感觉「被看见」的东西，AI 一个都给不了。</p>
 <h2>二、为什么 AI 越强，真人越值钱</h2>

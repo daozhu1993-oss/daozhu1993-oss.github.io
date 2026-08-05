@@ -55,6 +55,10 @@
   article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
   article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -70,6 +74,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -91,6 +96,56 @@
 <p>十年前，懂点别人不懂的，就是壁垒。一个刚入行的设计师能背出 Photoshop 所有快捷键，在团队里就是技术担当。今天你问 AI「怎么修图」，它三秒钟给你一套完整流程，中间还配了对比图。</p>
 <p>信息免费了。真正的问题是：当「知道」不再值钱，「学到什么」才算没白学？</p>
 <p>我给自己定了一条检验标准：有没有因为这次学，做成了以前做不成的事。看完一本讲定价的书，第二天给自己的产品调了价——这叫学成了。记了笔记、画了脑图、发了「学到了」的朋友圈——那只是看起来在学。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 285" role="img" aria-label="看起来在学与真的学成了的对比：记笔记画脑图发朋友圈，知识停在手边；推自己动手那一下，跨过第一次动手的摩擦力，知识才进到手上。下方标尺显示知识位置从脑子里到手边再到手上">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">检验标准：有没有做成以前做不成的事</text>
+
+  <rect x="22" y="48" width="250" height="142" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="147" y="76" text-anchor="middle" class="st" font-size="14" fill="#a9802f">看起来在学</text>
+  <text x="147" y="102" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">记笔记 · 画脑图</text>
+  <text x="147" y="122" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">发一条「学到了」</text>
+  <text x="147" y="148" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">知识停在「手边」</text>
+  <text x="147" y="174" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">收集感 ≠ 能力</text>
+
+  <path d="M278 120 h80" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <text x="320" y="104" text-anchor="middle" class="ct" font-size="11" fill="#a23b2e">推自己那一下</text>
+  <text x="320" y="142" text-anchor="middle" class="lb" font-size="10" fill="#b05a3a">第一次动手的摩擦力</text>
+
+  <rect x="368" y="48" width="250" height="142" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="493" y="76" text-anchor="middle" class="st" font-size="14" fill="#2f7d5b">真的学成了</text>
+  <text x="493" y="102" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">看完定价书，第二天调价</text>
+  <text x="493" y="122" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">学了就用，用了就改</text>
+  <text x="493" y="148" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">知识进了「手上」</text>
+  <text x="493" y="174" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">做成了以前做不成的事</text>
+
+  <text x="110" y="222" text-anchor="middle" class="lb" font-size="11.5" fill="#b9ad99">脑子里</text>
+  <text x="320" y="222" text-anchor="middle" class="lb" font-size="11.5" fill="#a9802f">手边</text>
+  <text x="530" y="222" text-anchor="middle" class="ct" font-size="12" fill="#2f7d5b">手上</text>
+
+  <path d="M110 234 H530" stroke="#b9ad99" stroke-width="1.4" fill="none"/>
+  <circle cx="110" cy="234" r="5" fill="#d4c4a0"/>
+  <circle cx="320" cy="234" r="5" fill="#c9a25e"/>
+  <circle cx="530" cy="234" r="5.5" fill="#a23b2e"/>
+
+  <text x="110" y="258" text-anchor="middle" class="lb" font-size="10" fill="#9a9182">背下来（已贬值）</text>
+  <text x="320" y="258" text-anchor="middle" class="lb" font-size="10" fill="#9a9182">知道怎么用</text>
+  <text x="530" y="258" text-anchor="middle" class="lb" font-size="10" fill="#2f7d5b">真的动手用了</text>
+</svg>
+  <div class="cap">信息免费之后，「知道」不再是终点。知识从脑子里挪到手边只是搬家，从手边挪到手上才叫学成——中间隔着的，是你肯不肯推自己动手那一下。</div>
+</div>
+
 <h2>一、学「怎么用」，不学「是什么」</h2>
 <p>AI 一秒告诉你勾股定理的内容，但你得知道什么时候用它、怎么用它解题。知识的位置从「脑子里」挪到了「手边」——你要练的是「调取加组合」的能力。就像你不需要背下所有路，但得会看地图、选路线。</p>
 <p>这跟《实践论》讲的「认识回到实践中去」一个理：学了不用，等于没学。</p>

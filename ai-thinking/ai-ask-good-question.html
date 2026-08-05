@@ -55,6 +55,10 @@
   article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
   article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
   .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
 
@@ -70,6 +74,7 @@
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -91,6 +96,46 @@
 <p>所有人都有 AI 之后，什么变稀缺了？</p>
 <p>不是「找答案」的能力——那是 AI 的活。是「提一个好问题」的能力。</p>
 <p>一个「你会不会」的时代结束了，一个「你问不问得对」的时代开始了。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 290" role="img" aria-label="烂问题与好问题的对比：怎么写好公众号没有身份处境困境，AI 只能回答定位要清晰内容要有价值标题要抓人这类正确的废话；换成我卖苹果粉丝三千怎么让城里人多花五块，AI 立刻给出文案调性和信任信号的落地打法">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">答案不值钱了，问题才值钱</text>
+
+  <rect x="22" y="48" width="264" height="162" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="154" y="76" text-anchor="middle" class="st" font-size="13.5" fill="#a9802f">「怎么写好公众号」</text>
+  <text x="154" y="98" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">没身份 · 没处境 · 没困境</text>
+  <text x="154" y="126" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">定位要清晰</text>
+  <text x="154" y="146" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">内容要有价值</text>
+  <text x="154" y="166" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">标题要抓人</text>
+  <text x="154" y="194" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">＝ 正确的废话</text>
+
+  <path d="M292 128 h48" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <rect x="354" y="48" width="264" height="162" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="486" y="74" text-anchor="middle" class="st" font-size="12" fill="#2f7d5b">「我卖农产品，粉丝三千，</text>
+  <text x="486" y="92" text-anchor="middle" class="st" font-size="12" fill="#2f7d5b">怎么让城里人多花五块？」</text>
+  <text x="486" y="114" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">有身份 · 有处境 · 有真困境</text>
+  <text x="486" y="142" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">文案调性怎么定</text>
+  <text x="486" y="162" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">信任信号怎么给</text>
+  <text x="486" y="194" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">＝ 招招在肉上</text>
+
+  <text x="320" y="244" text-anchor="middle" class="ct" font-size="12.5" fill="#a23b2e">好问题 ＝ 抓住主要矛盾</text>
+  <text x="320" y="268" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">身份 ＋ 处境 ＋ 真困境 —— 问题越贴肉，AI 越锋利</text>
+</svg>
+  <div class="cap">同一台 AI，左边给你一堆放之四海皆准的正确废话，右边招招落地。变的不是模型，是你有没有把真实处境塞进问题里。</div>
+</div>
+
 <h2>一、答案不值钱了，问题才值钱</h2>
 <p>你问「怎么写好公众号」，AI 给你一堆正确的废话：定位要清晰、内容要有价值、标题要抓人。</p>
 <p>你换一个问法：「我是个卖农产品的，粉丝三千，怎么让城里人觉得我家苹果值得多花五块？」AI 立刻给你一套能落地的打法——从文案调性到信任信号，招招在肉上。</p>

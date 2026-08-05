@@ -65,11 +65,17 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  /* 概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +96,69 @@
       <div class="meta-bar"><span class="tag">AI</span><span class="tag">开发</span><span>2026</span></div>
 <p>上个月我给自己定了一条规矩，现在越用越觉得值。说出来很简单：以后只要我说"我要开发一个什么什么"，AI 的第一反应不应该是建文件、更不是输出代码——而是先去 GitHub 上把同类开源项目摸一遍。</p>
 <p>这事儿看着不起眼，但它直接决定了你最后拿到的是"能用的东西"，还是"看起来能用的东西"。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 290" role="img" aria-label="流程对比图：常见做法直接写代码，铁律是先去 GitHub 调研再定选型架构最后才写代码">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">把「先调研」焊死在流程最前面</text>
+
+  <!-- ① 常见做法 -->
+  <text x="30" y="56" class="ct" font-size="12" fill="#a08a63">① 常见做法</text>
+  <rect x="40" y="64" width="150" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.5"/>
+  <text x="115" y="93" text-anchor="middle" class="st" font-size="13" fill="#2b2620">我要开发一个 X</text>
+  <rect x="245" y="64" width="150" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.5"/>
+  <text x="320" y="93" text-anchor="middle" class="st" font-size="13" fill="#2b2620">AI 唰唰写代码</text>
+  <rect x="450" y="64" width="150" height="48" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.5"/>
+  <text x="525" y="93" text-anchor="middle" class="st" font-size="13" fill="#2b2620">看起来能用</text>
+  <path d="M194 88 h 43" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <path d="M399 88 h 43" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <text x="320" y="130" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">快到你来不及发现方向是偏的 —— 最高效的低效</text>
+
+  <path d="M30 146 H610" stroke="#b9ad99" stroke-width="1" opacity=".6" fill="none"/>
+
+  <!-- ② 铁律 -->
+  <text x="30" y="172" class="ct" font-size="12" fill="#2f7d5b">② 定死的铁律</text>
+  <text x="242" y="172" text-anchor="middle" class="lb" font-size="10.5" fill="#2f7d5b">↓ 插进来的就是这一步</text>
+
+  <rect x="24" y="182" width="124" height="48" rx="10" ry="10" fill="#fff" stroke="#b9ad99" stroke-width="1.5"/>
+  <text x="86" y="211" text-anchor="middle" class="st" font-size="11.5" fill="#2b2620">我要开发一个 X</text>
+
+  <rect x="180" y="182" width="124" height="48" rx="10" ry="10" fill="#edf5ec" stroke="#2f7d5b" stroke-width="1.8"/>
+  <text x="242" y="202" text-anchor="middle" class="st" font-size="11.5" fill="#2b2620">先去 GitHub</text>
+  <text x="242" y="219" text-anchor="middle" class="st" font-size="11.5" fill="#2b2620">调研同类开源</text>
+
+  <rect x="336" y="182" width="124" height="48" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="398" y="202" text-anchor="middle" class="lb" font-size="10.5" fill="#2b2620">技术选型 · 架构</text>
+  <text x="398" y="219" text-anchor="middle" class="lb" font-size="10.5" fill="#2b2620">MVP · 开发顺序</text>
+
+  <rect x="492" y="182" width="124" height="48" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="554" y="211" text-anchor="middle" class="st" font-size="11.5" fill="#2b2620">这才动手写代码</text>
+
+  <path d="M152 206 h 20" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <path d="M308 206 h 20" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <path d="M464 206 h 20" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+
+  <!-- 三样红利 -->
+  <rect x="24" y="246" width="180" height="26" rx="13" ry="13" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="114" y="263" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">① 真实项目验证过的方案</text>
+  <rect x="230" y="246" width="180" height="26" rx="13" ry="13" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="320" y="263" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">② 别人已经踩过的坑</text>
+  <rect x="436" y="246" width="180" height="26" rx="13" ry="13" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="526" y="263" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">③ 按你的场景做取舍</text>
+</svg>
+<div class="cap">到「这才动手写代码」之前，一行代码都没有。先看懂该往哪走，再让它进实现阶段。</div>
+</div>
+
 <h2>一、我们太容易让 AI 一上来就写代码</h2>
 <p>你有了一个想法，兴奋地跟 AI 说"帮我做个 X"。它二话不说，唰唰唰开始建目录、写函数、跑起来。你看着代码一行行冒出来，很有成就感。</p>
 <p>但冷静下来想：它写的这套架构，真的是这个场景里最适合的吗？它踩过的那些坑，是真的踩过了，还是凭训练数据"猜"的？</p>

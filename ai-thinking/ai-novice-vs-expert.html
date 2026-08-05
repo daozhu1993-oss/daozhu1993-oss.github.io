@@ -65,11 +65,16 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -90,6 +95,49 @@
       <div class="meta-bar"><span class="tag">成长</span><span class="tag">用法</span><span>2026</span></div>
 <p>网上到处是「万能的 100 个 prompt」，抄过来用。结果呢？你原封不动贴进去，出来的东西和那位博主自己用的，完全两样。</p>
 <p>你以为是 prompt 不够好。其实不是。prompt 抄得来，但十年踩坑长出来的那层「行业直觉」，抄不来。</p>
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 284" role="img" aria-label="同一条 prompt 分给两个人：新手看不出问题，产出正确但不疼；老手一眼看出卖点放错语气不像品牌，产出戳到肉里。差的是十年实践螺旋长出的直觉">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar26" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">同一条 prompt，两个人用，出来两个物种</text>
+
+  <!-- 同一条 prompt -->
+  <rect x="220" y="48" width="200" height="52" rx="10" ry="10" fill="#faf7f0" stroke="#b9ad99" stroke-width="1.6"/>
+  <text x="320" y="72" text-anchor="middle" class="st" font-size="12.5" fill="#4a4238">「帮我写一条带货文案」</text>
+  <text x="320" y="90" text-anchor="middle" class="lb" font-size="10" fill="#b9ad99">一字不差，抄得来</text>
+
+  <!-- 分叉 -->
+  <path d="M250 102 L165 136" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar26)"/>
+  <path d="M390 102 L475 136" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar26)"/>
+  <text x="92" y="128" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">少了那层茧</text>
+  <text x="548" y="128" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">多了十年螺旋</text>
+
+  <!-- 新手 -->
+  <rect x="24" y="142" width="266" height="96" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="157" y="168" text-anchor="middle" class="st" font-size="13.5" fill="#a9802f">新手拿着</text>
+  <text x="157" y="192" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">看不出「这句转化率不会高」</text>
+  <text x="157" y="215" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">＝ 正确，但不疼</text>
+
+  <!-- 老手 -->
+  <rect x="350" y="142" width="266" height="96" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="483" y="168" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">老手拿着</text>
+  <text x="483" y="192" text-anchor="middle" class="lb" font-size="11" fill="#7a9c8c">一眼看出卖点放错、语气不像品牌</text>
+  <text x="483" y="215" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">＝ 戳到肉里</text>
+
+  <text x="320" y="266" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">prompt 是刀，直觉是握刀的手——刀能借，手得自己长</text>
+</svg>
+  <div class="cap">变量不在 prompt 那一栏，在拿着它的人身上。差的那层「疼」，是实践→认识→再实践螺旋了十年长出来的茧。</div>
+</div>
+
 <h2>一、prompt 是刀，直觉是握刀的手</h2>
 <p>一个做了十年电商的人和一个刚入行的年轻人，同时用「帮我写一条带货文案」这个 prompt。老手一看就知道「这句转化率不会高」「那个卖点放错位置」「语气不像我们品牌」。新手觉得写得挺好——他看不出来。差别不在 prompt，在老手脑子里有一整套判断标准：好文案长什么样、这个品类用户在意什么、哪个词会触发犹豫。这套标准不是 prompt 给的，是卖了十年货一条一条摔出来的。</p>
 <h2>二、直觉是怎么长出来的</h2>

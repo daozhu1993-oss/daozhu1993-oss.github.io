@@ -65,11 +65,16 @@
 
   .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
 
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
   @media (max-width:560px){
     main{padding:48px 18px 80px;}
     article h1{font-size:24px;}
     article h2{font-size:20px;}
     article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
   }
 </style>
 </head>
@@ -89,6 +94,63 @@
       <article>
       <div class="meta-bar"><span class="tag">管理</span><span class="tag">协作</span><span>2026</span></div>
 <p>现在越来越多人开始带「AI 同事」：agent 自动写周报、查资料、跑流程。问题来了：你怎么考核一个不会累、不会抱怨、但也不会主动找你汇报的同事？</p>
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="管理人类同事的 KPI 用来激发主动性，管理 AI 同事的 KPI 用来消除模糊性，两者正好反过来；管 AI 只要三件事：说清交付物、划清边界、定期验收">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar20" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">你不用哄 AI，但你得「管」它</text>
+
+  <!-- 左：人类同事 -->
+  <rect x="24" y="48" width="266" height="110" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="157" y="74" text-anchor="middle" class="st" font-size="13.5" fill="#a9802f">人类同事</text>
+  <text x="157" y="98" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">要激励 · 要同理心 · 要「你辛苦了」</text>
+  <text x="157" y="121" text-anchor="middle" class="lb" font-size="12" fill="#a9802f">KPI 用来 —— 激发主动性</text>
+  <text x="157" y="145" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">你夸他，他真的会做得更好</text>
+
+  <!-- 中间 -->
+  <text x="320" y="98" text-anchor="middle" class="ct" font-size="12.5" fill="#a23b2e">正好</text>
+  <text x="320" y="118" text-anchor="middle" class="ct" font-size="12.5" fill="#a23b2e">反过来</text>
+
+  <!-- 右：AI 同事 -->
+  <rect x="350" y="48" width="266" height="110" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="483" y="74" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">AI 同事</text>
+  <text x="483" y="98" text-anchor="middle" class="lb" font-size="11.5" fill="#7a9c8c">不会累 · 不会抱怨 · 也不会主动汇报</text>
+  <text x="483" y="121" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">KPI 用来 —— 消除模糊性</text>
+  <text x="483" y="145" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">它只认：指令有多清楚</text>
+
+  <!-- 三件事 -->
+  <text x="320" y="184" text-anchor="middle" class="ct" font-size="12.5" fill="#a23b2e">弹钢琴：一次一个任务，不能一起按死</text>
+
+  <rect x="24" y="196" width="176" height="52" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="112" y="219" text-anchor="middle" class="st" font-size="12.5" fill="#2f7d5b">① 要什么</text>
+  <text x="112" y="238" text-anchor="middle" class="lb" font-size="10" fill="#7a9c8c">一个可验收的交付物</text>
+
+  <path d="M204 222 L226 222" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#ar20)"/>
+
+  <rect x="232" y="196" width="176" height="52" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="320" y="219" text-anchor="middle" class="st" font-size="12.5" fill="#2f7d5b">② 不要什么</text>
+  <text x="320" y="238" text-anchor="middle" class="lb" font-size="10" fill="#7a9c8c">边界提前定死</text>
+
+  <path d="M412 222 L434 222" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#ar20)"/>
+
+  <rect x="440" y="196" width="176" height="52" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.4"/>
+  <text x="528" y="219" text-anchor="middle" class="st" font-size="12.5" fill="#2f7d5b">③ 什么时候验收</text>
+  <text x="528" y="238" text-anchor="middle" class="lb" font-size="10" fill="#7a9c8c">不纠偏，它就一直按错的来</text>
+
+  <text x="320" y="280" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">管好了，它是十倍杠杆；管不好，它是十倍混乱</text>
+</svg>
+  <div class="cap">左右是两套完全相反的管理逻辑：人要被激发，AI 要被说清。下面三步是给 AI 派活的最小闭环——交代一件，验收一件，再派下一件。</div>
+</div>
+
 <h2>一、管理 AI，和管理人正好反过来</h2>
 <p>人要靠激励、要同理心、要「你辛苦了」。AI 不用这些——你夸它，它也不会做得更好；你骂它，它也不会委屈。它只对一种东西敏感：你给它的指令有多清楚。</p>
 <p>管 AI 只要三件事：说清交付物、划清边界、定期验收。这三个做不好，AI 就不是同事，是添乱。给 AI 派活最容易犯的错：交代太模糊。「帮我写点东西」——AI 能给你十个版本，十个都不对。不是 AI 不行，是你没告诉它什么叫「行」。这叫「给猴子核桃」——猴子不知道核桃得砸开，只会拿着咬。</p>

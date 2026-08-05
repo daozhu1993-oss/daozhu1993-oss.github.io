@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别问 AI「怎么写」，问「这个问题的本质是什么」：第一性原理提问法 · 岛主的AI思考</title>
+<meta name="description" content="大多数人用 AI 写作，开场都是「怎么写 XX」。但「怎么写」把天花板钉死在流程层——AI 还你一套通用 SOP，正确却没长在你的问题上。换成「本质是什么」，你先拆真因，AI 作回音壁，产出才变成你的独家结构。问法的天花板，就是答案的天花板。">
+<meta property="og:title" content="别问 AI「怎么写」，问「这个问题的本质是什么」：第一性原理提问法 · 岛主的AI思考">
+<meta property="og:description" content="「怎么写」的天花板是流程层，「本质是什么」的天花板是结构层。问法决定答案上限——好问题比好答案值钱，因为好问题是你自己长出来的。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-first-principles-question.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="别问 AI「怎么写」，问「这个问题的本质是什么」：第一性原理提问法 · 岛主的AI思考">
+<meta name="twitter:description" content="「怎么写」的天花板是流程层，「本质是什么」的天花板是结构层。问法决定答案上限——好问题比好答案值钱，因为好问题是你自己长出来的。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">提示词</span><span class="tag">第一性原理</span><span>2026</span></div>
+<h1>别问 AI「怎么写」，问「这个问题的本质是什么」</h1>
+<p>大多数人用 AI 写作，开场都是同一句：「怎么写 XX？」</p>
+<p>「怎么写一封让人回的冷邮件？」「怎么写一个能涨粉的标题？」「怎么写一份开不了口的退款话术？」</p>
+<p>AI 真的很会答这种。它哗啦给你：结构、步骤、三板斧、万能模板。读着挑不出错，甚至挺像那么回事。</p>
+<p>但你有没有发现——拿去用，总觉得<strong>差点意思</strong>。换个场景，这堆答案立马不管用。它正确，却没长在你的问题上。</p>
+<p>问题不在 AI。在你那句问法：「怎么写」，从根上就把<strong>天花板钉死了</strong>。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="第一性原理提问对照图：左框「怎么写 XX」红字✗，AI 还你通用 SOP，天花板停在流程层；右框「本质是什么」绿字✓，你先拆真因结构边界、AI 作回音壁，天花板顶到结构层。问法的天花板，就是答案的天花板">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">问法的天花板，就是答案的天花板</text>
+
+  <!-- 左框：怎么写（坏） -->
+  <rect x="30" y="52" width="262" height="190" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="50" y="84" class="st" font-size="15" fill="#a23b2e">✗ 怎么写 XX？</text>
+  <text x="50" y="118" class="lb" font-size="13" fill="#555">AI 还你：</text>
+  <text x="50" y="140" class="lb" font-size="13" fill="#555">结构 + 步骤 + 模板</text>
+  <text x="50" y="166" class="lb" font-size="12" fill="#888">通用 SOP，套谁都成立</text>
+  <line x1="50" y1="186" x2="272" y2="186" stroke="#e3dccb" stroke-width="1"/>
+  <text x="50" y="214" class="ct" font-size="12" fill="#b06a32">天花板 = 流程层（可替换）</text>
+
+  <!-- 右框：本质是什么（好） -->
+  <rect x="348" y="52" width="262" height="190" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="368" y="84" class="st" font-size="15" fill="#2f6b3a">✓ 本质是什么？</text>
+  <text x="368" y="118" class="lb" font-size="13" fill="#555">你先拆：</text>
+  <text x="368" y="140" class="lb" font-size="13" fill="#555">真因 · 结构 · 边界</text>
+  <text x="368" y="166" class="lb" font-size="12" fill="#888">AI 作回音壁，产出是你的</text>
+  <line x1="368" y1="186" x2="590" y2="186" stroke="#cfe0cb" stroke-width="1"/>
+  <text x="368" y="214" class="ct" font-size="12" fill="#2f6b3a">天花板 = 结构层（独家）</text>
+
+  <!-- 中间箭头 -->
+  <line x1="298" y1="147" x2="342" y2="147" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <text x="320" y="278" text-anchor="middle" class="lb" font-size="12" fill="#888">把「怎么写」删掉，换成「本质是什么」——这一步，逼你先想清楚</text>
+</svg>
+</div>
+
+<h2>一、为什么「怎么写」的回答，总差点意思</h2>
+<p>「怎么写」是在问<strong>流程</strong>。AI 接到这种问法，默认任务就是「给你一套能落地的操作 SOP」。</p>
+<p>SOP 对不对？对。但它有个死穴：<strong>它是通用的</strong>。</p>
+<p>一封冷邮件的「三板斧」——抓注意力、给理由、降门槛——套谁身上都成立。也正因为套谁都成立，它对你这个具体的人、这个具体的收件人、这件具体的事，几乎没有专属信息。</p>
+<p>你拿到的，是一把万能钥匙。它能开很多门，但没有一把是为你家这扇锁铸的。</p>
+<p>更要命的是：「怎么写」把<strong>思考</strong>这件事，整个交给了 AI。你跳过「这个问题到底是什么」这一步，直接要答案。而答案如果脱离了问题本身，就只能是通用的。</p>
+
+<h2>二、把问句换成「本质是什么」，发生了什么</h2>
+<p>试一句换法，只改动词，不改主题：</p>
+<blockquote>「写一封让人回的冷邮件——先别写，这个问题的本质是什么？」</blockquote>
+<p>就这一换，AI 的活完全变了。它不再急着给你模板，而是陪你拆：</p>
+<ul>
+<li>收件人凭什么回你？本质是<strong>他有个没被解决的麻烦，而你正好能解</strong>。</li>
+<li>邮件为什么被忽略？本质是<strong>你把它写成了「群发」，他读出了「群发」</strong>。</li>
+<li>让人回的不是文采，是<strong>你在一堆陌生邮件里，精准戳中了他那一个具体的痛</strong>。</li>
+</ul>
+<p>拆完你会发现：答案根本不在「怎么写」里，在「你到底戳中了他哪个具体的痛」里。这个痛，AI 不知道——只有你见过他、聊过他，才知道。</p>
+<p>于是产出变了性质：它不是 AI 给的万能模板，是<strong>你和 AI 一起，从你掌握的独家信息里长出来的东西</strong>。</p>
+
+<h2>三、第一性原理视角：问法，就是天花板</h2>
+<p>「第一性原理」说白了就一句：<strong>把一个事拆到不能再拆，露出最底下的真因</strong>。</p>
+<p>用在这件事上特别准——</p>
+<p>「怎么写」的天花板，是<strong>流程层</strong>。它默认你要的是「怎么做」，于是答案停在「怎么做」就不往上走了。你永远拿不到比 SOP 更深的东西。</p>
+<p>「本质是什么」的天花板，是<strong>结构层</strong>。它逼你在动笔前先回答「这事儿的根在哪」，于是 AI 的产出被你的拆解托着，一路顶到问题的地基。</p>
+<p>一句话：<strong>问法的天花板，就是答案的天花板。</strong>你问流程，AI 就给你流程；你问本质，AI 才陪你摸到根。</p>
+<p>这跟 #46（把赚钱一路拆到底）、#44（先给维度再写）是同一根脉：都是「先想清楚，再让 AI 动」。只不过这次，第一性原理给的不是维度，是<strong>追问的方向</strong>——别停在壳上。</p>
+
+<h2>四、一个具体的 before / after</h2>
+<p>同一主题：「写个让家长愿意转发的幼儿园活动文案」。</p>
+<p>❌ <strong>旧问法</strong>：「怎么写一个让家长愿意转发的幼儿园活动文案？」<br>
+AI 给你：标题要戳痛点、开头要共情、正文列三点好处、结尾加引导语。一套标准 SOP。你套上去，发出来，家长划过去了——因为这套话术，全深圳的幼儿园都在用。</p>
+<p>✅ <strong>新问法</strong>：「先别写。家长愿意转发一条幼儿园活动，本质是什么？」<br>
+AI 陪你拆：转发的本质不是「文案好」，是<strong>家长在朋友圈替自己说了一句话</strong>——「我娃在这过得不错」。所以落点不该是活动多精彩，而是<strong>让家长能顺手借这条内容，讲清自己娃的状态</strong>。文案围着「给家长一句他想说又懒得组织的话」写，转发率自然不一样。</p>
+<p>差别不在 AI 聪不聪明，在你有没有在提问这一步，先把「壳」拆开。</p>
+
+<h2>五、怎么把「怎么写」翻译成「本质是什么」</h2>
+<p>不用背理论。记住一个句式就够了，遇到任何「怎么写 XX」，先改成：</p>
+<blockquote>「别急着写。XX 这件事的<strong>本质</strong>是什么？先把根找到，再动笔。」</blockquote>
+<p>几个常用的追问钩子，接在「本质是什么」后面：</p>
+<ul>
+<li>「它到底在解决谁的、什么麻烦？」——挖真需求</li>
+<li>「为什么现在的人会忽略它？」——找盲区</li>
+<li>「换掉形式，内核还成立吗？」——验真伪</li>
+</ul>
+<p>每加一个钩子，AI 的拆解就往根上深一层。你问得越近本质，它答得越近你的独家问题。</p>
+
+<h2>写在最后</h2>
+<p>下次想打「怎么写 XX」之前，手停一下。</p>
+<p>把「怎么写」删掉，换成「本质是什么」。</p>
+<p>这一步贵，是因为它逼你先想清楚——而想清楚，本来就是你作为作者的活，不能、也不该外包的那部分。AI 了不起的地方，不是替你想，是当你已经想清楚时，它帮你把想清楚的，落得又快又漂亮。</p>
+<p><strong>好问题，比好答案值钱。因为好问题，是你自己长出来的。</strong></p>
+
+<blockquote>岛主的 AI 思考 · 第 47 篇</blockquote>
+
+<section class="related-models" aria-label="本文关联的思维模型">
+  <h2>📎 本文用到的思维模型</h2>
+  <ul>
+    <li><span class="rm-tag">本质</span><a href="../models/model-n24.html">第一性原理</a> —— 文章的母题：把「怎么写」换成「本质是什么」，就是逼自己把问题拆到不能再拆，露出最底下的真因，再让 AI 陪你摸根。</li>
+    <li><span class="rm-tag">结构</span><a href="../models/model-mece.html">MECE 原则</a> —— 拆「本质」时，沿一根互斥轴把问题切成 3–5 块，能避免重叠和遗漏，让 AI 的拆解稳稳落在结构上而不是乱切。</li>
+  </ul>
+</section>
+
+  <div class="article-nav">
+    <a data-ai-back="1" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</article>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+
+<script>
+/* ---- "返回目录"链接：history.back() 优先，保留原滚动位置 ---- */
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-ai-back]');
+    if (!a) return;
+    var ref = document.referrer || '';
+    if (history.length > 1 && ref.indexOf('/ai-thinking/') > -1) {
+      e.preventDefault();
+      history.back();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

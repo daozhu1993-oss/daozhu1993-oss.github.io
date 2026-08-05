@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一个人 = 一支内容团队：把流水线切成 5 个工位 · 岛主的AI思考</title>
+<meta name="description" content="别再把 AI 当全能打字机。把内容流水线切成选题/初稿/配图/排版/分发 5 个工位，每个交给最对的 AI，用「三 AI 共享大脑协议」串成一条线。一个人调度五个工位，就是一支内容团队。">
+<meta property="og:title" content="一个人 = 一支内容团队：把流水线切成 5 个工位 · 岛主的AI思考">
+<meta property="og:description" content="把内容流水线切成选题/初稿/配图/排版/分发 5 个工位，每个交给最对的 AI，用「三 AI 共享大脑协议」串成一条线。一个人调度五个工位，就是一支内容团队。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-one-man-team.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="一个人 = 一支内容团队：把流水线切成 5 个工位 · 岛主的AI思考">
+<meta name="twitter:description" content="把内容流水线切成选题/初稿/配图/排版/分发 5 个工位，每个交给最对的 AI，用「三 AI 共享大脑协议」串成一条线。一个人调度五个工位，就是一支内容团队。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">协作</span><span class="tag">共享大脑</span><span>2026</span></div>
+<p>我见过太多人用 AI 做内容，还是老一套：打开一个对话框，打一句"帮我写一篇公众号文章，讲讲 XXX"，然后等它吐一篇出来。发出去，不好不坏，再也没下文。</p>
+<p>这叫"把 AI 当全能打字机"。它不是不能写，是被迫又当编辑、又当写手、又当设计、又当运营——五个角色挤在一个 prompt 里，每个都只到及格线。你以为用上了 AI，其实只用了它五分之一。</p>
+<p>真正的玩法，是把自己从"写稿的人"变成"带团队的人"：<strong>把内容流水线拆成五个工位，每个工位交给最擅长它的那个 AI。一个人，调度五个工位，就是一支内容团队。</strong></p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 230" role="img" aria-label="一人内容团队五工位流水线图">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+  </defs>
+
+  <!-- 共享大脑 顶栏 -->
+  <rect x="24" y="16" width="592" height="38" rx="10" fill="#eaf3ec" stroke="#2f7d5b" stroke-width="1.5"/>
+  <text x="320" y="40" text-anchor="middle" class="ct" font-size="14" fill="#2f7d5b">共享大脑 · 中枢文档 + 交接模板（唯一事实源）</text>
+
+  <!-- 工位 -->
+  <text x="76" y="78" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">①</text>
+  <rect x="24" y="88" width="104" height="74" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="76" y="120" text-anchor="middle" class="st" font-size="16" fill="#2b2620">选题</text>
+  <text x="76" y="143" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI：研究员</text>
+
+  <text x="198" y="78" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">②</text>
+  <rect x="146" y="88" width="104" height="74" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="198" y="120" text-anchor="middle" class="st" font-size="16" fill="#2b2620">初稿</text>
+  <text x="198" y="143" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI：写手</text>
+
+  <text x="320" y="78" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">③</text>
+  <rect x="268" y="88" width="104" height="74" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="320" y="120" text-anchor="middle" class="st" font-size="16" fill="#2b2620">配图</text>
+  <text x="320" y="143" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI：画师</text>
+
+  <text x="442" y="78" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">④</text>
+  <rect x="390" y="88" width="104" height="74" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="442" y="120" text-anchor="middle" class="st" font-size="16" fill="#2b2620">排版</text>
+  <text x="442" y="143" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI：设计师</text>
+
+  <text x="564" y="78" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">⑤</text>
+  <rect x="512" y="88" width="104" height="74" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.5"/>
+  <text x="564" y="120" text-anchor="middle" class="st" font-size="16" fill="#2b2620">分发</text>
+  <text x="564" y="143" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">AI：运营</text>
+
+  <!-- 连接虚线：顶栏 → 各工位 -->
+  <g stroke="#b9ad99" stroke-width="1.3" stroke-dasharray="4 4">
+    <line x1="76" y1="54" x2="76" y2="88"/>
+    <line x1="198" y1="54" x2="198" y2="88"/>
+    <line x1="320" y1="54" x2="320" y2="88"/>
+    <line x1="442" y1="54" x2="442" y2="88"/>
+    <line x1="564" y1="54" x2="564" y2="88"/>
+  </g>
+
+  <!-- 工位间箭头 -->
+  <g stroke="#a23b2e" stroke-width="1.8" fill="none">
+    <path d="M130 125 h14" marker-end="url(#ar)"/>
+    <path d="M252 125 h14" marker-end="url(#ar)"/>
+    <path d="M374 125 h14" marker-end="url(#ar)"/>
+    <path d="M496 125 h14" marker-end="url(#ar)"/>
+  </g>
+  <defs>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="200" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">总编（你）：定方向 · 给骨架 · 做判断 · 验收</text>
+  <text x="320" y="220" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">没有共享大脑，五个工位只是孤岛；有了它，才是一条流水线</text>
+</svg>
+</div>
+
+<h2>一、一个 prompt 养不出一支团队</h2>
+<p>"帮我写一篇"这个句式，最大的问题不是写不好，是它默认了"一个人干所有活"。</p>
+<p>一篇能发的内容，背后至少有五道工序：想清楚写什么、写出初稿、配图、排成能看的版、分发到对的平台。这五件事，能力模型完全不同——一个是研究，一个是写作，一个是视觉，一个是设计，一个是运营。</p>
+<p>你让一个模型同时干这五件，它就只能给每件都打个及格分。更糟的是，你作为"提需求的人"，也被迫在五个维度上当监工，哪头都顾不深。结果就是：样样都有，样样稀松。</p>
+<p>团队的价值，从来不在人多，在分工深。五个专精的工位，比一个全能模型啥都干，强的不止十倍。</p>
+
+<h2>二、把流水线切成 5 个工位</h2>
+<p>我把自己的内容流水线，切成这五个工位：</p>
+<p><strong>① 选题工位</strong>——从你自己的资料和工作日志里挖，不刷别人的热点。AI 在这里当研究员：读你的知识库、翻你的日更记录，列出"你其实已经想透、但还没写"的选题。这一道直接决定了后面四道有没有意义（呼应我之前说的"选题靠流水线，不靠灵感"）。</p>
+<p><strong>② 初稿工位</strong>——拿到选题和骨架，把血肉长出来。AI 在这里当写手：你给骨架（真观点、结构、反转、钩子），它填口语、调节奏、补例子。根上是你的，它只负责养成，不负责创作（这就是"先给骨架再让 AI 填血肉"那一篇）。</p>
+<p><strong>③ 配图工位</strong>——给正文生成配图、信息卡、封面。AI 在这里当画师：根据你的文风定调性，一批图一次性出，挑能用的。</p>
+<p><strong>④ 排版工位</strong>——把稿子收拾成"拿得出手"的呈现。AI 在这里当设计师：目录、分段、卡片、预览页，让内容从"能读"变成"想读"（呈现本身就是产品力，这件事我单独写过）。</p>
+<p><strong>⑤ 分发工位</strong>——为每个平台改写适配文案、补 OG 标签、写摘要。AI 在这里当运营：同一篇内容，小红书的钩子、X 的线程、公众号的导语，各写各的，还能顺手把社交分享卡片配齐。</p>
+<p>五个工位，五个专长。你不再求一个模型"全能"，而是让每个模型在它那段做到深。</p>
+
+<h2>三、工位之间靠什么连：交接文档</h2>
+<p>拆开容易，乱套更容易。五个工位各干各的，最后拼出来是一盘散沙还是一条流水线，全看它们怎么"交棒"。</p>
+<p>这就需要"三 AI 共享大脑协议"：多个 AI 共用一个中枢文档 + 一份交接模板。每个工位干完，写一句交接——本次任务、读了什么、产出了什么、下一棒接哪；下一个工位接着干。共享大脑是唯一的"事实源"，所有工位读同一份上下文，不会各说各话。</p>
+<p>我自己的共享大脑，就是那个所有 AI 都能读、能写的交接中枢：Claude 管文学和剧本，Codex 管工程和自动化，WorkBuddy 管知识库和资料连接。它们不是三个孤立的助手，是同一支团队里三个不同工种的成员，靠中枢文档串成一条线。</p>
+<p>没有这个中枢，五个工位就是五个信息孤岛；有了它，五个工位才是一条流水线。</p>
+
+<h2>四、你在这个团队里干什么</h2>
+<p>关键问题：你不是这五个工位里的任何一个。</p>
+<p>你是总编，是调度。你的活只有四件，但每件都只有你干得了：</p>
+<ul>
+<li><strong>定方向</strong>——写什么、写给谁、这次要戳中哪句话；</li>
+<li><strong>给骨架</strong>——在初稿工位开工前，把结构和真观点定下来；</li>
+<li><strong>做判断</strong>——哪张图能用、哪段节奏不对、分发文案像不像你；</li>
+<li><strong>验收</strong>——对着"做成了什么样"的标准，一条条勾。</li>
+</ul>
+<p>AI 干的是可标准化、可重复、你不想亲自耗的活。你干的是品味、判断、对读者的感知——这些，目前还只能是你自己的。</p>
+<p>说白了，团队里最贵的那个岗位，是你。</p>
+
+<h2>五、为什么一个人能顶一支团队</h2>
+<p>因为"一支团队"这四个字，买的是分工的深度，不是人头的数量。</p>
+<p>五个工位各司其职、各有专长，背后是五个被训到极深的 AI 能力；你用共享大脑把它们串成一条线，再站在总编的位置上做判断。这套结构跑起来，产出密度是一个人埋头硬写永远追不上的——你不再"用 AI 写东西"，你是在"指挥一支 AI 团队生产内容"。</p>
+<p>而我刚才说的这整套，恰恰是我自己正在用的：三 AI 共享大脑、五个工位分工、写完即走流水线。这一篇本身，就是它自己生产出来的活证据。</p>
+
+<h2>写在最后</h2>
+<p>别再让一个模型又写又画又发。把内容切成工位，每个交给最对的 AI，用共享大脑把它们串成一条线。</p>
+<p>你只当那个定方向、做判断的总编。一个人，就是一支内容团队——前提是，你肯从"写稿的人"，变成"带团队的人"。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 42 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

@@ -130,7 +130,7 @@
 
 <header class="site-header">
   <nav>
-    <a class="back" href="index.html">
+    <a class="back" href="index.html" data-ai-back="1">
       <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       目录
     </a>
@@ -263,7 +263,7 @@
       </ul>
     </section>
 <div class="article-nav">
-    <a href="index.html">
+    <a data-ai-back="1" href="index.html">
       <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
       返回目录
     </a>
@@ -275,6 +275,24 @@
 </main>
 
 <div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+
+<script>
+/* ---- "返回目录"链接：history.back() 优先，保留原滚动位置 ---- */
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-ai-back]');
+    if (!a) return;
+    // referrer 同域且来自 ai-thinking 目录时，用浏览器历史回退（保留滚动位置）
+    var ref = document.referrer || '';
+    if (history.length > 1 && ref.indexOf('/ai-thinking/') > -1) {
+      e.preventDefault();
+      history.back();
+    }
+    // 否则让浏览器走默认 href = index.html，从顶开始
+  });
+})();
+</script>
 
 </body>
 </html>

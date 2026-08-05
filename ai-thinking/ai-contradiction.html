@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>矛盾论：一篇文只解决一个主要矛盾 · 岛主的AI思考</title>
+<meta name="description" content="复杂事物里必有一个主要矛盾，它规定着其他矛盾。写文章的天敌就是「同时想解决多个矛盾」——兵力摊薄，哪面墙都没破。用 5why 挖出读者真卡点，集全部兵力打透那一个，反而更长销。这跟 #37 集中优势兵力是同一把刀。">
+<meta property="og:title" content="矛盾论：一篇文只解决一个主要矛盾 · 岛主的AI思考">
+<meta property="og:description" content="一篇文想解决 5 个问题，等于一个问题都没解决；一篇文只破 1 个主要矛盾，读者才记住你这一下。用 5why 挖真卡点，集中优势兵力打透它——和 #37 同脉。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-contradiction.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="矛盾论：一篇文只解决一个主要矛盾 · 岛主的AI思考">
+<meta name="twitter:description" content="贪多嚼不烂，聚焦才击穿。一篇文只破一个主要矛盾，读者才记住你这一下。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">矛盾论</span><span class="tag">主要矛盾</span><span class="tag">聚焦</span><span>2026</span></div>
+<h1>矛盾论：一篇文只解决一个主要矛盾</h1>
+<p>你是不是也这样过：想写一篇「关于 AI 时代普通人怎么办」的大文章，列提纲时豪情万丈——既要讲认知，又要讲工具，还要讲副业，顺便把心态也安抚了。洋洋洒洒五千字，自己读着都觉得「全」。发出去，反馈是：嗯，挺好。然后就没有然后了。</p>
+<p>读者没记住任何一句。因为你在五千字里，同时跟五个敌人开战，结果一个都没歼灭。</p>
+<p>毛选《矛盾论》里一句话，今天每个写作者该刻进肌肉记忆：<strong>复杂事物里，各种矛盾的发展是不平衡的；其中必有一种是主要的，它规定和影响着其他矛盾。抓住主要矛盾，其他问题就迎刃而解。</strong></p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 320" role="img" aria-label="矛盾论对照图：左框「一篇文碰 5 个矛盾」，5 支细箭从不同角度射向一面墙，都浅浅插在表面没穿透，标注兵力摊薄·哪面都没破·读者记不住；右框「集全部兵力打 1 个主要矛盾」，1 支粗箭穿透同一面墙，标注集中优势·一拳击穿·读者记住这一下。中间朱红箭头；底部收束句：一篇文想解决 5 个问题 = 一个问题都没解决，一篇文只破 1 个主要矛盾 = 读者记住你这一下">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="art" markerWidth="11" markerHeight="11" refX="7" refY="3.5" orient="auto">
+      <path d="M0 0 L7 3.5 L0 7 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">贪多嚼不烂，聚焦才击穿</text>
+
+  <!-- 左框：碰 5 个矛盾（分散） -->
+  <rect x="24" y="44" width="282" height="258" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="165" y="66" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">一篇文碰 5 个矛盾</text>
+  <!-- 墙 -->
+  <rect x="150" y="96" width="30" height="150" rx="3" fill="#c9b896"/>
+  <!-- 5 支细箭，浅插墙表 -->
+  <line x1="50" y1="116" x2="150" y2="116" stroke="#b08a5a" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="50" y1="146" x2="150" y2="146" stroke="#b08a5a" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="50" y1="176" x2="150" y2="176" stroke="#b08a5a" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="50" y1="206" x2="150" y2="206" stroke="#b08a5a" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="50" y1="236" x2="150" y2="236" stroke="#b08a5a" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="55" y="100" class="lb" font-size="10" fill="#8a7f6a">矛盾1</text>
+  <text x="55" y="130" class="lb" font-size="10" fill="#8a7f6a">矛盾2</text>
+  <text x="55" y="160" class="lb" font-size="10" fill="#8a7f6a">矛盾3</text>
+  <text x="55" y="190" class="lb" font-size="10" fill="#8a7f6a">矛盾4</text>
+  <text x="55" y="220" class="lb" font-size="10" fill="#8a7f6a">矛盾5</text>
+  <text x="165" y="266" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">兵力摊薄 · 哪面都没破</text>
+  <text x="165" y="282" text-anchor="middle" class="lb" font-size="11" fill="#8a7f6a">读者记不住</text>
+
+  <!-- 中间箭头 -->
+  <line x1="312" y1="172" x2="348" y2="172" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：集全部兵力打 1 个主要矛盾 -->
+  <rect x="354" y="44" width="262" height="258" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="485" y="66" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">集全部兵力打 1 个主要矛盾</text>
+  <!-- 墙（被击穿） -->
+  <rect x="468" y="96" width="30" height="150" rx="3" fill="#bcd2b8"/>
+  <!-- 粗箭穿透 -->
+  <line x1="360" y1="172" x2="540" y2="172" stroke="#3f7a4f" stroke-width="7" marker-end="url(#art)"/>
+  <text x="360" y="158" class="lb" font-size="10" fill="#2f5e3a">主要矛盾</text>
+  <text x="485" y="266" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">集中优势 · 一拳击穿</text>
+  <text x="485" y="282" text-anchor="middle" class="lb" font-size="11" fill="#2f5e3a">读者记住这一下</text>
+
+  <text x="320" y="312" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">一篇文想解决 5 个问题 = 一个问题都没解决；一篇文只破 1 个主要矛盾 = 读者记住你这一下</text>
+</svg>
+<div class="cap">兵力的物理学：总量不变时，摊成五份每份都破不了墙，聚成一份就击穿了。</div>
+</div>
+
+<h2>一、矛盾论说透了一件事：必有一个主要矛盾</h2>
+<p>《矛盾论》的核心，不是「什么都是矛盾」，是「矛盾之间有主次」。</p>
+<p>任何一件复杂的事，横竖都挂着好几个矛盾：你想涨粉，又想不媚俗；你想干货，又想好读；你想快更，又想质量。这些矛盾同时存在，但<strong>地位不等</strong>——其中有一个是主要矛盾，它卡住了，别的都动不了；它松了，别的跟着松。</p>
+<p>文章也一样。一篇文面对的读者，脑子里同时飘着十几个疑问。但你这篇文，只能选一个当主要矛盾去打。选对了，读者「啊哈」一下，其他的疑问他自己会顺着想通；选错了、五个都碰，读者读完只觉得「好像都说了，又好像啥也没说」。</p>
+
+<h2>二、写文章的天敌，就是「同时想解决多个矛盾」</h2>
+<p>AI 让这件事变得更致命。以前写一篇五千字长文，光码字就劝退一半人，所以人反而被迫聚焦。现在 AI 三秒给你吐五千字，你很容易把五个矛盾全塞进去——「反正不长，都说了呗」。</p>
+<p>但读者的脑子不是容器，是漏斗。<strong>一篇文如果同时想解决五个问题，等于一个问题都没解决。</strong>信息进得越多、越散，留下的越少。你以为的「全面」，在读者那里是「没有重点」。</p>
+<p>这跟 #37（集中优势兵力）是同一把刀：创作者最大的敌人是把手摊薄。你把十根指头张开去按十个跳蚤，一个都按不住；攥成一个拳头，打一个，它就破了。<strong>写作的「集中优势兵力」，就是一篇文只认一个主要矛盾。</strong></p>
+
+<h2>三、怎么找到那一个「主要矛盾」——用 5why 挖读者真卡点</h2>
+<p>难点不在「认不认得聚焦」，在「到底哪个才是主要矛盾」。你以为是「粉丝不知道怎么用工具」，其实他卡的是「不敢开始，怕做出来没人看」。</p>
+<p>挖法还是 #17、#47 反复用过的<strong>5why</strong>：别停在第一层抱怨，一层层问「为什么」。</p>
+<p><strong>读者说「我不会写 AI 提示词」</strong> → 为什么不会？→ 因为不知道从哪下手 → 为什么不知道从哪下手？→ 因为脑子里对「好的提示词长啥样」没画面 → 为什么没画面？→ 因为从来没人给他一个能对照的坏/好对照 → 为什么没人给？→ 因为大家都在讲概念，没人拆结构。</p>
+<p>挖到第五层，主要矛盾浮出来了：<strong>不是「他不会写」，是「他缺一个可对照的结构模板」。</strong>那这篇文章就只打这一下——给一个对照实验，让他看见好坏提示词差在哪（就像 #44、#45 那么干）。前面四层，提一句都不用展开，读者自己会补。</p>
+
+<h2>四、找到之后，集中优势兵力打透它——呼应 #37</h2>
+<p>主要矛盾找到了，下一步是 #37 那句话：<strong>一次只打透一个支点，先深后广。</strong></p>
+<p>具体怎么「集中」：</p>
+<p><strong>① 标题就是那一个矛盾。</strong>标题不是概括全文，是亮出你要歼灭的敌人。「矛盾论：一篇文只解决一个主要矛盾」——你读标题就知道这篇只讲这一件事，不跑题。读者点进来，预期就对上了。</p>
+<p><strong>② 所有段落都是同一支箭的不同角度。</strong>开头点出矛盾，中间用对照图击穿，再拆「怎么找」「怎么打」，结尾收束。每一段都在服务同一个主要矛盾，没有一段是「顺便也讲讲别的」。</p>
+<p><strong>③ 舍得砍。</strong>写的时候你一定会冒出「这个也挺好，加上去吧」的冲动。砍。它不是主要矛盾，加上去就是摊薄兵力。#43 讲过重写比写作快——第一稿贪多很正常，第二稿的功夫，就是把次要矛盾全删掉，只留主矛盾的纵深。</p>
+
+<h2>五、一篇文只解决一个主要矛盾，反而更长销——反脆弱视角</h2>
+<p>为什么值得这么「窄」？两个模型把账算清。</p>
+<p><strong>反脆弱：</strong>一篇聚焦的文章，是单点深打，它不依赖「恰好面面俱到」才成立。读者今天只卡这个点，你这篇精准命中，他收藏、他转发、他回头查——单篇的价值反而高。反过来，面面俱到的水文，任何一次「读者想要更深」的检验都接不住，一戳就虚。聚焦让单篇抗打，<strong>一篇顶别人五篇的留存</strong>。</p>
+<p><strong>复利（#48）：</strong>50 篇各自只打一个主要矛盾的文，加起来是一条完整的认知战线。第 1 篇打「集中优势兵力」，第 37 篇复打，第 50 篇从矛盾论再打——同一个支点被不同角度反复命中，读者对它的理解一层层叠厚。这比 50 篇各讲五个浅矛盾、彼此不连，复利高十倍。<strong>单篇窄，系列才宽；每篇都贪全，系列反而散。</strong></p>
+
+<h2>写在最后</h2>
+<p>下回列提纲，看到自己列了五个小标题，停一下。</p>
+<p>问自己：<strong>这五个里，哪个不动，其他四个都讲不通？</strong></p>
+<p>那个，就是主要矛盾。把它留着，其余的，要么砍掉，要么另开一篇。一篇文不是一场歼灭所有敌人的总决战，是一次只拔一个据点的突袭——拔得干净，读者才记得住你这一下。</p>
+<p>贪多嚼不烂，聚焦才击穿。这是矛盾论教写作者的第一句话，也是最后一句。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">集中优势兵力</span><a href="../models/model-concentrate-force.html">集中优势兵力</a> —— 写作的「集中优势兵力」就是一篇文只认一个主要矛盾；十指张开按不住跳蚤，攥拳打一个就破。</li>
+<li><span class="rm-tag">5why</span><a href="../models/model-n70.html">5why 分析法</a> —— 找主要矛盾靠一层层问「为什么」，挖到读者真卡的那一层，主要矛盾才浮出来；停在第一层抱怨会打错敌人。</li>
+<li><span class="rm-tag">反脆弱</span><a href="../models/model-n119.html">反脆弱</a> —— 单点深打的文章不依赖「恰好面面俱到」才成立，读者一检验就接住；面面俱到的水文任何一次深问都戳虚。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-seek-truth.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 实事求是：用真实素材
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 50 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 一篇文只解决一个主要矛盾</footer>
+
+</body>
+</html>

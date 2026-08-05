@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>去 AI 味不是润色，是「重新长一遍」 · 岛主的AI思考</title>
+<meta name="description" content="去 AI 味别再走「AI 写稿 → humanizer 修」的老路。AI 味长在骨架上不在肉上，修肉救不活。换成「人先给骨架，再让 AI 填血肉」，AI 味根本没机会长出来。">
+<meta property="og:title" content="去 AI 味不是润色，是「重新长一遍」 · 岛主的AI思考">
+<meta property="og:description" content="去 AI 味别再走「AI 写稿 → humanizer 修」的老路。AI 味长在骨架上不在肉上，换成「人先给骨架，再让 AI 填血肉」，AI 味根本没机会长出来。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-deai-taste.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="去 AI 味不是润色，是「重新长一遍」 · 岛主的AI思考">
+<meta name="twitter:description" content="去 AI 味别再走「AI 写稿 → humanizer 修」的老路。AI 味长在骨架上不在肉上，换成「人先给骨架，再让 AI 填血肉」，AI 味根本没机会长出来。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">写作</span><span class="tag">去 AI 味</span><span>2026</span></div>
+<p>我装了个 humanizer，专门去 AI 味。用了一阵子发现一件事：它确实能把"显而易见的是"改成"说白了"，能把"值得注意的是"抹掉，但改完我还是觉得——这东西根上就是 AI 的。</p>
+<p>后来想透：去 AI 味这件事，大多数人搞反了顺序。你让 AI 先写一整篇，再丢给 humanizer 去修，这叫"事后补救"，本质是润色。可 <strong>AI 味长在骨架上，不在肉上。你修肉，骨架还是歪的。</strong></p>
+<p>真正有效的做法，不是让 AI 生、人去洗，而是反过来——人先给骨架，再让 AI 填血肉。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 250" role="img" aria-label="两种去 AI 味流程对比">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+      .ar{stroke:#b9ad99;stroke-width:1.6;fill:none;}
+    </style>
+  </defs>
+
+  <!-- 旧流程 -->
+  <text x="20" y="26" class="lb" font-size="12" fill="#a23b2e">✕ 老路：AI 写稿 → humanizer 修</text>
+  <rect x="20" y="40" width="92" height="44" rx="10" fill="#fff" stroke="#c9a25e" stroke-width="1.4"/>
+  <text x="66" y="67" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">人·一句话</text>
+
+  <line x1="112" y1="62" x2="150" y2="62" class="ar"/>
+  <rect x="150" y="40" width="108" height="44" rx="10" fill="#f3ead8" stroke="#c9a25e" stroke-width="1.4"/>
+  <text x="204" y="67" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">AI 写整篇</text>
+
+  <line x1="258" y1="62" x2="296" y2="62" class="ar"/>
+  <rect x="296" y="40" width="108" height="44" rx="10" fill="#f3ead8" stroke="#c9a25e" stroke-width="1.4"/>
+  <text x="350" y="67" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">humanizer 修</text>
+
+  <line x1="404" y1="62" x2="442" y2="62" class="ar"/>
+  <rect x="442" y="40" width="120" height="44" rx="10" fill="#fff" stroke="#a23b2e" stroke-width="1.6"/>
+  <text x="502" y="60" text-anchor="middle" class="lb" font-size="12" fill="#a23b2e">成品</text>
+  <text x="502" y="78" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">骨架还是 AI 的</text>
+
+  <!-- 新流程 -->
+  <text x="20" y="146" class="lb" font-size="12" fill="#2f7d5b">✓ 新路：人给骨架 → AI 填血肉</text>
+  <rect x="20" y="160" width="120" height="44" rx="10" fill="#eaf3ec" stroke="#2f7d5b" stroke-width="1.6"/>
+  <text x="80" y="180" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">人·给骨架</text>
+  <text x="80" y="196" text-anchor="middle" class="lb" font-size="10.5" fill="#2f7d5b">观点·结构·反转</text>
+
+  <line x1="140" y1="182" x2="178" y2="182" class="ar"/>
+  <rect x="178" y="160" width="118" height="44" rx="10" fill="#eaf3ec" stroke="#2f7d5b" stroke-width="1.6"/>
+  <text x="237" y="180" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">AI 填血肉</text>
+  <text x="237" y="196" text-anchor="middle" class="lb" font-size="10.5" fill="#2f7d5b">口语·节奏·例子</text>
+
+  <line x1="296" y1="182" x2="334" y2="182" class="ar"/>
+  <rect x="334" y="160" width="120" height="44" rx="10" fill="#fff" stroke="#2f7d5b" stroke-width="1.6"/>
+  <text x="394" y="180" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">成品</text>
+  <text x="394" y="196" text-anchor="middle" class="lb" font-size="10.5" fill="#2f7d5b">根上是人的</text>
+
+  <line x1="454" y1="182" x2="486" y2="182" class="ar"/>
+  <rect x="486" y="160" width="76" height="44" rx="10" fill="#fff" stroke="#b9ad99" stroke-width="1.2"/>
+  <text x="524" y="180" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">兜底</text>
+  <text x="524" y="196" text-anchor="middle" class="lb" font-size="10.5" fill="#7a7268">humanizer</text>
+
+  <text x="320" y="236" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">修肉救不活骨架 · 换顺序才能让 AI 味根本不长出来</text>
+</svg>
+</div>
+
+<h2>一、最常见的去味方式，治的是标</h2>
+<p>现在大家去 AI 味，流程基本是：AI 出稿 → humanizer 修。</p>
+<p>这一步有用吗？有用。它能把那些最刺眼的高频词、机械的连接词、虚假的客观感削掉一些。但它解决的问题是"读着别那么假"，解决不了"这东西到底是不是我想说的"。</p>
+<p>因为稿子是 AI 生的。从第一句到结构、到它替你做的那些"合理推断"，都是 AI 的审美。humanizer 再怎么调，也只是在别人已经画好的画上改几笔，改不出你自己的笔触。</p>
+
+<h2>二、AI 味长在骨架上，不在肉上</h2>
+<p>为什么修肉没用？因为 AI 味不是几个词的问题，是整套"默认生成逻辑"的问题。</p>
+<p>你让 AI 自由写，它会自动生产出一篇"标准优秀作文"：开头黄金三秒、中间总-分-总、每段有标准过渡句、结尾来一句升华。它还会忍不住替你"补全"——你说一个观点，它顺手给你加两个你根本没想过的论证，还都特别正确、特别空。</p>
+<p>这一套，就是骨架。humanizer 能改掉"值得注意的是"，改不掉"为什么这篇文章的起承转合一模一样模板"。它动的是文字层，不是决定层。文字修干净了，骨架的 AI 味还在——读着顺，但空。</p>
+
+<h2>三、换顺序：先给骨架，再填血肉</h2>
+<p>把顺序倒过来。</p>
+<p>第一步，人定骨架：这篇要讲什么真观点、分几块、哪块是反转、钩子放哪、你真正想戳读者的那句话是什么。这些不交给 AI，因为你才是那个"有话要说"的人。</p>
+<p>第二步，把骨架给 AI，让它填血肉：把你的结构撑成文章，把你的口语长出来，把节奏调舒服，必要时补例子。这时候 AI 干的活是"养成"，不是"创作"——它在你的骨头上长肉，长出来的东西根上是你的。</p>
+<p>出来的文章，读者不会觉得"这是 AI 写的"，因为它从第一根骨头起就是人给的。AI 味不是被"洗掉"的，是根本没机会长出来。</p>
+
+<h2>四、humanizer 该放哪：兜底，不是主控</h2>
+<p>那 humanizer 没用了？有用，但要放对位置。</p>
+<p>它不该是第一道工序，该是兜底。当你的骨架给得还不够清楚，AI 填出来的血肉还有点味，或者你自己回头读觉得"这句不像我说的"，再用 humanizer 收一遍。它是第二道防线，不是主控台。</p>
+<p>一句话：humanizer 最好的用法，是修"你给 AI 的骨架不够清楚时的半成品"，而不是修"AI 从零生出来的一整篇"。前者它收得住，后者它救不活。</p>
+
+<h2>五、一个判断标准</h2>
+<p>怎么知道自己去没去干净？很简单，读一段问自己：这观点是我真正想的，还是 AI 替我想的？</p>
+<p>如果是 AI 替你想的，再怎么润色都没用——因为根不在你这。humanizer 能把"AI 替你想的废话"说得更顺，但顺的废话还是废话。</p>
+<p>去 AI 味的终点，从来不是"读着像人写的"，是"这确实是我写的"。</p>
+
+<h2>写在最后</h2>
+<p>去 AI 味不是把 AI 的东西洗成人话，是确保从一开始就是"人"在主导生长。</p>
+<p>先给骨架，再让 AI 填血肉。省掉的，是事后那整整一道补救的活；留下的，是你自己的声音。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 41 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

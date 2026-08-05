@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>重写比写作快：用 MECE / RIDE 当手术刀 · 岛主的AI思考</title>
+<meta name="description" content="别从零写好。先搞出一坨烂初稿，再用 MECE 当尺子切结构、RIDE 当尺子切说服力，重写成好稿。重写比写作快——因为写作是双重负担，重写是单点雕刻。">
+<meta property="og:title" content="重写比写作快：用 MECE / RIDE 当手术刀 · 岛主的AI思考">
+<meta property="og:description" content="别从零写好。先搞出一坨烂初稿，再用 MECE 切结构、RIDE 切说服力，重写成好稿。重写比写作快——因为写作是双重负担，重写是单点雕刻。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-rewrite-faster.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="重写比写作快：用 MECE / RIDE 当手术刀 · 岛主的AI思考">
+<meta name="twitter:description" content="别从零写好。先搞出一坨烂初稿，再用 MECE 切结构、RIDE 切说服力，重写成好稿。重写比写作快——因为写作是双重负担，重写是单点雕刻。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">写作</span><span class="tag">框架</span><span>2026</span></div>
+<p>大多数人写东西，流程是这样的：盯着空白页，从第一行开始憋，一行一行憋到最后一行。中间卡壳了，就盯更久。</p>
+<p>这慢，而且容易烂。因为你在同一个时刻，被迫打两场仗——一边想「这句话到底要说什么」，一边想「这句话到底该怎么写好」。空白页最耗神的，就是这双重负担绞在一起。</p>
+<p>后来我发现一件反直觉的事：<strong>与其从零写好，不如先搞出一坨烂初稿，再用框架当手术刀，重写成好稿。</strong> 重写，比写作快。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 250" role="img" aria-label="重写两刀流程图：烂初稿 经 MECE 刀与 RIDE 刀 重写为好稿">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <!-- 顶注 -->
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">重写 &gt; 写作：先倒一坨，再动两把刀</text>
+
+  <!-- 烂初稿 -->
+  <rect x="24" y="96" width="140" height="66" rx="10" fill="#fff" stroke="#b9ad99" stroke-width="1.6"/>
+  <text x="94" y="124" text-anchor="middle" class="st" font-size="17" fill="#2b2620">烂初稿</text>
+  <text x="94" y="146" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">散乱 · 重叠 · 遗漏</text>
+
+  <!-- 中间骨架立住 -->
+  <rect x="250" y="96" width="140" height="66" rx="10" fill="#fff" stroke="#2f7d5b" stroke-width="1.6"/>
+  <text x="320" y="124" text-anchor="middle" class="st" font-size="17" fill="#2b2620">骨架立住</text>
+  <text x="320" y="146" text-anchor="middle" class="lb" font-size="11" fill="#2f7d5b">结构正</text>
+
+  <!-- 好稿 -->
+  <rect x="476" y="96" width="140" height="66" rx="10" fill="#fff" stroke="#a23b2e" stroke-width="1.8"/>
+  <text x="546" y="124" text-anchor="middle" class="st" font-size="17" fill="#2b2620">好稿 · 服人</text>
+  <text x="546" y="146" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">有条理 · 想读 · 信读</text>
+
+  <!-- 箭头 + 刀标 -->
+  <path d="M164 129 h82" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <rect x="196" y="56" width="120" height="24" rx="12" fill="#eaf3ec" stroke="#2f7d5b" stroke-width="1.2"/>
+  <text x="256" y="72" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">▲ MECE 刀 · 切结构</text>
+
+  <path d="M390 129 h82" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar)"/>
+  <rect x="422" y="56" width="120" height="24" rx="12" fill="#fbf3e3" stroke="#c9a25e" stroke-width="1.2"/>
+  <text x="482" y="72" text-anchor="middle" class="lb" font-size="11.5" fill="#a9802f">▲ RIDE 刀 · 切说服</text>
+
+  <!-- 底注 -->
+  <text x="320" y="210" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">两把刀都不替你想内容，只把你写歪 / 写散 / 写乱的地方，一刀切正</text>
+  <text x="320" y="232" text-anchor="middle" class="lb" font-size="11" fill="#b9ad99">写作 = 无中生有 + 同时塑形（双重负担）　|　重写 = 已有坯，只管雕刻（单点突破）</text>
+</svg>
+</div>
+
+<h2>一、从零写为什么那么慢</h2>
+<p>「从零写」最大的问题，不是你不会写，是你要同时完成两个性质完全不同的活：</p>
+<ul>
+<li><strong>想内容</strong>：这篇到底要讲什么、分几个点、先说哪个；</li>
+<li><strong>塑形式</strong>：每句话怎么排、段落怎么连、节奏怎么调。</li>
+</ul>
+<p>这两件事大脑处理起来用的不是同一套机制。你让它们在同一秒发生，脑子就卡住了——卡住的那一下，往往既不是「没想清楚内容」，也不是「不会写句子」，而是「两个都在半路，谁也推进不了」。</p>
+<p>空白页的恐惧，本质上就是这个：你面前没有坯，却要求自己一次把内容和形式都做对。</p>
+
+<h2>二、换个顺序：先放一坨，再动刀</h2>
+<p>把这两场仗拆开打。</p>
+<p>第一步，只解决「想说什么」——不追求好，只追求把意思倒在纸上。流水账、逻辑乱、口语啰嗦、重复都行。这一步的目标是「别空着」，不是「别写坏」。</p>
+<p>第二步，只解决「怎么说清楚」——拿起框架当手术刀，把那坨乱稿重写成结构清晰的文章。</p>
+<p>两场仗分开，每步都轻。第一步你不用管好不好，第二步你不用管想没想清——因为内容已经躺在纸上了，你只负责雕刻。</p>
+<p>这就是为什么重写比写作快：<strong>写作是「无中生有 + 同时塑形」的双重负担；重写是「已经有坯，只管雕刻」的单点突破。</strong></p>
+
+<h2>三、第一把刀：MECE 切结构</h2>
+<p>烂稿最典型的症状，是「想到哪写到哪」——子话题互相重叠，还有明显的遗漏。这时候别一个字一个字改，先用 <strong>MECE</strong> 当尺子量一遍。</p>
+<p>MECE（相互独立、完全穷尽，源于麦肯锡《金字塔原理》）就两条规矩：</p>
+<ul>
+<li><strong>相互独立（ME）</strong>：拆出来的几块，不交叉、不重叠；</li>
+<li><strong>完全穷尽（CE）</strong>：几块加起来，100% 覆盖你要讲的事，没有遗漏。</li>
+<li>还有一条隐含的：<strong>一次只用一个分类轴</strong>——按「阶段」切就别混「人群」。</li>
+</ul>
+<p>拿这把尺子去量你的烂稿：这段拆成了几块？块与块重叠吗？有没有漏掉该讲的点？重写时，重叠的合并、漏的补上、乱序的按同一个维度排好。</p>
+<p>MECE 不帮你「想内容」，它帮你「把内容摆正」。这一步做完，烂稿瞬间有了骨架——哪怕句子还是糙的，结构已经立住了。</p>
+
+<h2>四、第二把刀：RIDE 切说服力</h2>
+<p>骨架立住了，如果这篇是写给别人「看进、听进、点头」的——比如方案、汇报、成交、钩子——还得让它「服人」。这时候 <strong>RIDE</strong> 出场。</p>
+<p>RIDE 是一套说服框架（底层是「损失厌恶」心理：人对损失的敏感远大于对获得），四步顺序不能乱：</p>
+<ul>
+<li><strong>R — Risk 风险</strong>：先戳「不这么做会损失什么」，激活避害心理，对方才认真听；</li>
+<li><strong>I — Interest 利益</strong>：在对方已经「紧张」时给解药，讲采纳后的具体好处；</li>
+<li><strong>D — Difference 差异</strong>：说清你的方案相对别的选项独特在哪，给「为什么选你」的安心理由；</li>
+<li><strong>E — Effect 影响</strong>：主动暴露一个无关紧要的小缺点，反而立住信任（人天生怀疑「完美」）。</li>
+</ul>
+<p>把烂稿里「平铺直叙讲好处」的段落，按 R 先讲损失、I 再给希望、D 帮决策、E 消疑虑的顺序重排——说服力立刻不一样。</p>
+<p>RIDE 不帮你「写优美」，它帮你「排顺序」。它对准的是人的心理曲线：紧张 → 放松 → 信任。顺序对了，同样的内容，别人从「哦」变成「有道理」。</p>
+
+<h2>五、两把刀怎么配合</h2>
+<p>MECE 管「结构对不对」，RIDE 管「顺序服不服人」。先 MECE 把骨架扶正，再 RIDE 把血肉按说服力排好。</p>
+<p>烂稿经过这两刀：第一刀，从散乱变有条理；第二刀，从有条理变让人想点头。它从「能读」，变成「想读、信读」。</p>
+<p>这两把刀都不替你想内容——它们只负责把你「想歪、想散、想乱」的地方，一刀切正。框架是雕刻刀，不是印钞机。</p>
+
+<h2>六、AI 在这套里干嘛</h2>
+<p>这一套和 AI 配合得天衣无缝。你让 AI 先把初稿吐出来——糙、快、量大；然后<strong>你</strong>拿 MECE / RIDE 当手术刀去改。</p>
+<p>或者反过来，按我之前说的「先给骨架，再让 AI 填血肉」（#41）：你给骨架，AI 填血肉。但即便如此，倒出来的第一版往往还是散，仍需这两把刀收一遍。</p>
+<p>关键就一句：<strong>别指望一次写对，指望「写糙 + 改准」。</strong> AI 负责把糙版本以极低成本快速生出来，框架负责把「准」的那一刀切下去。从零写好是奢侈品，重写是流水线。</p>
+
+<h2>写在最后</h2>
+<p>下次再面对空白页，别憋了。</p>
+<p>先倒一坨——把意思全倒出来，别管好不好。再动刀——MECE 扶正骨架，RIDE 理顺说服力。重写比写作快，因为坯已经在那了，你只需要雕刻。</p>
+<p>普通人写作卡在「想一次写对」。会写的人知道：好稿不是写出来的，是改出来的；而改，靠的是框架这把手术刀，不是灵光一现。</p>
+      <blockquote><p>岛主的 AI 思考 · 第 43 篇</p></blockquote>
+  </article>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「帮我写篇文章」是个坏 prompt：你没给维度，AI 只能交正确的废话 · 岛主的AI思考</title>
+<meta name="description" content="把「帮我写篇文章」换成「按 MECE 拆成 3 个互斥维度再写」，AI 输出当场换物种。prompt 工程最便宜的一招，是动笔前先给 AI 一根轴。">
+<meta property="og:title" content="「帮我写篇文章」是个坏 prompt：你没给维度，AI 只能交正确的废话 · 岛主的AI思考">
+<meta property="og:description" content="把「帮我写篇文章」换成「按 MECE 拆成 3 个互斥维度再写」，AI 输出当场换物种。prompt 工程最便宜的一招，是动笔前先给 AI 一根轴。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-mece-prompt.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="「帮我写篇文章」是个坏 prompt：你没给维度，AI 只能交正确的废话 · 岛主的AI思考">
+<meta name="twitter:description" content="把「帮我写篇文章」换成「按 MECE 拆成 3 个互斥维度再写」，AI 输出当场换物种。prompt 工程最便宜的一招，是动笔前先给 AI 一根轴。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">提示词</span><span class="tag">框架</span><span>2026</span></div>
+<p>大多数人让 AI 写东西，开场白是这一句：「帮我写篇文章，主题是 XX」。</p>
+<p>然后 AI 哗啦给你一篇。读起来挑不出错，每句都对，但就是……不想读。像一份标准的、正确的、没人会看的汇报。</p>
+<p>这不是 AI 的问题。是你那句 prompt 里，缺了一个东西：<strong>维度</strong>。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 270" role="img" aria-label="prompt 改造前后：帮我写篇文章 导致 AI 自己找维度产出正确的废话；按 MECE 拆 3 个互斥维度再写 让维度由你给、结构立住、句句能发">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <!-- 顶注 -->
+  <text x="320" y="28" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">同一台 AI，差一句 prompt，输出换了个物种</text>
+
+  <!-- 左：坏 prompt -->
+  <rect x="22" y="58" width="266" height="150" rx="12" fill="#fbf3e3" stroke="#c9a25e" stroke-width="1.6"/>
+  <text x="155" y="84" text-anchor="middle" class="st" font-size="14.5" fill="#a9802f">「帮我写篇文章」</text>
+  <text x="155" y="108" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">AI 自己找维度</text>
+  <text x="155" y="130" text-anchor="middle" class="lb" font-size="11.5" fill="#b05a3a">→ 维度重叠 + 留盲区</text>
+  <text x="155" y="158" text-anchor="middle" class="lb" font-size="12.5" fill="#a23b2e">＝ 正确的废话</text>
+  <text x="155" y="190" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">你外包了「想清楚切哪条轴」</text>
+
+  <!-- 箭头 + 标注 -->
+  <path d="M290 133 h58" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#ar2)"/>
+  <text x="319" y="124" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">＋一根轴</text>
+
+  <!-- 右：好 prompt -->
+  <rect x="352" y="58" width="266" height="150" rx="12" fill="#eaf3ec" stroke="#2f7d5b" stroke-width="1.6"/>
+  <text x="485" y="84" text-anchor="middle" class="st" font-size="13.5" fill="#2f7d5b">「按 MECE 拆 3 个互斥维度再写」</text>
+  <text x="485" y="108" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">维度由你给</text>
+  <text x="485" y="130" text-anchor="middle" class="lb" font-size="11.5" fill="#2f7d5b">→ 块不重叠 · 合不漏</text>
+  <text x="485" y="158" text-anchor="middle" class="lb" font-size="12.5" fill="#2f7d5b">＝ 结构立住 · 句句能发</text>
+  <text x="485" y="190" text-anchor="middle" class="lb" font-size="10.5" fill="#7a9c8c">你先搭骨架，AI 只填血肉</text>
+
+  <!-- 底注 -->
+  <text x="320" y="248" text-anchor="middle" class="lb" font-size="11" fill="#7a7268">变的不是 AI，是你给的那条轴——MECE 是给 prompt 装的方向盘</text>
+</svg>
+  <div class="cap">左：你没给维度，AI 替你瞎切，出来的每句都对、放哪都对、删了也不缺。右：你先定轴，AI 只施工。</div>
+</div>
+
+<h2>一、为什么「帮我写篇文章」产出的总是废话</h2>
+<p>「帮我写篇文章」这句话，等于你把一个没边界的活，交给一个没有方向的引擎。</p>
+<p>AI 接到这种指令，第一件事不是写，是替你「想这篇到底怎么拆」。但它不知道你心里想的是哪个角度——它只能自己在脑子里随手切一刀。</p>
+<p>随手切的问题是：它切出来的维度，往往是<strong>重叠的、有遗漏的</strong>。比如你说「写远程工作」，它可能会并列「优点 / 缺点 / 建议」——可「建议」里一半在讲怎么克服缺点，和「缺点」重叠了；而「远程工作者和公司的权力关系」这种真问题，被丢进了看不见的盲区。</p>
+<p>MECE 那句判别标准特别狠：<strong>如果你没法把一个议题拆成互不重叠、又完全穷尽的部分，说明你还没真懂它。</strong> AI 替你乱拆，恰恰证明「你也没真想清楚要拆成什么样」——你只是把「想清楚」这步，偷偷外包了出去。</p>
+
+<h2>二、加一根轴，输出换物种</h2>
+<p>把那句 prompt 改一下，只加结构，不加修饰：</p>
+<p><strong>「按 MECE，把『远程工作』拆成 3 个互斥维度，每个维度分别写一段。」</strong></p>
+<p>就这一句，AI 的输出当场不一样。</p>
+<p>为什么？因为<strong>维度现在是你给的</strong>。你逼自己在开口前想清楚：这篇到底沿哪条轴切。</p>
+<p>比如你定维度是「时间（一天怎么过）/ 空间（人和桌子在哪）/ 关系（和谁连着）」。三个维度互不重叠，加起来又覆盖了一个人远程工作的全部。AI 拿到这张清单，不用再瞎猜，直接往三个格子里填——出来的每段都不重复，合起来没有漏。</p>
+<p>你看，变的不是 AI，是你给的那条轴。MECE 在这里不是分析方法，是给 prompt 装的方向盘。</p>
+
+<h2>三、MECE 给 prompt 的，是「3–5 个互斥块」这个天然骨架</h2>
+<p>MECE 自己有两条铁律：相互独立（ME）、完全穷尽（CE）。翻译成写 prompt 的人话：</p>
+<ul>
+<li><strong>相互独立（ME）</strong>：让 AI 并列的几块，不重叠。别让它同时写「缺点」和「要注意的坑」——它自己都分不清。</li>
+<li><strong>完全穷尽（CE）</strong>：几块加起来，100% 覆盖你要讲的事。出现大块「其他」之前，先想想是不是你漏了真问题。</li>
+<li>还有一条隐含规矩特别适合 prompt：<strong>一次只用一个主维度</strong>。按「时间」切就别混「人群」，否则 AI 生产的内容必然自相矛盾。</li>
+</ul>
+<p>MECE 还有个经验值：<strong>第一层拆 3–5 个块最舒服</strong>。太少漏、太多乱。你给 AI 的维度定在 3–5，它填出来的东西天然有节奏。</p>
+<p>所以一句好 prompt 长这样：「按 MECE，沿『XX』维度拆成 4 个互斥块，逐块写」——你给轴、给块数、给互斥要求，AI 只负责把内容填进你已经摆好的格子里。</p>
+
+<h2>四、一个具体的 before / after</h2>
+<p>同样主题：「写写 AI 对内容创作者的影响」。</p>
+<p>❌ <strong>旧 prompt</strong>：「帮我写篇文章，讲 AI 对内容创作者的影响。」<br>AI 大概率给你：引言 + 三大段「机遇 / 挑战 / 建议」。可「建议」整段在重复「挑战」里的应对，「机遇」和「挑战」边界模糊——读着对，放哪都对，删了也不缺。正确的废话。</p>
+<p>✅ <strong>新 prompt</strong>：「按 MECE，把『AI 对内容创作者的影响』沿『生产（做得更快）/ 判断（什么才是好）/ 关系（和读者怎么连）』三个互斥维度拆，每个维度写一段，段间不重叠、合起来不留盲区。」<br>AI 现在沿你给的轴，把内容填进三个不重复的格子。生产讲效率、判断讲品味、关系讲信任——三者互不踩，合起来正好是一篇创作者该想清楚的三件事。这篇能发。</p>
+<p>差别不在 AI 聪不聪明，在你有没有在 prompt 里先把结构立住。这跟 #41 说的「先给骨架再让 AI 填血肉」是一回事——只不过这次，骨架是用 MECE 在 prompt 里一次性给的。</p>
+
+<h2>五、prompt 工程的本质，是「把你的结构交给 AI」</h2>
+<p>很多人以为 prompt 工程是背魔法词、堆修饰语、加「你是专家」。</p>
+<p>错了。prompt 工程最便宜、最管用的那一招，是：<strong>在让 AI 动笔前，先给它一个 MECE 维度。</strong></p>
+<p>因为 AI 不缺内容能力，它缺的是「该沿哪条轴切」这个你才有的判断。你把维度给了，它瞬间从「瞎写的引擎」变成「按你图纸施工的工人」。</p>
+<p>这一步贵，是因为它逼你先想清楚。而想清楚，本来就是你作为作者的活——不能、也不该外包的那部分。</p>
+
+<h2>写在最后</h2>
+<p>下次想说「帮我写篇文章」之前，先停三秒。</p>
+<p>问自己：这篇我打算沿哪条轴切？切成 3 个还是 5 个？块与块重叠吗、漏了吗？</p>
+<p>把这三个答案写进 prompt，再把「写」交给 AI。你会发现，它交出来的不再是废话，而是你早就在脑子里搭好的那座房子的照片。</p>
+<p>好 prompt 不是把 AI 教聪明，<strong>是把你自己的结构，说清楚。</strong></p>
+      <blockquote><p>岛主的 AI 思考 · 第 44 篇</p></blockquote>
+  </article>
+
+  <section class="related-models" aria-label="本文关联的思维模型">
+    <h2>📎 本文用到的思维模型</h2>
+    <ul>
+      <li><span class="rm-tag">结构</span><a href="../models/model-mece.html">MECE 原则</a> —— 相互独立、完全穷尽，给 prompt 一根轴，让 AI 沿 3–5 个互斥维度填内容，而不是替你瞎切。</li>
+    </ul>
+  </section>
+
+  <div class="article-nav">
+    <a href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+</body>
+</html>

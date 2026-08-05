@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>实事求是：用真实素材，别编案例 · 岛主的AI思考</title>
+<meta name="description" content="AI 让你 3 秒编出一个「看起来很真」的案例，但编的经不起查、伤的是信任。事实求是从客观真实出发：论点从真实素材长出来，不是为论证硬造例子。这跟 #34 微工具从真实小需求长出来，是同一句「从真实出发」。">
+<meta property="og:title" content="实事求是：用真实素材，别编案例 · 岛主的AI思考">
+<meta property="og:description" content="编案例最致命的不是「不真实」，是它伤了信任——创作者最硬的固定资产。论点该从真实素材长出来，不是为论证硬造例子。呼应 #34：微工具从真实需求长出来，文章从真实素材长出来。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-seek-truth.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="实事求是：用真实素材，别编案例 · 岛主的AI思考">
+<meta name="twitter:description" content="编案例最致命的不是「不真实」，是它伤了信任。论点该从真实素材长出来，不是为论证硬造例子。呼应 #34：微工具从真实需求长出来。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">实事求是</span><span class="tag">真实素材</span><span class="tag">方法论</span><span>2026</span></div>
+<h1>实事求是：用真实素材，别编案例</h1>
+<p>AI 时代写东西，有个诱惑特别大：它能在三秒内，给你编出一个「看起来特别真」的案例。</p>
+<p>带细节、带对话、带数字——读起来挑不出毛病，甚至比你自己经历过的还真。于是越来越多文章，案例栏里一排排的「据我朋友」「某次调研显示」「有个创业者」，全是 AI 顺手递来的。</p>
+<p>可读者不是傻子。真事和编的，质感不一样。编的经不起第二眼，更经不起内行一查。</p>
+<p>这背后是一句被说了 80 年、今天更该重提的老话：<strong>实事求是——从客观真实出发，论点从真实素材里长出来，不为论证硬造例子。</strong></p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 300" role="img" aria-label="实事求是对照图：左框「编案例凑论证」楼体立在虚线地基上（事实空心），标注逻辑自洽但一戳就破·脆弱；右框「用真实素材」楼体打在实心砖地基上（真事垫着），标注越查越信·反脆弱。中间朱红箭头；底部收束句：编的案例像城堡建在沙上，真的案例像房子打在石上">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="24" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">编的经不起查，真的越查越信</text>
+
+  <!-- 左框：编案例（脆弱） -->
+  <rect x="30" y="48" width="262" height="210" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="161" y="70" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">编案例凑论证</text>
+  <!-- 楼体 -->
+  <rect x="118" y="112" width="86" height="104" rx="4" fill="#d9c9a8"/>
+  <text x="161" y="170" text-anchor="middle" class="ct" font-size="26" fill="#a23b2e">✗</text>
+  <!-- 虚线地基（事实空心） -->
+  <rect x="104" y="224" width="114" height="24" rx="4" fill="none" stroke="#b9ad99" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="161" y="240" text-anchor="middle" class="lb" font-size="11" fill="#8a7f6a">事实空心</text>
+  <text x="161" y="262" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">逻辑自洽 · 一戳就破</text>
+
+  <!-- 中间箭头 -->
+  <line x1="296" y1="150" x2="346" y2="150" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：用真实素材（反脆弱） -->
+  <rect x="348" y="48" width="262" height="210" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="479" y="70" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">用真实素材</text>
+  <!-- 楼体 -->
+  <rect x="436" y="112" width="86" height="104" rx="4" fill="#bcd2b8"/>
+  <text x="479" y="170" text-anchor="middle" class="ct" font-size="26" fill="#3f7a4f">✓</text>
+  <!-- 实心砖地基（真事垫着） -->
+  <rect x="424" y="224" width="110" height="24" rx="3" fill="#a3c4a0"/>
+  <text x="479" y="240" text-anchor="middle" class="lb" font-size="11" fill="#2f5e3a">真事垫着</text>
+  <text x="479" y="262" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">越查越信 · 反脆弱</text>
+
+  <text x="320" y="288" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">编的案例像城堡建在沙上，真的案例像房子打在石上</text>
+</svg>
+<div class="cap">论点的地基，要么是真事，要么是虚线——读者一眼就能分辨。</div>
+</div>
+
+<h2>一、为什么现在「编案例」特别容易，也特别致命</h2>
+<p>过去编案例要费脑子：得想一个不穿帮的细节，得编圆一串因果。成本高，所以人编得少。</p>
+<p>现在不一样。AI 把编案例的成本打到近乎为零——你只要说「给我一个 XX 的例子」，它立刻递来一个细节饱满、逻辑自洽的故事。<strong>成本越低，滥用越凶。</strong>于是文章里充满了没有人真经历过的「案例」。</p>
+<p>但编案例最致命的，不是「不真实」这四个字，是它伤了一样东西：<strong>信任</strong>。</p>
+<p>信任是创作者最硬的固定资产（#48 讲过，它是复利里最慢、也最值钱的那一块）。读者信你一次，下次打开你的成本就低一分。可一旦他发现你某个「真实案例」是编的——不是说他要举报你，而是那层「这人说的我能信」的膜，破了就补不回来。你编十个漂亮案例，可能抵不过一次被戳穿。</p>
+
+<h2>二、事实求是的老祖宗，早把这件事讲透了</h2>
+<p>毛选里有两句话，今天写作者该贴在显示器上：</p>
+<p><strong>「没有调查，没有发言权。」</strong></p>
+<p><strong>「实事求是」——『实事』就是客观存在着的一切事物，『是』就是客观事物的内部联系（规律），『求』就是我们去研究。」</strong></p>
+<p>翻译成写文章的话：一篇文章不是你拍脑袋的产物，是你去调查、去接触真实之后，把真实素材摆出来的产物。论点不是你先想好、再去凑例子的装饰；论点是你摸过真事之后，从真事里长出来的结论。</p>
+<p>这跟 #46（赚钱的第一性原理）是同一把刀：第一性原理让你别停在「我以为」的壳上，回到事物本身。实事求是让你别停在「我编的」的壳上，回到事实本身。<strong>编案例，本质上就是不肯下去调查，用想象力替代了真事——把「求」这一步偷偷外包给了自己的脑补。</strong></p>
+
+<h2>三、直接呼应 #34：微工具从真实需求长出来，文章从真实素材长出来</h2>
+<p>第 34 篇《别憋大招了，好工具都是小需求逼出来的》讲过一个飞轮：<strong>真实小需求 → 做把小刀 → 大方沉淀出去</strong>。大产品不是憋出来的，是一把把从真实痛点里长出来的小刀，拼出来的。</p>
+<p>那篇的核心就一句：<strong>微工具必须长在「真有人要」的需求上，不能是你想象「用户应该要」的东西。</strong>你憋出来的大产品，看着完整，落地没人用——因为你服务的是想象中的人。</p>
+<p>写文章一模一样：</p>
+<p><strong>微工具 ↔ 真实小需求；好文章 ↔ 真实素材。</strong></p>
+<p>你编的案例，就是憋出来的大产品——看着论证完整、读着顺，落地没人信，因为服务的是你想象中「应该能支撑论点」的素材，不是真发生过的东西。</p>
+<p>反过来，#34 让你「从真实小需求入手做小刀」，这篇文章让你「从真实素材入手写论点」。<strong>两者是同一句「从真实出发」：真实需求长出好工具，真实素材长出好文章。</strong>你越贴近真实，产物越经用；你越靠想象，产物越像沙上城堡。</p>
+
+<h2>四、怎么做到「用真实素材」——三个可操作动作</h2>
+<p>不是喊口号。三条能落地的：</p>
+<p><strong>① 先有素材，再写论点。</strong>别先定结论、再去搜「有没有例子能证明」。顺序反了，你一定会挑到「刚好能证明」的、甚至是编的。正确顺序是：先把手头真发生过的、真见过的记下来，让论点从这批真事里自己冒出来。论点顺着素材走，才站得住。</p>
+<p><strong>② 做一本「素材账本」。</strong>日常遇到的事、听到的对话、看到的数据，随手记。这跟 #34 的「小需求沉淀」是同一本账——你记的真实小需求，能长成微工具；你记的真实小故事，能长成文章案例。<strong>真实素材库，是创作者最被低估的固定资产。</strong></p>
+<p><strong>③ 拿不准的，标 [待验证]，或干脆不写。</strong>知识库里我们立过铁律：不确定的，标 [待验证]，绝不把猜测当事实写死。写文章同理——一个案例你记不清细节、查不到出处，宁可少一个漂亮论据，也不编一个假案例。<strong>少一个案例，读者无感；编一个假案例，信任崩盘。</strong></p>
+
+<h2>五、5why + 反脆弱：真实素材是长期主义的地基</h2>
+<p>为什么非要「真」？两个模型把账算清了。</p>
+<p><strong>5why（追问真因）：</strong>你要想挖到一个问题的根，得一层层问「为什么」，挖到第一手真因为止。这「第一手」，不能是编出来的「合理原因」——你编个看似合理的因，堵住了追问，却离真相隔着一层壳。真实素材，就是 5why 能挖到底的前提。</p>
+<p><strong>反脆弱：</strong>真事经得起读者检验——他来查、来问、来对质，你越答越稳，信任反而涨。编的相反：环境（读者的质疑）一乱，你整套论证归零。真实素材，让你的内容系统<strong>不依赖任何单次编造，所以任何一次打假都伤不到根</strong>。</p>
+<p>这跟 #48 同脉：真正稳的东西，都建在结构和真实上，不建在运气和编造上。实事求是，就是把写作从「赌编得像」重构成「靠真事立」的那一刀。</p>
+
+<h2>写在最后</h2>
+<p>下次 AI 递给你一个「看起来特别真」的案例，手停一下。</p>
+<p>问自己：<strong>这事儿，真的发生过吗？</strong></p>
+<p>发生过，用它，它是你论点的石头地基。没发生过，删掉——哪怕它刚好能证明你想说的。漂亮但假的案例，是借来的信用，迟早要还，还的时候连本带利。</p>
+<p>好文章不是编得圆，是<strong>真事摆得准</strong>。实事求是四个字，80 年没过时，今天 AI 帮人编得越像，它越该被钉在每一个写作者的桌上。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">第一性原理</span><a href="../models/model-n24.html">第一性原理</a> —— 别停在「我以为」的壳上，回到事实本身；编案例就是用想象力替代了真事，把「求」外包给了脑补。</li>
+<li><span class="rm-tag">5why</span><a href="../models/model-n70.html">5why 分析法</a> —— 追问真因要挖到第一手真实原因，不能编个「合理原因」堵住追问；真实素材是挖到底的前提。</li>
+<li><span class="rm-tag">反脆弱</span><a href="../models/model-n119.html">反脆弱</a> —— 真事经得起读者检验、越查越信；编造一戳就破，一次打假全盘崩。真实素材让内容系统不依赖单次编造。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-persistent-war.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 别想一篇爆：持久战
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 49 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 用真实素材写作，不编造案例</footer>
+
+</body>
+</html>

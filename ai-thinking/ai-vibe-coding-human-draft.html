@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意 · 岛主的AI思考</title>
+<meta name="description" content="普通人现在最该学 AI，不是学怎么用 AI 聊天，而是学 vibe coding：用自然语言让 AI 帮你把脑子里的东西变成能跑的东西。">
+<meta property="og:title" content="你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意 · 岛主的AI思考">
+<meta property="og:description" content="普通人现在最该学 AI，不是学怎么用 AI 聊天，而是学 vibe coding：用自然语言让 AI 帮你把脑子里的东西变成能跑的东西。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-vibe-coding.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="你还在纠结要不要学 AI，有人已经用"说人话"给自己造了门生意 · 岛主的AI思考">
+<meta name="twitter:description" content="普通人现在最该学 AI，不是学怎么用 AI 聊天，而是学 vibe coding：用自然语言让 AI 帮你把脑子里的东西变成能跑的东西。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+  }
+
+/* 关联思维模型模块 */
+.related-models {
+  margin: 2.5em auto;
+  max-width: 680px;
+  padding: 1.5em 1.8em;
+  background: #fbf7ee;
+  border-radius: 10px;
+  border-left: 4px solid var(--accent, #c04040);
+}
+.related-models h2 {
+  font-size: 1.05em;
+  margin: 0 0 0.8em;
+  color: var(--line, #222);
+  font-family: var(--serif, Georgia, serif);
+  font-weight: 600;
+}
+.related-models ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.related-models li {
+  margin-bottom: 0.65em;
+  font-size: 0.93em;
+  line-height: 1.65;
+  color: var(--mid, #555);
+}
+.related-models li:last-child { margin-bottom: 0; }
+.rm-tag {
+  display: inline-block;
+  font-size: 0.75em;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #f0e6d6;
+  color: #8b6914;
+  margin-right: 5px;
+  vertical-align: 1px;
+  font-weight: 500;
+}
+.related-models a {
+  color: var(--accent, #c04040);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+  @media (max-width:560px){.exhibit-diagram{padding:20px 14px;}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar"><span class="tag">vibe coding</span><span class="tag">AI</span><span>2026</span></div>
+
+<p>上周朋友跟我讲了个事。她做设计，完全没碰过代码，连 Hello World 都没敲过。每天被一组重复动作烦死，几十张图改尺寸、加水印、按不同名字导出。她没去学 Python，而是打开一个 AI 编程工具，用大白话丢了一句过去："帮我把文件夹里的图批量改成 1080×1080，右下角加个水印，按文件名导出。"</p>
+
+<p>几轮对话后，脚本跑起来了。她先解决了自己的麻烦，顺手把流程发到社群。有人问能不能也帮他做一个，她收了顿外卖钱。</p>
+
+<p>这事不是段子。2026 年，这种日常正在很多人身上发生。而我更在意的是它背后的那个变化，很多人还没反应过来。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 268" role="img" aria-label="编程接口的更换：旧接口是代码，门槛为英语加逻辑加语法，把普通人挡在门外；新接口是自然语言，门槛换成讲得清、有审美、能判断，普通人可以直接造东西">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="arVC" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="26" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">门槛没有消失，它只是挪了地方</text>
+
+  <!-- 左：旧接口 -->
+  <rect x="20" y="50" width="268" height="162" rx="10" ry="10" fill="#fdf6e8" stroke="#d4c4a0" stroke-width="1.6"/>
+  <text x="154" y="78" text-anchor="middle" class="st" font-size="14.5" fill="#a9802f">旧接口 · 代码</text>
+  <text x="154" y="104" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">想法 → 学语法 · 背函数 → 程序</text>
+  <line x1="52" y1="120" x2="256" y2="120" stroke="#d4c4a0" stroke-width="1"/>
+  <text x="154" y="142" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">门槛：英语 ＋ 逻辑 ＋ 语法</text>
+  <text x="154" y="168" text-anchor="middle" class="lb" font-size="12.5" fill="#a23b2e">✕ 普通人被挡在门外</text>
+  <text x="154" y="194" text-anchor="middle" class="lb" font-size="10.5" fill="#b9ad99">只能把「做东西」外包给别人</text>
+
+  <!-- 箭头 -->
+  <path d="M292 133 h52" stroke="#a23b2e" stroke-width="1.8" fill="none" marker-end="url(#arVC)"/>
+  <text x="318" y="124" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">AI 换接口</text>
+
+  <!-- 右：新接口 -->
+  <rect x="352" y="50" width="268" height="162" rx="10" ry="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.6"/>
+  <text x="486" y="78" text-anchor="middle" class="st" font-size="14.5" fill="#2f7d5b">新接口 · 说人话</text>
+  <text x="486" y="104" text-anchor="middle" class="lb" font-size="11.5" fill="#5c7a68">想法 → 大白话说清楚 → AI 施工</text>
+  <line x1="384" y1="120" x2="588" y2="120" stroke="#a3c4a0" stroke-width="1"/>
+  <text x="486" y="142" text-anchor="middle" class="lb" font-size="12" fill="#2f7d5b">门槛：讲得清 ＋ 审美 ＋ 判断</text>
+  <text x="486" y="168" text-anchor="middle" class="lb" font-size="12.5" fill="#2f7d5b">✓ 普通人也能造东西</text>
+  <text x="486" y="194" text-anchor="middle" class="lb" font-size="10.5" fill="#8aa693">痛点自己解决，顺手就成了生意</text>
+
+  <text x="320" y="248" text-anchor="middle" class="lb" font-size="11.5" fill="#a23b2e">vibe coding 不是学会写代码，是学会把「我要什么」说清楚</text>
+</svg>
+  <div class="cap">编程从来就是「把需求精确地告诉机器」。AI 只是把这个接口从代码换成了自然语言，被筛掉的那批人，重新拿到了入场券。</div>
+</div>
+
+<h2>别问"要不要学"，先看"接口变没变"</h2>
+
+<p>很多人卡在第一步：我要不要学 AI？</p>
+
+<p>这个问题有点偏。编程的底层只有一件事：把需求精确地告诉机器。过去这个接口是代码，你得先学会一堆英文单词和符号，想法才能进去。所以普通人被挡在外面。</p>
+
+<p>AI 把接口换成了自然语言。你只要说清楚"想让机器干什么"，它把代码写出来、跑起来。这就是今年被叫开的 vibe coding，"氛围编程"也好，"感觉式编程"也罢，本质就一件事儿：你不懂代码，也能用大白话指挥 AI 写代码，看着它跑，错了再改。</p>
+
+<p>真正的问题，于是变成：当"把需求说明白"成了新门槛，你还要不要把这件事外包给别人？</p>
+
+<p>你今年还在规划"明年系统学完 Python"，可入口已经挪到对话框里了。计划赶不上接口换得快。</p>
+
+<h2>旧门槛拆掉了，新门槛长什么样</h2>
+
+<p>旧世界的门槛是英语、逻辑、语法，天然筛掉一大片人。vibe coding 把门槛换成了三样东西：你能不能把事情讲清楚，你有没有审美，你能不能判断"这东西到底好不好用"。</p>
+
+<p>这三样，反而是人最值钱的部分。</p>
+
+<p>你不用变成全栈工程师，也用不着把编程语言吃透。你只需要搞清楚一件事：我懂的痛点里，哪一类能用 AI 解决。段永平说，知道自己的边界，比边界本身更重要。放在这儿，就是别贪多，先在一个你真实会疼的问题上动手。</p>
+
+<p>AI 这波混乱，对会动手的人来说不是威胁，是发牌。别人在焦虑"AI 会不会取代我"，你在用 AI 解决自己的麻烦。混乱成了养分，这是反脆弱的意思。不是抗压，是从波动里捞到好处。</p>
+
+<p>复利这事也在这里。越早造出第一个小东西，每天就多一份积累。今天一个水印脚本，明天一个自动填表，半年后手里就是一套自己的工具。最怕的是那句"等我有空了系统学"。你一等，复利就断。</p>
+
+<p>现在大部分人都挤在"用 AI 聊天写文案"这条小道上，真正宽的那条路——"用 AI 造东西"——反而空着。</p>
+
+<h2>vibe coding 没你想的那么玄</h2>
+
+<p>这件事特别朴素：自然语言 + 一个能写代码的 AI + 你反复改需求。</p>
+
+<p>我知识库里有两条现成的路径，可以直接上手。</p>
+
+<p>第一条是提示词工程。谷歌那本提示词手册里有个反直觉的数据：最成功的提示词平均才 21 个字，大多数人随手写的不到 9 个字。太短，AI 听不清。vibe coding 的第一步，练的是"把需求说人话、说清楚、说具体"。一次不对，换个说法再来。</p>
+
+<p>第二条是无代码应用搭建。哪怕你连"让 AI 写代码"都不敢试，也能用 Dify 这类工具，把前缀提示词固定好，用变量把选项带进去，一键发布成网页。歸藏当年二十分钟就搓出一个"输入主题，生成 MJ 提示词"的小网页，用户复制即用。</p>
+
+<p>语法书可以先放一放。</p>
+
+<p>我库里还有两个例子：有人给 AI 编程工具做了一套"皮肤"，一个老生意在新平台上重新长了一遍；藏师傅把反复试出来的 Midjourney 风格，整理成风格代码。审美到了这种时候，真的成了可以交易的东西。</p>
+
+<h2>普通人上手，别从"学"开始</h2>
+
+<p>给一个马上能用的顺序。</p>
+
+<p>先从"造一个你自己的小东西"开始，别从"学编程"开始。学习金字塔那条老结论还在：光听光看，留存不到三成；亲手做一遍，能到七成五。要的是"它跑起来了"，不是"我懂了"。</p>
+
+<p>然后用"教别人"逼自己真懂。费曼那套办法，核心是你能不能把刚造出来的工具，讲给一个完全外行的人听明白。能讲明白，盲区才真的补上。</p>
+
+<p>最后用结果思维卡住"做到位"。每造一个工具，别只满足"今天搞定了"。问一句：这东西能不能变成我以后反复用的模板？能不能发出来帮到别人？一个水印脚本是"做了"，固定成一套批量处理工作流才是"做到位"。后者才会复利。</p>
+
+<p>YC 创始人保罗·格雷厄姆有句话说得很狠："做用户想要的东西，否则你做什么都死定了。" 对普通人最友好的起点，就是先解决你自己的痛点。你疼的地方，大概率别人也疼。</p>
+
+<p>回到开头。普通人现在最该学的 AI，就是 vibe coding：用自然语言让 AI 把你脑子里的东西变成能跑的东西。聊天、写周报、做 PPT 这些，AI 已经能替你干了，但"造东西"这件事，你得自己上手。</p>
+
+<p>窗口期就在这儿。等所有人都反应过来"原来不用学代码也能造软件"，大门又会悄悄关上一点。趁现在，去跟 AI 说人话，造点东西出来。</p>
+
+<blockquote>
+<p>这是「岛主的 AI 思考」第一篇。后面我会顺着"普通人怎么用 AI"这条线，聊机会地图、判断力、AI 分工这些事。核心就一句：AI 把"做"打平了，把"你会不会说清楚"显影了。</p>
+</blockquote>
+  </article>
+
+  <section class="related-models" aria-label="本文关联的思维模型">
+      <h2>📎 本文用到的思维模型</h2>
+      <ul>
+    <li><span class="rm-tag">思维</span><a href="../models/model-n24.html">第一性原理</a> —— 穿透表象直击本质，从最基础的事实和原理出发重新推导，不被经验假设绑架。</li>
+    <li><span class="rm-tag">学习</span><a href="../models/model-learning-pyramid.html">学习金字塔</a> —— 被动听讲留存率 5%，而教授他人可达 90%——用输出倒逼输入，学习效率翻倍。</li>
+    <li><span class="rm-tag">学习</span><a href="../models/model-feynman.html">费曼学习法</a> —— 用自己的话把概念讲给外行听，卡住的地方就是真盲区，补上它才算真正理解。</li>
+    <li><span class="rm-tag">决策</span><a href="../models/model-result-thinking.html">结果思维</a> —— 先想清楚要什么结果，再倒推路径和动作——以终为始，避免忙而无功。</li>
+    <li><span class="rm-tag">思维</span><a href="../models/model-n119.html">反脆弱</a> —— 不只是抗压力强，而是从波动、混乱和不确定性中获益，越折腾越茁壮。</li>
+      </ul>
+    </section>
+<div class="article-nav">
+    <a data-ai-back="1" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+
+<script>
+/* ---- "返回目录"链接：history.back() 优先，保留原滚动位置 ---- */
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-ai-back]');
+    if (!a) return;
+    // referrer 同域且来自 ai-thinking 目录时，用浏览器历史回退（保留滚动位置）
+    var ref = document.referrer || '';
+    if (history.length > 1 && ref.indexOf('/ai-thinking/') > -1) {
+      e.preventDefault();
+      history.back();
+    }
+    // 否则让浏览器走默认 href = index.html，从顶开始
+  });
+})();
+</script>
+
+</body>
+</html>

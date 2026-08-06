@@ -1,0 +1,72 @@
+/* ============================================================
+   岛主 · 统一页头组件  site-header
+   单一来源：所有子页复用同一套标记与样式，告别各写各的页头。
+   引用方式：页面 <style> 最前一行加
+     @import url('../design-system/components.css');
+   （v2/ 用 ../design-system/components.css；各子页在一级目录下同样 ../design-system/）
+
+   标记契约：
+   <header class="site-header">
+     <nav>
+       <a class="sh-back" href="../v2/index.html">
+         <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+         返回岛上
+       </a>
+       <a class="sh-brand" href="../v2/index.html">岛主</a>
+     </nav>
+   </header>
+
+   异色 / 暗色主题页可覆盖以下变量（不覆盖则走站点浅色默认）：
+     --sh-bg      页头背景（默认半透明米白）
+     --sh-fg      文字色（默认 --mid / --ink）
+     --sh-line    底部分隔线
+     --sh-accent  悬停 / 强调色
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--sh-bg, rgba(251, 248, 241, .92));
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--sh-line, var(--line, #ECE5D7));
+}
+.site-header nav {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.site-header .sh-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--sh-fg, var(--mid, #6B635A));
+  text-decoration: none;
+  transition: color .3s var(--ease, cubic-bezier(.23, 1, .32, 1));
+  font-family: var(--sans, inherit);
+}
+.site-header .sh-back:hover {
+  color: var(--sh-accent, var(--accent, #C8654B));
+}
+.site-header .sh-back svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+.site-header .sh-brand {
+  margin-left: auto;
+  font-family: var(--serif, 'Noto Serif SC', serif);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--sh-fg, var(--ink, #2B2622));
+  text-decoration: none;
+}
+.site-header .sh-brand:hover {
+  color: var(--sh-accent, var(--accent, #C8654B));
+}

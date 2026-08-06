@@ -23,6 +23,7 @@
 
   <style>
     @import url('../design-system/tokens.css');
+    @import url('../design-system/components.css');
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
@@ -204,9 +205,16 @@
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <nav>
+      <a class="sh-back" href="../v2/index.html">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        返回岛上
+      </a>
+      <a class="sh-brand" href="../v2/index.html">岛主</a>
+    </nav>
+  </header>
   <div class="pf-wrap">
-    <a class="pf-back" href="../v2/index.html#products">← 回到岛上</a>
-
     <header class="pf-hero reveal">
       <div class="pf-name">岛主</div>
       <div class="pf-headline">干过十年编剧，现在是 AI 内容创作者兼产品经理——一个在岛上写故事、给女儿画绘本的爸爸。</div>

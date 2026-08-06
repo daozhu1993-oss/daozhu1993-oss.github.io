@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>让读者成为你的选题来源 · 岛主的AI思考</title>
+<meta name="description" content="选题别靠拍脑袋。读者在评论、私信里早把想看什么写给你了——把高频问题往下挖一层，就是现成的好选题；写完再扔回读者堆里，选题和信任一起复利。">
+<meta property="og:title" content="让读者成为你的选题来源 · 岛主的AI思考">
+<meta property="og:description" content="自己想选题是猜，读者出题是问。猜十次不如问一次。把评论区的问题往下挖一层，写完再扔回去，选题和信任都复利。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-reader-topics.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="让读者成为你的选题来源 · 岛主的AI思考">
+<meta name="twitter:description" content="选题不用自己生。读者一直在给你出。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">选题</span><span class="tag">读者</span><span class="tag">群众路线</span><span>2026</span></div>
+<h1>让读者成为你的选题来源</h1>
+<p>我以前选题靠拍脑袋。坐下来想，列一堆"大家应该需要"的题目，挑一个写得最顺的动笔。发出去，评论区很安静。有人看，只是很少人想接话。后来我慢慢发现，读者早就把想看什么写给我了，就在评论、私信和那些顺手问一句里。我只是没在看。</p>
+<p>闭门造车的麻烦在这。你猜读者要什么，猜的是你以为的读者。你自己焦虑什么，就觉得别人也焦虑什么。写出来的东西逻辑通顺，就是没有人接。因为它解决的是一个你替别人虚构的问题。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 330" role="img" aria-label="选题来源对照图：左框「闭门造车：自己想选题」，一个简笔人对着墙自言自语，墙无回应，标注自嗨·无信号·写啥读者不接；右框「读者出题飞轮」，三个节点循环（读者提问→作者写→读者再问→回到读者提问），标注有信号·选题不断·信任复利。中间朱红箭头；底部收束句：自己想选题是猜，读者出题是问；猜十次不如问一次">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#3f7a4f"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">选题不用自己生，读者一直都在出</text>
+
+  <!-- 左框：闭门造车 -->
+  <rect x="24" y="44" width="282" height="268" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="165" y="66" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">闭门造车 · 自己想选题</text>
+  <!-- 简笔人 -->
+  <circle cx="78" cy="120" r="14" fill="none" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="78" y1="134" x2="78" y2="176" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="78" y1="148" x2="58" y2="166" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="78" y1="148" x2="98" y2="166" stroke="#b08a5a" stroke-width="2"/>
+  <!-- 气泡 -->
+  <rect x="102" y="100" width="78" height="32" rx="8" fill="#fff" stroke="#d4c4a0" stroke-width="1.5"/>
+  <text x="141" y="121" text-anchor="middle" class="lb" font-size="12" fill="#8a7f6a">写点啥？</text>
+  <!-- 墙（无回应） -->
+  <rect x="214" y="92" width="26" height="118" rx="3" fill="#c9b896"/>
+  <text x="227" y="232" text-anchor="middle" class="lb" font-size="11" fill="#8a7f6a">墙</text>
+  <text x="165" y="276" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">自嗨 · 无信号</text>
+  <text x="165" y="294" text-anchor="middle" class="lb" font-size="11" fill="#8a7f6a">写啥读者不接</text>
+
+  <!-- 中间箭头 -->
+  <line x1="312" y1="178" x2="348" y2="178" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：读者出题飞轮 -->
+  <rect x="354" y="44" width="262" height="268" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="485" y="66" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">读者出题飞轮</text>
+  <!-- 三节点 -->
+  <circle cx="418" cy="128" r="26" fill="#fff" stroke="#3f7a4f" stroke-width="2"/>
+  <text x="418" y="132" text-anchor="middle" class="lb" font-size="12" fill="#2f5e3a">读者问</text>
+  <circle cx="560" cy="128" r="26" fill="#fff" stroke="#3f7a4f" stroke-width="2"/>
+  <text x="560" y="132" text-anchor="middle" class="lb" font-size="12" fill="#2f5e3a">我写</text>
+  <circle cx="489" cy="222" r="26" fill="#fff" stroke="#3f7a4f" stroke-width="2"/>
+  <text x="489" y="226" text-anchor="middle" class="lb" font-size="12" fill="#2f5e3a">读者再问</text>
+  <!-- 循环箭头 -->
+  <path d="M444 120 Q500 92 534 120" fill="none" stroke="#3f7a4f" stroke-width="2" marker-end="url(#arg)"/>
+  <path d="M548 152 Q556 196 512 210" fill="none" stroke="#3f7a4f" stroke-width="2" marker-end="url(#arg)"/>
+  <path d="M466 210 Q424 196 430 150" fill="none" stroke="#3f7a4f" stroke-width="2" marker-end="url(#arg)"/>
+  <text x="485" y="284" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">有信号 · 选题不断 · 信任复利</text>
+  <text x="485" y="300" text-anchor="middle" class="lb" font-size="11" fill="#2f5e3a">转得越多，两边越厚</text>
+
+  <text x="320" y="324" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">自己想选题是猜，读者出题是问；猜十次不如问一次</text>
+</svg>
+<div class="cap">选题的两条路，一条你对着空气出卷，一条读者把题递到你手上。</div>
+</div>
+
+<h2>读者其实一直在出题</h2>
+
+<p>我翻过自己的评论区。问我"AI 工具这么多怎么选"的，问我"普通人没技术怎么开始"的。问题一个接一个，都是真卡住的。一个人愿意在评论区打字提问，说明他真卡在那了。他替你把选题的"有没有人关心"验证过了。</p>
+
+<p>信号强度差很多。你自己拍脑袋想的题目，得发出来才知道有没有人看。读者主动问的，在问出口那一下，需求就已经成立。前者是猜，后者是问。猜十次对一次，问一次就中。</p>
+
+<h2>把问题变成选题，得往下挖一层</h2>
+
+<p>不过也不能读者问什么就写什么。"怎么用 AI 写提示词"这种问法，直接回答会写成操作手册，看完就忘。我习惯多问几句为什么。</p>
+
+<p>读者说不会写提示词。为什么不会？因为不知道从哪下手。为什么不知道从哪下手？因为脑子里没有"好提示词长啥样"的画面。为什么没画面？因为没人给他一个能对照的坏例子和好例子。挖到这一层，这时候该写一对坏和好的对照，你看完就知道差在哪。我 #44、#45 那两篇就是这么来的。</p>
+
+<p>5why 是个老工具，用在这刚好。读者抛来的问题通常是表层症状，真卡的点埋在下面。你停在表层，写出来的东西隔靴搔痒；挖到第五层，选题自己就立住了。</p>
+
+<h2>写完再扔回读者堆里</h2>
+
+<p>选题从读者来，文章也得回到读者里去。我每写完一篇，会看它引来什么新问题。有人追着问细节，有人提出我没想到的角度，这些又变成下一篇的选题。</p>
+
+<p>这跟毛选讲的群众路线是一个意思。从读者中来，到读者中去。读者出题，我接住，写出来，他再出题，这几步转成一个圈。转得越多，我手里的选题库越厚，读者也越信任我说的东西，因为他看见自己问的真的被认真回答了。两边都复利。</p>
+
+<p>反过来，一篇写完就锁进归档，不看来信，那选题永远是你一个人的事。你越写越觉得自己该写什么，读者越觉得你写的跟他没关系。</p>
+
+<p>我写这个系列写到现在，越来越觉得"今天写什么"不是坐下来硬想出来的。好多篇的由头，是某条评论或者私信里一句"岛主，那个到底怎么弄"。我顺着它往下想，才发现有一整块东西值得写。读者替我做了选题的市场调研，还不收钱。</p>
+
+<p>下回坐下来想"今天写什么"，先别开文档。去翻一遍最近的评论和私信，把问得最多的那几个问题圈出来。挑一个你真能答的，往下挖到他自己都没说清的那层，写。写完发回去，看他接着问什么。</p>
+
+<p>选题不用自己生。读者一直都在给你出。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">5why</span><a href="../models/model-n70.html">5why 分析法</a> ｜ 读者抛来的问题多在表层，用一层层问「为什么」挖到真卡的那层，选题才立得住；停在症状上写出来的东西隔靴搔痒。</li>
+<li><span class="rm-tag">复利</span><a href="../models/model-n13.html">复利效应</a> ｜ 读者出题→作者写→读者再出题的这个循环转得越多，选题库和读者信任一起复利，单篇价值之外长出长期资产。</li>
+<li><span class="rm-tag">第一性原理</span><a href="../models/model-n24.html">第一性原理</a> ｜ 选题不猜「平台喜欢什么」，回到「读者到底卡在哪」这个本质，答案从读者真实问题长出来，不靠想象。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-contradiction.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 矛盾论 · 一篇文只解决一个主要矛盾
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 51 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 让读者成为你的选题来源</footer>
+
+</body>
+</html>

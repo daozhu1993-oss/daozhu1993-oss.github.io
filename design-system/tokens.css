@@ -16,6 +16,7 @@
   --ink: #2B2622;     /* 主文字   14.11:1 ✅ */
   --mid: #6B635A;     /* 次要文字  5.57:1 ✅ */
   --faint: #9A938A;   /* 装饰文字（非正文，约 3.0:1） */
+  --muted: #766E64;   /* 辅助文字（小号说明，4.73:1 ✅ AA） */
   --line: #ECE5D7;    /* 分隔线 */
 
   /* ── 品牌色 ── */
@@ -75,4 +76,26 @@
   --dur-fast: 160ms;
   --dur-normal: 300ms;
   --dur-slow: 500ms;
+}
+
+/* ── 暗色主题（系统性：data-theme="dark" 激活）──
+   v2 / myth 当前未启用，预留为单一点光源；
+   myth 等暗色页未来可直接 <html data-theme="dark"> 复用，无需逐页手写。 */
+[data-theme="dark"] {
+  --bg: #14110D;
+  --bg-2: #1C1813;
+  --surface: #211C16;
+  --ink: #F3EDE3;
+  --mid: #B7AEA1;       /* 5.6:1 ✅ */
+  --faint: #8A8278;
+  --muted: #9A938A;
+  --line: #322C24;
+  --accent: #E2886F;
+  --accent-soft: #4A2E25;
+  --accent-strong: #F0A088;
+  --sage: #8FB09A;
+  --coffee: #C9A98C;
+  --shadow: rgba(0,0,0,0.45);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.5);
+  --shadow-lg: 0 18px 50px rgba(0,0,0,0.6);
 }

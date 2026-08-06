@@ -92,14 +92,16 @@
       var(--bg);}
   .cover .island{width:min(360px,70vw);margin:0 auto 36px;}
   .cover .island .wave{animation:waveMove 6s ease-in-out infinite;}
+  .cover .island svg{animation:islandFloat 7s var(--ease) infinite;}
   @keyframes waveMove{0%,100%{transform:translateX(0);}50%{transform:translateX(-8px);}}
+  @keyframes islandFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
   .cover h1{font-family:var(--serif);font-weight:700;font-size:clamp(46px,9vw,96px);letter-spacing:.04em;line-height:1.05;}
   .cover h1 .dot{color:var(--accent);}
   .cover .tag{font-family:var(--serif);font-size:clamp(15px,2.4vw,20px);color:var(--mid);margin-top:22px;letter-spacing:.04em;}
   .enter-btn{margin-top:46px;display:inline-flex;align-items:center;gap:10px;padding:15px 38px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:var(--serif);font-size:16px;cursor:pointer;border:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease);box-shadow:0 10px 30px rgba(43,38,34,.18);}
   .enter-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(43,38,34,.26);}
   .enter-btn svg{width:18px;height:18px;stroke:var(--bg);fill:none;stroke-width:1.8;}
-  .enter-note{margin-top:18px;font-size:12px;letter-spacing:.08em;color:var(--faint);font-family:var(--serif);}
+  .enter-note{margin-top:18px;font-size:12px;letter-spacing:.08em;color:var(--muted);font-family:var(--serif);}
   .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--mid);font-size:12px;letter-spacing:.2em;font-family:var(--serif);display:flex;flex-direction:column;align-items:center;gap:8px;}
   .scroll-hint .arrow{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite;}
   @keyframes bob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
@@ -109,7 +111,7 @@
   .meet .art{flex:0 0 38%;max-width:420px;}
   .meet .art svg{width:100%;}
   .meet .bio{flex:1;max-width:560px;text-align:left;}
-  .meet .bio p{font-size:16px;color:#4a443c;margin-bottom:18px;}
+  .meet .bio p{font-size:16px;color:var(--ink);margin-bottom:18px;}
   .meet .bio .name{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:6px;}
   .meet .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
   .meet .tags span{font-size:12px;color:var(--mid);border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:var(--surface);}
@@ -191,13 +193,13 @@
   .contact .back-top a{display:inline-flex;align-items:center;gap:6px;font-family:var(--serif);font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
   .contact .back-top a:hover{color:var(--accent);}
   .contact .closing{margin-top:40px;font-family:var(--serif);font-size:15px;color:var(--mid);letter-spacing:.05em;}
-  .footer{text-align:center;padding:30px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);font-family:var(--serif);letter-spacing:.04em;}
+  .footer{text-align:center;padding:30px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);font-family:var(--serif);letter-spacing:.04em;}
 
   /* ══ 1.5 岛上大事记（里程碑轮播）══ */
   .timeline{background:var(--bg);}
   .timeline .eyebrow,.timeline .sec-title,.timeline .sec-sub{max-width:920px;margin-left:auto;margin-right:auto;}
   .tl-head{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:920px;margin:0 auto 28px;}
-  .tl-hint{font-size:12px;color:var(--faint);font-family:var(--serif);letter-spacing:.05em;}
+  .tl-hint{font-size:12px;color:var(--muted);font-family:var(--serif);letter-spacing:.05em;}
   .tl-nav{display:flex;gap:10px;flex:0 0 auto;}
   .tl-nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease),border-color .3s var(--ease),opacity .3s var(--ease);}
   .tl-nav button:hover:not(:disabled){border-color:var(--accent);transform:translateY(-2px);}
@@ -246,7 +248,7 @@
       box-shadow:var(--shadow-md); max-width:calc(100vw - 28px);
     }
     .journey button{ width:9px; height:9px; display:inline-flex; align-items:center; gap:5px; }
-    .journey button::after{ position:static; transform:none; opacity:1; font-size:11px; color:var(--faint); white-space:nowrap; }
+    .journey button::after{ position:static; transform:none; opacity:1; font-size:11px; color:var(--muted); white-space:nowrap; }
     .journey button:not(.active)::after{ display:none; }
     .journey button.active::after{ color:var(--accent); }
     section{padding:90px 7vw;min-height:auto;}
@@ -276,6 +278,14 @@
   a:focus-visible,button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:3px;border-radius:6px;}
   .journey button:focus-visible{outline-offset:4px;}
 
+  /* ── 触感按压反馈（E 微动效）── */
+  .enter-btn:active{transform:translateY(-1px) scale(.98);}
+  .prod-card:active,.tool-card:active{transform:translateY(-4px) scale(.985);}
+  .tl-nav button:active:not(:disabled){transform:scale(.92);}
+  .journey button:active{transform:scale(1.4);}
+  .row:active{background:linear-gradient(90deg,rgba(200,101,75,.08),transparent 70%);}
+  .contact .links a.contact-card:active{transform:translateY(-1px) scale(.99);}
+
   /* ── 跳到主内容（键盘/屏读用户） ── */
   .skip-link{position:absolute;left:12px;top:-48px;z-index:100;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-family:var(--serif);font-size:14px;transition:top .25s var(--ease);}
   .skip-link:focus{top:12px;}
@@ -285,7 +295,7 @@
     *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
     .reveal{opacity:1 !important;transform:none !important;}
     .footer-blur{display:none !important;}
-    .cover .island .wave,.contact .cup .steam,.scroll-hint .arrow,.music-btn.playing .note,.music-btn.playing .bars span{animation:none !important;}
+    .cover .island .wave,.cover .island svg,.contact .cup .steam,.scroll-hint .arrow,.music-btn.playing .note,.music-btn.playing .bars span{animation:none !important;}
   }
 </style>
 </head>

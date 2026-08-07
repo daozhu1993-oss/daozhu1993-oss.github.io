@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别追热点，追你的原子库 · 岛主的AI思考</title>
+<meta name="description" content="热点会凉，你为它熬的夜跟着一起凉。原子不一样，它不绑任何热点，是拆下来的最小知识零件，攒一次用很多次，越攒越值钱。">
+<meta property="og:title" content="别追热点，追你的原子库 · 岛主的AI思考">
+<meta property="og:description" content="热点会凉，你的原子越攒越值钱。把看到的好东西拆成最小零件存起来，下次写直接从库里取。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-atomic-library.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="别追热点，追你的原子库 · 岛主的AI思考">
+<meta name="twitter:description" content="热点会凉，你的原子越攒越值钱。把看到的好东西拆成最小零件存起来，下次写直接从库里取。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">原子库</span><span class="tag">复利</span><span class="tag">创作</span><span>2026</span></div>
+<h1>别追热点，追你的原子库</h1>
+<p>这种事我见过不止一回。圈子里几乎每周都有新热点，谁先发谁吃流量。我以前也跟着赶，热点一凉，那篇就没人看了，下次新热点来，又得从零开始。后来我改了做法，平时攒原子，热点来了从库里取，反而省事。</p>
+<p>攒原子是什么。把看到的好东西，拆成最小的、能单独用的零件。一段话讲清一个道理，一句判断，一个案例，都单独存起来，标好它属于哪一类。下次要写，去库里翻就行，不用对着空白文档硬挤。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 330" role="img" aria-label="热点与原子对照图：左框「追热点」，一条热度曲线冲高后陡然回落到零，下方标注凉了·清零·从头再来；右框「攒原子」，一个个小方块叠成高塔，标注越攒越值钱·随时可取·复利。中间朱红箭头；底部收束句：热点会凉，你的原子越攒越值钱">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#3f7a4f"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">热点会凉，原子越攒越值钱</text>
+
+  <!-- 左框：追热点 -->
+  <rect x="24" y="44" width="282" height="268" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="165" y="66" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">追热点</text>
+  <!-- 热度曲线冲高回落 -->
+  <polyline points="44,210 90,170 130,120 165,92 200,150 240,210 290,250" fill="none" stroke="#b05a3a" stroke-width="2.4"/>
+  <circle cx="165" cy="92" r="4" fill="#a23b2e"/>
+  <line x1="44" y1="250" x2="290" y2="250" stroke="#c9b896" stroke-width="1.4"/>
+  <line x1="44" y1="250" x2="44" y2="80" stroke="#c9b896" stroke-width="1.4"/>
+  <text x="165" y="284" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">凉了 · 清零 · 从头再来</text>
+
+  <!-- 中间箭头 -->
+  <line x1="312" y1="178" x2="348" y2="178" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：攒原子 -->
+  <rect x="354" y="44" width="262" height="268" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="485" y="66" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">攒原子</text>
+  <!-- 小方块叠塔 -->
+  <rect x="455" y="232" width="60" height="20" rx="4" fill="#cfe3cf" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="460" y="210" width="50" height="20" rx="4" fill="#cfe3cf" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="465" y="188" width="40" height="20" rx="4" fill="#bfd9c0" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="470" y="166" width="30" height="20" rx="4" fill="#bfd9c0" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="475" y="144" width="20" height="20" rx="4" fill="#a9cdaa" stroke="#3f7a4f" stroke-width="1.4"/>
+  <text x="485" y="284" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">越攒越值钱 · 随时可取</text>
+  <text x="485" y="300" text-anchor="middle" class="lb" font-size="11" fill="#2f5e3a">复利</text>
+
+  <text x="320" y="324" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">热点会凉，你的原子越攒越值钱</text>
+</svg>
+<div class="cap">追热点是一次性消耗，凉了就归零；原子攒进库里，取用一次还在，越攒越值钱。</div>
+</div>
+
+<h2>热点的命就是凉</h2>
+
+<p>热点天生短命。它靠新鲜感活着，新鲜感一过，同样的标题再没人点。你为它熬的夜、查的资料、写的稿，跟着一起凉。追热点的人永远在还债，这一波刚完，下一波又得从头来。</p>
+
+<p>更累的是，你追的越多，越留不下东西。每篇都为了那几天的流量而写，流量走了，稿子也死了。一年下来发了不少，翻翻没几篇还想再看。身子是动了，底子没长。</p>
+
+<h2>原子是你的私人零件库</h2>
+
+<p>原子不绑定任何热点，是拆下来的最小知识零件。一条判断，一个案例，一段推理，单独存好，标清它讲什么。今天这个话题用得上两条，过俩月另一个话题还能用。它不凉，因为凉不凉和它没关系，它只管待在库里等你取。</p>
+
+<p>我自己的库现在攒了几十条。写东西时翻一翻，经常发现某条比我想的还能打。越攒越多，翻出来的命中率也越高。这不是记忆变好，是库在替我长。别人对着空白文档硬挤，我去库里取，出来的东西还更稳。</p>
+
+<h2>AI 让追热点更便宜，也让原子更值钱</h2>
+
+<p>AI 把写稿成本压到很低，谁都能半小时出一篇蹭热点的稿。结果就是热点里挤满了人，流量被摊薄，单篇更不值钱。可是 AI 也让我攒原子更快，看到好东西一键拆、标好归档。当人人都能追热点，能拉开差距的，是背后那座越攒越厚的原子库。</p>
+
+<p>热点大家都能蹭，原子库没法现攒。它是时间长出来的，别人抄不走。你今天开始存，明天就比昨天多一块底子，别人今天想追也追不来这座库。</p>
+
+<h2>怎么开始攒你的原子库</h2>
+
+<p>先别急着搭系统。看到一句让你点头的话，先存下来，写清它好在哪儿、以后能用在哪。存十条，你就有了第一个库。</p>
+
+<p>攒的时候别追求全。只存你真信、真会用到的。凑数的原子堆再多，翻的时候也是噪音。宁肯少，要每条都经得起下次取用。</p>
+
+<p>热点来了，先去库里翻，再决定要不要写。能接上就写，接不上就放掉。放过几个热点不可惜，可惜的是热点过了，你手里还是空的。</p>
+
+<p>所以别把眼睛钉在热搜上。热点会凉，你的原子越攒越值钱。今天存一条，明天就多一块别人现攒不出来的底子。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">复利</span><a href="../models/model-n13.html">复利效应</a> ｜ 原子持续攒入、写作时不断取用再回填，知识资产一起滚雪球；追热点是一次性消耗，不产生累积。</li>
+<li><span class="rm-tag">第一性原理</span><a href="../models/model-n24.html">第一性原理</a> ｜ 把看到的好东西拆到最小不可分单元，才存得进库、取得出用；不拆就只能每次对着空白文档硬写。</li>
+<li><span class="rm-tag">反脆弱</span><a href="../models/model-n119.html">反脆弱</a> ｜ 价值不绑在任何一个热点上，热点凉了你不受伤，库越厚越不怕风浪；依赖单一热点的人刚好相反。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-attention-currency.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 注意力是创作者唯一货币
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 54 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 别追热点，追你的原子库</footer>
+
+</body>
+</html>

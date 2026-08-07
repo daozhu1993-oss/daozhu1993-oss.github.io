@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公开构建的坑与甜 · 岛主的AI思考</title>
+<meta name="description" content="build in public 公开构建，甜头是早反馈和信任复利，坑是表演努力和被带节奏。它是帮你做事的工具，不是给你表演的舞台。">
+<meta property="og:title" content="公开构建的坑与甜 · 岛主的AI思考">
+<meta property="og:description" content="公开构建的甜留给真做的人，坑专坑那些只在台面上忙的人。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-build-in-public.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="公开构建的坑与甜 · 岛主的AI思考">
+<meta name="twitter:description" content="公开构建的甜留给真做的人，坑专坑那些只在台面上忙的人。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">公开构建</span><span class="tag">复利</span><span class="tag">信任</span><span>2026</span></div>
+<h1>公开构建的坑与甜</h1>
+<p>这几年我做公众号、个站和知识库，基本是边做边发。这套做法有个名字，叫 build in public，公开构建。甜头和坑我都尝过。最早我以为它就是每天汇报进度，后来发现那是在表演努力，真东西反而没长出来。今天把两边的账摊开算算。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 330" role="img" aria-label="公开构建对照图：左框「坑」，一个简笔人在台前表演，台下几颗观众点，进度条只走了两成，标注表演努力·被带节奏·数字焦虑；右框「甜」，一个简笔人在建东西，三条反馈箭头从外绕回他身边，旁边小方块叠成塔，标注早反馈·信任复利·意外联结。中间朱红箭头；底部收束句：甜头留给真做的人，坑专坑表演的人">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#3f7a4f"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">公开构建的甜留给真做的人</text>
+
+  <!-- 左框：坑 -->
+  <rect x="24" y="44" width="282" height="268" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="165" y="66" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">坑</text>
+  <!-- 表演者 -->
+  <circle cx="120" cy="118" r="14" fill="none" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="120" y1="132" x2="120" y2="170" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="120" y1="146" x2="104" y2="162" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="120" y1="146" x2="136" y2="162" stroke="#b08a5a" stroke-width="2"/>
+  <!-- 舞台 -->
+  <rect x="84" y="170" width="72" height="9" rx="3" fill="#d4c4a0"/>
+  <!-- 观众点 -->
+  <circle cx="206" cy="140" r="5" fill="#c9b896"/>
+  <circle cx="226" cy="152" r="5" fill="#c9b896"/>
+  <circle cx="210" cy="166" r="5" fill="#c9b896"/>
+  <!-- 注意力虚线 -->
+  <line x1="200" y1="142" x2="138" y2="138" stroke="#c9b896" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <line x1="220" y1="154" x2="138" y2="156" stroke="#c9b896" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <!-- 停滞进度条 -->
+  <rect x="56" y="232" width="200" height="9" rx="4" fill="#ece0c4"/>
+  <rect x="56" y="232" width="46" height="9" rx="4" fill="#c0894f"/>
+  <text x="165" y="284" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">表演努力 · 被带节奏 · 数字焦虑</text>
+
+  <!-- 中间箭头 -->
+  <line x1="312" y1="178" x2="348" y2="178" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：甜 -->
+  <rect x="354" y="44" width="262" height="268" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="485" y="66" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">甜</text>
+  <!-- 构建者 -->
+  <circle cx="402" cy="118" r="14" fill="none" stroke="#3f7a4f" stroke-width="2"/>
+  <line x1="402" y1="132" x2="402" y2="170" stroke="#3f7a4f" stroke-width="2"/>
+  <!-- 返回反馈箭头 -->
+  <path d="M536 104 q-54 18 -118 14" fill="none" stroke="#3f7a4f" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arg)"/>
+  <path d="M536 150 q-54 -18 -118 -14" fill="none" stroke="#3f7a4f" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arg)"/>
+  <path d="M540 196 q-60 8 -128 0" fill="none" stroke="#3f7a4f" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arg)"/>
+  <!-- 成长塔 -->
+  <rect x="455" y="232" width="60" height="18" rx="4" fill="#cfe3cf" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="462" y="212" width="46" height="18" rx="4" fill="#cfe3cf" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="469" y="192" width="32" height="18" rx="4" fill="#bfd9c0" stroke="#3f7a4f" stroke-width="1.4"/>
+  <rect x="476" y="172" width="18" height="18" rx="4" fill="#a9cdaa" stroke="#3f7a4f" stroke-width="1.4"/>
+  <text x="485" y="284" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">早反馈 · 信任复利 · 意外联结</text>
+
+  <text x="320" y="324" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">甜头留给真做的人，坑专坑表演的人</text>
+</svg>
+<div class="cap">公开构建的甜，来自真做带来的早反馈和信任复利；坑，来自把展示本身当成了工作。</div>
+</div>
+
+<h2>甜头先从早反馈来</h2>
+
+<p>闭门做一年，出来可能方向早偏了。公开构建的好处是，你发第一步，反馈就来了。哪个判断读者点头，哪个说法让人皱眉，当场就知道。省下的是闷头走到黑的那段路。我好几篇后来的方向，都是靠早期读者的反应调过来的。</p>
+
+<h2>最大的甜是信任复利</h2>
+
+<p>你持续把过程摊开，读者看着你从笨到顺，这比任何广告都长信任。等你有东西要卖、要推，他们已经跟了你很久。这种信任是复利，前面发的每一条都在给后面攒。它正好接上一篇讲的原子库，你公开的过程本身就是一座对外可见的原子库。</p>
+
+<h2>坑在为了发而发</h2>
+
+<p>最容易掉进去的坑，是把公开构建变成每日汇报。为了有东西发，你开始表演努力，发些没想透的碎片。发得越勤，真东西越少。这跟守注意力是一回事，展示动作把做事的注意力切碎了，最后热闹有了，作品没长出来。发之前先问，这条是让东西更长，还是只让我显得在忙。</p>
+
+<h2>另一个坑是被带节奏</h2>
+
+<p>公开了，就有人评。评得对，你会改；评得偏，你也容易跟着偏。我有过一回，发了个没想透的想法试水，评论区把我拽去聊另一个话题，原本那个想法再没推进。别人的兴趣不是你的路线图。听反馈，但别把方向盘交给围观的人。</p>
+
+<h2>怎么公开构建才不被坑</h2>
+
+<p>先想清楚你构建的是什么，再决定发什么。过程可以公开，没成熟的判断别急着挂出来当结论。</p>
+
+<p>发半成品可以，但要带上你的思考，别只晒进度。读者跟着你的思路走，才长信任。</p>
+
+<p>留一块完全不公开的地。真正难的那个环节，自己先想透再拿出来。全摊开，反而容易被带跑或被抢先。</p>
+
+<p>数字低的时候别慌。公开构建攒的是信任和联结，当天阅读量高低说明不了什么。</p>
+
+<p>所以公开构建值得做，但别把它变成舞台。甜头留给真做的人，坑专坑那些只在台面上忙的人。把过程摊开，把作品做出来，两边就都对得上了。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">复利</span><a href="../models/model-n13.html">复利效应</a> ｜ 持续公开过程，读者信任与联结一起滚雪球；前面发的每一条都在给后面攒，和你的原子库同脉。</li>
+<li><span class="rm-tag">第一性原理</span><a href="../models/model-n24.html">第一性原理</a> ｜ 发之前回到「我到底在构建什么」，才不会被展示动作带跑，判断从自己的目标长出来而不是从围观的人那里。</li>
+<li><span class="rm-tag">心流</span><a href="../models/model-flow.html">心流 Flow</a> ｜ 真正产出发生在不被打断的深度工作里；把注意力切碎在「表演努力」上，就进不了心流，作品自然长不出来。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-atomic-library.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 别追热点，追你的原子库
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 55 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 公开构建的坑与甜</footer>
+
+</body>
+</html>

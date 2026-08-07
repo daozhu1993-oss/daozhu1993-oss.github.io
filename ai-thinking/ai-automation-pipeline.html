@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我把"今天写什么"做成了流水线 · 岛主的AI思考</title>
+<meta name="description" content="内容生产最累的从不是写，是判断今天写什么。搭一条自动化流水线：早上从知识库捞出候选，晚上复盘再喂回去，你只负责动笔。">
+<meta property="og:title" content="我把"今天写什么"做成了流水线 · 岛主的AI思考">
+<meta property="og:description" content="系统出候选，你只出笔墨。把选题和找素材交给自动化，笔墨留给真正只有你能干的那一步。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-automation-pipeline.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="我把"今天写什么"做成了流水线 · 岛主的AI思考">
+<meta name="twitter:description" content="系统出候选，你只出笔墨。把选题和找素材交给自动化，笔墨留给真正只有你能干的那一步。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">自动化</span><span class="tag">系统</span><span class="tag">复利</span><span>2026</span></div>
+<h1>我把"今天写什么"做成了流水线</h1>
+<p>我以前每天最怕的不是写，是坐下来那句"今天写什么"。空白文档比写本身更难。想选题、找素材、怕写了没人看，三个念头轮着折磨，半小时过去，一个字没动。</p>
+<p>后来我换了个干法。我搭了一套每天都在跑的流水线，专门接手"想写什么"这件事。它每天早上把候选摆到我面前，我只需要挑一个，动笔。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 360" role="img" aria-label="自动化流水线示意图：左侧是知识库（堆叠的原子卡片）；中间上方是早上九点的自动化，从知识库捞出候选清单；中间下方是晚上十点的自动化，把复盘素材喂回知识库；右侧是候选清单流向「你只动笔」。底部收束句：系统出候选，你只出笔墨。">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#3f7a4f"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">系统出候选，你只出笔墨</text>
+
+  <!-- 左侧：知识库 -->
+  <rect x="24" y="52" width="170" height="256" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="109" y="74" text-anchor="middle" class="ct" font-size="13" fill="#6b6357">知识库</text>
+  <!-- 堆叠卡片 -->
+  <rect x="50" y="96" width="118" height="26" rx="4" fill="#f0e6d2" stroke="#c9b896" stroke-width="1.4"/>
+  <rect x="54" y="124" width="110" height="26" rx="4" fill="#f0e6d2" stroke="#c9b896" stroke-width="1.4"/>
+  <rect x="58" y="152" width="102" height="26" rx="4" fill="#f0e6d2" stroke="#c9b896" stroke-width="1.4"/>
+  <rect x="62" y="180" width="94" height="26" rx="4" fill="#f0e6d2" stroke="#c9b896" stroke-width="1.4"/>
+  <rect x="66" y="208" width="86" height="26" rx="4" fill="#f0e6d2" stroke="#c9b896" stroke-width="1.4"/>
+  <text x="109" y="268" text-anchor="middle" class="lb" font-size="10" fill="#8a806f">原子 · 案例 · 金句</text>
+
+  <!-- 知识库 → 09:00 自动化 -->
+  <path d="M194 132 q 26 0 46 -24" fill="none" stroke="#a23b2e" stroke-width="1.6" marker-end="url(#ar)"/>
+  <!-- 22:00 自动化 → 知识库 -->
+  <path d="M400 248 q -80 18 -154 -8" fill="none" stroke="#3f7a4f" stroke-width="1.6" marker-end="url(#arg)"/>
+
+  <!-- 中间上：09:00 自动化 -->
+  <rect x="250" y="52" width="150" height="108" rx="10" fill="#fff8ea" stroke="#d4c4a0"/>
+  <circle cx="325" cy="86" r="12" fill="none" stroke="#a23b2e" stroke-width="1.6"/>
+  <line x1="325" y1="78" x2="325" y2="86" stroke="#a23b2e" stroke-width="1.4"/>
+  <line x1="325" y1="86" x2="331" y2="90" stroke="#a23b2e" stroke-width="1.4"/>
+  <text x="325" y="112" text-anchor="middle" class="st" font-size="12" fill="#a23b2e">09:00 自动化</text>
+  <text x="325" y="132" text-anchor="middle" class="lb" font-size="10" fill="#6b6357">捞出今日候选</text>
+  <text x="325" y="146" text-anchor="middle" class="lb" font-size="10" fill="#6b6357">成熟度排序</text>
+
+  <!-- 中间下：22:00 自动化 -->
+  <rect x="250" y="200" width="150" height="108" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <circle cx="325" cy="234" r="12" fill="none" stroke="#3f7a4f" stroke-width="1.6"/>
+  <path d="M318 238 q 7 6 14 0" fill="none" stroke="#3f7a4f" stroke-width="1.2"/>
+  <circle cx="321" cy="230" r="1.5" fill="#3f7a4f"/>
+  <circle cx="329" cy="230" r="1.5" fill="#3f7a4f"/>
+  <text x="325" y="260" text-anchor="middle" class="st" font-size="12" fill="#3f7a4f">22:00 自动化</text>
+  <text x="325" y="280" text-anchor="middle" class="lb" font-size="10" fill="#4a6350">复盘今日产出</text>
+  <text x="325" y="294" text-anchor="middle" class="lb" font-size="10" fill="#4a6350">喂回明日候选</text>
+
+  <!-- 09:00 → 候选清单 -->
+  <path d="M400 106 q 30 0 52 14" fill="none" stroke="#a23b2e" stroke-width="1.6" marker-end="url(#ar)"/>
+
+  <!-- 右侧：候选清单 + 你只动笔 -->
+  <rect x="466" y="52" width="150" height="124" rx="10" fill="#fff8ea" stroke="#d4c4a0"/>
+  <text x="541" y="74" text-anchor="middle" class="ct" font-size="12" fill="#6b6357">候选清单</text>
+  <rect x="486" y="88" width="110" height="16" rx="3" fill="#f0e6d2"/>
+  <rect x="486" y="110" width="110" height="16" rx="3" fill="#f0e6d2"/>
+  <rect x="486" y="132" width="110" height="16" rx="3" fill="#f0e6d2"/>
+  <text x="541" y="156" text-anchor="middle" class="lb" font-size="10" fill="#8a806f">挑一个顺眼的</text>
+
+  <!-- 候选清单 → 你只动笔 -->
+  <path d="M541 176 L541 210" fill="none" stroke="#a23b2e" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="466" y="220" width="150" height="88" rx="10" fill="#fdf6e8" stroke="#a23b2e" stroke-width="1.6"/>
+  <text x="541" y="252" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">你只动笔</text>
+  <line x1="516" y1="268" x2="566" y2="268" stroke="#a23b2e" stroke-width="1.4"/>
+  <line x1="521" y1="264" x2="516" y2="268" stroke="#a23b2e" stroke-width="1.4"/>
+  <line x1="521" y1="272" x2="516" y2="268" stroke="#a23b2e" stroke-width="1.4"/>
+  <text x="541" y="290" text-anchor="middle" class="lb" font-size="10" fill="#8a806f">原料已备齐</text>
+
+  <text x="320" y="342" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">环一直在转，笔墨只花在最值钱的那一步</text>
+</svg>
+<div class="cap">两条自动化把「选题—素材—复盘」包成一个不停转的环，人只守「动笔」这一关。</div>
+</div>
+
+<h2>最贵的不是写，是判断写什么</h2>
+
+<p>内容生产卡住人的，很少是写这个动作。多半是判断写什么，和有没有料可写。前者耗决策力，后者耗积累。两样都靠现场硬挤，当然痛苦。</p>
+
+<p>我以前就陷在这个循环里。每次打开文档，先花二十分钟刷一遍热搜、翻一遍收藏夹、想一遍最近聊过什么。等好不容易定下题，精力已经泄了一半。写到一半发现素材不够，又停下来找。一天下来，真正动笔的时间没多少，全耗在便宜了。</p>
+
+<h2>流水线长什么样</h2>
+
+<p>这套流水线分两段。</p>
+
+<p>每天早上九点，自动化跑一遍，从我的知识库里挖出值得对外讲的方法候选。哪些原子够成熟了，哪两个模型能拧成一个新角度，哪段复盘能写成一篇，它都先捞出来、排好序，推到我眼前。它不写文章，只负责把料备齐。</p>
+
+<p>晚上十点，另一条自动化催我复盘当天。今天写了什么，哪篇卡住，哪个判断事后看偏了。复盘本身又变成第二天的候选素材。</p>
+
+<p>两条自动化一前一后，把生产内容这件事，包成了一个不停转的环。我人在不在，环都在转。</p>
+
+<h2>你只剩"挑一个，写"</h2>
+
+<p>环转出来的，是一份每天更新的候选清单。我的活儿只剩一件。从里头挑一个顺眼的，写。</p>
+
+<p>写的时候也不痛苦，因为原料早就在手边。原子库里拆好的零件，案例库里的真事，金句库里的现成句子，随取随用。我不是对着空白页硬挤，是从一堆积木里挑几块拼起来。</p>
+
+<p>这就回到我一直在用的两个底层方法。原子笔记法让我平时只攒一个想法一张卡的最小零件，卢曼靠九万张卡写出七十多本书。PARA 让我按它服务哪个产出归类，而不是按漂亮的主题树摆着。流水线把这两样串起来了。白天攒零件，晚上出候选，第二天拼。</p>
+
+<h2>第一性原理拆瓶颈</h2>
+
+<p>用第一性原理拆一下。内容生产卡住人的，很少是写这个动作，多半是判断写什么和有没有料可写。前者耗决策力，后者耗积累。流水线把这俩前置掉了。候选自动出，料自动攒。等轮到我只剩动笔，那一步反而是最省决策、最出活儿的。</p>
+
+<p>有人会说，这不就是偷懒吗。区别在于分工。偷懒把活儿整件撂下，我把活儿拆开，最难的那块留给自己。系统负责便宜环节，我负责只有我能干的那一步。</p>
+
+<h2>复利：越写越有料</h2>
+
+<p>系统思维有句老话，你看到的果，往往是另一个系统的因。别人羡慕我更新稳，那是表面。底下的因，是每天九点那趟自动捞取，和一直在长的知识库。</p>
+
+<p>这条流水线最狠的地方是复利。复利是世界第八大奇迹，但前提是你别打断它。每天自动出候选，等于每天都往可写清单里存一笔。知识库每天都在长，等于本金在涨。两样叠起来，我越写越有料，而不是越写越空。</p>
+
+<p>很多创作者断更，根子不在懒，在那道"今天写什么"的关每次都要重新闯。我把这道关拆进了系统，闯一次，系统替我闯以后每一次。</p>
+
+<h2>三步搭你自己的</h2>
+
+<p>想搭一套，不用多复杂。</p>
+
+<p>先有原料。没有知识库，自动化再勤也捞不出东西。原子化攒笔记，PARA 归好类，这是地基。</p>
+
+<p>再上自动化。不用自己写代码，现在的工作台都能定时跑一段指令。每天从你的库里挑够成熟、能成篇的条目，列成清单推给你。</p>
+
+<p>最后，你只守动笔这一关。把选题、找素材这些便宜环节交给系统，你的笔墨只花在最值钱的那一步。</p>
+
+<p>所以这套方法的核心就一句。自动化从来不是替你写。它替你扛住那些最便宜、最耗神的环节，把你全部注意力，留给只有你能干的那件事，动笔。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">复利</span><a href="../models/model-n13.html">复利效应</a> ｜ 每天自动出候选 + 知识库每天长，本金和利息一起滚；停下来就断复利的弦，所以系统要比人更稳。</li>
+<li><span class="rm-tag">第一性原理</span><a href="../models/model-n24.html">第一性原理</a> ｜ 内容生产真正的瓶颈不是「写」，是「判断写什么」和「有没有料」；拆到根上，才能用自动化把便宜环节前置掉。</li>
+<li><span class="rm-tag">心流</span><a href="../models/model-flow.html">心流 Flow</a> ｜ 动笔前如果还要到处找题找料，注意力早被切碎；流水线把前置决策清掉，人才能直接进入创作的心流。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-build-in-public.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 公开构建的坑与甜
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 56 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 我把"今天写什么"做成了流水线</footer>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>注意力是创作者唯一货币 · 岛主的AI思考</title>
+<meta name="description" content="创作者的真实资产不是粉丝，不是工具，是注意力。AI 让产能爆炸，注意力却被无限稀释。守好这唯一不可再生的货币，你才守得住创作本身。">
+<meta property="og:title" content="注意力是创作者唯一货币 · 岛主的AI思考">
+<meta property="og:description" content="你花注意力在哪，就成了谁。AI 时代，守好这唯一不可再生的货币。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-attention-currency.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="注意力是创作者唯一货币 · 岛主的AI思考">
+<meta name="twitter:description" content="你花注意力在哪，就成了谁。AI 时代，守好这唯一不可再生的货币。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">注意力</span><span class="tag">稀缺</span><span class="tag">创作</span><span>2026</span></div>
+<h1>注意力是创作者唯一货币</h1>
+<p>有天晚上我想写点东西。打开电脑，先去刷了会儿行业动态，顺手回了两条群消息，又点开一个"AI 新工具测评"。等回过神，两个小时没了，文档还是空白。那两个小时没丢在时间手里，丢在一连串红点手里。</p>
+<p>后来我反复撞见这件事。想查一个资料，半路被另一个标题带走，绕三圈才回到原处。一天里真正落在创作上的注意力，比我想的少得多。我才明白，创作者手里最值钱的东西，不是粉丝，不是工具，是注意力。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 330" role="img" aria-label="注意力对照图：左框「注意力被切碎」，一个简笔人被多个信息源虚线拉扯，下方沙漏流空，标注被稀释·不扎根·产出虚；右框「注意力压成一点」，一束光打在一件事上长出苗，标注集中投入·长出作品·创作复利。中间朱红箭头；底部收束句：创作者的唯一货币是注意力，花在哪你就成为谁">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#3f7a4f"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">注意力花在哪，你就长成什么样</text>
+
+  <!-- 左框：被切碎 -->
+  <rect x="24" y="44" width="282" height="268" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="165" y="66" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">注意力被切碎</text>
+  <!-- 头 -->
+  <circle cx="118" cy="128" r="16" fill="none" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="118" y1="144" x2="118" y2="182" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="118" y1="156" x2="102" y2="172" stroke="#b08a5a" stroke-width="2"/>
+  <line x1="118" y1="156" x2="134" y2="172" stroke="#b08a5a" stroke-width="2"/>
+  <!-- 信息源方块 -->
+  <rect x="196" y="100" width="44" height="26" rx="5" fill="#fff" stroke="#d4c4a0"/>
+  <rect x="206" y="150" width="44" height="26" rx="5" fill="#fff" stroke="#d4c4a0"/>
+  <rect x="196" y="200" width="44" height="26" rx="5" fill="#fff" stroke="#d4c4a0"/>
+  <!-- 虚线拉向头 -->
+  <line x1="196" y1="113" x2="136" y2="126" stroke="#c9b896" stroke-width="1.4" stroke-dasharray="3 3"/>
+  <line x1="206" y1="163" x2="136" y2="150" stroke="#c9b896" stroke-width="1.4" stroke-dasharray="3 3"/>
+  <line x1="196" y1="213" x2="136" y2="172" stroke="#c9b896" stroke-width="1.4" stroke-dasharray="3 3"/>
+  <!-- 沙漏 -->
+  <polygon points="150,236 174,236 162,256" fill="#c9b896"/>
+  <polygon points="150,290 174,290 162,270" fill="#c9b896"/>
+  <line x1="148" y1="236" x2="176" y2="236" stroke="#c9b896" stroke-width="2"/>
+  <line x1="148" y1="290" x2="176" y2="290" stroke="#c9b896" stroke-width="2"/>
+  <text x="165" y="312" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">被稀释 · 不扎根</text>
+
+  <!-- 中间箭头 -->
+  <line x1="312" y1="178" x2="348" y2="178" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：压成一点 -->
+  <rect x="354" y="44" width="262" height="268" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="485" y="66" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">注意力压成一点</text>
+  <!-- 光束 -->
+  <polygon points="485,92 454,162 516,162" fill="#dff0e0" stroke="#3f7a4f" stroke-width="1.5"/>
+  <!-- 书/屏 -->
+  <rect x="461" y="162" width="48" height="36" rx="4" fill="#fff" stroke="#3f7a4f" stroke-width="1.6"/>
+  <line x1="485" y1="162" x2="485" y2="198" stroke="#3f7a4f" stroke-width="1"/>
+  <!-- 苗 -->
+  <line x1="485" y1="162" x2="485" y2="138" stroke="#3f7a4f" stroke-width="2"/>
+  <path d="M485 146 q-11 -5 -15 -15" fill="none" stroke="#3f7a4f" stroke-width="1.6"/>
+  <path d="M485 150 q11 -4 16 -13" fill="none" stroke="#3f7a4f" stroke-width="1.6"/>
+  <text x="485" y="284" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">集中投入 · 长出作品</text>
+  <text x="485" y="300" text-anchor="middle" class="lb" font-size="11" fill="#2f5e3a">创作复利</text>
+
+  <text x="320" y="324" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">创作者的唯一货币是注意力，花在哪你就成为谁</text>
+</svg>
+<div class="cap">注意力被切碎，什么也长不出来；压成一点投在一件事上，才长出作品。</div>
+</div>
+
+<h2>注意力大多是被抽走的</h2>
+
+<p>算法把你的注意力切成碎末，再一点点收走。你以为在刷资讯，其实在被人喂。每条内容都设计成"再划一条就停"，每个红点都在说"先看我"。一天里大半注意力，是顺着指尖被带走的，不是你主动派出去的。</p>
+
+<p>我试过一个笨办法。把推送全关了，想看什么自己搜。头两天空得慌，像戒了点什么。一周后，落在创作上的整块时间明显多了。原来那些"顺便看看"吞掉的，远比我估算的多。</p>
+
+<h2>你花注意力在哪，就成了谁</h2>
+
+<p>注意力的去向，决定你是谁。投在热点里，你变成热点的复读机；投在别人的工具评测里，你变成测评的观众；投在自己的作品上，你慢慢长出作品。同样的晚上，刷三小时和写三小时，第二天你是两个人。</p>
+
+<p>这不是"时间花在哪"的老话。时间可以凑，注意力凑不了。人坐在电脑前，脑子可能早被弹窗拽走了。真正算数的，是那部分盯在一件事上、不被带跑的注意力。</p>
+
+<h2>AI 把产能炸开，把注意力稀释得更狠</h2>
+
+<p>AI 让生产变容易，于是更多人来抢你的注意力。更多内容号、更多新工具横空出世，都指着你说"看我"。一方面你产出更快，另一方面你被拉扯得更碎。会生产的人变多了，能守住自己注意力的人反而更稀缺。</p>
+
+<p>所以 AI 时代，守注意力比会生产更要紧。生产可以被工具加速，注意力没有工具能替你攒。它唯一可再生的方式，是你自己往一处灌。</p>
+
+<h2>把注意力当货币花</h2>
+
+<p>我现在的做法，是把注意力当一笔固定数额的货币，每天数着花。</p>
+
+<p>先花在创作，再花在消费。每天打开电脑，第一件事是写，不是看。等作品有了进展，才允许自己去刷、去回消息。顺序一反，注意力当天就保不住。</p>
+
+<p>主动取用，别被动喂。关掉默认推送，想了解什么自己搜。把取用开关拿回自己手里，别人就没法随时从你这抽一笔。</p>
+
+<p>一次只盯一个方向。这和前面几篇讲的是一个理，矛盾论说一篇文打一个主要矛盾，慢就是快说在一件事上做透。注意力也一样，压在一个方向上才长得出东西，摊开就什么都没了。</p>
+
+<p>下回手指要去点那个红点之前，停一下。问自己，这枚注意力花出去，能长出什么东西吗。创作者手里唯一的货币是注意力，花在哪，你就成为谁。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">心流</span><a href="../models/model-flow.html">心流 Flow</a> ｜ 注意力高度集中、自我消失、时间感扭曲的状态；创作者最该守的，就是能进入心流的那段不被打断的注意力。</li>
+<li><span class="rm-tag">复利</span><a href="../models/model-n13.html">复利效应</a> ｜ 注意力压在一个连得上的方向上持续投入，作品与判断力一起滚雪球；切碎在五件事上，时间不累积。</li>
+<li><span class="rm-tag">第一性原理</span><a href="../models/model-n24.html">第一性原理</a> ｜ 不被"大家都在看"带跑，回到「我到底该把注意力花在哪」这个本质，答案从自己的创作目标长出来。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-slow-is-fast.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 慢就是快
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 53 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 注意力是创作者唯一货币</footer>
+
+</body>
+</html>

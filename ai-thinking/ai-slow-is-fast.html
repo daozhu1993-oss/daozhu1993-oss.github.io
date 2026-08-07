@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>慢就是快 · 岛主的AI思考</title>
+<meta name="description" content="慢就是快，说的不是速度，是东西落不落得住。快是把时间摊在五件事上，慢是让时间替你滚雪球。忍住不摊开，在一件事上做透它。">
+<meta property="og:title" content="慢就是快 · 岛主的AI思考">
+<meta property="og:description" content="快是把时间摊开，慢是让时间替你滚雪球。忍住不摊开，在一件事上做透它。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/ai-slow-is-fast.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="慢就是快 · 岛主的AI思考">
+<meta name="twitter:description" content="快是把时间摊开，慢是让时间替你滚雪球。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft);color:var(--ink);}
+
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
+  .site-header .back:hover{color:var(--accent);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  article h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;}
+  article h2{font-family:var(--serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink);line-height:1.35;}
+  article h3{font-family:var(--serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line);margin:42px 0 32px;}
+  article a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft);padding-left:20px;margin:24px 0;color:var(--mid);font-style:italic;}
+
+  .exhibit-diagram{margin:32px 0 40px;padding:28px 24px;background:var(--panel,#f6f2ea);border:1px solid var(--line);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid);text-align:center;line-height:1.6;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint);font-family:var(--serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;}
+  .meta-bar .url{font-size:12px;color:var(--mid);}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif);font-size:15px;color:var(--mid);transition:color .3s var(--ease);}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint);font-family:var(--serif);border-top:1px solid var(--line);}
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:20px 14px;}
+  }
+  .related-models{margin-top:56px;padding:1.5rem 1.7rem;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:#fbf7ee;}
+  .related-models h2{font-family:var(--serif);font-size:1.12rem;font-weight:700;margin:0 0 .9rem;color:#2c2620;}
+  .related-models ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7rem;}
+  .related-models li{font-size:.95rem;line-height:1.7;color:var(--mid);}
+  .related-models a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(154,106,50,.5);}
+  .related-models a:hover{opacity:.78;}
+  .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+      <article>
+      <div class="meta-bar"><span class="tag">节奏</span><span class="tag">积累</span><span class="tag">复利</span><span>2026</span></div>
+<h1>慢就是快</h1>
+<p>几年前我也信快。什么东西流行，先囤一套教程；什么工具火，先装了再说；一篇文章没想清楚，AI 三秒铺满五千字就发出去。那一阵子看起来很忙，回头看，真正留下来的没几样。</p>
+<p>慢下来是后来被现实教的。我写这个系列，有过一段日子逼自己日更，每天硬凑一篇。发是发了，自己读着发虚。后来改成想到再写，有时候隔好几天才动笔，每篇反而更经得住看。快和慢的分界不在速度，在东西落不落得住。</p>
+
+<div class="exhibit-diagram">
+<svg viewBox="0 0 640 330" role="img" aria-label="快慢对照图：左框「快 · 同时开 5 件事」，五个半截横条表示都没做完，标注四处撒种·不扎根·时间不累积；右框「慢 · 一个雪球滚大」，三个由小到大的同心圆斜向排列表示越滚越大，标注一个方向·持续累积·时间替你滚。中间朱红箭头；底部收束句：快是抢时间，慢是让时间替你工作">
+  <defs>
+    <style>
+      .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+      .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+      .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+    </style>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0 0 L6 3 L0 6 Z" fill="#3f7a4f"/>
+    </marker>
+  </defs>
+
+  <text x="320" y="22" text-anchor="middle" class="ct" font-size="14" fill="#a23b2e">快慢不在速度，在东西落不落得住</text>
+
+  <!-- 左框：快·同时开 5 件事 -->
+  <rect x="24" y="44" width="282" height="268" rx="10" fill="#fdf6e8" stroke="#d4c4a0"/>
+  <text x="165" y="66" text-anchor="middle" class="ct" font-size="13" fill="#a23b2e">快 · 同时开 5 件事</text>
+  <!-- 5 个半截横条 -->
+  <rect x="52" y="100" width="92" height="14" rx="4" fill="#e9d9b0"/>
+  <rect x="52" y="100" width="46" height="14" rx="4" fill="#cdb784"/>
+  <rect x="52" y="132" width="78" height="14" rx="4" fill="#e9d9b0"/>
+  <rect x="52" y="132" width="40" height="14" rx="4" fill="#cdb784"/>
+  <rect x="52" y="164" width="104" height="14" rx="4" fill="#e9d9b0"/>
+  <rect x="52" y="164" width="52" height="14" rx="4" fill="#cdb784"/>
+  <rect x="52" y="196" width="70" height="14" rx="4" fill="#e9d9b0"/>
+  <rect x="52" y="196" width="34" height="14" rx="4" fill="#cdb784"/>
+  <rect x="52" y="228" width="86" height="14" rx="4" fill="#e9d9b0"/>
+  <rect x="52" y="228" width="44" height="14" rx="4" fill="#cdb784"/>
+  <text x="165" y="276" text-anchor="middle" class="lb" font-size="11" fill="#a23b2e">四处撒种 · 不扎根</text>
+  <text x="165" y="294" text-anchor="middle" class="lb" font-size="11" fill="#8a7f6a">时间不累积</text>
+
+  <!-- 中间箭头 -->
+  <line x1="312" y1="178" x2="348" y2="178" stroke="#a23b2e" stroke-width="2.4" marker-end="url(#ar)"/>
+
+  <!-- 右框：慢·一个雪球滚大 -->
+  <rect x="354" y="44" width="262" height="268" rx="10" fill="#edf5ec" stroke="#a3c4a0"/>
+  <text x="485" y="66" text-anchor="middle" class="ct" font-size="13" fill="#3f7a4f">慢 · 一个雪球滚大</text>
+  <!-- 由小到大的同心圆（斜向排列） -->
+  <circle cx="416" cy="120" r="14" fill="#fff" stroke="#3f7a4f" stroke-width="2"/>
+  <circle cx="458" cy="140" r="26" fill="#fff" stroke="#3f7a4f" stroke-width="2"/>
+  <circle cx="512" cy="166" r="42" fill="#fff" stroke="#3f7a4f" stroke-width="2"/>
+  <!-- 滚动箭头 -->
+  <path d="M430 124 Q470 138 498 158" fill="none" stroke="#3f7a4f" stroke-width="2" marker-end="url(#arg)"/>
+  <text x="485" y="284" text-anchor="middle" class="lb" font-size="11" fill="#3f7a4f">一个方向 · 持续累积 · 时间替你滚</text>
+  <text x="485" y="300" text-anchor="middle" class="lb" font-size="11" fill="#2f5e3a">越滚越大</text>
+
+  <text x="320" y="324" text-anchor="middle" class="lb" font-size="12" fill="#6b6357">快是抢时间，慢是让时间替你工作</text>
+</svg>
+<div class="cap">快的代价是摊开，慢的价值是落住。一个四处撒种，一个让雪球滚起来。</div>
+</div>
+
+<h2>快的东西，时间不替你攒</h2>
+
+<p>快的本质是同时开很多头。囤课、装工具、日更、什么热门做什么，每样都碰一下，没有一个扎下去。时间花出去了，它不累积。像在五块地里各撒一把种子，哪块都没浇水，最后都荒着。</p>
+
+<h2>慢的难处，是要忍住不摊开</h2>
+
+<p>慢要的是忍住。一件事做到七八分，人会冒出"这个也顺手做了吧"的念头。我做过一个给图片加水印的小脚本，做完挺得意。后来没停下来，把它扩成了能批量处理、能调位置的整套流程，平时要用直接调。前者是做了一件东西，后者是攒下了一个工具。差别在，后者我没在七八分的时候收手。</p>
+
+<p>这种事我后来见过很多次。一个想法冒出来，先做出来，再做透，再做成一个能反复用的东西，价值是三级跳着长的。反过来，做出来就丢一边，下次还得从头来。</p>
+
+<h2>慢的东西，时间替你滚雪球</h2>
+
+<p>复利不挑快慢，挑方向对不对、连不连得上。给女儿做绘本，我是一本一本做的，角色、故事、排版，每样都磨很久。慢。但做着做着，角色造型能复用，排版模板能复用，下一本就快了，质量还稳。这靠的是前面慢攒下的东西在后面替我省时间。</p>
+
+<p>所以慢就是快这几个字，被说滥了。我一度也把它当安慰话。现在觉得它是一句大实话。你在一件东西上花的时间，如果落住了、连上了，时间会替你滚。你摊在五件事上，时间只是从指缝流过，什么也没留下。</p>
+
+<p>下回又想同时开五个头的时候，停一下。问自己，这五件事里，哪一件我愿意做透它。先只做那一件。剩下的先放着。等这件攒出了能复用的东西，再谈下一件。</p>
+
+<section class="related-models">
+<h2>🧩 本文关联的思维模型</h2>
+<ul>
+<li><span class="rm-tag">复利</span><a href="../models/model-n13.html">复利效应</a> ｜ 慢活方向对、连得上，时间替你滚雪球；快活摊开在五件事上，时间不累积，回头什么也没留下。</li>
+<li><span class="rm-tag">刻意练习</span><a href="../models/model-deliberate-practice.html">刻意练习</a> ｜ 慢的难处是忍住不收手，把一件事做到能做透，攒出能复用的东西，比做十件半成品值钱。</li>
+<li><span class="rm-tag">成长型思维</span><a href="../models/model-growth-mindset.html">成长型思维</a> ｜ 把「慢」看成积累不是落后，愿意在一件事上花时间，相信它后面会替自己省时间。</li>
+</ul>
+</section>
+
+      <div class="article-nav">
+        <a href="ai-reader-topics.html">
+          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          上篇 · 让读者成为你的选题来源
+        </a>
+        <a href="index.html">
+          目录
+          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </a>
+      </div>
+      </article>
+      <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 52 篇</blockquote>
+</main>
+
+<footer class="footer">岛主的 AI 思考 · 慢就是快</footer>
+
+</body>
+</html>

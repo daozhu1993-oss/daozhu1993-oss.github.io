@@ -43,7 +43,7 @@
 
   /* ── 右侧旅程导航 ── */
   .journey{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px;z-index:50;}
-  .journey button{width:11px;height:11px;border:1.5px solid var(--faint);background:transparent;border-radius:50%;cursor:pointer;padding:0;transition:all .35s var(--ease);position:relative;}
+  .journey button{width:11px;height:11px;border:1.5px solid var(--faint);background:transparent;border-radius:50%;cursor:pointer;padding:0;transition:background .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease);position:relative;}
   .journey button::after{content:attr(data-label);position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--mid);white-space:nowrap;opacity:0;transition:opacity .3s var(--ease);pointer-events:none;font-family:var(--serif);}
   .journey button:hover::after{opacity:1;}
   .journey button.active{border-color:var(--accent);background:var(--accent);transform:scale(1.25);}
@@ -78,7 +78,7 @@
   .sec-sub{color:var(--mid);max-width:540px;font-size:15px;margin-bottom:48px;}
 
   /* 滚动渐显 */
-  .reveal{opacity:0;transform:translateY(38px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
   .reveal.in{opacity:1;transform:none;}
   .reveal.d1{transition-delay:.12s;}
   .reveal.d2{transition-delay:.24s;}
@@ -279,12 +279,12 @@
   .journey button:focus-visible{outline-offset:4px;}
 
   /* ── 触感按压反馈（E 微动效）── */
-  .enter-btn:active{transform:translateY(-1px) scale(.98);}
-  .prod-card:active,.tool-card:active{transform:translateY(-4px) scale(.985);}
-  .tl-nav button:active:not(:disabled){transform:scale(.92);}
-  .journey button:active{transform:scale(1.4);}
+  .enter-btn:active{transform:translateY(-1px) scale(.98);transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease);}
+  .prod-card:active,.tool-card:active{transform:translateY(-4px) scale(.985);transition:transform var(--dur-fast) var(--ease);}
+  .tl-nav button:active:not(:disabled){transform:scale(.92);transition:transform var(--dur-fast) var(--ease);}
+  .journey button:active{transform:scale(1.15);transition:transform var(--dur-fast) var(--ease);}
   .row:active{background:linear-gradient(90deg,rgba(200,101,75,.08),transparent 70%);}
-  .contact .links a.contact-card:active{transform:translateY(-1px) scale(.99);}
+  .contact .links a.contact-card:active{transform:translateY(-1px) scale(.99);transition:transform var(--dur-fast) var(--ease);}
 
   /* ── 跳到主内容（键盘/屏读用户） ── */
   .skip-link{position:absolute;left:12px;top:-48px;z-index:100;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-family:var(--serif);font-size:14px;transition:top .25s var(--ease);}
@@ -296,6 +296,13 @@
     .reveal{opacity:1 !important;transform:none !important;}
     .footer-blur{display:none !important;}
     .cover .island .wave,.cover .island svg,.contact .cup .steam,.scroll-hint .arrow,.music-btn.playing .note,.music-btn.playing .bars span{animation:none !important;}
+  }
+
+  /* ── 触屏设备：禁用悬停位移，避免点按后“卡住”的悬浮态 ── */
+  @media (hover: none){
+    .music-btn:hover,.enter-btn:hover,.prod-card:hover,.tool-card:hover,
+    .contact .links a.contact-card:hover,.tl-card:hover,.tl-nav button:hover:not(:disabled),
+    .row:hover .arrow,.tool-card:hover .preview img,.tool-card:hover .preview svg{ transform:none; }
   }
 </style>
 </head>

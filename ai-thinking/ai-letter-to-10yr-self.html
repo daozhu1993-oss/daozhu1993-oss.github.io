@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>如果能寄一封信回十年前，我只想讲清这几件事 · 岛主的 AI 思考 · 第 58 篇</title>
+<meta name="description" content="给十年前的自己写一封方法论信：关掉收藏夹建生产线、让系统替你想选题、从真实小需求做微工具、用第一性原理拆底层、让复利替你攒。方法不是用来收藏的，是用来过的。">
+<meta property="og:title" content="如果能寄一封信回十年前，我只想讲清这几件事 · 岛主的 AI 思考 · 第 58 篇">
+<meta property="og:description" content="给十年前的自己写一封方法论信，讲清那些用十年才摸清的门道：建生产线、自动化流水线、开源飞轮、第一性原理、复利。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="如果能寄一封信回十年前，我只想讲清这几件事 · 岛主的 AI 思考 · 第 58 篇">
+<meta name="twitter:description" content="给十年前的自己写一封方法论信，讲清那些用十年才摸清的门道。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:560px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>如果能寄一封信回十年前，我只想讲清这几件事</h1>
+    <p class="subtitle">给十年前的自己写一封方法论信 · 那些我用十年才摸清的门道，早点知道就能少走很多弯路</p>
+    <p class="byline">岛主 · 第 58 篇 · 2026-08-09</p>
+  </header>
+
+  <figure class="exhibit-diagram">
+    <svg viewBox="0 0 560 430" role="img" aria-label="给十年前的自己寄信示意图">
+      <defs>
+        <marker id="arrowL" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+
+      <!-- time axis -->
+      <line x1="80" y1="225" x2="480" y2="225" stroke="#d8cdba" stroke-width="1.5" stroke-dasharray="4 6"/>
+      <text x="80" y="250" text-anchor="middle" font-size="12" fill="#8a8175">2016</text>
+      <text x="480" y="250" text-anchor="middle" font-size="12" fill="#8a8175">2026</text>
+
+      <!-- left figure: 十年前的你 -->
+      <circle cx="80" cy="170" r="20" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+      <path d="M72,200 q8,18 16,0" fill="none" stroke="#9e2b25" stroke-width="2"/>
+      <text x="80" y="148" text-anchor="middle" font-size="11" fill="#4a443c">十年前的你</text>
+      <text x="80" y="118" text-anchor="middle" font-size="16" fill="#9e2b25" font-weight="700">?</text>
+
+      <!-- right figure: 现在的我 -->
+      <circle cx="480" cy="170" r="20" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+      <path d="M472,200 q8,18 16,0" fill="none" stroke="#9e2b25" stroke-width="2"/>
+      <text x="480" y="148" text-anchor="middle" font-size="11" fill="#4a443c">现在的我</text>
+
+      <!-- envelope flying left along arc -->
+      <path d="M455,150 Q280,70 120,150" fill="none" stroke="#c0413a" stroke-width="2" stroke-dasharray="3 5" marker-end="url(#arrowL)"/>
+      <g transform="translate(300,118)">
+        <rect x="-22" y="-15" width="44" height="30" rx="3" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <path d="M-22,-15 L0,2 L22,-15" fill="none" stroke="#9e2b25" stroke-width="2"/>
+      </g>
+
+      <!-- method stations on axis -->
+      <g font-family="-apple-system, 'PingFang SC', serif" text-anchor="middle">
+        <circle cx="170" cy="225" r="14" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="170" y="200" font-size="11" font-weight="700" fill="#1c1a17">生产线</text>
+        <text x="170" y="255" font-size="10" fill="#4a443c">原子化</text>
+
+        <circle cx="250" cy="225" r="14" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="250" y="200" font-size="11" font-weight="700" fill="#1c1a17">流水线</text>
+        <text x="250" y="255" font-size="10" fill="#4a443c">系统选题</text>
+
+        <circle cx="330" cy="225" r="14" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="330" y="200" font-size="11" font-weight="700" fill="#1c1a17">开源飞轮</text>
+        <text x="330" y="255" font-size="10" fill="#4a443c">真实需求</text>
+
+        <circle cx="410" cy="225" r="14" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="410" y="200" font-size="11" font-weight="700" fill="#1c1a17">复利·底层</text>
+        <text x="410" y="255" font-size="10" fill="#4a443c">第一性原理</text>
+      </g>
+
+      <text x="280" y="395" text-anchor="middle" font-size="12" fill="#9e2b25" font-style="italic">方法不是收藏品，是穿在身上的衣裳；越早穿，越早暖</text>
+    </svg>
+    <figcaption>一封从 2026 飞向 2016 的信，沿线串起几站方法论，每站都是十年里真用上的门道。起点和终点之间，差的不是知道多少，是穿上了几件。</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>十年前的你，正对着一堆收藏夹和待读清单发愁。书买了没翻，课存了没看，公众号关注了三百个，真正用上的没几个。你总觉得自己在进步，其实只是把焦虑搬进了文件夹。</p>
+
+    <p>要是现在能寄一封信回去，我不会劝你努力，也不会甩你一堆书单。我只想把这几件用十年才摸清的事，讲给你听。它们不玄，早十年知道，你就能少走很多弯路。</p>
+
+    <h2>先把收藏夹关了，建一条生产线</h2>
+
+    <p>你那个收藏夹，是个黑洞。存进去的东西，十之八九再也不会打开。你以为在积累，其实在囤积。囤积和积累是两回事，前者让文件夹越来越满，后者让你越来越能打。</p>
+
+    <p>我现在改成了一条生产线。看到一句有用的话，不存整篇，拆成最小的一块零件，单独放好。一条判断，一个案例，一段推理，各占一张卡。卢曼靠九万张这样的小卡片，写出了七十多本书。我不是要写七十本书，是要让下次动笔时，手边有料可取。</p>
+
+    <p>知识库不是仓库，是工厂。你往里扔原料，它得加工出东西。扔进去就睡着的，那叫垃圾站。</p>
+
+    <h2>让系统替你想明天写什么</h2>
+
+    <p>你最大的内耗，是每天坐下来那句「今天写什么」。空白文档比写本身更难，半天过去一个字没动。</p>
+
+    <p>我现在把这道关拆给了系统。每天早上，自动化从我的知识库里捞出够成熟的候选，排好序推到我面前。晚上，另一条自动化催我复盘，复盘本身又变成第二天的候选。两条线一前一后，把我从「想选题」里解放出来。</p>
+
+    <p>我的活儿只剩一件，动笔。原料早就在手边，我不是挤牙膏，是从一堆积木里挑几块拼起来。你十年后最该庆幸的，是把最耗神的环节交了出去，把笔墨留给了只有你能干的那一步。</p>
+
+    <h2>别先想怎么赚钱，先解决自己的小麻烦</h2>
+
+    <p>你总以为做产品得先想清楚商业闭环，于是迟迟不动手。这是最大的误会。</p>
+
+    <p>我后来给自己写了个排诗的小工具，起因小得可笑，就是我的诗总排不好看。我没找现成软件，用 AI 顺手做了一个，开源放了出去。有人拿去用，有人点 star，有人留言说竖排好看。这些反馈推着我加了样式、修了细节，来的新人更多。一圈一圈，飞轮自己转起来了。</p>
+
+    <p>做产品最底层的问题，不是「有多少人用」，是「现在这个麻烦真不真」。你自己的诗排不好看，这是铁一样的事实，不用猜。从自己出发，最小闭环先转起来，比在脑子里推演一个不存在的市场靠谱得多。值得不值得，是转起来才知道的。</p>
+
+    <h2>用第一性原理拆掉表面功夫</h2>
+
+    <p>你容易被热闹带着走。今天这个风口，明天那个概念，每个都想追。追来追去，底子没长。</p>
+
+    <p>遇到拿不准的事，我现在的习惯是退到底层问一句，这件事最不可再分的问题是什么。追热点，最底层是「流量短命，凉了就清零」。攒原子，最底层是「零件不绑定热点，随时可取」。拆到底，很多花哨的选择自己就散了。</p>
+
+    <div class="pull">第一性原理不是让你显得深刻，是帮你省掉那些根本不该做的努力。</div>
+
+    <h2>让复利替你攒，别打断它</h2>
+
+    <p>你总嫌进步慢，想找捷径。捷径没有，复利有。</p>
+
+    <p>复利是世界第八大奇迹，前提是别打断它。我每天往知识库存一笔，每天让自动化跑一趟，每天动一次笔。单次看着微不足道，连起来是一条向上的曲线。我的排诗小工具，从自己用，到几十套样式，到有人专门因为它认识我，就是一圈圈滚出来的。</p>
+
+    <p>你断更、你囤资料、你把方法当收藏品，都是在打断复利。别打断，比找捷径管用。</p>
+
+    <h2>把几个帮手编排成一支队伍</h2>
+
+    <p>你后来会同时用几个 AI，各有长短。别让它们各干各的，也别靠默契。</p>
+
+    <p>我让它们共用一份能读能写的文档，谁干完活先写交接再交棒，岗位和边界写进规则里，不靠谁记得。默契会忘，写下来的纪律不会。你一个人再强，也比不过几个各司其职的帮手，绕着同一块白板接力。</p>
+
+    <p>这不是什么高科技，是把「协作」这件事说死，而不是指望谁刚好懂你。</p>
+
+    <h2>最后一句，方法不是用来收藏的</h2>
+
+    <p>这封信里每一条，你当年都似曾相识。书里写过，课里讲过，收藏夹里躺着。你不是不知道，是从没真的过一遍。</p>
+
+    <p>十年里我最亏的，不是没学方法，是把方法当收藏品。囤了一堆，没一件穿在身上。</p>
+
+    <p>所以别再收藏了。挑一条，明天就用。用着用着，它就成了你的。这封信，你十年后才收到，但你可以从今天就开始改。</p>
+  </div>
+
+  <div class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><span class="rm-tag">底层</span><a href="../models/model-n24.html">第一性原理</a> · 拆掉表面功夫，问最不可再分的问题。</li>
+      <li><span class="rm-tag">积累</span><a href="../models/model-n13.html">复利效应</a> · 每天存一笔，别打断它。</li>
+      <li><span class="rm-tag">状态</span><a href="../models/model-flow.html">心流 Flow</a> · 把最耗神的环节交出去，只守动笔这一关。</li>
+    </ul>
+  </div>
+
+  <div class="article-foot">
+    岛主手记 · 本文关联思维模型见上 · 转载请保留署名
+  </div>
+
+  <nav class="article-nav">
+    <a class="prev" href="ai-micro-tool-flywheel.html"><span class="label">上一篇</span>微工具开源飞轮</a>
+    <a class="next" href="index.html"><span class="label">目录</span>岛主的 AI 思考 · 全集</a>
+  </nav>
+</article>
+
+<div class="site-foot">
+  岛主 · 王仙客在岛上 · 岛主的 AI 思考系列
+</div>
+</body>
+</html>

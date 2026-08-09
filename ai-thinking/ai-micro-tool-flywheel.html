@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我先给自己写了个排诗的小工具，没想发财，飞轮却转起来了 · 岛主的 AI 思考 · 第 57 篇</title>
+<meta name="description" content="微工具开源飞轮：从自己排诗的真实小需求出发，写个轻巧工具，开源放出，飞轮自己转起来。AI 时代做产品，从你自己的真实需求开始就够了。">
+<meta property="og:title" content="我先给自己写了个排诗的小工具，没想发财，飞轮却转起来了 · 岛主的 AI 思考 · 第 57 篇">
+<meta property="og:description" content="微工具开源飞轮：从自己排诗的真实小需求出发，写个轻巧工具，开源放出，飞轮自己转起来。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="我先给自己写了个排诗的小工具，没想发财，飞轮却转起来了 · 岛主的 AI 思考 · 第 57 篇">
+<meta name="twitter:description" content="微工具开源飞轮：从自己排诗的真实小需求出发，写个轻巧工具，开源放出，飞轮自己转起来。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:560px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; font-size:14px; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>我先给自己写了个排诗的小工具，没想发财，飞轮却转起来了</h1>
+    <p class="subtitle">微工具开源飞轮，AI 时代做产品，从你自己的真实小需求开始就够了</p>
+    <p class="byline">岛主 · 第 57 篇 · 2026-08-09</p>
+  </header>
+
+  <figure class="exhibit-diagram">
+    <svg viewBox="0 0 560 420" role="img" aria-label="微工具开源飞轮示意图">
+      <defs>
+        <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+      <!-- central gear -->
+      <circle cx="280" cy="210" r="64" fill="#f4efe6" stroke="#9e2b25" stroke-width="2.5"/>
+      <text x="280" y="202" text-anchor="middle" font-size="19" font-weight="700" fill="#1c1a17">诗笺</text>
+      <text x="280" y="226" text-anchor="middle" font-size="13" fill="#4a443c">微工具</text>
+
+      <!-- flywheel loop (ellipse) -->
+      <ellipse cx="280" cy="210" rx="190" ry="140" fill="none" stroke="#d8cdba" stroke-width="1.5" stroke-dasharray="4 6"/>
+
+      <!-- nodes -->
+      <g font-family="-apple-system, 'PingFang SC', serif" text-anchor="middle">
+        <!-- top: 真实小需求 -->
+        <circle cx="280" cy="60" r="34" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="280" y="56" font-size="13" font-weight="700" fill="#1c1a17">真实需求</text>
+        <text x="280" y="74" font-size="11" fill="#4a443c">自己要排诗</text>
+        <!-- right: 写工具 -->
+        <circle cx="490" cy="210" r="34" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="490" y="206" font-size="13" font-weight="700" fill="#1c1a17">写工具</text>
+        <text x="490" y="224" font-size="11" fill="#4a443c">顺手做</text>
+        <!-- bottom: 开源放出 -->
+        <circle cx="280" cy="360" r="34" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="280" y="356" font-size="13" font-weight="700" fill="#1c1a17">开源放出</text>
+        <text x="280" y="374" font-size="11" fill="#4a443c">给飞轮入口</text>
+        <!-- left: 被用/反馈 -->
+        <circle cx="70" cy="210" r="34" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+        <text x="70" y="206" font-size="13" font-weight="700" fill="#1c1a17">有人用</text>
+        <text x="70" y="224" font-size="11" fill="#4a443c">star·反馈</text>
+      </g>
+
+      <!-- arrows clockwise -->
+      <path d="M300,94 Q420,120 470,180" fill="none" stroke="#9e2b25" stroke-width="2" marker-end="url(#arrow)"/>
+      <path d="M470,240 Q420,320 300,338" fill="none" stroke="#9e2b25" stroke-width="2" marker-end="url(#arrow)"/>
+      <path d="M260,338 Q140,320 90,240" fill="none" stroke="#9e2b25" stroke-width="2" marker-end="url(#arrow)"/>
+      <path d="M90,180 Q140,120 260,94" fill="none" stroke="#9e2b25" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- bottom caption -->
+      <text x="280" y="408" text-anchor="middle" font-size="12" fill="#9e2b25" font-style="italic">人在不在，飞轮都转；起点是自己真要用的那一个</text>
+    </svg>
+    <figcaption>微工具开源飞轮，从自己的真实小需求出发，写个轻巧工具，开源放出，有人用、给反馈，再推动你加样式修细节。一圈一圈，越转越顺。</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>我有阵子迷上了给自己的诗排版。写出来的句子摊在纯白文档里，总觉得委屈了它。市面上的工具要么太重，要么排出来一股 AI 味，花花绿绿像海报。我就冒出一个念头，能不能有个轻巧的东西，把一首诗排得像个小物件，素净，又经看。</p>
+
+    <p>念头一出来，我就动手自己写了一个。没立项，没调研，就是那天晚上想排一首诗，顺手开的头。</p>
+
+    <h2>它一开始不是产品，是我给自己省事的小玩意</h2>
+
+    <p>这个工具现在叫「诗笺」，已经攒出三十套排版风格。七套是给诗本身用的，竖排大字、古籍、长卷，把文字当主角；十一套带点文人气，题款印章、打字机、信笺；还有十二套轻量卡片，发朋友圈、做笔记都行。每一套样式，都是我从自己的一首诗出发，调出来的。</p>
+
+    <p>有意思的是，它一开始根本不是个"产品"，就是我给自己省事的一个小玩意。</p>
+
+    <p>后来我把它开源了。一个排诗的小工具，也值得放出去？我的想法很简单，开源不是为了装，是给飞轮一个入口。你能用，你的朋友能用，哪天谁顺手拿来排了自己的句子，这个循环就接通了。</p>
+
+    <h2>飞轮是怎么转起来的</h2>
+
+    <p>工具放出去，有人拿来排自己的诗，有人留言说这个竖排好看。这些反馈看着小，却让一个人愿意继续干。我又加了几种样式，修了几处细节，工具更好用，来的新人更多。一圈一圈，越转越顺。</p>
+
+    <p>这里头最关键的，是起点选对了。</p>
+
+    <h2>很多人做产品，第一关就卡在想象里</h2>
+
+    <p>很多人做产品，第一反应是问"别人要不要"。市场多大，竞品是谁，怎么变现。问题一问到这，往往就卡住了，因为答案都在想象里。你还没动手，先被一堆假设绊住。</p>
+
+    <p>我用第一性原理拆过这件事。做产品最底层的问题，是现在这个麻烦真不真。我自己的诗排不好看，这是铁一样的事实，不用猜。从自己出发，先把最小闭环转起来，比在脑海里推演一个不存在的市场靠谱得多。</p>
+
+    <div class="pull">从自己出发，先把最小闭环转起来，比在脑海里推演一个不存在的市场靠谱得多。</div>
+
+    <h2>复利效应，在飞轮里也成立</h2>
+
+    <p>复利效应说的那句老话，在这里也成立。复利是世界第八大奇迹，但前提是你别打断它。开源的飞轮也是这样，你每天愿不愿意再改一版，再回一条评论，再补一套样式，决定它滚不滚得起来。一个人闷头做产品，最容易断在没人回应。开源把"被看见、被用"这件事低成本接通，飞轮才有机会转。</p>
+
+    <h2>AI 时代，门槛被砍到了很低</h2>
+
+    <p>我越来越觉得，AI 时代做产品，门槛被砍到了很低。以前你要拉团队、找钱、写代码才能动一个东西。现在一个人，一个真实的小麻烦，几段提示词，就能做出一个能用的微工具。能不能做出东西，看你有没有一个真想解决的小需求，预算和编制不再是门槛。</p>
+
+    <p>所以别小看从自己需求入手。它不只是"省钱省事"这么轻。它让产品的第一块地基是实的，立得稳。你自己今天就用得上，这个事实谁也驳不倒。地基实了，往上叠东西才稳。</p>
+
+    <p>我给自己写诗排版的那个晚上，没想过它会变成三十套样式，也没想过会有人拿来用。我只是想把眼前这首诗排好看一点。然后飞轮自己转了起来。</p>
+
+    <p>对普通人是一样的。你手机里、工作里、生活里，一定有几个反复麻烦你的小事。挑一个最扎手的，用 AI 做个微工具解决它，然后开源放出去。别先想清楚怎么赚钱，先让飞轮转一下。转着转着，路就出来了。</p>
+  </div>
+
+  <div class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n13.html" target="_blank" rel="noopener">复利效应</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n24.html" target="_blank" rel="noopener">第一性原理</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-flow.html" target="_blank" rel="noopener">心流 Flow</a></li>
+    </ul>
+  </div>
+
+  <footer class="article-foot">
+    <p>原文首发于个人站 · 转载请保留署名</p>
+  </footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-automation-pipeline.html">
+    <span class="label">← 上一篇</span>
+    我把今天写什么做成了流水线
+  </a>
+  <a class="next" href="ai-shared-brain.html">
+    <span class="label">下一篇 →</span>
+    我让三个 AI 共用一个大脑
+  </a>
+</nav>
+
+<footer class="site-foot">
+  <p>岛主的 AI 思考 · 一个创作者关于 AI、产品与普通人如何用好工具的记录</p>
+</footer>
+</body>
+</html>

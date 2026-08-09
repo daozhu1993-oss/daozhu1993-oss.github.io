@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「写完即发布」· 我把和 AI 协作里的确认环节砍掉了 · 岛主的 AI 思考 · 第 60 篇</title>
+<meta name="description" content="和 AI 协作，我砍掉了流水线最后那一声确认。门禁前置 + 发布可逆，最后那一声就从防护退化成了延迟。砍掉它，写完直接出去，心流不断，复利自己滚。">
+<meta property="og:title" content="「写完即发布」· 我把和 AI 协作里的确认环节砍掉了 · 岛主的 AI 思考 · 第 60 篇">
+<meta property="og:description" content="门禁前置 + 发布可逆，确认就从防护退化成延迟。砍掉它，写完直接出去。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="「写完即发布」· 我把和 AI 协作里的确认环节砍掉了 · 岛主的 AI 思考 · 第 60 篇">
+<meta name="twitter:description" content="门禁前置 + 发布可逆，确认就从防护退化成延迟。砍掉它，写完直接出去。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:560px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>「写完即发布」· 我把和 AI 协作里的确认环节砍掉了</h1>
+    <p class="subtitle">门禁前置，发布可逆，流水线最后那一声确认就从防护退化成了延迟。砍掉它，写完直接出去</p>
+    <p class="byline">岛主 · 第 60 篇 · 2026-08-09</p>
+  </header>
+
+  <figure class="exhibit-diagram">
+    <svg viewBox="0 0 560 290" role="img" aria-label="两条发布流水线对比示意图">
+      <defs>
+        <marker id="arrowP" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+
+      <text x="20" y="34" font-size="13" font-weight="700" fill="#8a8175">以前</text>
+      <rect x="60" y="48" width="80" height="34" rx="8" fill="#f4efe6" stroke="#d8cdba" stroke-width="1.5"/>
+      <text x="100" y="70" text-anchor="middle" font-size="13" fill="#4a443c">草稿</text>
+      <rect x="170" y="48" width="80" height="34" rx="8" fill="#f4efe6" stroke="#d8cdba" stroke-width="1.5"/>
+      <text x="210" y="70" text-anchor="middle" font-size="13" fill="#4a443c">门禁</text>
+      <rect x="280" y="46" width="92" height="38" rx="8" fill="#c0413a"/>
+      <text x="326" y="69" text-anchor="middle" font-size="13" font-weight="700" fill="#f4efe6">等确认</text>
+      <text x="326" y="102" text-anchor="middle" font-size="10" fill="#9e2b25">卡住 等一声</text>
+      <rect x="430" y="48" width="80" height="34" rx="8" fill="#f4efe6" stroke="#d8cdba" stroke-width="1.5"/>
+      <text x="470" y="70" text-anchor="middle" font-size="13" fill="#4a443c">已发布</text>
+      <path d="M140,65 L168,65" stroke="#c9bda6" stroke-width="1.8" marker-end="url(#arrowP)"/>
+      <path d="M250,65 L278,65" stroke="#c9bda6" stroke-width="1.8" marker-end="url(#arrowP)"/>
+      <path d="M372,65 L428,65" stroke="#c9bda6" stroke-width="1.8" marker-end="url(#arrowP)"/>
+
+      <text x="20" y="134" font-size="13" font-weight="700" fill="#8a8175">现在</text>
+      <rect x="60" y="148" width="80" height="34" rx="8" fill="#f4efe6" stroke="#d8cdba" stroke-width="1.5"/>
+      <text x="100" y="170" text-anchor="middle" font-size="13" fill="#4a443c">草稿</text>
+      <rect x="170" y="148" width="80" height="34" rx="8" fill="#f4efe6" stroke="#d8cdba" stroke-width="1.5"/>
+      <text x="210" y="170" text-anchor="middle" font-size="13" fill="#4a443c">门禁</text>
+      <rect x="300" y="148" width="80" height="34" rx="8" fill="#f4efe6" stroke="#9e2b25" stroke-width="2"/>
+      <text x="340" y="170" text-anchor="middle" font-size="13" font-weight="700" fill="#9e2b25">已发布</text>
+      <path d="M140,165 L168,165" stroke="#9e2b25" stroke-width="2" marker-end="url(#arrowP)"/>
+      <path d="M250,165 L298,165" stroke="#9e2b25" stroke-width="2" marker-end="url(#arrowP)"/>
+
+      <text x="280" y="258" text-anchor="middle" font-size="12" fill="#9e2b25" font-style="italic">门禁前置，发布可逆，确认就退成了延迟</text>
+    </svg>
+    <figcaption>从上看，两条流水线都从草稿和门禁出发。上面那条多一个红色等确认卡在中间，流水线在那停一下。下面那条直接通到已发布。停一下的代价是节奏凉了，通的那条写完就出去。</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>前阵子我给你写一篇稿子，写完把发布要用的几样都备齐了，就差最后一声。我得等你说「部署上线」，才把那篇推到线上。有时候你忙，这句回得晚。等来的时候，我已经不太记得那篇要往哪儿落了。热的时候写的，凉下来再发，味道差一点。</p>
+
+    <p>我后来算了算，这道确认卡住的是节奏。每篇写到尾，流水线都在等一声上停一下。停一下本身不要紧，要紧的是上下文凉了，再捡起来得重新热。一天写两篇，就凉两次。</p>
+
+    <h2>敢砍，是因为两件事先就位了</h2>
+
+    <p>一是质量门禁前置。写的时候 check_prose 就把翻案腔、黑话、破折号这些硬禁项清零，门禁在流水线最前面。二是发布可逆。git 能回滚，Notion 能删，本地合集能改，发错了撤得回来，不是泼出去的水。</p>
+
+    <p>这两样到位之前，最后那声确认是有用的。它替我把关，也给我反悔的余地。等门禁移到最前面、发布又能撤，最后那一声还在，只是它防的错已经被前面的环节拦掉了，它挡的风险已经能靠撤销兜回来。</p>
+
+    <h2>砍的是内部那一声，不是所有确认</h2>
+
+    <p>砍的是内部流水线里那一声。发出去的是我自己的知识库和个人站，不碰外部账号。生产环境和隐私素材，这步本来不沾。往小红书、抖音、公众号、X 发，要人工排版、要登账号，那一步我不动。毛选参谋那类生产部署，涉及真用户和 IP 防护，更要先确认。一一的绘本、家庭素材，出门前必问。这些确认一道都不砍。</p>
+
+    <p>一句话说清边界，发出去的东西归谁、错了谁来撤、撤不撤得回。归我、我能撤、撤得回，那一声就可以省。归平台、归用户、撤不回，那一声就得留着。</p>
+
+    <h2>确认最底层是防错，不是求安心</h2>
+
+    <p>确认的底层是防错。门禁把错拦在前面，发布又能撤，那最后那一声就从防护退化成了延迟，多一道关卡，就多一次冷却。砍掉它，写完直接出去，心流不断，每天稳定落一篇，复利自己滚。你这次说「部署上线，并写这个主题」，我写完这篇就直接发了，没等你第二声。这篇文章，本身就是例子。</p>
+
+    <p>下次和 AI 协作，先把等确认那一声拎出来问。它防的是哪种错，错能不能前置拦住，发了能不能撤。能，就砍了它。</p>
+  </div>
+
+  <div class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><span class="rm-tag">状态</span><a href="../models/model-flow.html">心流 Flow</a> · 写完直接出去，心流不被最后一声打断。</li>
+      <li><span class="rm-tag">底层</span><a href="../models/model-n24.html">第一性原理</a> · 确认最底层是防错，拆到底看它还在不在防。</li>
+      <li><span class="rm-tag">积累</span><a href="../models/model-n13.html">复利效应</a> · 每天稳定落一篇，复利自己滚。</li>
+    </ul>
+  </div>
+
+  <div class="article-foot">
+    岛主手记 · 本文关联思维模型见上 · 转载请保留署名
+  </div>
+
+  <nav class="article-nav">
+    <a class="prev" href="ai-craftsmanship-ai-era.html"><span class="label">上一篇</span>AI 时代的匠人精神</a>
+    <a class="next" href="index.html"><span class="label">目录</span>岛主的 AI 思考 · 全集</a>
+  </nav>
+</article>
+
+<div class="site-foot">
+  岛主 · 王仙客在岛上 · 岛主的 AI 思考系列
+</div>
+</body>
+</html>

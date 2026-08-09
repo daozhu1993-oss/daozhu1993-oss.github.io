@@ -15,848 +15,548 @@
 <meta name="twitter:description" content="给女儿的绘本、写下来的诗、借古讽今的故事、一堆思维模型，还有一杯随时能聊的咖啡。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,900&family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
 
 <!-- 51.la analytics -->
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
 <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
 
 <style>
-  @import url('../design-system/tokens.css');
-  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--sans);
-    font-weight:300;
-    line-height:1.8;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  ::selection{background:var(--accent-soft);color:var(--ink);}
-  a{color:inherit;text-decoration:none;}
-  img{max-width:100%;display:block;}
+:root{
+  --teal:#1C7C6B; --teal-deep:#115548;
+  --gold:#D9A441; --gold-soft:#F7EEDA;
+  --coral:#D2553B;
+  --cream:#FBF8F1; --cream-dark:#F3ECDD;
+  --ink:#1C2522; --ink-light:#4A5754; --ink-faint:#8A938E;
+  --dark-panel:#13302B;
+  --line:#E4DACB;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --shadow:0 18px 44px rgba(28,37,34,.08);
+  --shadow-md:0 10px 28px rgba(28,37,34,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Noto Sans SC',system-ui,sans-serif;font-weight:300;line-height:1.85;
+  color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--ink);}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+h1,h2,h3,h4{font-family:'Noto Serif SC',serif;font-weight:900;line-height:1.18;letter-spacing:.01em;}
+.eyebrow{font-family:'Fira Code',monospace;font-size:13px;letter-spacing:.22em;color:var(--teal);text-transform:uppercase;}
+.sec-title{font-size:clamp(28px,4.4vw,46px);margin:.4rem 0 .8rem;color:var(--ink);}
+.sec-sub{color:var(--ink-light);max-width:560px;font-size:15px;}
+.em{color:var(--teal);}
+.em-gold{color:var(--gold);}
 
-  /* ── 滚动进度条 ── */
-  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--sage));z-index:60;transition:width .1s linear;}
+/* 容器与 section 节奏 */
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.4rem,5vw,3rem);}
+section{position:relative;padding:clamp(80px,12vh,150px) 0;}
+section.alt{background:var(--cream-dark);}
 
-  /* ── 右侧旅程导航 ── */
-  .journey{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px;z-index:50;}
-  .journey button{width:11px;height:11px;border:1.5px solid var(--faint);background:transparent;border-radius:50%;cursor:pointer;padding:0;transition:background .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease);position:relative;}
-  .journey button::after{content:attr(data-label);position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--mid);white-space:nowrap;opacity:0;transition:opacity .3s var(--ease);pointer-events:none;font-family:var(--serif);}
-  .journey button:hover::after{opacity:1;}
-  .journey button.active{border-color:var(--accent);background:var(--accent);transform:scale(1.25);}
-  .journey button.active::after{opacity:1;color:var(--accent);}
+/* 顶部进度条 */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--teal);z-index:80;transition:width .12s linear;}
 
-  /* ── 音乐开关 ── */
-  .music-btn{position:fixed;right:24px;bottom:24px;z-index:55;width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--surface);box-shadow:0 8px 24px var(--shadow);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease),border-color .3s var(--ease);}
-  .music-btn:hover{transform:translateY(-3px);border-color:var(--accent-soft);}
-  .music-btn svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.6;}
-  .music-btn.playing{border-color:var(--accent);}
-  .music-btn.playing .note{animation:notePulse 1.8s var(--ease) infinite;}
-  @keyframes notePulse{0%,100%{transform:scale(1);opacity:.9;}50%{transform:scale(1.18);opacity:1;}}
-  .music-btn .bars{display:none;gap:2px;align-items:flex-end;height:18px;}
-  .music-btn.playing .bars{display:flex;}
-  .music-btn.playing .note{display:none;}
-  .music-btn .bars span{width:3px;background:var(--accent);border-radius:2px;animation:eq 1s ease-in-out infinite;}
-  .music-btn .bars span:nth-child(1){height:6px;animation-delay:0s;}
-  .music-btn .bars span:nth-child(2){height:14px;animation-delay:.2s;}
-  .music-btn .bars span:nth-child(3){height:9px;animation-delay:.4s;}
-  .music-btn .bars span:nth-child(4){height:16px;animation-delay:.1s;}
-  @keyframes eq{0%,100%{transform:scaleY(.5);}50%{transform:scaleY(1);}}
+/* 顶部导航 */
+.nav{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem clamp(1.4rem,5vw,3rem);background:var(--cream);
+  border-bottom:1px solid transparent;transition:border-color .3s var(--ease),background .3s var(--ease);}
+.nav.scrolled{border-color:var(--line);}
+.brand{font-family:'Noto Serif SC',serif;font-weight:900;font-size:1.35rem;display:flex;align-items:center;gap:.15em;}
+.brand .dot{color:var(--teal);}
+.nav-links{display:flex;gap:1.8rem;align-items:center;}
+.nav-links a{font-size:.92rem;color:var(--ink-light);position:relative;transition:color .25s var(--ease);}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--gold);transition:width .28s var(--ease);}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{width:100%;}
 
-  /* ── 通用 section ── */
-  section{position:relative;padding:clamp(88px,12vh,140px) 8vw;min-height:auto;display:flex;flex-direction:column;justify-content:center;}
-  .cover{min-height:100vh;}            /* 头屏保留满屏呼吸感，其余栏目按内容自然高度，避免大屏空旷 */
-  .meet{max-width:1040px;margin:0 auto;}
-  .content .eyebrow,.content .sec-title,.content .sec-sub,.content .list{max-width:920px;margin-left:auto;margin-right:auto;}
-  .products .eyebrow,.products .sec-title,.products .sec-sub{max-width:920px;margin-left:auto;margin-right:auto;}
-  .prod-grid{max-width:920px;margin-left:auto;margin-right:auto;}
-  .eyebrow{font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;}
-  .sec-title{font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.25;letter-spacing:0;margin-bottom:14px;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;font-synthesis:none;}
-  .sec-sub{color:var(--mid);max-width:540px;font-size:15px;margin-bottom:48px;}
+/* 右侧旅程导航 */
+.journey{position:fixed;right:26px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;z-index:60;}
+.journey button{width:11px;height:11px;border:1.5px solid var(--ink-faint);background:transparent;border-radius:50%;cursor:pointer;padding:0;position:relative;transition:background .3s var(--ease),border-color .3s var(--ease),transform .3s var(--ease);}
+.journey button::after{content:attr(data-label);position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--ink-light);white-space:nowrap;opacity:0;transition:opacity .3s var(--ease);font-family:'Noto Serif SC',serif;}
+.journey button:hover::after{opacity:1;}
+.journey button.active{border-color:var(--teal);background:var(--teal);transform:scale(1.25);}
+.journey button.active::after{opacity:1;color:var(--teal);}
 
-  /* 滚动渐显 */
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
-  .reveal.in{opacity:1;transform:none;}
-  .reveal.d1{transition-delay:.12s;}
-  .reveal.d2{transition-delay:.24s;}
-  .reveal.d3{transition-delay:.36s;}
-  .reveal.d4{transition-delay:.48s;}
-  .reveal.d5{transition-delay:.60s;}
+/* 音乐开关 */
+.music-btn{position:fixed;right:24px;bottom:24px;z-index:65;width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--cream);box-shadow:var(--shadow);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease),border-color .3s var(--ease);}
+.music-btn:hover{transform:translateY(-3px);border-color:var(--gold);}
+.music-btn svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.6;}
+.music-btn .bars{display:none;gap:2px;align-items:flex-end;height:18px;}
+.music-btn.playing .bars{display:flex;}
+.music-btn.playing .note{display:none;}
+.music-btn.playing{border-color:var(--teal);}
+.music-btn .bars span{width:3px;background:var(--teal);border-radius:2px;animation:eq 1s ease-in-out infinite;}
+.music-btn .bars span:nth-child(1){height:6px;animation-delay:0s;}
+.music-btn .bars span:nth-child(2){height:14px;animation-delay:.2s;}
+.music-btn .bars span:nth-child(3){height:9px;animation-delay:.4s;}
+.music-btn .bars span:nth-child(4){height:16px;animation-delay:.1s;}
+@keyframes eq{0%,100%{transform:scaleY(.5);}50%{transform:scaleY(1);}}
 
-  /* ══ 0. 封面 ══ */
-  .cover{text-align:center;align-items:center;background:
-      radial-gradient(120% 80% at 50% 0%, #FFFDF8 0%, var(--bg) 55%),
-      var(--bg);}
-  .cover .island{width:min(360px,70vw);margin:0 auto 36px;}
-  .cover .island .wave{animation:waveMove 6s ease-in-out infinite;}
-  .cover .island svg{animation:islandFloat 7s var(--ease) infinite;}
-  @keyframes waveMove{0%,100%{transform:translateX(0);}50%{transform:translateX(-8px);}}
-  @keyframes islandFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
-  .cover h1{font-family:var(--serif);font-weight:700;font-size:clamp(46px,9vw,96px);letter-spacing:.04em;line-height:1.05;}
-  .cover h1 .dot{color:var(--accent);}
-  .cover .tag{font-family:var(--serif);font-size:clamp(15px,2.4vw,20px);color:var(--mid);margin-top:22px;letter-spacing:.04em;}
-  .enter-btn{margin-top:46px;display:inline-flex;align-items:center;gap:10px;padding:15px 38px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:var(--serif);font-size:16px;cursor:pointer;border:none;transition:transform .35s var(--ease),box-shadow .35s var(--ease);box-shadow:0 10px 30px rgba(43,38,34,.18);}
-  .enter-btn:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(43,38,34,.26);}
-  .enter-btn svg{width:18px;height:18px;stroke:var(--bg);fill:none;stroke-width:1.8;}
-  .enter-note{margin-top:18px;font-size:12px;letter-spacing:.08em;color:var(--muted);font-family:var(--serif);}
-  .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--mid);font-size:12px;letter-spacing:.2em;font-family:var(--serif);display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .scroll-hint .arrow{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite;}
-  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
+/* 滚动渐显 */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.in{opacity:1;transform:none;}
+.reveal.d1{transition-delay:.1s;} .reveal.d2{transition-delay:.2s;}
+.reveal.d3{transition-delay:.3s;} .reveal.d4{transition-delay:.4s;} .reveal.d5{transition-delay:.5s;}
 
-  /* ══ 1. 认识岛主 ══ */
-  .meet{flex-direction:row;gap:7vw;align-items:center;}
-  .meet .art{flex:0 0 38%;max-width:420px;}
-  .meet .art svg{width:100%;}
-  .meet .bio{flex:1;max-width:560px;text-align:left;}
-  .meet .bio p{font-size:16px;color:var(--ink);margin-bottom:18px;}
-  .meet .bio .name{font-family:var(--serif);font-weight:600;font-size:22px;color:var(--ink);margin-bottom:6px;}
-  .meet .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px;}
-  .meet .tags span{font-size:12px;color:var(--mid);border:1px solid var(--line);border-radius:999px;padding:5px 13px;background:var(--surface);}
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:999px;font-family:'Noto Serif SC',serif;font-weight:700;font-size:15px;cursor:pointer;border:1.5px solid transparent;transition:transform .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease),color .3s var(--ease);}
+.btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 12px 30px rgba(28,124,107,.28);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(28,124,107,.36);}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:transparent;}
+.btn-ghost:hover{transform:translateY(-3px);border-color:var(--teal);color:var(--teal);}
 
-  /* ══ 2. 翻内容 ══ */
-  .content{background:var(--bg-2);}
-  .content .list{border-top:1px solid var(--line);}
-  .row{display:flex;align-items:center;gap:24px;padding:28px 8px;border-bottom:1px solid var(--line);cursor:pointer;transition:padding .35s var(--ease),background .35s var(--ease);}
-  .row:hover{padding-left:22px;background:linear-gradient(90deg,rgba(200,101,75,.05),transparent 70%);}
-  .row .idx{font-family:var(--serif);font-size:14px;color:var(--faint);width:42px;flex:0 0 42px;}
-  .row .body{flex:1;}
-  .row .body h3{font-family:var(--serif);font-weight:500;font-size:22px;margin-bottom:4px;transition:color .3s var(--ease);}
-  .row:hover .body h3{color:var(--accent);}
-  .row .body p{font-size:13.5px;color:var(--mid);}
-  .row .meta{font-size:13px;color:var(--mid);font-family:var(--serif);white-space:nowrap;}
-  .row .arrow{width:22px;height:22px;flex:0 0 22px;stroke:var(--faint);fill:none;stroke-width:1.6;transition:transform .35s var(--ease),stroke .35s var(--ease);}
-  .row:hover .arrow{transform:translateX(6px);stroke:var(--accent);}
+/* ══ 布局1 · 分栏 HERO ══ */
+.hero{min-height:100vh;display:flex;align-items:center;}
+.hero .grid{display:grid;grid-template-columns:1.05fr .8fr;gap:clamp(32px,5vw,72px);align-items:center;width:100%;}
+.hero h1{font-size:clamp(42px,7vw,82px);line-height:1.08;margin:1.1rem 0;letter-spacing:.02em;}
+.hero .lede{color:var(--ink-light);font-size:clamp(15px,1.6vw,18px);max-width:30em;margin-bottom:2rem;}
+.hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+.hero-visual{position:relative;min-height:300px;display:flex;align-items:center;justify-content:center;}
+.hero-visual .ring{position:absolute;width:clamp(220px,26vw,300px);height:clamp(220px,26vw,300px);border:2.5px dashed var(--gold);border-radius:50%;animation:spin 40s linear infinite;}
+.hero-visual .glyph{font-family:'Fraunces',serif;font-style:italic;font-weight:900;font-size:clamp(120px,18vw,200px);color:var(--teal);opacity:.16;line-height:1;}
+.pill{position:absolute;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:13px;font-family:'Noto Serif SC',serif;font-weight:700;color:var(--ink);box-shadow:var(--shadow);}
+.pill.t1{top:14%;left:4%;animation:float 6s var(--ease) infinite;}
+.pill.t2{top:30%;right:2%;background:var(--gold-soft);animation:float 7s var(--ease) infinite .6s;}
+.pill.t3{bottom:16%;left:10%;color:var(--coral);border-color:rgba(210,85,59,.3);animation:float 6.5s var(--ease) infinite 1.1s;}
+.pill.t4{bottom:24%;right:8%;animation:float 7.5s var(--ease) infinite .3s;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+.scroll-hint{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:var(--ink-faint);font-size:12px;letter-spacing:.2em;font-family:'Noto Serif SC',serif;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.scroll-hint svg{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.5;}50%{transform:translateY(7px);opacity:1;}}
 
-  /* ══ 3. 逛产品 ══ */
-  .products{}
-  .prod-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;}
-  .prod-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px 28px;cursor:pointer;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);position:relative;overflow:hidden;}
-  .prod-card::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(200,101,75,.06),transparent 60%);opacity:0;transition:opacity .4s var(--ease);}
-  .prod-card:hover{transform:translateY(-8px);box-shadow:0 26px 50px var(--shadow);border-color:var(--accent-soft);}
-  .prod-card:hover::before{opacity:1;}
-  .prod-card .ico{width:46px;height:46px;margin-bottom:18px;}
-  .prod-card .ico svg{width:100%;height:100%;stroke:var(--accent);fill:none;stroke-width:1.5;}
-  .prod-card h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:8px;}
-  .prod-card .num{font-size:12px;color:var(--accent);letter-spacing:.05em;margin-bottom:10px;font-family:var(--serif);}
-  .prod-card p{font-size:13.5px;color:var(--mid);line-height:1.7;}
-  .prod-card .go{margin-top:16px;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:6px;opacity:.55;transition:opacity .3s var(--ease),gap .3s var(--ease);}
-  .prod-card:hover .go{opacity:1;gap:10px;color:var(--accent);}
+/* ══ 布局2 · STICKY 侧栏 ══ */
+.sticky-wrap{display:grid;grid-template-columns:.42fr 1fr;gap:clamp(36px,6vw,80px);align-items:start;}
+.sticky-aside{position:sticky;top:clamp(90px,14vh,140px);}
+.sticky-aside .word{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.98;color:var(--teal);}
+.sticky-aside .en{font-family:'Fraunces',serif;font-style:italic;font-size:1.1rem;color:var(--ink-faint);margin-top:.6rem;letter-spacing:.04em;}
+.prose p{font-size:16px;color:var(--ink-light);margin-bottom:1.1rem;}
+.prose p strong{color:var(--ink);font-weight:500;}
+.keyword-highlight{background:rgba(217,164,65,.28);padding:.08em .4em;border-radius:6px;color:var(--ink);}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:1.6rem;}
+.tags span{font-size:12px;color:var(--ink-light);border:1px solid var(--line);border-radius:999px;padding:6px 14px;background:var(--cream);}
 
-  /* ══ 4. 好用的小工具 ══ */
-  .tools .eyebrow,.tools .sec-title,.tools .sec-sub{max-width:920px;margin-left:auto;margin-right:auto;}
-  .tools-grid{max-width:920px;margin-left:auto;margin-right:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
-  .tool-card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:0;cursor:pointer;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);position:relative;overflow:hidden;display:flex;flex-direction:column;}
-  .tool-card .preview img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease);}
-  .tool-card:hover .preview img{transform:scale(1.05);}
-  .tool-card::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(200,101,75,.06),transparent 60%);opacity:0;transition:opacity .4s var(--ease);}
-  .tool-card:hover{transform:translateY(-8px);box-shadow:0 26px 50px var(--shadow);border-color:var(--accent-soft);}
-  .tool-card:hover::before{opacity:1;}
-  .tool-card .preview{height:148px;background:linear-gradient(135deg,#F9F5F0 0%,#F3EDE6 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-bottom:1px solid var(--line);}
-  .tool-card .preview svg{width:64px;height:64px;stroke:var(--accent);fill:none;stroke-width:1.4;opacity:.9;}
-  .tool-card:hover .preview svg{transform:scale(1.08);}
-  .tool-card .preview .badge{position:absolute;top:12px;right:12px;font-size:10px;letter-spacing:.08em;color:var(--accent);border:1px solid var(--accent-soft);border-radius:999px;padding:3px 10px;background:rgba(255,255,255,.7);font-family:var(--sans);}
-  .tool-card .body{padding:26px 28px 30px;display:flex;flex-direction:column;flex:1;}
-  .tool-card h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:8px;}
-  .tool-card .tagline{font-size:12px;color:var(--accent);letter-spacing:.05em;margin-bottom:10px;font-family:var(--serif);}
-  .tool-card p{font-size:13.5px;color:var(--mid);line-height:1.7;flex:1;}
-  .tool-card .go{margin-top:18px;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:6px;opacity:.55;transition:opacity .3s var(--ease),gap .3s var(--ease);}
-  .tool-card:hover .go{opacity:1;gap:10px;color:var(--accent);}
+/* ══ 布局3 · 步骤流（岛上大事记）══ */
+.steps{display:flex;flex-direction:column;gap:0;margin-top:2.4rem;}
+.step{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;padding:22px 0;border-top:1px solid var(--line);}
+.step:last-child{border-bottom:1px solid var(--line);}
+.step-num{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-style:italic;font-weight:900;font-size:1.5rem;background:var(--gold-soft);color:var(--teal-deep);border:2.5px dashed var(--gold);flex:0 0 auto;}
+.step .yr{font-family:'Fira Code',monospace;font-size:.78rem;letter-spacing:.1em;color:var(--ink-faint);}
+.step h3{font-size:1.3rem;margin:.15rem 0 .35rem;}
+.step p{color:var(--ink-light);font-size:14.5px;max-width:46em;}
 
-  /* ══ 5. 喝杯咖啡聊聊 ══ */
-  .contact{text-align:center;align-items:center;background:
-      radial-gradient(120% 90% at 50% 100%, #FFFDF8 0%, var(--bg) 55%),
-      var(--bg);}
-  .contact .cup{width:min(150px,40vw);margin:0 auto 34px;}
-  .contact .cup .steam{animation:steam 3.4s ease-in-out infinite;transform-origin:bottom;}
-  .contact .cup .steam.s2{animation-delay:.8s;}
-  .contact .cup .steam.s3{animation-delay:1.6s;}
-  @keyframes steam{0%{opacity:0;transform:translateY(4px) scaleY(.8);}40%{opacity:.7;}100%{opacity:0;transform:translateY(-14px) scaleY(1.15);}}
-  .contact .sec-sub{margin-left:auto;margin-right:auto;}
-  .contact .links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:560px;margin:8px auto 0;text-align:left;}
-  .contact .links a.contact-card{display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:var(--surface);font-family:var(--sans);transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);}
-  .contact .links a.contact-card:hover{transform:translateY(-4px);border-color:var(--accent-soft);box-shadow:0 14px 34px var(--shadow);}
-  .contact .links a.contact-card.wechat-trigger{border-color:var(--accent-soft);}
-  .contact .links a.contact-card.wechat-trigger:hover{border-color:var(--accent);}
-  .contact .cc-icon{width:42px;height:42px;border-radius:12px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;color:var(--accent);flex:0 0 auto;}
-  .contact .cc-icon svg{width:22px;height:22px;fill:var(--accent);}
-  .contact .cc-main{display:flex;flex-direction:column;gap:2px;min-width:0;}
-  .contact .cc-main strong{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);}
-  .contact .cc-main span{font-size:13px;color:var(--mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .qr-wrap{max-height:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease);opacity:0;}
-  .qr-wrap.open{max-height:320px;opacity:1;}
-  .qr-wrap img{width:min(200px,55vw);height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:0 18px 42px var(--shadow);margin:18px 0 10px;}
-  .qr-wrap p{font-size:13px;color:var(--mid);}
-  .contact .back-top{margin-top:28px;}
-  .contact .back-top a{display:inline-flex;align-items:center;gap:6px;font-family:var(--serif);font-size:14px;color:var(--mid);transition:color .3s var(--ease);}
-  .contact .back-top a:hover{color:var(--accent);}
-  .contact .closing{margin-top:40px;font-family:var(--serif);font-size:15px;color:var(--mid);letter-spacing:.05em;}
-  .footer{text-align:center;padding:30px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);font-family:var(--serif);letter-spacing:.04em;}
+/* ══ 布局4 · 卡片网格（翻内容）══ */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:2.4rem;}
+.feature-card{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:30px 26px;border-bottom:4px solid var(--gold);transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);}
+.feature-card:nth-child(2){border-bottom-color:var(--teal);}
+.feature-card:nth-child(3){border-bottom-color:var(--coral);}
+.feature-card:nth-child(4){border-bottom-color:var(--teal);}
+.feature-card:nth-child(5){border-bottom-color:var(--gold);}
+.feature-card:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--gold);}
+.feature-card .ico{font-size:1.7rem;}
+.feature-card h3{font-size:1.2rem;margin:.5rem 0 .3rem;}
+.feature-card .meta{font-family:'Fira Code',monospace;font-size:.74rem;color:var(--teal);letter-spacing:.05em;margin-bottom:.5rem;}
+.feature-card p{color:var(--ink-light);font-size:13.5px;}
 
-  /* ══ 1.5 岛上大事记（里程碑轮播）══ */
-  .timeline{background:var(--bg);}
-  .timeline .eyebrow,.timeline .sec-title,.timeline .sec-sub{max-width:920px;margin-left:auto;margin-right:auto;}
-  .tl-head{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:920px;margin:0 auto 28px;}
-  .tl-hint{font-size:12px;color:var(--muted);font-family:var(--serif);letter-spacing:.05em;}
-  .tl-nav{display:flex;gap:10px;flex:0 0 auto;}
-  .tl-nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease),border-color .3s var(--ease),opacity .3s var(--ease);}
-  .tl-nav button:hover:not(:disabled){border-color:var(--accent);transform:translateY(-2px);}
-  .tl-nav button svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.8;transition:stroke .3s var(--ease);}
-  .tl-nav button:hover:not(:disabled) svg{stroke:var(--accent);}
-  .tl-nav button:disabled{opacity:.35;cursor:default;}
-  .tl-frame{overflow:hidden;max-width:1100px;margin:0 auto;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 90%,transparent 100%);}
-  .tl-track{display:flex;gap:22px;transition:transform .55s var(--ease);will-change:transform;}
-  .tl-slide{flex:0 0 clamp(248px,30vw,320px);}
-  .tl-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 24px;height:100%;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);}
-  .tl-card:hover{transform:translateY(-6px);box-shadow:0 22px 44px var(--shadow);border-color:var(--accent-soft);}
-  .tl-year{font-family:var(--serif);font-size:14px;color:var(--accent);letter-spacing:.05em;margin-bottom:14px;font-weight:600;}
-  .tl-card h3{font-family:var(--serif);font-weight:600;font-size:20px;margin-bottom:10px;line-height:1.3;}
-  .tl-card p{font-size:13.5px;color:var(--mid);line-height:1.7;}
-  .tl-card .tl-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:18px;}
+/* ══ 布局5 · 全宽深色面板（金句）══ */
+.dark-panel{background:var(--dark-panel);color:#EDE7DA;border-radius:24px;padding:clamp(48px,7vw,88px) clamp(28px,5vw,72px);position:relative;overflow:hidden;margin-top:2.6rem;}
+.dark-panel .deco-en{position:absolute;right:-2%;bottom:-18%;font-family:'Fraunces',serif;font-style:italic;font-weight:900;font-size:clamp(80px,16vw,200px);color:var(--teal);opacity:.10;line-height:1;pointer-events:none;}
+.dark-panel .quote{font-family:'Noto Serif SC',serif;font-weight:700;font-size:clamp(1.4rem,3.2vw,2.3rem);line-height:1.5;position:relative;z-index:1;max-width:20em;}
+.dark-panel .quote .hl{color:var(--gold);}
+.dark-panel .cite{margin-top:1.4rem;font-family:'Fira Code',monospace;font-size:.8rem;color:var(--ink-faint);position:relative;z-index:1;}
 
-  /* ── 翻内容：悬停预览（peek）── */
-  .row{position:relative;}
-  .row-peek{position:absolute;top:calc(100% - 6px);left:8px;right:8px;z-index:30;background:var(--surface);border:1px solid var(--accent-soft);border-radius:14px;padding:16px 18px;box-shadow:0 20px 46px var(--shadow);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s;pointer-events:none;}
-  .row:hover .row-peek{opacity:1;visibility:visible;transform:translateY(0);}
-  .row-peek .peek-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-  .row-peek .peek-motif{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto;}
-  .row-peek .peek-title{font-family:var(--serif);font-weight:600;font-size:16px;}
-  .row-peek .peek-desc{font-size:13px;color:var(--mid);line-height:1.6;}
+/* ══ 逛作品 · BENTO（变体，避免与卡片网格同构）══ */
+.works-bento{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;margin-top:2.4rem;}
+.work-card{background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:30px;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);}
+.work-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--gold);}
+.work-card.feature{grid-row:span 3;justify-content:space-between;background:linear-gradient(160deg,var(--teal-deep),var(--dark-panel));color:#EDE7DA;border:none;}
+.work-card.feature .ico{font-size:2.4rem;}
+.work-card.feature h3{color:#fff;font-size:1.6rem;margin:.6rem 0 .4rem;}
+.work-card.feature p{color:rgba(237,231,218,.78);}
+.work-card.feature .num{color:var(--gold);}
+.work-right{display:grid;grid-template-rows:repeat(3,1fr);gap:22px;}
+.work-card .ico{font-size:1.8rem;}
+.work-card .num{font-family:'Fira Code',monospace;font-size:.74rem;letter-spacing:.05em;color:var(--teal);margin-bottom:.4rem;}
+.work-card h3{font-size:1.25rem;margin-bottom:.3rem;}
+.work-card p{color:var(--ink-light);font-size:13.5px;}
+.go{margin-top:auto;padding-top:1rem;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:6px;opacity:.55;transition:opacity .3s var(--ease),gap .3s var(--ease);font-family:'Noto Serif SC',serif;}
+.work-card:hover .go,.tool-row:hover .go{opacity:1;gap:10px;color:var(--teal);}
 
-  /* ── 渐进模糊页脚 ── */
-  .contact{padding-bottom:120px;}
-  .contact > *{position:relative;z-index:2;}
-  .footer-blur{position:absolute;left:0;right:0;bottom:0;height:150px;pointer-events:none;overflow:hidden;z-index:1;}
-  .footer-blur span{position:absolute;left:-6%;right:-6%;bottom:0;border-radius:60% 60% 0 0/100% 100% 0 0;background:linear-gradient(to top,var(--bg) 28%,rgba(251,248,241,0));}
-  .footer-blur span:nth-child(1){height:28%;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
-  .footer-blur span:nth-child(2){height:46%;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
-  .footer-blur span:nth-child(3){height:64%;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);}
-  .footer-blur span:nth-child(4){height:82%;backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);}
-  .footer-blur span:nth-child(5){height:100%;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
-  .footer{border-top:none;background:var(--bg);position:relative;z-index:2;}
+/* ══ 小工具 · 行列表（变体）══ */
+.tool-list{margin-top:2.4rem;display:flex;flex-direction:column;}
+.tool-row{display:flex;align-items:center;gap:22px;padding:24px 8px;border-top:1px solid var(--line);cursor:pointer;transition:padding .35s var(--ease),background .35s var(--ease);}
+.tool-list .tool-row:last-child{border-bottom:1px solid var(--line);}
+.tool-row:hover{padding-left:20px;background:linear-gradient(90deg,rgba(28,124,107,.06),transparent 70%);}
+.tool-ico{width:50px;height:50px;flex:0 0 50px;border-radius:14px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+.tool-body{flex:1;}
+.tool-body .tagline{font-family:'Fira Code',monospace;font-size:.72rem;letter-spacing:.05em;color:var(--teal);}
+.tool-body h3{font-size:1.2rem;margin:.2rem 0 .25rem;}
+.tool-body p{color:var(--ink-light);font-size:13.5px;max-width:54em;}
+.tool-row .arrow{width:22px;height:22px;flex:0 0 22px;stroke:var(--ink-faint);fill:none;stroke-width:1.6;transition:transform .35s var(--ease),stroke .35s var(--ease);}
+.tool-row:hover .arrow{transform:translateX(6px);stroke:var(--teal);}
+.tool-badge{font-size:10px;letter-spacing:.08em;color:var(--teal);border:1px solid var(--gold);border-radius:999px;padding:3px 10px;background:rgba(255,255,255,.7);font-family:'Fira Code',monospace;flex:0 0 auto;}
 
-  /* ── 移动端 ── */
-  @media (max-width:880px){
-    /* 移动端：journey 改为底部胶囊导航，常驻可见（仅显示当前栏目名，省空间） */
-    .journey{
-      right:auto; left:50%; top:auto; bottom:16px; transform:translateX(-50%);
-      flex-direction:row; gap:8px; padding:9px 14px;
-      background:rgba(255,255,255,.92); backdrop-filter:blur(6px);
-      border:1px solid var(--line); border-radius:999px;
-      box-shadow:var(--shadow-md); max-width:calc(100vw - 28px);
-    }
-    .journey button{ width:9px; height:9px; display:inline-flex; align-items:center; gap:5px; }
-    .journey button::after{ position:static; transform:none; opacity:1; font-size:11px; color:var(--muted); white-space:nowrap; }
-    .journey button:not(.active)::after{ display:none; }
-    .journey button.active::after{ color:var(--accent); }
-    section{padding:90px 7vw;min-height:auto;}
-    .cover{min-height:100vh;}
-    .meet{flex-direction:column;align-items:flex-start;gap:40px;}
-    .meet .art{flex:none;max-width:300px;}
-    .meet .tags{justify-content:flex-start;}
-    .meet .bio{text-align:left;}
-    .row .meta{display:none;}
-    .row-peek{display:none;}
-    .row{flex-wrap:wrap;gap:10px;}
-    .contact .links{grid-template-columns:1fr;max-width:360px;}
-    .tools-grid{grid-template-columns:repeat(2,1fr);}
-    .tool-card:nth-child(3){grid-column:1/-1;max-width:640px;justify-self:center;}
-    .prod-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  }
-  @media (max-width:560px){
-    .prod-grid{grid-template-columns:1fr;}
-    .tools-grid{grid-template-columns:1fr;}
-    .tool-card:nth-child(3){grid-column:auto;max-width:none;}
-    .contact .links a.contact-card{padding:16px 18px;}
-    .row .idx{width:28px;flex-basis:28px;}
-    .music-btn{width:46px;height:46px;right:16px;bottom:16px;}
-  }
+/* ══ 联系 · 喝杯咖啡聊聊（浅色居中）══ */
+.contact{text-align:center;}
+.contact .sec-title,.contact .sec-sub{margin-left:auto;margin-right:auto;}
+.contact .cup{width:min(140px,38vw);margin:0 auto 30px;}
+.contact .cup .steam{animation:steam 3.4s ease-in-out infinite;transform-origin:bottom;}
+.contact .cup .steam.s2{animation-delay:.8s;}
+.contact .cup .steam.s3{animation-delay:1.6s;}
+@keyframes steam{0%{opacity:0;transform:translateY(4px) scaleY(.8);}40%{opacity:.7;}100%{opacity:0;transform:translateY(-14px) scaleY(1.15);}}
+.links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:560px;margin:2rem auto 0;text-align:left;}
+.contact-card{display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:18px;border:1px solid var(--line);background:var(--cream);transition:transform .35s var(--ease),border-color .35s var(--ease),box-shadow .35s var(--ease);}
+.contact-card:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:var(--shadow);}
+.contact-card.wechat-trigger{border-color:var(--gold);}
+.cc-icon{width:42px;height:42px;border-radius:12px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:18px;color:var(--teal);flex:0 0 auto;}
+.cc-main{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.cc-main strong{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:900;}
+.cc-main span{font-size:13px;color:var(--ink-light);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qr-wrap{max-height:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .4s var(--ease);opacity:0;}
+.qr-wrap.open{max-height:320px;opacity:1;}
+.qr-wrap img{width:min(200px,55vw);height:auto;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow);margin:18px auto 10px;}
+.qr-wrap p{font-size:13px;color:var(--ink-light);}
+.back-top{margin-top:1.8rem;}
+.back-top a{display:inline-flex;align-items:center;gap:6px;font-family:'Noto Serif SC',serif;font-size:14px;color:var(--ink-light);transition:color .3s var(--ease);}
+.back-top a:hover{color:var(--teal);}
+.closing{margin-top:2.4rem;font-family:'Noto Serif SC',serif;font-size:15px;color:var(--ink-light);letter-spacing:.05em;}
 
-  /* ── 键盘焦点可见性 ── */
-  a:focus-visible,button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:3px;border-radius:6px;}
-  .journey button:focus-visible{outline-offset:4px;}
+/* ══ 页脚 ══ */
+.footer{background:var(--dark-panel);color:#EDE7DA;padding:clamp(48px,7vw,80px) 0 36px;position:relative;overflow:hidden;}
+.footer .wave{position:absolute;left:0;right:0;bottom:0;width:100%;opacity:.10;pointer-events:none;}
+.footer .f-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px;position:relative;z-index:1;}
+.footer .f-brand{font-family:'Noto Serif SC',serif;font-weight:900;font-size:1.6rem;}
+.footer .f-brand .dot{color:var(--gold);}
+.footer .f-tag{color:rgba(237,231,218,.65);font-size:13px;margin-top:.5rem;max-width:22em;}
+.footer .f-nav{display:flex;gap:1.4rem;flex-wrap:wrap;}
+.footer .f-nav a{color:rgba(237,231,218,.8);font-size:14px;transition:color .25s var(--ease);}
+.footer .f-nav a:hover{color:var(--gold);}
+.footer .f-bottom{margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid rgba(237,231,218,.14);font-size:12px;color:rgba(237,231,218,.5);position:relative;z-index:1;font-family:'Fira Code',monospace;letter-spacing:.03em;}
 
-  /* ── 触感按压反馈（E 微动效）── */
-  .enter-btn:active{transform:translateY(-1px) scale(.98);transition:transform var(--dur-fast) var(--ease),box-shadow var(--dur-fast) var(--ease);}
-  .prod-card:active,.tool-card:active{transform:translateY(-4px) scale(.985);transition:transform var(--dur-fast) var(--ease);}
-  .tl-nav button:active:not(:disabled){transform:scale(.92);transition:transform var(--dur-fast) var(--ease);}
-  .journey button:active{transform:scale(1.15);transition:transform var(--dur-fast) var(--ease);}
-  .row:active{background:linear-gradient(90deg,rgba(200,101,75,.08),transparent 70%);}
-  .contact .links a.contact-card:active{transform:translateY(-1px) scale(.99);transition:transform var(--dur-fast) var(--ease);}
-
-  /* ── 跳到主内容（键盘/屏读用户） ── */
-  .skip-link{position:absolute;left:12px;top:-48px;z-index:100;background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-family:var(--serif);font-size:14px;transition:top .25s var(--ease);}
-  .skip-link:focus{top:12px;}
-
-  /* ── 尊重系统「减弱动态效果」设置 ── */
-  @media (prefers-reduced-motion: reduce){
-    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
-    .reveal{opacity:1 !important;transform:none !important;}
-    .footer-blur{display:none !important;}
-    .cover .island .wave,.cover .island svg,.contact .cup .steam,.scroll-hint .arrow,.music-btn.playing .note,.music-btn.playing .bars span{animation:none !important;}
-  }
-
-  /* ── 触屏设备：禁用悬停位移，避免点按后“卡住”的悬浮态 ── */
-  @media (hover: none){
-    .music-btn:hover,.enter-btn:hover,.prod-card:hover,.tool-card:hover,
-    .contact .links a.contact-card:hover,.tl-card:hover,.tl-nav button:hover:not(:disabled),
-    .row:hover .arrow,.tool-card:hover .preview img,.tool-card:hover .preview svg{ transform:none; }
-  }
+/* 移动端 */
+@media (max-width:900px){
+  .nav-links{display:none;}
+  .journey{right:auto;left:50%;top:auto;bottom:16px;transform:translateX(-50%);flex-direction:row;gap:8px;padding:9px 14px;background:var(--cream);border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow-md);}
+  .journey button::after{position:static;transform:none;opacity:1;font-size:11px;color:var(--ink-faint);}
+  .journey button:not(.active)::after{display:none;}
+  .journey button.active::after{color:var(--teal);}
+  .hero .grid,.sticky-wrap,.cards,.works-bento{grid-template-columns:1fr;}
+  .sticky-aside{position:static;}
+  .hero-visual{min-height:240px;margin-top:1rem;}
+  .work-card.feature{grid-row:auto;}
+  .work-right{grid-template-rows:none;}
+  .links{grid-template-columns:1fr;max-width:360px;}
+}
+@media (max-width:560px){
+  .cards{grid-template-columns:1fr;}
+  .tool-row{flex-wrap:wrap;gap:12px;}
+  .tool-badge{order:3;}
+  .contact-card{padding:16px 18px;}
+}
+a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px;}
+.journey button:focus-visible{outline-offset:4px;}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important;}
+  .reveal{opacity:1!important;transform:none!important;}
+  .hero-visual .ring,.hero-visual .pill,.contact .cup .steam,.scroll-hint svg{animation:none!important;}
+}
+@media (hover:none){
+  .btn:hover,.work-card:hover,.feature-card:hover,.tool-row:hover,.contact-card:hover,.music-btn:hover{transform:none;}
+}
 </style>
 </head>
 <body>
 
-<a class="skip-link" href="#meet">跳到主内容</a>
+<a class="skip-link" href="#meet" style="position:absolute;left:12px;top:-48px;z-index:100;background:var(--teal);color:#fff;padding:10px 18px;border-radius:999px;font-family:'Noto Serif SC',serif;font-size:14px;transition:top .25s var(--ease);">跳到主内容</a>
+<div class="skip-link-target"></div>
+<style>.skip-link:focus{top:12px;}</style>
 
 <div class="progress" id="progress"></div>
 
-<nav class="journey" id="journey" aria-label="岛屿旅程导航">
-  <button data-target="cover"   data-label="进入"     class="active" aria-label="进入"></button>
-  <button data-target="meet"    data-label="认识岛主" aria-label="认识岛主"></button>
-  <button data-target="timeline" data-label="岛上大事记" aria-label="岛上大事记"></button>
-  <button data-target="content" data-label="翻内容" aria-label="翻内容"></button>
-  <button data-target="products" data-label="逛产品" aria-label="逛产品"></button>
-  <button data-target="tools" data-label="小工具" aria-label="小工具"></button>
-  <button data-target="contact" data-label="喝杯咖啡聊聊" aria-label="喝杯咖啡聊聊"></button>
+<nav class="nav" id="nav">
+  <a class="brand" href="#hero">岛主<span class="dot">.</span></a>
+  <div class="nav-links">
+    <a href="#meet">认识</a>
+    <a href="#timeline">大事记</a>
+    <a href="#content">内容</a>
+    <a href="#works">作品</a>
+    <a href="#tools">工具</a>
+    <a href="#contact">联系</a>
+  </div>
 </nav>
 
-<button class="music-btn" id="musicBtn" aria-label="背景音乐：Best of Me — Daniel Powter" title="背景音乐 · Best of Me — Daniel Powter">
+<nav class="journey" id="journey" aria-label="岛屿旅程导航">
+  <button data-target="hero" data-label="岛上" class="active" aria-label="岛上"></button>
+  <button data-target="meet" data-label="认识岛主" aria-label="认识岛主"></button>
+  <button data-target="timeline" data-label="大事记" aria-label="大事记"></button>
+  <button data-target="content" data-label="翻内容" aria-label="翻内容"></button>
+  <button data-target="works" data-label="逛作品" aria-label="逛作品"></button>
+  <button data-target="tools" data-label="小工具" aria-label="小工具"></button>
+  <button data-target="contact" data-label="聊聊" aria-label="聊聊"></button>
+</nav>
+
+<button class="music-btn" id="musicBtn" aria-label="背景音乐开关" title="背景音乐 · Best of Me — Daniel Powter">
   <svg class="note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
   <span class="bars"><span></span><span></span><span></span><span></span></span>
 </button>
+<audio id="bgm" loop preload="auto" src="https://daozhu1993-oss.github.io/v2/assets/bgm.mp3"></audio>
 
-<audio id="bgm" loop preload="auto" src="assets/bgm.mp3"></audio>
-
-<!-- ════ 0. 封面 / 进入 ════ -->
-<section class="cover" id="cover">
-  <div class="island reveal in">
-    <svg viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- 远山 -->
-      <path d="M20 150 Q70 95 130 140 Q170 110 220 145 Q280 100 340 148" stroke="#C9BFAE" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-      <!-- 岛 -->
-      <path d="M70 168 Q120 120 180 130 Q250 120 300 170 Q300 188 180 190 Q60 188 70 168 Z" fill="#EAD9C2" stroke="#C8654B" stroke-width="1.6"/>
-      <!-- 小屋 -->
-      <path d="M168 132 l16 -16 l16 16 Z" fill="#C8654B"/>
-      <rect x="176" y="132" width="16" height="16" rx="1.5" fill="#FBF8F1" stroke="#C8654B" stroke-width="1.2"/>
-      <!-- 树 -->
-      <path d="M132 150 l0 -18 M132 138 q-9 -4 -12 -12 M132 142 q9 -3 13 -11" stroke="#6F8C7A" stroke-width="1.6" stroke-linecap="round" fill="none"/>
-      <circle cx="132" cy="120" r="9" fill="#6F8C7A" opacity=".85"/>
-      <!-- 波浪 -->
-      <g class="wave" stroke="#B6AE9F" stroke-width="1.3" fill="none" stroke-linecap="round">
-        <path d="M30 198 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0"/>
-        <path d="M44 208 q15 -8 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" opacity=".55"/>
-      </g>
-      <!-- 太阳 -->
-      <circle cx="288" cy="64" r="16" fill="#E7B7A8"/>
-    </svg>
-  </div>
-  <h1 class="reveal in d1">岛主<span class="dot">.</span></h1>
-  <p class="tag reveal in d2">在岛上，慢慢长出来的东西</p>
-  <button class="enter-btn reveal in d3" id="enterBtn">
-    进入小岛
-    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-  </button>
-  <p class="enter-note">进入即播放《Best of Me》 · 右下角可随时暂停</p>
-  <div class="scroll-hint">
-    <span>向下</span>
-    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
-  </div>
-</section>
-
-<!-- ════ 1. 认识岛主 ════ -->
-<section class="meet" id="meet" tabindex="-1">
-  <div class="art reveal">
-    <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- 小岛底座 -->
-      <path d="M20 310 Q90 250 160 270 Q240 250 300 310 L300 360 L20 360 Z" fill="#EAD9C2" stroke="#C8654B" stroke-width="1.5"/>
-      <!-- 海浪 -->
-      <path d="M0 335 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#B6AE9F" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/>
-      <path d="M20 350 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#B6AE9F" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/>
-      <!-- 小书桌 -->
-      <rect x="86" y="218" width="148" height="82" rx="3" fill="#FFFDF8" stroke="#2B2622" stroke-width="1.8"/>
-      <line x1="100" y1="300" x2="100" y2="322" stroke="#2B2622" stroke-width="2.2" stroke-linecap="round"/>
-      <line x1="220" y1="300" x2="220" y2="322" stroke="#2B2622" stroke-width="2.2" stroke-linecap="round"/>
-      <path d="M86 218 L234 218 L222 210 L98 210 Z" fill="#ECE5D7" stroke="#2B2622" stroke-width="1.2"/>
-      <!-- 台灯 -->
-      <path d="M120 218 L120 188 Q120 176 132 178 L148 182" stroke="#2B2622" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M148 182 L168 186 L164 198 L144 194 Z" fill="#FBF8F1" stroke="#2B2622" stroke-width="1.5"/>
-      <!-- 灯光 -->
-      <path d="M150 196 L110 260 L190 260 Z" fill="url(#lampGlow)" opacity=".35"/>
-      <defs>
-        <linearGradient id="lampGlow" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#E7B7A8"/>
-          <stop offset="100%" stop-color="#E7B7A8" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <!-- 纸和笔 -->
-      <rect x="154" y="232" width="58" height="42" rx="2" fill="#FFFDF8" stroke="#2B2622" stroke-width="1.3"/>
-      <line x1="166" y1="246" x2="200" y2="246" stroke="#B6AE9F" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="166" y1="256" x2="194" y2="256" stroke="#B6AE9F" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="166" y1="266" x2="188" y2="266" stroke="#B6AE9F" stroke-width="1.2" stroke-linecap="round"/>
-      <line x1="140" y1="228" x2="118" y2="254" stroke="#2B2622" stroke-width="1.8" stroke-linecap="round"/>
-      <line x1="118" y1="254" x2="114" y2="250" stroke="#2B2622" stroke-width="1.8" stroke-linecap="round"/>
-      <line x1="118" y1="254" x2="122" y2="258" stroke="#2B2622" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- 咖啡杯 -->
-      <path d="M104 244 h26 v18 a13 13 0 0 1 -26 0 Z" fill="#FFFDF8" stroke="#2B2622" stroke-width="1.5"/>
-      <path d="M130 252 q8 0 8 6 q0 8 -8 6" fill="none" stroke="#2B2622" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="108" y1="240" x2="112" y2="232" stroke="#6F4E37" stroke-width="1.4" stroke-linecap="round" opacity=".5"/>
-      <line x1="118" y1="238" x2="120" y2="228" stroke="#6F4E37" stroke-width="1.4" stroke-linecap="round" opacity=".5"/>
-      <!-- 小树 -->
-      <path d="M250 308 q0 -24 0 -40 M250 288 q12 -6 18 -16 M250 296 q-12 -5 -18 -14" stroke="#6F8C7A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-      <circle cx="250" cy="266" r="8" fill="#6F8C7A" opacity=".85"/>
-      <!-- 飞鸟 -->
-      <path d="M70 120 q8 -6 16 0 M86 120 q8 -6 16 0" stroke="#8C8377" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".6"/>
-      <path d="M260 90 q6 -5 12 0 M272 90 q6 -5 12 0" stroke="#8C8377" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".5"/>
-    </svg>
-  </div>
-  <div class="bio">
-    <div class="name reveal">我是岛主</div>
-    <p class="reveal d1">一个在写东西的爸爸。干过十年编剧——最早在学而思写动画，后来转去做产品经理，现在更多是个 AI 内容创作者：写故事、做产品、折腾 AI。</p>
-    <p class="reveal d2">日常是给女儿一一画成长绘本、把神话翻成新编、写诗和小说；也顺手把商业方法论和 AI 的那些思考，讲得人话一点。这个岛不大，但装的东西不少。</p>
-    <div class="tags reveal d3">
-      <span>十年编剧 · 学而思动画起步</span>
-      <span>产品经理 / AI 内容创作者</span>
-      <span>给女儿画绘本</span>
-      <span>神话新编 · 诗 · 小说</span>
-      <span>商业方法论 &amp; AI 思考</span>
+<!-- ════ 布局1 · HERO ════ -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <div class="eyebrow reveal">A PERSONAL ISLAND</div>
+        <h1 class="reveal d1">在岛上，<br>慢慢<em>长出来</em>的东西</h1>
+        <p class="lede reveal d2">给女儿的绘本、写下来的诗、借古讽今的故事、一堆思维模型，还有一杯随时能聊的咖啡。</p>
+        <div class="cta-row reveal d3">
+          <a class="btn btn-primary" href="#content">翻翻内容
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="#meet">认识岛主</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal d2">
+        <div class="ring"></div>
+        <div class="glyph">島</div>
+        <span class="pill t1">📖 绘本</span>
+        <span class="pill t2">✒️ 诗</span>
+        <span class="pill t3">🧠 模型</span>
+        <span class="pill t4">📜 故事</span>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span>向下</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
     </div>
   </div>
 </section>
 
-<!-- ════ 1.5 岛上大事记 ════ -->
-<section class="timeline" id="timeline" tabindex="-1">
-  <div class="eyebrow reveal">THE ISLAND'S JOURNEY</div>
-  <h2 class="sec-title reveal d1">岛上大事记</h2>
-  <p class="sec-sub reveal d1">不是规划出来的，是一路走、一路长出来的。</p>
-  <div class="tl-head reveal d2">
-    <span class="tl-hint">← 还有更多 · 拖动或点箭头翻看 →</span>
-    <div class="tl-nav">
-      <button type="button" data-tl-prev aria-label="上一件"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
-      <button type="button" data-tl-next aria-label="下一件"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+<!-- ════ 布局2 · 认识岛主（STICKY）══ -->
+<section class="alt" id="meet" tabindex="-1">
+  <div class="wrap">
+    <div class="sticky-wrap">
+      <aside class="sticky-aside">
+        <div class="word reveal">我是<br>岛主</div>
+        <div class="en reveal d1">ISLAND HOST · 王仙客</div>
+      </aside>
+      <div class="prose">
+        <p class="reveal">一个在写东西的爸爸。干过十年编剧——最早在学而思写动画，后来转去做产品经理，现在更多是个 <strong>AI 内容创作者</strong>：写故事、做产品、折腾 AI。</p>
+        <p class="reveal d1">日常是给女儿一一画成长绘本、把神话翻成新编、写诗和小说；也顺手把<span class="keyword-highlight">商业方法论</span>和 <span class="keyword-highlight">AI 的那些思考</span>，讲得人话一点。这个岛不大，但装的东西不少。</p>
+        <div class="tags reveal d2">
+          <span>十年编剧 · 学而思动画起步</span>
+          <span>产品经理 / AI 内容创作者</span>
+          <span>给女儿画绘本</span>
+          <span>神话新编 · 诗 · 小说</span>
+          <span>商业方法论 &amp; AI 思考</span>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="tl-frame reveal d2">
-    <div class="tl-track">
-      <figure class="tl-slide"><div class="tl-card"><div class="tl-year">起点</div><h3>十年编剧</h3><p>最早在学而思写动画剧本，把故事讲到今天。</p><span class="tl-dot"></span></div></figure>
-      <figure class="tl-slide"><div class="tl-card"><div class="tl-year">转场</div><h3>产品经理</h3><p>从写故事的人，变成做产品的人，换个角度去理解人。</p><span class="tl-dot"></span></div></figure>
-      <figure class="tl-slide"><div class="tl-card"><div class="tl-year">2025</div><h3>一一来到岛上</h3><p>女儿一一出生（3 月），开始为她一笔一画地画成长绘本。</p><span class="tl-dot"></span></div></figure>
-      <figure class="tl-slide"><div class="tl-card"><div class="tl-year">沉淀</div><h3>230 个思维模型</h3><p>把常用的思维模型做成单页笔记，慢慢汇成一座知识库。</p><span class="tl-dot"></span></div></figure>
-      <figure class="tl-slide"><div class="tl-card"><div class="tl-year">2026</div><h3>绘本画到 30 本</h3><p>一一的故事已写成 30 本绘本，还在一本地画下去。</p><span class="tl-dot"></span></div></figure>
-      <figure class="tl-slide"><div class="tl-card"><div class="tl-year">此刻</div><h3>在岛上安家</h3><p>用 vibe coding 给自己造了座岛，把写下来的东西都放了进来。</p><span class="tl-dot"></span></div></figure>
+</section>
+
+<!-- ════ 布局3 · 岛上大事记（步骤流）══ -->
+<section id="timeline" tabindex="-1">
+  <div class="wrap">
+    <div class="eyebrow reveal">THE ISLAND'S JOURNEY</div>
+    <h2 class="sec-title reveal d1">岛上大事记</h2>
+    <p class="sec-sub reveal d1">不是规划出来的，是一路走、一路长出来的。</p>
+    <div class="steps">
+      <div class="step reveal d1"><div class="step-num">01</div><div><div class="yr">起点</div><h3>十年编剧</h3><p>最早在学而思写动画剧本，把故事讲到今天。</p></div></div>
+      <div class="step reveal d2"><div class="step-num">02</div><div><div class="yr">转场</div><h3>产品经理</h3><p>从写故事的人，变成做产品的人，换个角度去理解人。</p></div></div>
+      <div class="step reveal d3"><div class="step-num">03</div><div><div class="yr">2025</div><h3>一一来到岛上</h3><p>女儿一一出生（3 月），开始为她一笔一画地画成长绘本。</p></div></div>
+      <div class="step reveal d4"><div class="step-num">04</div><div><div class="yr">沉淀</div><h3>230 个思维模型</h3><p>把常用的思维模型做成单页笔记，慢慢汇成一座知识库。</p></div></div>
+      <div class="step reveal d5"><div class="step-num">05</div><div><div class="yr">2026</div><h3>绘本画到 30 本</h3><p>一一的故事已写成 30 本绘本，还在一本地画下去。</p></div></div>
+      <div class="step reveal d5"><div class="step-num">06</div><div><div class="yr">此刻</div><h3>在岛上安家</h3><p>用 vibe coding 给自己造了座岛，把写下来的东西都放了进来。</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- ════ 2. 翻内容 ════ -->
-<section class="content" id="content">
-  <div class="eyebrow reveal">WRITINGS</div>
-  <h2 class="sec-title reveal d1">翻翻我写的内容</h2>
-  <p class="sec-sub reveal d1">零碎的、认真的、借古讽今的，都在这里。</p>
-  <div class="list">
-    <a class="row reveal d1" href="../poetry/index.html">
-      <span class="idx">01</span>
-      <div class="body"><h3>岛主的诗</h3><p>现代诗，写在情绪落下来的时候。</p></div>
-      <span class="meta">82 首</span>
-      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      <span class="row-peek"><span class="peek-top"><span class="peek-motif">✒️</span><span class="peek-title">岛主的诗</span></span><span class="peek-desc">82 首现代诗，写在情绪落下来的时候。点开，翻几页。</span></span>
-    </a>
-    <a class="row reveal d2" href="../myth/index.html">
-      <span class="idx">02</span>
-      <div class="body"><h3>故事别传</h3><p>把神话拆开，借古人的壳，说今天的事。</p></div>
-      <span class="meta">11 篇</span>
-      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      <span class="row-peek"><span class="peek-top"><span class="peek-motif">📜</span><span class="peek-title">故事别传</span></span><span class="peek-desc">把神话拆开，借古人的壳，说今天的事。11 篇陆续上新。</span></span>
-    </a>
-    <a class="row reveal d3" href="../ai-thinking/index.html">
-      <span class="idx">03</span>
-      <div class="body"><h3>岛主的AI思考</h3><p>关于 AI、产品与普通人如何用好工具的思考。</p></div>
-      <span class="meta">持续更新</span>
-      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      <span class="row-peek"><span class="peek-top"><span class="peek-motif">🤖</span><span class="peek-title">岛主的AI思考</span></span><span class="peek-desc">关于 AI、产品，与普通人如何用好工具的思考。持续更新。</span></span>
-    </a>
-    <a class="row reveal d4" href="../novel/index.html">
-      <span class="idx">04</span>
-      <div class="body"><h3>岛主的奇思妙想</h3><p>短篇小说、长篇小说，还有一些没想好放哪的故事。</p></div>
-      <span class="meta">待补录</span>
-      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      <span class="row-peek"><span class="peek-top"><span class="peek-motif">💡</span><span class="peek-title">岛主的奇思妙想</span></span><span class="peek-desc">短篇、长篇，还有一些没想好放哪的故事。抽屉里慢慢填。</span></span>
-    </a>
-    <a class="row reveal d5" href="https://xhslink.com/m/2h5SdBrgtiq" target="_blank" rel="noopener">
-      <span class="idx">05</span>
-      <div class="body"><h3>岛主和佳佳的旅行日记</h3><p>和佳佳一起，慢慢走中国。</p></div>
-      <span class="meta">↗ 小红书</span>
-      <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      <span class="row-peek"><span class="peek-top"><span class="peek-motif">🧳</span><span class="peek-title">岛主和佳佳的旅行日记</span></span><span class="peek-desc">和佳佳一起，慢慢走中国。在小红书更新。</span></span>
-    </a>
+<!-- ════ 布局4 · 翻内容（卡片网格）══ -->
+<section class="alt" id="content" tabindex="-1">
+  <div class="wrap">
+    <div class="eyebrow reveal">WRITINGS</div>
+    <h2 class="sec-title reveal d1">翻翻我写的内容</h2>
+    <p class="sec-sub reveal d1">零碎的、认真的、借古讽今的，都在这里。</p>
+    <div class="cards">
+      <a class="feature-card reveal d1" href="../poetry/index.html">
+        <span class="ico">✒️</span><div class="meta">82 首</div><h3>岛主的诗</h3><p>现代诗，写在情绪落下来的时候。</p></a>
+      <a class="feature-card reveal d2" href="../myth/index.html">
+        <span class="ico">📜</span><div class="meta">11 篇</div><h3>故事别传</h3><p>把神话拆开，借古人的壳，说今天的事。</p></a>
+      <a class="feature-card reveal d3" href="../ai-thinking/index.html">
+        <span class="ico">🤖</span><div class="meta">持续更新</div><h3>岛主的 AI 思考</h3><p>关于 AI、产品与普通人如何用好工具的思考。</p></a>
+      <a class="feature-card reveal d4" href="../novel/index.html">
+        <span class="ico">💡</span><div class="meta">待补录</div><h3>岛主的奇思妙想</h3><p>短篇小说、长篇小说，还有一些没想好放哪的故事。</p></a>
+      <a class="feature-card reveal d5" href="https://xhslink.com/m/2h5SdBrgtiq" target="_blank" rel="noopener">
+        <span class="ico">🧳</span><div class="meta">↗ 小红书</div><h3>岛主和佳佳的旅行日记</h3><p>和佳佳一起，慢慢走中国。</p></a>
+    </div>
   </div>
 </section>
 
-<!-- ════ 3. 逛产品 ════ -->
-<section class="products" id="products">
-  <div class="eyebrow reveal">WORKS</div>
-  <h2 class="sec-title reveal d1">逛逛岛上的一些事</h2>
-  <p class="sec-sub reveal d1">未必都是标准意义上的产品，但都是我真做出来的东西。</p>
-  <div class="prod-grid">
-    <a class="prod-card reveal d1" href="../picturebook/index.html">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M18 3v18"/></svg></div>
-      <h3>给女儿的绘本</h3>
-      <div class="num">30 本 · 持续更新</div>
-      <p>文 / 图 都是我。一一从出生到现在，每一件小事都被画成了故事。</p>
-      <span class="go">进入 →</span>
-    </a>
-    <a class="prod-card reveal d2" href="../models/index.html">
-      <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
-      <h3>思维模型图鉴 · 知识库</h3>
-      <div class="num">230 颗模型</div>
-      <p>我把常用的思维模型做成单文件笔记，随时翻、随时用。</p>
-      <span class="go">进入 →</span>
-    </a>
-    <a class="prod-card reveal d3" href="../yayashou/index.html">
-      <div class="ico"><svg viewBox="0 0 24 24"><path d="M5 13a7 7 0 0 1 14 0v3a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><circle cx="9.5" cy="14" r="1.2"/><circle cx="14.5" cy="14" r="1.2"/><path d="M12 6c0-2-2-2.5-2-4M12 6c0-2 2-2.5 2-4"/></svg></div>
-      <h3>芽芽兽</h3>
-      <div class="num">原创 IP · 品牌 VI</div>
-      <p>一只从岛上长出来的小兽。它的长图介绍和品牌视觉，都收在这个角落。</p>
-      <span class="go">进入 →</span>
-    </a>
-    <a class="prod-card reveal d4" href="../portfolio/index.html">
-      <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
-      <h3>职业档案</h3>
-      <div class="num">编剧 → 产品</div>
-      <p>一个人怎么从写剧本，走到做产品，又走回一个人做内容。</p>
-      <span class="go">进入 →</span>
-    </a>
+<!-- ════ 布局5 · 金句（全宽深色面板）══ -->
+<section id="quote" tabindex="-1">
+  <div class="wrap">
+    <div class="dark-panel reveal">
+      <div class="deco-en">the island</div>
+      <div class="quote">这个岛不大，但<strong class="hl">装的东西不少</strong>——写下来的、画下来的、想清楚的，都慢慢<strong class="hl">长</strong>在了这里。</div>
+      <div class="cite">—— 岛主，在岛上等你</div>
+    </div>
   </div>
 </section>
 
-<!-- ════ 4. 好用的小工具 ════ -->
-<section class="tools" id="tools">
-  <div class="eyebrow reveal">TOOLS</div>
-  <h2 class="sec-title reveal d1">好用的小工具</h2>
-  <p class="sec-sub reveal d1">网页小工具，和可装进 WorkBuddy 的 AI 判断工作台。</p>
-  <div class="tools-grid">
-    <a class="tool-card reveal d1" href="https://1553ab759b344ed6bda9539be8547802.bj8.agentos-app.net/" target="_blank" rel="noopener">
-      <div class="preview">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-        <span class="badge">多平台导出</span>
+<!-- ════ 逛作品 · BENTO ════ -->
+<section class="alt" id="works" tabindex="-1">
+  <div class="wrap">
+    <div class="eyebrow reveal">WORKS</div>
+    <h2 class="sec-title reveal d1">逛逛岛上的一些事</h2>
+    <p class="sec-sub reveal d1">未必都是标准意义上的产品，但都是我真做出来的东西。</p>
+    <div class="works-bento">
+      <a class="work-card feature reveal d1" href="../picturebook/index.html">
+        <div>
+          <span class="ico">📚</span>
+          <h3>给女儿的绘本</h3>
+          <div class="num">30 本 · 持续更新</div>
+          <p>文 / 图 都是我。一一从出生到现在，每一件小事都被画成了故事。</p>
+        </div>
+        <span class="go">进入 →</span>
+      </a>
+      <div class="work-right">
+        <a class="work-card reveal d2" href="../models/index.html">
+          <span class="num">230 颗模型</span><h3>思维模型图鉴 · 知识库</h3><p>我把常用的思维模型做成单文件笔记，随时翻、随时用。</p><span class="go">进入 →</span></a>
+        <a class="work-card reveal d3" href="../yayashou/index.html">
+          <span class="num">原创 IP · 品牌 VI</span><h3>芽芽兽</h3><p>一只从岛上长出来的小兽。它的长图介绍和品牌视觉，都收在这个角落。</p><span class="go">进入 →</span></a>
+        <a class="work-card reveal d4" href="../portfolio/index.html">
+          <span class="num">编剧 → 产品</span><h3>职业档案</h3><p>一个人怎么从写剧本，走到做产品，又走回一个人做内容。</p><span class="go">进入 →</span></a>
       </div>
-      <div class="body">
-        <h3>绘本多平台图片导出器</h3>
-        <div class="tagline">把一本绘本，变成小红书 / 抖音 / 公众号 / X 的发图包</div>
-        <p>上传绘本 HTML，按小红书 / X / 公众号尺寸导出封面、内页、金句卡。支持逐页 PNG、整本长图、批量 ZIP 打包与可选署名脚注。省掉手动截图和拼图的麻烦。</p>
-        <span class="go">打开用用 →</span>
-      </div>
-    </a>
-    <a class="tool-card reveal d2" href="https://daozhu1993-oss.github.io/poem-shijian-skill/" target="_blank" rel="noopener">
-      <div class="preview">
-        <svg viewBox="0 0 24 24"><path d="M4 7v10"/><path d="M8 5v14"/><path d="M12 7v10"/><path d="M16 5v14"/><path d="M20 7v10"/></svg>
-        <span class="badge">30 套版式</span>
-      </div>
-      <div class="body">
-        <h3>诗笺 · 诗歌排版工具</h3>
-        <div class="tagline">把诗排成可以发的图</div>
-        <p>收录 30 套诗歌排版风格样张，从竖排古籍、题款印章到马卡龙卡片，点开即可预览大图。</p>
-        <span class="go">看看样张 →</span>
-      </div>
-    </a>
-    <a class="tool-card reveal d3" href="../ai-thinking/reality-strategy-advisor.html">
-      <div class="preview">
-        <img src="../img/strategy-advisor/card-preview.jpg" alt="现实判断战略参谋" loading="lazy">
-        <span class="badge">开源免费</span>
-      </div>
-      <div class="body">
-        <h3>现实判断战略参谋</h3>
-        <div class="tagline">把《毛选》战略思维装进 WorkBuddy</div>
-        <p>一个可安装的 AI 判断工作台。把你的现实卡点拆成可判断、可行动、可复盘的下一步，无需授权码。</p>
-        <span class="go">安装使用 →</span>
-      </div>
-    </a>
+    </div>
   </div>
 </section>
 
-<!-- ════ 5. 喝杯咖啡聊聊 ════ -->
-<section class="contact" id="contact">
-  <div class="cup reveal in">
-    <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g class="steam" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none">
-        <path d="M66 40 q-8 -10 0 -20 q8 -10 0 -20"/>
-      </g>
-      <g class="steam s2" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none">
-        <path d="M84 40 q-8 -10 0 -20 q8 -10 0 -20"/>
-      </g>
-      <g class="steam s3" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none">
-        <path d="M102 40 q-8 -10 0 -20 q8 -10 0 -20"/>
-      </g>
-      <!-- 杯身 -->
-      <path d="M40 56 h80 v34 a40 40 0 0 1 -80 0 Z" fill="#FFFDF8" stroke="#6F4E37" stroke-width="2.4"/>
-      <path d="M120 64 q26 0 26 22 q0 22 -26 22" fill="none" stroke="#6F4E37" stroke-width="2.4"/>
-      <!-- 咖啡液面 -->
-      <path d="M48 64 h64" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
-      <!-- 碟 -->
-      <path d="M30 134 h100" stroke="#6F4E37" stroke-width="2.4" stroke-linecap="round"/>
-    </svg>
+<!-- ════ 小工具 · 行列表 ════ -->
+<section id="tools" tabindex="-1">
+  <div class="wrap">
+    <div class="eyebrow reveal">TOOLS</div>
+    <h2 class="sec-title reveal d1">好用的小工具</h2>
+    <p class="sec-sub reveal d1">网页小工具，和可装进 WorkBuddy 的 AI 判断工作台。</p>
+    <div class="tool-list">
+      <a class="tool-row reveal d1" href="https://1553ab759b344ed6bda9539be8547802.bj8.agentos-app.net/" target="_blank" rel="noopener">
+        <span class="tool-ico">🖼️</span>
+        <span class="tool-body"><span class="tagline">多平台导出</span><h3>绘本多平台图片导出器</h3><p>把一本绘本，变成小红书 / 抖音 / 公众号 / X 的发图包。支持逐页 PNG、整本长图、批量 ZIP 打包与可选署名脚注。</p></span>
+        <span class="tool-badge">多平台</span>
+        <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="tool-row reveal d2" href="https://daozhu1993-oss.github.io/poem-shijian-skill/" target="_blank" rel="noopener">
+        <span class="tool-ico">🎴</span>
+        <span class="tool-body"><span class="tagline">30 套版式</span><h3>诗笺 · 诗歌排版工具</h3><p>收录 30 套诗歌排版风格样张，从竖排古籍、题款印章到马卡龙卡片，点开即可预览大图。</p></span>
+        <span class="tool-badge">30 套</span>
+        <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="tool-row reveal d3" href="../ai-thinking/reality-strategy-advisor.html">
+        <span class="tool-ico">🧭</span>
+        <span class="tool-body"><span class="tagline">开源免费</span><h3>现实判断战略参谋</h3><p>一个可安装的 AI 判断工作台。把你的现实卡点拆成可判断、可行动、可复盘的下一步，无需授权码。</p></span>
+        <span class="tool-badge">免费</span>
+        <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
   </div>
-  <div class="eyebrow reveal in">LET'S TALK</div>
-  <h2 class="sec-title reveal in d1">喝杯咖啡，聊聊？</h2>
-  <p class="sec-sub reveal in d2">想法、合作、或者只是想说说话——岛上一直有位置。来这几个地方找我：</p>
-  <div class="links reveal in d3">
-    <a class="contact-card wechat-trigger" href="javascript:;" id="wechatTrigger">
-      <span class="cc-icon">💬</span>
-      <span class="cc-main">
-        <strong>微信</strong>
-        <span>岛主王仙客</span>
-      </span>
-    </a>
-    <a class="contact-card" href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener">
-      <span class="cc-icon">知</span>
-      <span class="cc-main">
-        <strong>知乎</strong>
-        <span>wang-xianke-52</span>
-      </span>
-    </a>
-    <a class="contact-card" href="https://www.zcool.com.cn/u/29262244" target="_blank" rel="noopener">
-      <span class="cc-icon">站</span>
-      <span class="cc-main">
-        <strong>站酷</strong>
-        <span>岛主</span>
-      </span>
-    </a>
-    <a class="contact-card" href="https://github.com/daozhu1993-oss" target="_blank" rel="noopener">
-      <span class="cc-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.419-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      </span>
-      <span class="cc-main">
-        <strong>GitHub</strong>
-        <span>daozhu1993-oss</span>
-      </span>
-    </a>
-  </div>
-  <div class="qr-wrap" id="qrWrap">
-    <img src="assets/wechat-qr.jpg" alt="岛主王仙客微信二维码" width="200" height="200" loading="lazy">
-    <p>扫码添加我为好友</p>
-  </div>
-  <div class="back-top reveal in d4">
-    <a href="#cover">↑ 回到岛上顶上</a>
-  </div>
-  <p class="closing reveal in d5">—— 岛主，在岛上等你</p>
-  <div class="footer-blur" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 </section>
 
-<footer class="footer">© 岛主 · 在岛上慢慢长出来的东西 · 背景音乐《Best of Me》— Daniel Powter</footer>
+<!-- ════ 联系 · 喝杯咖啡聊聊 ════ -->
+<section class="alt contact" id="contact" tabindex="-1">
+  <div class="wrap">
+    <div class="cup reveal in">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="steam" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none"><path d="M66 40 q-8 -10 0 -20 q8 -10 0 -20"/></g>
+        <g class="steam s2" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none"><path d="M84 40 q-8 -10 0 -20 q8 -10 0 -20"/></g>
+        <g class="steam s3" stroke="#B6AE9F" stroke-width="2" stroke-linecap="round" fill="none"><path d="M102 40 q-8 -10 0 -20 q8 -10 0 -20"/></g>
+        <path d="M40 56 h80 v34 a40 40 0 0 1 -80 0 Z" fill="#FFFDF8" stroke="#6F4E37" stroke-width="2.4"/>
+        <path d="M120 64 q26 0 26 22 q0 22 -26 22" fill="none" stroke="#6F4E37" stroke-width="2.4"/>
+        <path d="M48 64 h64" stroke="#6F4E37" stroke-width="2" stroke-linecap="round"/>
+        <path d="M30 134 h100" stroke="#6F4E37" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="eyebrow reveal in">LET'S TALK</div>
+    <h2 class="sec-title reveal in d1">喝杯咖啡，聊聊？</h2>
+    <p class="sec-sub reveal in d2">想法、合作、或者只是想说说话——岛上一直有位置。来这几个地方找我：</p>
+    <div class="links reveal in d3">
+      <a class="contact-card wechat-trigger" href="javascript:;" id="wechatTrigger">
+        <span class="cc-icon">💬</span><span class="cc-main"><strong>微信</strong><span>岛主王仙客</span></span></a>
+      <a class="contact-card" href="https://www.zhihu.com/people/wang-xianke-52" target="_blank" rel="noopener">
+        <span class="cc-icon">知</span><span class="cc-main"><strong>知乎</strong><span>wang-xianke-52</span></span></a>
+      <a class="contact-card" href="https://www.zcool.com.cn/u/29262244" target="_blank" rel="noopener">
+        <span class="cc-icon">站</span><span class="cc-main"><strong>站酷</strong><span>岛主</span></span></a>
+      <a class="contact-card" href="https://github.com/daozhu1993-oss" target="_blank" rel="noopener">
+        <span class="cc-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="width:22px;height:22px;fill:var(--teal)"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.419-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </span><span class="cc-main"><strong>GitHub</strong><span>daozhu1993-oss</span></span></a>
+    </div>
+    <div class="qr-wrap" id="qrWrap">
+      <img src="https://daozhu1993-oss.github.io/v2/assets/wechat-qr.jpg" alt="岛主王仙客微信二维码" width="200" height="200" loading="lazy">
+      <p>扫码添加我为好友</p>
+    </div>
+    <div class="back-top reveal in d4"><a href="#hero">↑ 回到岛上顶上</a></div>
+    <p class="closing reveal in d5">—— 岛主，在岛上等你</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 60 Q180 20 360 60 T720 60 T1080 60 T1440 60 V120 H0 Z" fill="#1C7C6B"/>
+  </svg>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <div class="f-brand">岛主<span class="dot">.</span></div>
+        <p class="f-tag">在岛上，慢慢长出来的东西。给女儿的绘本、写下来的诗、借古讽今的故事，还有一杯随时能聊的咖啡。</p>
+      </div>
+      <div class="f-nav">
+        <a href="#meet">认识岛主</a>
+        <a href="#content">翻内容</a>
+        <a href="#works">逛作品</a>
+        <a href="#tools">小工具</a>
+        <a href="#contact">联系</a>
+      </div>
+    </div>
+    <div class="f-bottom">© 岛主 · 王仙客 ｜ 在岛上慢慢长出来的东西 · 背景音乐《Best of Me》— Daniel Powter</div>
+  </div>
+</footer>
 
 <script>
 (function(){
   'use strict';
+  var progress=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement.scrollHeight-window.innerHeight;var p=h>0?(window.scrollY/h)*100:0;progress.style.width=p+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-  /* ── 滚动进度条 ── */
-  var progress = document.getElementById('progress');
-  function onScroll(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.scrollY / h) * 100 : 0;
-    progress.style.width = p + '%';
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
+  var nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>20);},{passive:true});
 
-  /* ── 滚动渐显 ── */
-  var reveals = document.querySelectorAll('.reveal:not(.in)');
+  var reveals=document.querySelectorAll('.reveal:not(.in)');
   if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
-    reveals.forEach(function(el){ io.observe(el); });
-  } else {
-    reveals.forEach(function(el){ el.classList.add('in'); });
-  }
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.14,rootMargin:'0px 0px -8% 0px'});
+    reveals.forEach(function(el){io.observe(el);});
+  }else{reveals.forEach(function(el){el.classList.add('in');});}
 
-  /* ── 右侧旅程导航 ── */
-  var dots = Array.prototype.slice.call(document.querySelectorAll('.journey button'));
-  var sections = dots.map(function(d){ return document.getElementById(d.dataset.target); });
-  dots.forEach(function(d){
-    d.addEventListener('click', function(){
-      var t = document.getElementById(d.dataset.target);
-      if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
-    });
-  });
+  var dots=Array.prototype.slice.call(document.querySelectorAll('.journey button'));
+  var sections=dots.map(function(d){return document.getElementById(d.dataset.target);});
+  dots.forEach(function(d){d.addEventListener('click',function(){var t=document.getElementById(d.dataset.target);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
   if('IntersectionObserver' in window){
-    var navIo = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var id = e.target.id;
-          dots.forEach(function(d){ d.classList.toggle('active', d.dataset.target === id); });
-        }
-      });
-    }, {threshold:0.5});
-    sections.forEach(function(s){ if(s) navIo.observe(s); });
+    var navIo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var id=e.target.id;dots.forEach(function(d){d.classList.toggle('active',d.dataset.target===id);});}});},{threshold:0.5});
+    sections.forEach(function(s){if(s)navIo.observe(s);});
   }
 
-  /* ── 岛上大事记 轮播 ── */
-  (function(){
-    var track = document.querySelector('.tl-track');
-    var prev = document.querySelector('[data-tl-prev]');
-    var next = document.querySelector('[data-tl-next]');
-    if(!track || !prev || !next) return;
-    var idx = 0;
-    function step(){
-      var slide = track.querySelector('.tl-slide');
-      if(!slide) return 0;
-      var g = getComputedStyle(track).gap;
-      var gap = parseFloat(g) || 22;
-      return slide.getBoundingClientRect().width + gap;
-    }
-    function maxIdx(){
-      var n = track.children.length;
-      var frame = track.parentElement;
-      var vis = Math.max(1, Math.floor((frame.clientWidth + 22) / step()));
-      return Math.max(0, n - vis);
-    }
-    function update(){
-      var m = maxIdx();
-      if(idx > m) idx = m;
-      if(idx < 0) idx = 0;
-      track.style.transform = 'translateX(' + (-idx * step()) + 'px)';
-      prev.disabled = idx <= 0;
-      next.disabled = idx >= m;
-    }
-    prev.addEventListener('click', function(){ idx--; update(); });
-    next.addEventListener('click', function(){ idx++; update(); });
-    var sx = 0, base = 0, drag = false;
-    track.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; base = -idx * step(); drag = true; track.style.transition = 'none'; }, {passive:true});
-    track.addEventListener('touchmove', function(e){ if(!drag) return; var dx = e.touches[0].clientX - sx; track.style.transform = 'translateX(' + (base + dx) + 'px)'; }, {passive:true});
-    track.addEventListener('touchend', function(e){ if(!drag) return; drag = false; track.style.transition = ''; var dx = e.changedTouches[0].clientX - sx; if(dx < -40) idx++; else if(dx > 40) idx--; update(); }, {passive:true});
-    window.addEventListener('resize', update);
-    update();
-  })();
-
-  /* ── 背景音乐 ── */
-  var bgm = document.getElementById('bgm');
-  var musicBtn = document.getElementById('musicBtn');
-  var enterBtn = document.getElementById('enterBtn');
-  var musicOn = false;
-  var usingAudio = false;
-  var usingAmbient = false;
-  var audioBroken = false;
-  var ambientCtx = null;
-  var ambientMaster = null;
-  var ambientDelay = null;
-  var ambientTimer = null;
-  var ambientNext = 0;
-  var mbStep = 0;
-
-  bgm.addEventListener('error', function(){ audioBroken = true; });
-
-  function setMusicUI(){
-    musicBtn.classList.toggle('playing', musicOn);
-    musicBtn.title = musicOn ? '暂停 · Best of Me' : '播放 · Best of Me';
-  }
-
-  // Web Audio 兜底：没有 bgm.mp3 时，合成一段轻快的八音盒循环（不是嗡嗡声）
-  var MB_NOTES = [523.25, 587.33, 659.25, 783.99, 880.00]; // C5 D5 E5 G5 A5 五声音阶
-  var MB_PATTERN = [0,2,4,2, 1,3,4,3, 0,2,1,2, 4,3,2,0];
-  function mbNote(ctx, master, delay, freq, t){
-    var o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = freq;
-    var o2 = ctx.createOscillator(); o2.type = 'sine'; o2.frequency.value = freq * 2.0;
-    var g = ctx.createGain();
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.8, t + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.0);
-    var g2 = ctx.createGain(); g2.gain.value = 0.15;
-    o.connect(g); o2.connect(g2); g2.connect(g);
-    g.connect(master); g.connect(delay);
-    o.start(t); o2.start(t); o.stop(t + 1.1); o2.stop(t + 1.1);
-  }
-  function mbStart(){
-    if(!ambientCtx || ambientTimer) return;
-    ambientNext = ambientCtx.currentTime + 0.1;
-    ambientTimer = setInterval(function(){
-      while(ambientNext < ambientCtx.currentTime + 0.4){
-        var idx = MB_PATTERN[mbStep % MB_PATTERN.length];
-        mbNote(ambientCtx, ambientMaster, ambientDelay, MB_NOTES[idx], ambientNext);
-        if(mbStep % 4 === 0) mbNote(ambientCtx, ambientMaster, ambientDelay, MB_NOTES[idx] / 2, ambientNext);
-        mbStep++;
-        ambientNext += 0.4;
-      }
-    }, 60);
-  }
-  function ensureAmbient(){
-    if(ambientCtx) return;
-    try{
-      var AC = window.AudioContext || window.webkitAudioContext;
-      var ctx = new AC();
-      var master = ctx.createGain(); master.gain.value = 0.13; master.connect(ctx.destination);
-      var delay = ctx.createDelay(); delay.delayTime.value = 0.26;
-      var fb = ctx.createGain(); fb.gain.value = 0.22;
-      delay.connect(fb); fb.connect(delay); delay.connect(master);
-      ambientCtx = ctx; ambientMaster = master; ambientDelay = delay;
-    }catch(e){ /* 不支持就静默 */ }
-  }
-
-  function startAmbientFallback(){
-    ensureAmbient();
-    if(ambientCtx){ ambientCtx.resume && ambientCtx.resume(); mbStart(); }
-    usingAmbient = true; musicOn = true; setMusicUI();
-  }
-  function playMusic(){
-    if(audioBroken){ startAmbientFallback(); return; }
-    var p = bgm.play();
-    if(p && p.then){
-      p.then(function(){ usingAudio = true; musicOn = true; setMusicUI(); })
-       .catch(function(){
-          // 首次被拒（多为媒体尚未就绪）：重载后重试一次，仍失败才用八音盒兜底
-          try { bgm.load(); } catch(_){}
-          var p2 = bgm.play();
-          if(p2 && p2.then){
-            p2.then(function(){ usingAudio = true; musicOn = true; setMusicUI(); })
-               .catch(function(){ startAmbientFallback(); });
-          } else { usingAudio = true; musicOn = true; setMusicUI(); }
-       });
-    } else {
-      usingAudio = true; musicOn = true; setMusicUI();
-    }
-  }
-
-  function pauseMusic(){
-    if(usingAudio) bgm.pause();
-    if(usingAmbient && ambientCtx){
-      if(ambientTimer){ clearInterval(ambientTimer); ambientTimer = null; }
-      ambientCtx.suspend && ambientCtx.suspend();
-    }
-    musicOn = false; setMusicUI();
-  }
-
-  // 记住用户对音乐的选择：仅作用于「本次会话」（sessionStorage）。
-  // 同一标签内手动暂停后不再自动响；关掉重开 / 新标签进入仍自动播放，符合封面「进入即播放」承诺。
-  // 旧版本把偏好写进了 localStorage（永久），会导致进入永远不响，这里改为 session 级并清掉旧标记。
-  try{ localStorage.removeItem('daoMusicOff'); }catch(_){}
-  function setMusicPref(off){ try{ if(off) sessionStorage.setItem('daoMusicOff','1'); else sessionStorage.removeItem('daoMusicOff'); }catch(_){} }
-  function musicOptedOut(){ try{ return sessionStorage.getItem('daoMusicOff') === '1'; }catch(_){ return false; } }
-
-  musicBtn.addEventListener('click', function(){
-    if(musicOn){ pauseMusic(); setMusicPref(true); }
-    else { playMusic(); setMusicPref(false); }
+  var bgm=document.getElementById('bgm'),musicBtn=document.getElementById('musicBtn'),musicOn=false;
+  function setUI(){musicBtn.classList.toggle('playing',musicOn);}
+  musicBtn.addEventListener('click',function(){
+    if(musicOn){bgm.pause();musicOn=false;}
+    else{var p=bgm.play();if(p&&p.then){p.then(function(){musicOn=true;setUI();}).catch(function(){musicOn=false;});}else{musicOn=true;}musicOn=true;setUI();}
   });
+  setUI();
 
-  // 进入小岛：平滑滑到「认识岛主」；仅当用户没主动关过音乐时才自动起播（尊重上次选择）
-  enterBtn.addEventListener('click', function(){
-    if(!musicOptedOut()) playMusic();
-    var meet = document.getElementById('meet');
-    if(meet) meet.scrollIntoView({behavior:'smooth', block:'start'});
-  });
-
-  // 微信二维码展开
-  var wechatTrigger = document.getElementById('wechatTrigger');
-  var qrWrap = document.getElementById('qrWrap');
-  if(wechatTrigger && qrWrap){
-    wechatTrigger.addEventListener('click', function(e){
-      e.preventDefault();
-      qrWrap.classList.toggle('open');
-    });
-  }
-
-  setMusicUI();
+  var wechatTrigger=document.getElementById('wechatTrigger'),qrWrap=document.getElementById('qrWrap');
+  if(wechatTrigger&&qrWrap){wechatTrigger.addEventListener('click',function(e){e.preventDefault();qrWrap.classList.toggle('open');});}
 })();
 </script>
 </body>

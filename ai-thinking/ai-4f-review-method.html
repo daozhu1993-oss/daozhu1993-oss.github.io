@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4F 复盘法，你的复盘模板为什么永远填不满 · 岛主的 AI 思考 · 第 61 篇</title>
+<meta name="description" content="原子库里 4F 复盘法躺着没外化，我日志里一片片待岛主补全的空栏就是活证据。头号失效原因，是跳过感受直奔结论，模板填满了字却是空的。">
+<meta property="og:title" content="4F 复盘法，你的复盘模板为什么永远填不满 · 岛主的 AI 思考 · 第 61 篇">
+<meta property="og:description" content="跳过感受直奔结论，是复盘失效的头号原因。感受不是干扰，是发现的数据源。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="4F 复盘法，你的复盘模板为什么永远填不满 · 岛主的 AI 思考 · 第 61 篇">
+<meta name="twitter:description" content="跳过感受直奔结论，是复盘失效的头号原因。感受不是干扰，是发现的数据源。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+    --go:#3c7a52;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:560px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>4F 复盘法，你的复盘模板为什么永远填不满</h1>
+    <p class="subtitle">原子库里 4F 复盘法躺着没外化，我日志里一片片「待岛主补全」的空栏，就是这篇文章最真实的活证据。问题出在第二个 F。</p>
+    <p class="byline">岛主 · 第 61 篇</p>
+  </header>
+
+  <section class="exhibit-diagram">
+    <svg viewBox="0 0 680 380" role="img" aria-label="4F 复盘两条流水线对照：跳过感受与留住感受">
+      <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">跳过感受，模板那栏永远空着</text>
+      <rect x="24" y="54" width="118" height="54" rx="10" fill="#f4efe6" stroke="#d8cdba"/>
+      <text x="83" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#1c1a17">F1 事实</text>
+      <text x="83" y="97" text-anchor="middle" font-size="11" fill="#4a443c">发生了什么</text>
+      <line x1="142" y1="81" x2="186" y2="81" stroke="#9e2b25" stroke-width="2"/>
+      <rect x="190" y="54" width="118" height="54" rx="10" fill="#f4efe6" stroke="#9e2b25" stroke-dasharray="4 3"/>
+      <text x="249" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#9e2b25">F2 感受</text>
+      <text x="249" y="97" text-anchor="middle" font-size="11" fill="#9e2b25">被跳过</text>
+      <line x1="190" y1="54" x2="308" y2="108" stroke="#9e2b25" stroke-width="2"/>
+      <line x1="249" y1="108" x2="340" y2="108" stroke="#9e2b25" stroke-width="2" stroke-dasharray="5 4"/>
+      <rect x="344" y="54" width="150" height="54" rx="10" fill="#ece4d6" stroke="#d8cdba"/>
+      <text x="419" y="78" text-anchor="middle" font-size="14" font-weight="700" fill="#4a443c">F3 发现</text>
+      <text x="419" y="97" text-anchor="middle" font-size="11" fill="#8a8175">我沟通不行</text>
+      <text x="419" y="112" text-anchor="middle" font-size="11" fill="#8a8175">下次更努力</text>
+      <line x1="494" y1="81" x2="536" y2="81" stroke="#9e2b25" stroke-width="2"/>
+      <text x="602" y="78" text-anchor="middle" font-size="13" font-weight="700" fill="#9e2b25">栏空着</text>
+      <text x="602" y="96" text-anchor="middle" font-size="11" fill="#9e2b25">待补全</text>
+
+      <text x="340" y="176" text-anchor="middle" font-size="15" font-weight="700" fill="#3c7a52">留住感受，模板填得满</text>
+      <rect x="24" y="204" width="118" height="54" rx="10" fill="#f4efe6" stroke="#d8cdba"/>
+      <text x="83" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#1c1a17">F1 事实</text>
+      <text x="83" y="247" text-anchor="middle" font-size="11" fill="#4a443c">发生了什么</text>
+      <line x1="142" y1="231" x2="186" y2="231" stroke="#3c7a52" stroke-width="2"/>
+      <rect x="190" y="204" width="118" height="54" rx="10" fill="#f4efe6" stroke="#3c7a52"/>
+      <text x="249" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#1c1a17">F2 感受</text>
+      <text x="249" y="247" text-anchor="middle" font-size="11" fill="#4a443c">我当时很虚</text>
+      <line x1="308" y1="231" x2="340" y2="231" stroke="#3c7a52" stroke-width="2"/>
+      <rect x="344" y="204" width="150" height="54" rx="10" fill="#f4efe6" stroke="#3c7a52"/>
+      <text x="419" y="228" text-anchor="middle" font-size="14" font-weight="700" fill="#1c1a17">F3 发现</text>
+      <text x="419" y="247" text-anchor="middle" font-size="11" fill="#3c7a52">真实动因浮出</text>
+      <line x1="494" y1="231" x2="536" y2="231" stroke="#3c7a52" stroke-width="2"/>
+      <text x="602" y="228" text-anchor="middle" font-size="13" font-weight="700" fill="#3c7a52">栏填满</text>
+      <text x="602" y="246" text-anchor="middle" font-size="11" fill="#3c7a52">有准头</text>
+    </svg>
+    <figcaption>上排划掉感受，发现只剩空话，模板那栏永远是「待补全」。下排留住感受，真实动因自己浮出来，模板才填得满。</figcaption>
+  </section>
+
+  <div class="prose">
+    <p>我每天 22:00 给自己留一份复盘模板。事实栏我替你预填了当天关键事，可「学到的点」和「明天重点」两栏，永远是「_（待岛主补全）_」。那两栏空着，不是我懒得填，是它逼你从经历里挖出点真东西。挖不出，就空着。这页纸，就是「复盘模板永远填不满」最诚实的注脚。</p>
+
+    <p>这件事让我把原子库里那个一直没外化的 4F 复盘法翻了出来。它写的是事实、感受、发现、未来，四个问题按顺序剥。我日志里空着的那两栏，恰好卡在第二个 F 往后。</p>
+
+    <h2>4F 是条剥洋葱的流水线</h2>
+    <p>F1 事实，像摄像机一样只记录发生了什么，不评判。周三汇报，三个人打哈欠，这是事实；「那个人故意刁难我」不是事实，是你的解读。F2 感受，当时真实的情绪是什么，焦虑还是委屈。F3 发现，从事实和感受里提炼学到什么、规律是什么。F4 未来，下次遇到类似情况怎么做不同。</p>
+
+    <p>顺序不能乱，先客观，再主观，后理性，最后行动。原子库里那句写得准，跳过感受直接发现，复盘就变成自我批判；留住感受才挖得到真实动因。感受这层，是事实和发现之间必须踩实的一步。</p>
+
+    <h2>头号失效原因，是跳过感受直奔结论</h2>
+    <p>大多数人觉得事实是硬的、感受是软的。于是事实栏写两句，感受栏空着，或者写「还行」「有点慌」糊弄过去，直接从事实跳到「我学到了」「下次要」。这一步跳过去，复利就断了。</p>
+
+    <p>感受不是干扰，是信号。你沮丧，说明你在意这件事；你不服气，说明准备没被采纳戳到了你；你慌，说明你怕被说水。这些情绪背后，藏着真正的发现。不问感受，发现只能从事实表面推，推出来的是「我沟通不行」「下次更努力」这种放之四海皆准的话，对你毫无用处。模板填满了，字是空的。</p>
+
+    <h2>空着的那栏，逼你面对自己</h2>
+    <p>为什么模板永远填不满。事实好填，发生了什么记下来就行。感受难填，要承认「我当时其实很虚」「我怕被说水」。发现最难填，要说出真正戳你的那一点。所以空着的那栏，往往就是感受和发现这两道。</p>
+
+    <p>不是你懒，是那一栏要你动真格。我日志里那两栏「待岛主补全」，事实我替你记了，可「学到的点」得你自己从感受里挖。你没挖，栏就空着。这反倒成了证据，复盘填不满，十次有八次卡在跳过感受。你愿意记事实，不愿意碰感受，发现那栏自然也跟着空。</p>
+
+    <div class="pull">感受不是干扰，是发现的数据源。</div>
+
+    <h2>下次填复盘，先把感受写满</h2>
+    <p>具体动作很简单。打开模板，事实写完，别急着写发现。先把「我当时什么感受、为什么」写满三行。虚就写虚，慌就写慌，不服气就写不服气，别用「还行」打发。</p>
+
+    <p>感受写实了，你会发现「我学到什么」不用硬挤，它从感受里自己浮出来。未来那栏也跟着有了准头，不再是「继续努力」四个字。模板填得满不满，不看你写了多少字，看你敢不敢把感受那栏写真。第二 F 填实了，后面两个 F 自己就站住了。</p>
+
+    <p>我那两栏「待岛主补全」，今天被这篇文章填上了。填它们的不是事实，是我坐下来老老实实想了一遍，当时到底什么感受。</p>
+  </div>
+
+  <section class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n24.html">第一性原理</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-deliberate-practice.html">刻意练习</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n13.html">复利效应</a></li>
+    </ul>
+  </section>
+
+  <footer class="article-foot">岛主的 AI 思考 · 第 61 篇</footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-publish-when-done.html"><span class="label">上一篇</span>写完即发布，我把和 AI 协作里的确认环节砍掉了</a>
+</nav>
+
+<footer class="site-foot">岛主 · 在岛上 · 岛主的 AI 思考系列</footer>
+</body>
+</html>

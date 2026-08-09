@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>论持久战 · 创作者的「相持阶段」 · 岛主的 AI 思考 · 第 62 篇</title>
+<meta name="description" content="日更到第 30 天没数据想放弃，那不是失败，是必经的相持期。战略上持久、战术上速决，你的基本盘读者就是毛选里说的民众。">
+<meta property="og:title" content="论持久战 · 创作者的「相持阶段」 · 岛主的 AI 思考 · 第 62 篇">
+<meta property="og:description" content="日更到第 30 天，后台还是两位数。这本来不是失败，是一场持久战里必经的相持阶段。稳住，拐点就在后面。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="论持久战 · 创作者的「相持阶段」 · 岛主的 AI 思考 · 第 62 篇">
+<meta name="twitter:description" content="日更到第 30 天，后台还是两位数。这本来不是失败，是一场持久战里必经的相持阶段。稳住，拐点就在后面。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+    --go:#3c7a52;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:620px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>论持久战 · 创作者的「相持阶段」</h1>
+    <p class="subtitle">日更到第 30 天，后台还是两位数。这本来不是失败，是一场持久战里必经的相持阶段。</p>
+    <p class="byline">岛主 · 第 62 篇</p>
+  </header>
+
+  <section class="exhibit-diagram">
+    <svg viewBox="0 0 680 330" role="img" aria-label="内容创作三阶段时间轴：防御、相持、反攻，相持期标红并标注最容易放弃">
+      <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1a17">内容创作的三阶段，卡在中间最磨人</text>
+
+      <!-- 防御 -->
+      <rect x="28" y="58" width="184" height="112" rx="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5"/>
+      <text x="120" y="90" text-anchor="middle" font-size="16" font-weight="700" fill="#2f7d4f">防御</text>
+      <text x="120" y="112" text-anchor="middle" font-size="12" fill="#4a443c">起步蓄势</text>
+      <text x="120" y="134" text-anchor="middle" font-size="11" fill="#8a8175">第 1 到 15 篇</text>
+      <text x="120" y="156" text-anchor="middle" font-size="11" fill="#8a8175">有劲，但没数据</text>
+
+      <!-- 相持（标红） -->
+      <rect x="248" y="48" width="184" height="132" rx="10" fill="#fdf0ee" stroke="#9e2b25" stroke-width="2.5"/>
+      <text x="340" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#9e2b25">相持</text>
+      <text x="340" y="102" text-anchor="middle" font-size="12" fill="#9e2b25">最磨人</text>
+      <text x="340" y="124" text-anchor="middle" font-size="11" fill="#4a443c">第 20 到 80 篇</text>
+      <text x="340" y="146" text-anchor="middle" font-size="11" fill="#4a443c">手感有了，数据还平</text>
+      <text x="340" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#9e2b25">✕ 这里最容易撤</text>
+
+      <!-- 反攻 -->
+      <rect x="468" y="58" width="184" height="112" rx="10" fill="#edf5ec" stroke="#a3c4a0" stroke-width="1.5"/>
+      <text x="560" y="90" text-anchor="middle" font-size="16" font-weight="700" fill="#2f7d4f">反攻</text>
+      <text x="560" y="112" text-anchor="middle" font-size="12" fill="#4a443c">拐点起量</text>
+      <text x="560" y="134" text-anchor="middle" font-size="11" fill="#8a8175">积累到拐点</text>
+      <text x="560" y="156" text-anchor="middle" font-size="11" fill="#8a8175">读者主动来找你</text>
+
+      <!-- 箭头 -->
+      <line x1="212" y1="114" x2="244" y2="114" stroke="#9e2b25" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="432" y1="114" x2="464" y2="114" stroke="#9e2b25" stroke-width="2" marker-end="url(#arr)"/>
+      <defs>
+        <marker id="arr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+          <path d="M0 0 L6 3 L0 6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+
+      <!-- 时间轴 -->
+      <line x1="40" y1="252" x2="640" y2="252" stroke="#b9ad99" stroke-width="2"/>
+      <line x1="40" y1="252" x2="230" y2="252" stroke="#2f7d4f" stroke-width="4"/>
+      <line x1="250" y1="252" x2="430" y2="252" stroke="#9e2b25" stroke-width="4"/>
+      <line x1="450" y1="252" x2="640" y2="252" stroke="#2f7d4f" stroke-width="4"/>
+      <text x="120" y="272" text-anchor="middle" font-size="11" fill="#2f7d4f">防御</text>
+      <text x="340" y="272" text-anchor="middle" font-size="11" fill="#9e2b25">相持</text>
+      <text x="560" y="272" text-anchor="middle" font-size="11" fill="#2f7d4f">反攻</text>
+
+      <text x="340" y="312" text-anchor="middle" font-size="14" font-weight="700" fill="#9e2b25">相持不是停滞，是在扎根</text>
+    </svg>
+    <figcaption>三个阶段里，防御有劲、反攻有反馈，唯独相持前面没结果、后面看不到头。绝大多数人，是倒在这一段。</figcaption>
+  </section>
+
+  <div class="prose">
+    <p>日更到第 30 天，后台数据还是两位数，甚至个位数。你开始想，是不是该换个赛道，是不是我根本不是这块料。这个念头，特别容易在「第 30 天」这个点上冒出来。</p>
+
+    <p>毛选里把一场强弱异势的仗，分成三个阶段，防御、相持、反攻。大多数人，是卡在相持。防御期你刚起步，有劲、好奇，粉丝为零也不碍事；反攻期你已经起量，有了正反馈，越打越顺。唯独相持期，前面没结果，后面看不到头。内容创作，一模一样。</p>
+
+    <h2>三阶段套到创作上，长这样</h2>
+    <p>防御阶段，大概是第 1 篇到第 15 篇。你在试水、找手感，读者为零，但你自己有动力。相持阶段，大概是第 20 篇到第 80 篇。手感有了，数据还是平，自我怀疑最重。反攻阶段，某一篇突然被算法接住，或者你的认知复利到了拐点，读者开始主动来找你。</p>
+
+    <p>麻烦在于，绝大多数人，在相持阶段就撤了。不是因为写不出，是因为「持续投入却看不到回报」这件事，违背了人性里的即时反馈需求。</p>
+
+    <h2>战略上持久，战术上速决</h2>
+    <p>持久战的核心一句，是战略上持久，战术上速决。放到创作上，方向这件事，你要当成以年计的仗，别指望三个月起号。但每一篇，要打得快、打得利落，写完就发，别把力气耗在「这篇够不够好」的内耗里。</p>
+
+    <p>战略上持久，是让你在相持期不慌。数据平，是正常的，是相持本来的样子，不是你不行。战术上速决，是让你别在纠结里耗散。与其花三天磨一个标题，不如把这三天的劲，拆成三篇发出去。篇数本身就是资产。</p>
+
+    <h2>兵民是胜利之本，基本盘读者就是你的「民众」</h2>
+    <p>毛选里写，兵民是胜利之本，战争的伟力最深厚的根源，存在于民众之中。翻译到创作，你的读者才是你这场仗的根。不是算法，不是平台，是那几百个真正在读你、信你的人。</p>
+
+    <p>相持期最容易犯的错，是盯着算法看数字，忘了人。你越焦虑数据，越想去蹭热点、写自己都不信的东西，反而离基本盘越远。反过来，把每一篇都写给「那几个会认真读完的人」，你是在把这批人留牢。根扎住了，反攻期来的时候，他们是你第一批转发的人。</p>
+
+    <div class="pull">相持期不是停滞，是在扎根。</div>
+
+    <h2>在相持期，你能做的最实在的三件事</h2>
+    <p>第一，把标尺从「这篇数据」换成「这个月我存进了哪个复利」，认知、信任、作品资产，看的是存进去多少。第二，固定你的输出节奏，让相持变成习惯，而不是每天重新熬一遍。第三，留住基本盘，哪怕只有几十个人，认真回每一条评论，让关系变实。</p>
+
+    <p>相持期不是失败，是必经。毛选单独把一个阶段拎出来叫「相持」，就是提醒你，这里没有仗打不赢，只有人熬不住。你熬住了，拐点就在后面。</p>
+
+    <h2>写在最后</h2>
+    <p>下次第 30 天数据还是平，别急着换赛道。</p>
+    <p>跟自己说一句，我走到相持阶段了。这是最磨人、也最该稳住的地方。</p>
+    <p>战略上，这是一场持久战。战术上，把今天这篇写完，发掉。根扎在基本盘上，剩下的，交给时间。</p>
+  </div>
+
+  <section class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n13.html">复利效应</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n119.html">反脆弱</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-concentrate-force.html">集中优势兵力</a></li>
+    </ul>
+  </section>
+
+  <footer class="article-foot">岛主的 AI 思考 · 第 62 篇</footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-4f-review-method.html"><span class="label">上一篇</span>4F 复盘法，你的复盘模板为什么永远填不满</a>
+</nav>
+
+<footer class="site-foot">岛主 · 在岛上 · 岛主的 AI 思考系列</footer>
+</body>
+</html>

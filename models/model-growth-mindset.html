@@ -6,125 +6,155 @@
 <title>破圈成长模型 · 思维模型图鉴</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,900&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet" />
 <style>
-    @import url('../design-system/components.css');
-  :root{
-    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
-    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
-    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
-    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
-    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
-    --display:"Playfair Display",var(--serif);
+    :root{
+    --teal:#1C7C6B; --teal-deep:#115548;
+    --gold:#D9A441; --gold-soft:#F7EEDA;
+    --coral:#D2553B;
+    --cream:#FBF8F1; --cream-dark:#F3ECDD;
+    --ink:#1C2522; --ink-light:#4A5754; --ink-faint:#8A938E;
+    --dark-panel:#13302B;
+    --serif:"Noto Serif SC",serif;
+    --sans:"Noto Sans SC",sans-serif;
+    --display:"Fraunces",serif;
+    --mono:"Fira Code",monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
-    background-color:var(--paper);
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
-      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
-    background-attachment:fixed,fixed,fixed;}
-  ::selection{background:var(--accent-soft);color:#3a2c14;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.8;background:var(--cream);
+    background-image:radial-gradient(circle at 12% 8%,rgba(217,164,65,.07),transparent 40%),
+      radial-gradient(circle at 88% 92%,rgba(28,124,107,.06),transparent 42%);}
+  ::selection{background:var(--gold);color:#3a2c14;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 2rem;}
 
-  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
-    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
-    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
-  .hero::before{content:"";position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
-  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
-  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
-    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
-  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
-    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
-  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
-  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
-  .hero .author b{color:#f6efe0;font-weight:600;}
-  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
-    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
-    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
-    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
-    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2rem;max-width:1180px;margin:0 auto;}
+  .nav a{color:var(--ink-light);text-decoration:none;font-size:.9rem;transition:color .2s var(--ease, ease);}
+  .nav .brand{font-family:var(--serif);font-weight:900;font-size:1.15rem;color:var(--teal);}
+  .nav .back:hover{color:var(--teal);}
 
-  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
-  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
-  section:last-of-type{border-bottom:none;}
-  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
-  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
-    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
-  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);align-items:center;
+    padding:clamp(3rem,8vh,6rem) 0;}
+  .hero .kicker{font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;
+    font-size:clamp(.7rem,2vw,.85rem);color:var(--teal);}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.1;margin:.6rem 0;}
+  .hero h1 .em{color:var(--teal);}
+  .hero .sub{font-family:var(--display);font-style:italic;font-size:clamp(1.1rem,3vw,1.6rem);color:var(--ink-light);}
+  .hero .author{margin-top:1.2rem;font-size:.95rem;color:var(--ink-faint);}
+  .hero .author b{color:var(--teal-deep);font-weight:700;}
+  .hero-visual{position:relative;min-height:300px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:1.4rem;}
+  .hero-visual .ring{position:absolute;width:clamp(190px,22vw,270px);height:clamp(190px,22vw,270px);
+    border:2.5px dashed var(--gold);border-radius:50%;opacity:.8;}
+  .hero-visual .big{font-family:var(--display);font-style:italic;font-weight:900;
+    font-size:clamp(3rem,9vw,5rem);color:var(--teal);opacity:.18;z-index:1;}
+  .hero-visual .pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;z-index:1;}
+  .hero-visual .pills span{font-family:var(--serif);font-size:.9rem;background:var(--gold-soft);
+    border:1px solid var(--gold);border-radius:20px;padding:.35rem 1rem;color:var(--ink);}
+  .hero-visual .pills span:nth-child(2){border-color:var(--teal);}
+  .hero-visual .pills span:nth-child(3){border-color:var(--coral);}
+
+  .sec{padding:clamp(3rem,7vh,5rem) 0;}
+  .sec + .sec{border-top:1px solid var(--cream-dark);}
+  .sec-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem;}
+  .sec-head .tag{flex:0 0 auto;width:6px;height:38px;border-radius:2px;background:var(--teal);}
+  .sec-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.5rem,4.5vw,2.1rem);}
   .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
 
-  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
-    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
-    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
-  .overview .lead-quote{color:var(--accent);font-weight:600;}
-  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
-  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
-  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
-  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
-  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+  .bridge{font-family:var(--sans);font-size:.95rem;color:var(--ink-light);margin-bottom:1.2rem;line-height:1.7;}
 
-  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
-  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
-  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
-  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
-  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
-  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
-  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
-  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
-  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
-  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
-  .sys-good .trait-list li::before{background:#5d7a6a;}
-  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+  .sticky-wrap{display:grid;grid-template-columns:.4fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;}
+  .sticky-aside{position:sticky;top:2rem;text-align:center;}
+  .sticky-aside .word{font-family:var(--display);font-style:italic;font-weight:900;
+    font-size:clamp(3rem,8vw,5rem);color:var(--teal);line-height:.95;}
+  .sticky-aside .en{font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);letter-spacing:.1em;}
+  .overview{background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:12px;
+    padding:clamp(1.4rem,3vw,2rem);font-family:var(--serif);font-size:clamp(1.05rem,2.6vw,1.25rem);
+    line-height:1.7;color:var(--ink);}
+  .overview .lead{color:var(--teal-deep);font-weight:700;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;}
+  .info-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:12px;padding:1.1rem 1.2rem;}
+  .info-card .label{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--teal);font-weight:700;}
+  .info-card .value{font-family:var(--serif);font-size:1rem;margin-top:.4rem;color:var(--ink);}
+  .info-card .value small{display:block;font-family:var(--sans);font-size:.82rem;color:var(--ink-light);
+    margin-top:.3rem;font-weight:400;}
 
-  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
-  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
-  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
-  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
-  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
-  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
-  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
-  .bias .eg b{color:var(--ribbon);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .pit{background:var(--cream);border:1px solid var(--cream-dark);border-radius:16px;
+    padding:clamp(1.4rem,3vw,2rem);border-bottom:4px solid var(--coral);}
+  .pit.good{border-bottom-color:var(--teal);}
+  .pit .tag{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--coral);}
+  .pit.good .tag{color:var(--teal);}
+  .pit h3{font-family:var(--serif);font-weight:900;font-size:1.2rem;margin:.3rem 0 .1rem;}
+  .pit .en{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-faint);}
+  .trait-list{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem;}
+  .trait{position:relative;padding-left:1.3rem;font-size:.94rem;color:var(--ink-light);}
+  .trait::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--coral);}
+  .pit.good .trait::before{background:var(--teal);}
+  .pit .ex{margin-top:1rem;font-size:.84rem;color:var(--ink-light);font-style:italic;
+    border-top:1px dashed var(--cream-dark);padding-top:.7rem;}
 
-  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
-  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
-    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
-    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
-  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
-  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;}
+  .feature-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:16px;
+    padding:1.5rem 1.4rem;border-bottom:4px solid var(--gold);}
+  .feature-card:nth-child(2){border-bottom-color:var(--teal);}
+  .feature-card:nth-child(3){border-bottom-color:var(--coral);}
+  .feature-card:nth-child(4){border-bottom-color:var(--gold);}
+  .feature-card:nth-child(5){border-bottom-color:var(--teal);}
+  .feature-card:nth-child(6){border-bottom-color:var(--coral);}
+  .feature-card .idx{font-family:var(--display);font-style:italic;font-weight:900;font-size:1.6rem;color:var(--teal);}
+  .feature-card h3{font-family:var(--serif);font-weight:900;font-size:1.15rem;margin:.2rem 0 .6rem;}
+  .feature-card h3 .en{font-family:var(--mono);font-size:.78rem;color:var(--ink-faint);margin-left:.3rem;}
+  .feature-card p{font-size:.92rem;color:var(--ink-light);line-height:1.7;}
+  .feature-card .eg{margin-top:.9rem;font-size:.82rem;background:var(--gold-soft);border-radius:8px;
+    padding:.6rem .8rem;color:var(--ink);}
+  .feature-card .eg b{color:var(--coral);}
 
-  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
-  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
-  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
-  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
-  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
-  .quote .src::before{content:"— ";}
+  .steps{display:flex;flex-direction:column;gap:1.1rem;}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:start;
+    background:var(--cream);border:1px solid var(--cream-dark);border-radius:14px;padding:1.2rem 1.4rem;}
+  .step-num{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-style:italic;font-weight:900;font-size:1.2rem;background:var(--gold-soft);
+    color:var(--teal-deep);border:2.5px dashed var(--gold);flex:0 0 auto;}
+  .step .rk{font-family:var(--serif);font-weight:900;font-size:1.05rem;color:var(--teal-deep);}
+  .step .row{font-size:.95rem;color:var(--ink-light);}
 
-  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
-  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
-  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
-  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
-  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+  .dark-panel{background:var(--dark-panel);color:#e2e8f0;border-radius:18px;
+    padding:clamp(2rem,5vw,3.5rem);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:1.6rem;}
+  .dark-panel .deco{position:absolute;right:-1rem;bottom:-2.5rem;font-family:var(--display);font-style:italic;
+    font-size:clamp(4rem,12vw,9rem);color:var(--gold);opacity:.1;pointer-events:none;z-index:0;}
+  .dark-panel .q{font-family:var(--serif);font-weight:700;font-size:clamp(1.2rem,3.2vw,1.8rem);
+    line-height:1.5;position:relative;z-index:1;}
+  .dark-panel .q .hl{color:var(--gold);}
+  .dark-panel .src{display:block;font-size:.82rem;color:var(--ink-faint);font-style:italic;}
+  .dark-panel .src::before{content:"\2014 ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+  .action{display:flex;gap:.8rem;align-items:flex-start;background:var(--cream);
+    border:1px solid var(--cream-dark);border-radius:12px;padding:1.1rem 1.2rem;}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;margin-top:.1rem;}
+  .action h4{font-family:var(--serif);font-weight:700;font-size:1rem;margin-bottom:.25rem;}
+  .action p{font-size:.86rem;color:var(--ink-light);line-height:1.6;}
 
   .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
-  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+  .who span{font-family:var(--serif);font-size:.95rem;background:var(--gold-soft);border:1px solid var(--gold);
+    border-radius:24px;padding:.5rem 1.2rem;color:var(--ink);}
 
-  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
-  .back:hover{text-decoration:underline;}
+  footer{text-align:center;padding:3rem 2rem;color:var(--ink-faint);font-size:.85rem;
+    background:var(--cream-dark);margin-top:2rem;}
+  footer .mark{font-family:var(--serif);font-weight:900;letter-spacing:.1em;color:var(--teal);}
 
-  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
-  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
-
-  @media (max-width:680px){
-    .dual{grid-template-columns:1fr;}
-    main{padding:0 5vw 4rem;}
-    .hero{padding:0 5vw 11vh;min-height:68vh;}
-    .overview{padding:1.4rem 1.3rem;}
-    .sec-head{gap:.7rem;}
-    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  @media (max-width:900px){
+    .hero,.sticky-wrap,.two-col{grid-template-columns:1fr;}
+    .sticky-aside{position:static;}
+    .hero-visual{min-height:240px;}
+  }
+  @media (max-width:600px){
+    body{font-size:15px;}
+    .wrap{padding:0 1.5rem;}
+    .nav{padding:1rem 1.5rem;}
   }
 </style>
 <!-- 51.la analytics -->
@@ -132,236 +162,80 @@
   <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
 </head>
 <body>
-  <header class="site-header">
-    <nav>
-      <a class="sh-back" href="../v2/index.html">
-        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        返回岛上
-      </a>
-      <a class="sh-brand" href="../v2/index.html">岛主</a>
-    </nav>
-  </header>
+  <nav class="nav">
+    <a class="back" href="../v2/index.html">&larr; 返回岛上</a>
+    <a class="brand" href="../v2/index.html">岛主</a>
+  </nav>
 
-  <header class="hero">
-    <div class="ribbon">思维模型</div>
-    <div class="hero-inner">
-      <div class="kicker">Thinking Model · No.05</div>
-      <h1>破圈成长模型</h1>
-      <div class="subtitle">Growth Mindset · Break Out of the Zone</div>
-      <div class="author">岛主解读 &nbsp;·&nbsp; <b>成长型心智</b> &nbsp;·&nbsp; 根植于德韦克"固定型 vs 成长型"</div>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- 总览 + 模型信息 -->
-    <section id="intro">
-      <div class="overview">
-        <span class="lead-quote">一句话总览：</span>
-        你拼命努力却原地踏步，往往是掉进了"圈套"——停在舒适圈假装努力。真正的成长，是主动拥抱恐惧、在学习区里死磕，一步步破圈，把世界做大一整圈。
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-text">
+        <div class="kicker">Thinking Model · No.05</div>
+        <h1>破圈成长模型</h1>
+        <div class="sub">Growth Mindset · Break Out of the Zone</div>
+        <div class="author">岛主解读 &nbsp;·&nbsp; <b>成长型心智</b> &nbsp;·&nbsp; 根植于德韦克"固定型 vs 成长型"</div>
       </div>
-      <div class="info-grid">
-        <div class="info-card">
-          <div class="label">Origin</div>
-          <div class="value">岛主思维模型解读<small>底层逻辑呼应德韦克（Carol Dweck）"成长型 vs 固定型心智"。</small></div>
-        </div>
-        <div class="info-card">
-          <div class="label">Field</div>
-          <div class="value">个人成长 / 职场突破 / 自我突破<small>凡"很努力却没突破"的时刻都用得上。</small></div>
-        </div>
-        <div class="info-card">
-          <div class="label">Core Definition</div>
-          <div class="value">五圈破圈路径<small>舒适 → 恐惧 → 学习 → 成长 → 自在，逐圈向外走。</small></div>
-        </div>
-        <div class="info-card">
-          <div class="label">Thinking Layer</div>
-          <div class="value">心理 / 成长型<small>把"我很努力"换成"我在哪个圈、下一步去哪"。</small></div>
+      <div class="hero-visual">
+        <div class="ring"></div>
+        <div class="big">GROWTHMIN</div>
+        <div class="pills"><span>01</span><span>02</span><span>03</span><span>04</span></div>
+      </div>
+    </header>
+
+    <section class="sec" id="intro">
+      <div class="sec-head"><span class="tag"></span><h2>先一句话总览</h2><span class="en">Overview</span></div>
+      <div class="sticky-wrap">
+        <aside class="sticky-aside">
+          <div class="word">GROWTHMIN</div>
+          <div class="en">growthmin</div>
+        </aside>
+        <div>
+          <p class="bridge">写这个系列，我挑的都是能拿来用的框架，不玩虚的。破圈成长模型 这篇，先看总览。</p>
+          <div class="overview">
+            <span class="lead">一句话总览：</span>
+            你拼命努力却原地踏步，往往是掉进了"圈套"——停在舒适圈假装努力。真正的成长，是主动拥抱恐惧、在学习区里死磕，一步步破圈，把世界做大一整圈。
+          </div>
+          <div class="info-grid"><div class="info-card"><div class="label">Origin</div><div class="value">岛主思维模型解读<small>底层逻辑呼应德韦克（Carol Dweck）"成长型 vs 固定型心智"。</small></div></div><div class="info-card"><div class="label">Field</div><div class="value">个人成长 / 职场突破 / 自我突破<small>凡"很努力却没突破"的时刻都用得上。</small></div></div><div class="info-card"><div class="label">Core Definition</div><div class="value">五圈破圈路径<small>舒适 → 恐惧 → 学习 → 成长 → 自在，逐圈向外走。</small></div></div><div class="info-card"><div class="label">Thinking Layer</div><div class="value">心理 / 成长型<small>把"我很努力"换成"我在哪个圈、下一步去哪"。</small></div></div></div>
         </div>
       </div>
     </section>
 
-    <!-- 误用对比 -->
-    <section id="compare">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>假装努力 vs 主动破圈</h2>
-        <span class="en">Bad vs Good</span>
-      </div>
-      <div class="dual">
-        <div class="sys sys-bad">
-          <div class="num">✕</div>
-          <h3>舒适圈里假装努力</h3>
-          <div class="en">Comfort-Zone Hustle</div>
-          <ul class="trait-list">
-            <li>每天重复熟悉的事，波澜不惊也没成长</li>
-            <li>被"我不行""别人怎么看我"的情绪绊住</li>
-            <li>用"我很努力"自我安慰，实则原地踏步</li>
-            <li>一遇"万一失败"的恐惧，就被捆住</li>
-          </ul>
-          <div class="ex">例：工作 3 年，能力薪水却和刚毕业没差，只剩焦虑。</div>
-        </div>
-        <div class="sys sys-good">
-          <div class="num">✓</div>
-          <h3>主动拥抱恐惧</h3>
-          <div class="en">Embrace the Fear</div>
-          <ul class="trait-list">
-            <li>把恐惧当成"离突破不远"的信号</li>
-            <li>鼓起勇气踏入学习圈，疯狂啃书、请教、练习</li>
-            <li>用微型挑战降低门槛，小到不可能失败</li>
-            <li>把注意力从"万一"转到"第一步做什么"</li>
-          </ul>
-          <div class="ex">例：每天在行业社群分享一个专业观点，慢慢从"小透明"变"项目核心"。</div>
-        </div>
-      </div>
+    <section class="sec" id="compare">
+      <div class="sec-head"><span class="tag"></span><h2>假装努力 vs 主动破圈</h2><span class="en">Bad vs Good</span></div>
+      <div class="two-col"><div class="pit"><div class="tag">✗ 误用</div><h3>舒适圈里假装努力</h3><div class="en">Comfort-Zone Hustle</div><div class="trait-list"><div class="trait">每天重复熟悉的事，波澜不惊也没成长</div><div class="trait">被"我不行""别人怎么看我"的情绪绊住</div><div class="trait">用"我很努力"自我安慰，实则原地踏步</div><div class="trait">一遇"万一失败"的恐惧，就被捆住</div></div><div class="ex">例：例：工作 3 年，能力薪水却和刚毕业没差，只剩焦虑。</div></div><div class="pit good"><div class="tag">✓ 善用</div><h3>主动拥抱恐惧</h3><div class="en">Embrace the Fear</div><div class="trait-list"><div class="trait">把恐惧当成"离突破不远"的信号</div><div class="trait">鼓起勇气踏入学习圈，疯狂啃书、请教、练习</div><div class="trait">用微型挑战降低门槛，小到不可能失败</div><div class="trait">把注意力从"万一"转到"第一步做什么"</div></div><div class="ex">例：例：每天在行业社群分享一个专业观点，慢慢从"小透明"变"项目核心"。</div></div></div>
     </section>
 
-    <!-- 关键要点：五圈 -->
-    <section id="points">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>成长五圈地图</h2>
-        <span class="en">Five Zones of Growth</span>
-      </div>
-      <div class="bias-grid">
-        <div class="bias">
-          <div class="idx">01</div>
-          <h4>舒适圈 Comfort</h4>
-          <p>做着重复、熟悉的事，波澜不惊但毫无成长。这里不是避风港，而是消耗潜力的"温水煮青蛙"区。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">02</div>
-          <h4>恐惧圈 Fear</h4>
-          <p>想改变却被"我不行""太难了"绊住。恭喜——感到恐惧说明离突破不远了，这是破茧前的阵痛。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">03</div>
-          <h4>学习圈 Learning</h4>
-          <p>鼓起勇气直面挑战，疯狂啃书、上课、请教、练习。最辛苦，但每滴汗都在为未来爆发蓄力。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">04</div>
-          <h4>成长圈 Growth</h4>
-          <p>能力显著提升，设定更高目标、承担更重要角色，拿到实实在在的结果。努力在此凝结成自信与资本。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">05</div>
-          <h4>自在圈 Mastery</h4>
-          <p>曾经的挑战游刃有余，看淡一时得失，拥有掌控全局的智慧与平和。这不是终点，而是更高阶成长的起点。</p>
-        </div>
-      </div>
+    <section class="sec" id="points">
+      <div class="sec-head"><span class="tag"></span><h2>成长五圈地图</h2><span class="en">Five Zones of Growth</span></div>
+      <div class="cards"><div class="feature-card"><div class="idx">01</div><h3>舒适圈 Comfort</h3><p>做着重复、熟悉的事，波澜不惊但毫无成长。这里不是避风港，而是消耗潜力的"温水煮青蛙"区。</p></div><div class="feature-card"><div class="idx">02</div><h3>恐惧圈 Fear</h3><p>想改变却被"我不行""太难了"绊住。恭喜——感到恐惧说明离突破不远了，这是破茧前的阵痛。</p></div><div class="feature-card"><div class="idx">03</div><h3>学习圈 Learning</h3><p>鼓起勇气直面挑战，疯狂啃书、上课、请教、练习。最辛苦，但每滴汗都在为未来爆发蓄力。</p></div><div class="feature-card"><div class="idx">04</div><h3>成长圈 Growth</h3><p>能力显著提升，设定更高目标、承担更重要角色，拿到实实在在的结果。努力在此凝结成自信与资本。</p></div><div class="feature-card"><div class="idx">05</div><h3>自在圈 Mastery</h3><p>曾经的挑战游刃有余，看淡一时得失，拥有掌控全局的智慧与平和。这不是终点，而是更高阶成长的起点。</p></div></div>
     </section>
 
-    <!-- 应用流程 -->
-    <section id="flow">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>三步破圈，即刻行动</h2>
-        <span class="en">Three Steps to Break Out</span>
-      </div>
-      <div class="flow">
-        <div class="step">
-          <h4>精准定位</h4>
-          <p>诚实对照五圈，找到你在工作或某重要领域所处的圈层——先看清自己站在哪。</p>
-        </div>
-        <div class="step">
-          <h4>明确方向</h4>
-          <p>目标是升职加薪却在舒适圈？下一站就是勇敢踏入恐惧圈，去碰那些害怕但有价值的任务。</p>
-        </div>
-        <div class="step">
-          <h4>设微型挑战</h4>
-          <p>小到不可能失败，比如每天在行业社群分享一个专业观点，先动起来。</p>
-        </div>
-        <div class="step">
-          <h4>写最坏结果</h4>
-          <p>问自己"真无法承受吗"，把注意力从"万一"转向"具体第一步做什么"。</p>
-        </div>
-        <div class="step">
-          <h4>换身份 + 建后援</h4>
-          <p>用新成果置换新身份（如从"小透明"到"核心成员"），并主动链接资源、建后援团。</p>
-        </div>
-      </div>
+    <section class="sec" id="flow">
+      <div class="sec-head"><span class="tag"></span><h2>三步破圈，即刻行动</h2><span class="en">Three Steps to Break Out</span></div>
+      <div class="steps"><div class="step"><div class="step-num">1</div><div><span class="rk">精准定位</span><span class="row">诚实对照五圈，找到你在工作或某重要领域所处的圈层——先看清自己站在哪。</span></div></div><div class="step"><div class="step-num">2</div><div><span class="rk">明确方向</span><span class="row">目标是升职加薪却在舒适圈？下一站就是勇敢踏入恐惧圈，去碰那些害怕但有价值的任务。</span></div></div><div class="step"><div class="step-num">3</div><div><span class="rk">设微型挑战</span><span class="row">小到不可能失败，比如每天在行业社群分享一个专业观点，先动起来。</span></div></div><div class="step"><div class="step-num">4</div><div><span class="rk">写最坏结果</span><span class="row">问自己"真无法承受吗"，把注意力从"万一"转向"具体第一步做什么"。</span></div></div><div class="step"><div class="step-num">5</div><div><span class="rk">换身份 + 建后援</span><span class="row">用新成果置换新身份（如从"小透明"到"核心成员"），并主动链接资源、建后援团。</span></div></div></div>
     </section>
 
-    <!-- 金句 -->
-    <section id="quotes">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>模型金句</h2>
-        <span class="en">In a Nutshell</span>
-      </div>
-      <div class="quotes">
-        <blockquote class="quote">
-          <p>真正的成长，从来不是在舒适圈里假装努力，而是主动拥抱恐惧，在学习区里死磕到底。</p>
-          <span class="src">破圈的本质</span>
-        </blockquote>
-        <blockquote class="quote">
-          <p>每一次破圈，你的世界都会大上一整圈。别怕慢，就怕站。</p>
-          <span class="src">岛主批注</span>
-        </blockquote>
-        <blockquote class="quote">
-          <p>感到恐惧说明你离突破不远了——这是破茧前的阵痛，不是放弃的理由。</p>
-          <span class="src">恐惧的意义</span>
-        </blockquote>
-      </div>
+    <section class="sec" id="quotes">
+      <div class="sec-head"><span class="tag"></span><h2>模型金句</h2><span class="en">In a Nutshell</span></div>
+      <div class="dark-panel"><div class="deco">growthmin</div><div class="q">真正的成长，从来不是在舒适圈里假装努力，而是主动拥抱恐惧，在学习区里死磕到底。<span class="src">破圈的本质</span></div><div class="q">每一次破圈，你的世界都会大上一整圈。别怕慢，就怕站。<span class="src">岛主批注</span></div><div class="q">感到恐惧说明你离突破不远了——这是破茧前的阵痛，不是放弃的理由。<span class="src">恐惧的意义</span></div></div>
     </section>
 
-    <!-- 行动清单 -->
-    <section id="actions">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>马上能用的事</h2>
-        <span class="en">Put It to Work</span>
-      </div>
-      <div class="actions">
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>今天先"对号入座"</h4><p>拿张纸，把当下工作圈进五圈里，看清自己站在哪、想去哪。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>设一个微型挑战</h4><p>小到不可能失败，比如明天在群里发一条专业观点，先破"不敢"。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>写下最坏结果</h4><p>把恐惧写下来问"真的承受不了吗"，往往发现没那么可怕。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>厚脸皮请教牛人</h4><p>找到该领域的方法论，坚持练习并复盘，允许自己慢但别停。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>用成果换身份</h4><p>从"小透明"主动争取成"项目核心"，并链接资源建后援团。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>把"我很努力"换成"我在哪圈"</h4><p>自检：是真在学习区死磕，还是在舒适圈假装忙碌？</p></div>
-        </div>
-      </div>
+    <section class="sec" id="actions">
+      <div class="sec-head"><span class="tag"></span><h2>马上能用的事</h2><span class="en">Put It to Work</span></div>
+      <div class="actions"><div class="action"><span class="check">✓</span><div><h4>今天先"对号入座"</h4><p>拿张纸，把当下工作圈进五圈里，看清自己站在哪、想去哪。</p></div></div><div class="action"><span class="check">✓</span><div><h4>设一个微型挑战</h4><p>小到不可能失败，比如明天在群里发一条专业观点，先破"不敢"。</p></div></div><div class="action"><span class="check">✓</span><div><h4>写下最坏结果</h4><p>把恐惧写下来问"真的承受不了吗"，往往发现没那么可怕。</p></div></div><div class="action"><span class="check">✓</span><div><h4>厚脸皮请教牛人</h4><p>找到该领域的方法论，坚持练习并复盘，允许自己慢但别停。</p></div></div><div class="action"><span class="check">✓</span><div><h4>用成果换身份</h4><p>从"小透明"主动争取成"项目核心"，并链接资源建后援团。</p></div></div><div class="action"><span class="check">✓</span><div><h4>把"我很努力"换成"我在哪圈"</h4><p>自检：是真在学习区死磕，还是在舒适圈假装忙碌？</p></div></div></div>
     </section>
 
-    <!-- 适用场景 -->
-    <section id="when">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>什么时候该掏出它</h2>
-        <span class="en">When to Use</span>
-      </div>
-      <div class="who">
-        <span>工作多年没突破</span>
-        <span>想跳槽却怕失败</span>
-        <span>学了很多用不上</span>
-        <span>被焦虑困住时</span>
-        <span>想从"小透明"逆袭</span>
-        <span>女性成长 / 职场干货</span>
-        <span>任何"想破圈"的时刻</span>
-      </div>
+    <section class="sec" id="when">
+      <div class="sec-head"><span class="tag"></span><h2>什么时候该掏出它</h2><span class="en">When to Use</span></div>
+      <div class="who"><span>工作多年没突破</span><span>想跳槽却怕失败</span><span>学了很多用不上</span><span>被焦虑困住时</span><span>想从"小透明"逆袭</span><span>女性成长 / 职场干货</span><span>任何"想破圈"的时刻</span></div>
     </section>
-  </main>
+
+  </div>
 
   <footer>
     <div class="mark">思 维 模 型 图 鉴 · No.05</div>
     <p style="margin-top:.6rem;">破圈成长模型 · 岛主解读 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
   </footer>
+
 </body>
 </html>

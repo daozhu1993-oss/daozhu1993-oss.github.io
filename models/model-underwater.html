@@ -6,125 +6,155 @@
 <title>冰山胜任力模型 · 思维模型图鉴</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,900&family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet" />
 <style>
-    @import url('../design-system/components.css');
-  :root{
-    --paper:#f6efe0;--paper-deep:#efe6d2;--ink:#2c2620;--ink-soft:#5a5147;--ink-faint:#8a8074;
-    --ribbon:#7c2d2d;--ribbon-deep:#641f1f;--accent:#9a6a32;--accent-soft:#c8a86a;--line:#d8cdb6;
-    --card:#fbf7ee;--shadow:rgba(60,45,25,.14);
-    --serif:"Noto Serif SC",Georgia,"Songti SC",serif;
-    --sans:"Noto Sans SC","PingFang SC","Helvetica Neue",sans-serif;
-    --display:"Playfair Display",var(--serif);
+    :root{
+    --teal:#1C7C6B; --teal-deep:#115548;
+    --gold:#D9A441; --gold-soft:#F7EEDA;
+    --coral:#D2553B;
+    --cream:#FBF8F1; --cream-dark:#F3ECDD;
+    --ink:#1C2522; --ink-light:#4A5754; --ink-faint:#8A938E;
+    --dark-panel:#13302B;
+    --serif:"Noto Serif SC",serif;
+    --sans:"Noto Sans SC",sans-serif;
+    --display:"Fraunces",serif;
+    --mono:"Fira Code",monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-  body{font-family:var(--sans);color:var(--ink);line-height:1.85;
-    background-color:var(--paper);
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
-      radial-gradient(circle at 18% 12%,rgba(200,168,106,.10),transparent 42%),
-      radial-gradient(circle at 84% 88%,rgba(124,45,45,.06),transparent 46%);
-    background-attachment:fixed,fixed,fixed;}
-  ::selection{background:var(--accent-soft);color:#3a2c14;}
+  body{font-family:var(--sans);color:var(--ink);line-height:1.8;background:var(--cream);
+    background-image:radial-gradient(circle at 12% 8%,rgba(217,164,65,.07),transparent 40%),
+      radial-gradient(circle at 88% 92%,rgba(28,124,107,.06),transparent 42%);}
+  ::selection{background:var(--gold);color:#3a2c14;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 2rem;}
 
-  .hero{position:relative;min-height:74vh;display:flex;align-items:flex-end;justify-content:center;
-    background:#2c2620 url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2000&q=80") center/cover no-repeat;
-    background-color:#33291e;padding:0 6vw 9vh;overflow:hidden;}
-  .hero::before{content:"";position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(28,22,15,.42) 0%,rgba(28,22,15,.18) 36%,rgba(28,22,15,.70) 78%,rgba(28,22,15,.92) 100%);}
-  .hero-inner{position:relative;z-index:2;max-width:880px;text-align:center;color:#f6efe0;}
-  .hero .kicker{font-family:var(--sans);letter-spacing:.42em;text-transform:uppercase;
-    font-size:clamp(.62rem,2.4vw,.8rem);color:var(--accent-soft);margin-bottom:1.1rem;font-weight:500;}
-  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.12;
-    letter-spacing:.02em;text-shadow:0 2px 26px rgba(0,0,0,.5);margin-bottom:.5rem;}
-  .hero .subtitle{font-family:var(--display);font-style:italic;font-size:clamp(1rem,3.6vw,1.45rem);color:#ecdfc6;}
-  .hero .author{margin-top:1.3rem;font-size:clamp(.8rem,2.8vw,1rem);color:#d7c8ab;letter-spacing:.14em;}
-  .hero .author b{color:#f6efe0;font-weight:600;}
-  .ribbon{position:absolute;top:0;left:50%;transform:translateX(-50%);width:clamp(46px,12vw,60px);
-    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));color:var(--paper);text-align:center;
-    padding:1.1rem .3rem 1.7rem;font-family:var(--serif);font-weight:700;letter-spacing:.3em;writing-mode:vertical-rl;
-    font-size:clamp(.7rem,2.4vw,.86rem);box-shadow:0 8px 18px rgba(0,0,0,.32);
-    clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);z-index:3;}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2rem;max-width:1180px;margin:0 auto;}
+  .nav a{color:var(--ink-light);text-decoration:none;font-size:.9rem;transition:color .2s var(--ease, ease);}
+  .nav .brand{font-family:var(--serif);font-weight:900;font-size:1.15rem;color:var(--teal);}
+  .nav .back:hover{color:var(--teal);}
 
-  main{max-width:1040px;margin:0 auto;padding:0 6vw 5rem;}
-  section{padding:3.4rem 0;border-bottom:1px solid var(--line);}
-  section:last-of-type{border-bottom:none;}
-  .sec-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.9rem;}
-  .sec-head .tag{flex:0 0 auto;width:8px;height:42px;border-radius:2px;
-    background:linear-gradient(180deg,var(--ribbon),var(--ribbon-deep));box-shadow:0 2px 6px rgba(124,45,45,.3);}
-  .sec-head h2{font-family:var(--serif);font-weight:700;font-size:clamp(1.5rem,5vw,2.1rem);letter-spacing:.02em;}
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(2rem,5vw,4rem);align-items:center;
+    padding:clamp(3rem,8vh,6rem) 0;}
+  .hero .kicker{font-family:var(--mono);letter-spacing:.2em;text-transform:uppercase;
+    font-size:clamp(.7rem,2vw,.85rem);color:var(--teal);}
+  .hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.1;margin:.6rem 0;}
+  .hero h1 .em{color:var(--teal);}
+  .hero .sub{font-family:var(--display);font-style:italic;font-size:clamp(1.1rem,3vw,1.6rem);color:var(--ink-light);}
+  .hero .author{margin-top:1.2rem;font-size:.95rem;color:var(--ink-faint);}
+  .hero .author b{color:var(--teal-deep);font-weight:700;}
+  .hero-visual{position:relative;min-height:300px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:1.4rem;}
+  .hero-visual .ring{position:absolute;width:clamp(190px,22vw,270px);height:clamp(190px,22vw,270px);
+    border:2.5px dashed var(--gold);border-radius:50%;opacity:.8;}
+  .hero-visual .big{font-family:var(--display);font-style:italic;font-weight:900;
+    font-size:clamp(3rem,9vw,5rem);color:var(--teal);opacity:.18;z-index:1;}
+  .hero-visual .pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;z-index:1;}
+  .hero-visual .pills span{font-family:var(--serif);font-size:.9rem;background:var(--gold-soft);
+    border:1px solid var(--gold);border-radius:20px;padding:.35rem 1rem;color:var(--ink);}
+  .hero-visual .pills span:nth-child(2){border-color:var(--teal);}
+  .hero-visual .pills span:nth-child(3){border-color:var(--coral);}
+
+  .sec{padding:clamp(3rem,7vh,5rem) 0;}
+  .sec + .sec{border-top:1px solid var(--cream-dark);}
+  .sec-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem;}
+  .sec-head .tag{flex:0 0 auto;width:6px;height:38px;border-radius:2px;background:var(--teal);}
+  .sec-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(1.5rem,4.5vw,2.1rem);}
   .sec-head .en{font-family:var(--display);font-style:italic;color:var(--ink-faint);font-size:.95rem;}
 
-  .overview{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
-    border-radius:10px;padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:0 10px 24px var(--shadow);
-    font-family:var(--serif);font-size:clamp(1.05rem,3.4vw,1.3rem);line-height:1.7;color:var(--ink);}
-  .overview .lead-quote{color:var(--accent);font-weight:600;}
-  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;}
-  .info-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.4rem;box-shadow:0 6px 16px var(--shadow);}
-  .info-card .label{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:.5rem;font-family:var(--sans);}
-  .info-card .value{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1.6;}
-  .info-card .value small{display:block;color:var(--ink-soft);font-size:.86rem;margin-top:.3rem;font-family:var(--sans);}
+  .bridge{font-family:var(--sans);font-size:.95rem;color:var(--ink-light);margin-bottom:1.2rem;line-height:1.7;}
 
-  .dual{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
-  .sys{border-radius:12px;padding:1.8rem 1.6rem;position:relative;overflow:hidden;box-shadow:0 12px 26px var(--shadow);}
-  .sys-bad{background:linear-gradient(160deg,#f3dada,#e9bdbd);border:1px solid #d6a0a0;}
-  .sys-good{background:linear-gradient(160deg,#dfece1,#c5dcc9);border:1px solid #9bb3a4;}
-  .sys .num{font-family:var(--display);font-size:clamp(2.4rem,9vw,3.2rem);font-weight:800;line-height:1;opacity:.28;position:absolute;top:.7rem;right:1rem;}
-  .sys h3{font-family:var(--serif);font-size:1.32rem;font-weight:700;margin-bottom:.2rem;}
-  .sys .en-name{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-soft);margin-bottom:1rem;}
-  .trait-list{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
-  .trait-list li{font-size:.94rem;padding-left:1.4rem;position:relative;color:var(--ink);}
-  .trait-list li::before{content:"";position:absolute;left:0;top:.65em;width:8px;height:8px;border-radius:50%;background:var(--ribbon);}
-  .sys-good .trait-list li::before{background:#5d7a6a;}
-  .sys .ex{margin-top:1.1rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;border-top:1px dashed rgba(0,0,0,.14);padding-top:.8rem;}
+  .sticky-wrap{display:grid;grid-template-columns:.4fr 1fr;gap:clamp(2rem,5vw,4rem);align-items:start;}
+  .sticky-aside{position:sticky;top:2rem;text-align:center;}
+  .sticky-aside .word{font-family:var(--display);font-style:italic;font-weight:900;
+    font-size:clamp(3rem,8vw,5rem);color:var(--teal);line-height:.95;}
+  .sticky-aside .en{font-family:var(--mono);font-size:.8rem;color:var(--ink-faint);letter-spacing:.1em;}
+  .overview{background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:12px;
+    padding:clamp(1.4rem,3vw,2rem);font-family:var(--serif);font-size:clamp(1.05rem,2.6vw,1.25rem);
+    line-height:1.7;color:var(--ink);}
+  .overview .lead{color:var(--teal-deep);font-weight:700;}
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;}
+  .info-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:12px;padding:1.1rem 1.2rem;}
+  .info-card .label{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--teal);font-weight:700;}
+  .info-card .value{font-family:var(--serif);font-size:1rem;margin-top:.4rem;color:var(--ink);}
+  .info-card .value small{display:block;font-family:var(--sans);font-size:.82rem;color:var(--ink-light);
+    margin-top:.3rem;font-weight:400;}
 
-  .bias-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:1.2rem;}
-  .bias{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.4rem;box-shadow:0 8px 20px var(--shadow);transition:transform .25s ease,box-shadow .25s ease;position:relative;}
-  .bias:hover{transform:translateY(-5px);box-shadow:0 16px 32px var(--shadow);}
-  .bias .idx{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--accent);margin-bottom:.3rem;}
-  .bias h4{font-family:var(--serif);font-size:1.16rem;font-weight:700;margin-bottom:.6rem;}
-  .bias p{font-size:.92rem;color:var(--ink-soft);line-height:1.7;}
-  .bias .eg{margin-top:.9rem;font-size:.82rem;background:var(--paper-deep);border-radius:7px;padding:.6rem .8rem;color:var(--ink);}
-  .bias .eg b{color:var(--ribbon);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
+  .pit{background:var(--cream);border:1px solid var(--cream-dark);border-radius:16px;
+    padding:clamp(1.4rem,3vw,2rem);border-bottom:4px solid var(--coral);}
+  .pit.good{border-bottom-color:var(--teal);}
+  .pit .tag{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--coral);}
+  .pit.good .tag{color:var(--teal);}
+  .pit h3{font-family:var(--serif);font-weight:900;font-size:1.2rem;margin:.3rem 0 .1rem;}
+  .pit .en{font-family:var(--display);font-style:italic;font-size:.9rem;color:var(--ink-faint);}
+  .trait-list{margin-top:1rem;display:flex;flex-direction:column;gap:.6rem;}
+  .trait{position:relative;padding-left:1.3rem;font-size:.94rem;color:var(--ink-light);}
+  .trait::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--coral);}
+  .pit.good .trait::before{background:var(--teal);}
+  .pit .ex{margin-top:1rem;font-size:.84rem;color:var(--ink-light);font-style:italic;
+    border-top:1px dashed var(--cream-dark);padding-top:.7rem;}
 
-  .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;counter-reset:step;}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.3rem 1.3rem;box-shadow:0 8px 20px var(--shadow);position:relative;}
-  .step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:1.2rem;
-    width:30px;height:30px;border-radius:50%;background:var(--ribbon);color:var(--paper);
-    display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.95rem;box-shadow:0 3px 8px rgba(124,45,45,.35);}
-  .step h4{font-family:var(--serif);font-size:1.05rem;font-weight:700;margin:.4rem 0 .4rem;}
-  .step p{font-size:.88rem;color:var(--ink-soft);line-height:1.6;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;}
+  .feature-card{background:var(--cream);border:1px solid var(--cream-dark);border-radius:16px;
+    padding:1.5rem 1.4rem;border-bottom:4px solid var(--gold);}
+  .feature-card:nth-child(2){border-bottom-color:var(--teal);}
+  .feature-card:nth-child(3){border-bottom-color:var(--coral);}
+  .feature-card:nth-child(4){border-bottom-color:var(--gold);}
+  .feature-card:nth-child(5){border-bottom-color:var(--teal);}
+  .feature-card:nth-child(6){border-bottom-color:var(--coral);}
+  .feature-card .idx{font-family:var(--display);font-style:italic;font-weight:900;font-size:1.6rem;color:var(--teal);}
+  .feature-card h3{font-family:var(--serif);font-weight:900;font-size:1.15rem;margin:.2rem 0 .6rem;}
+  .feature-card h3 .en{font-family:var(--mono);font-size:.78rem;color:var(--ink-faint);margin-left:.3rem;}
+  .feature-card p{font-size:.92rem;color:var(--ink-light);line-height:1.7;}
+  .feature-card .eg{margin-top:.9rem;font-size:.82rem;background:var(--gold-soft);border-radius:8px;
+    padding:.6rem .8rem;color:var(--ink);}
+  .feature-card .eg b{color:var(--coral);}
 
-  .quotes{display:flex;flex-direction:column;gap:1.6rem;}
-  .quote{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2rem 2rem 1.6rem 3.4rem;box-shadow:0 8px 20px var(--shadow);}
-  .quote::before{content:"\201C";position:absolute;left:.7rem;top:.2rem;font-family:var(--display);font-size:4.5rem;color:var(--accent-soft);line-height:1;}
-  .quote p{font-family:var(--serif);font-size:clamp(1.05rem,3.6vw,1.28rem);line-height:1.75;color:var(--ink);}
-  .quote .src{display:block;margin-top:.9rem;font-size:.82rem;color:var(--ink-faint);letter-spacing:.05em;font-style:italic;}
-  .quote .src::before{content:"— ";}
+  .steps{display:flex;flex-direction:column;gap:1.1rem;}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:start;
+    background:var(--cream);border:1px solid var(--cream-dark);border-radius:14px;padding:1.2rem 1.4rem;}
+  .step-num{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-style:italic;font-weight:900;font-size:1.2rem;background:var(--gold-soft);
+    color:var(--teal-deep);border:2.5px dashed var(--gold);flex:0 0 auto;}
+  .step .rk{font-family:var(--serif);font-weight:900;font-size:1.05rem;color:var(--teal-deep);}
+  .step .row{font-size:.95rem;color:var(--ink-light);}
 
-  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;}
-  .action{display:flex;gap:.9rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;box-shadow:0 6px 16px var(--shadow);}
-  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--ribbon);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;margin-top:.15rem;}
-  .action h4{font-family:var(--serif);font-size:1.02rem;font-weight:700;margin-bottom:.25rem;}
-  .action p{font-size:.88rem;color:var(--ink-soft);line-height:1.65;}
+  .dark-panel{background:var(--dark-panel);color:#e2e8f0;border-radius:18px;
+    padding:clamp(2rem,5vw,3.5rem);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:1.6rem;}
+  .dark-panel .deco{position:absolute;right:-1rem;bottom:-2.5rem;font-family:var(--display);font-style:italic;
+    font-size:clamp(4rem,12vw,9rem);color:var(--gold);opacity:.1;pointer-events:none;z-index:0;}
+  .dark-panel .q{font-family:var(--serif);font-weight:700;font-size:clamp(1.2rem,3.2vw,1.8rem);
+    line-height:1.5;position:relative;z-index:1;}
+  .dark-panel .q .hl{color:var(--gold);}
+  .dark-panel .src{display:block;font-size:.82rem;color:var(--ink-faint);font-style:italic;}
+  .dark-panel .src::before{content:"\2014 ";}
+
+  .actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;}
+  .action{display:flex;gap:.8rem;align-items:flex-start;background:var(--cream);
+    border:1px solid var(--cream-dark);border-radius:12px;padding:1.1rem 1.2rem;}
+  .action .check{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;margin-top:.1rem;}
+  .action h4{font-family:var(--serif);font-weight:700;font-size:1rem;margin-bottom:.25rem;}
+  .action p{font-size:.86rem;color:var(--ink-light);line-height:1.6;}
 
   .who{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;}
-  .who span{font-family:var(--serif);font-size:1rem;background:var(--paper-deep);border:1px solid var(--accent-soft);border-radius:24px;padding:.55rem 1.3rem;color:var(--ink);box-shadow:0 4px 12px var(--shadow);}
+  .who span{font-family:var(--serif);font-size:.95rem;background:var(--gold-soft);border:1px solid var(--gold);
+    border-radius:24px;padding:.5rem 1.2rem;color:var(--ink);}
 
-  .back{display:inline-block;margin-bottom:1rem;font-size:.85rem;color:var(--accent);text-decoration:none;letter-spacing:.05em;}
-  .back:hover{text-decoration:underline;}
+  footer{text-align:center;padding:3rem 2rem;color:var(--ink-faint);font-size:.85rem;
+    background:var(--cream-dark);margin-top:2rem;}
+  footer .mark{font-family:var(--serif);font-weight:900;letter-spacing:.1em;color:var(--teal);}
 
-  footer{text-align:center;padding:2.4rem 6vw 3rem;color:var(--ink-faint);font-size:.82rem;background:var(--paper-deep);border-top:1px solid var(--line);}
-  footer .mark{font-family:var(--serif);color:var(--accent);font-weight:700;letter-spacing:.1em;}
-
-  @media (max-width:680px){
-    .dual{grid-template-columns:1fr;}
-    main{padding:0 5vw 4rem;}
-    .hero{padding:0 5vw 11vh;min-height:68vh;}
-    .overview{padding:1.4rem 1.3rem;}
-    .sec-head{gap:.7rem;}
-    .quote{padding:1.7rem 1.2rem 1.4rem 2.8rem;}
+  @media (max-width:900px){
+    .hero,.sticky-wrap,.two-col{grid-template-columns:1fr;}
+    .sticky-aside{position:static;}
+    .hero-visual{min-height:240px;}
+  }
+  @media (max-width:600px){
+    body{font-size:15px;}
+    .wrap{padding:0 1.5rem;}
+    .nav{padding:1rem 1.5rem;}
   }
 </style>
 <!-- 51.la analytics -->
@@ -132,237 +162,80 @@
   <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
 </head>
 <body>
-  <header class="site-header">
-    <nav>
-      <a class="sh-back" href="../v2/index.html">
-        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        返回岛上
-      </a>
-      <a class="sh-brand" href="../v2/index.html">岛主</a>
-    </nav>
-  </header>
+  <nav class="nav">
+    <a class="back" href="../v2/index.html">&larr; 返回岛上</a>
+    <a class="brand" href="../v2/index.html">岛主</a>
+  </nav>
 
-  <header class="hero">
-    <div class="ribbon">思维模型</div>
-    <div class="hero-inner">
-      <div class="kicker">Thinking Model · No.06</div>
-      <h1>冰山胜任力模型</h1>
-      <div class="subtitle">Competency Iceberg Model</div>
-      <div class="author">岛主解读 &nbsp;·&nbsp; <b>胜任力 / 冰山衍生</b> &nbsp;·&nbsp; 源自 McClelland 1973</div>
-    </div>
-  </header>
-
-  <main>
-
-    <!-- 总览 + 模型信息 -->
-    <section id="intro">
-      <div class="overview">
-        <span class="lead-quote">一句话总览：</span>
-        决定一个人能走多远的，不是水面上的 30% 显能，而是水下那看不见的 70%——性格、价值观与动机。简历帮你进门，冰山决定你能走多远。
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-text">
+        <div class="kicker">Thinking Model · No.06</div>
+        <h1>冰山胜任力模型</h1>
+        <div class="sub">Competency Iceberg Model</div>
+        <div class="author">岛主解读 &nbsp;·&nbsp; <b>胜任力 / 冰山衍生</b> &nbsp;·&nbsp; 源自 McClelland 1973</div>
       </div>
-      <div class="info-grid">
-        <div class="info-card">
-          <div class="label">Origin</div>
-          <div class="value">戴维·麦克利兰<small>David McClelland，1973 年提出胜任力理论，冰山为其经典隐喻。</small></div>
-        </div>
-        <div class="info-card">
-          <div class="label">Field</div>
-          <div class="value">职业发展 / 人才评估 / 个人优势<small>看人、看己、做 hiring 与晋升的底层框架。</small></div>
-        </div>
-        <div class="info-card">
-          <div class="label">Core Definition</div>
-          <div class="value">显性 30% + 隐性 70%<small>水上：知识·技能·通用能力；水下：特质·价值观·动机。</small></div>
-        </div>
-        <div class="info-card">
-          <div class="label">Thinking Layer</div>
-          <div class="value">模型型<small>水面技能 vs 水下特质/动机，决定长期发展。</small></div>
+      <div class="hero-visual">
+        <div class="ring"></div>
+        <div class="big">UNDERWATE</div>
+        <div class="pills"><span>知识 Kn</span><span>技能 Sk</span><span>通用能力 </span><span>性格特质 </span></div>
+      </div>
+    </header>
+
+    <section class="sec" id="intro">
+      <div class="sec-head"><span class="tag"></span><h2>先一句话总览</h2><span class="en">Overview</span></div>
+      <div class="sticky-wrap">
+        <aside class="sticky-aside">
+          <div class="word">UNDERWATE</div>
+          <div class="en">underwate</div>
+        </aside>
+        <div>
+          <p class="bridge">写这个系列，我挑的都是能拿来用的框架，不玩虚的。冰山胜任力模型 这篇，先看总览。</p>
+          <div class="overview">
+            <span class="lead">一句话总览：</span>
+            决定一个人能走多远的，不是水面上的 30% 显能，而是水下那看不见的 70%——性格、价值观与动机。简历帮你进门，冰山决定你能走多远。
+          </div>
+          <div class="info-grid"><div class="info-card"><div class="label">Origin</div><div class="value">戴维·麦克利兰<small>David McClelland，1973 年提出胜任力理论，冰山为其经典隐喻。</small></div></div><div class="info-card"><div class="label">Field</div><div class="value">职业发展 / 人才评估 / 个人优势<small>看人、看己、做 hiring 与晋升的底层框架。</small></div></div><div class="info-card"><div class="label">Core Definition</div><div class="value">显性 30% + 隐性 70%<small>水上：知识·技能·通用能力；水下：特质·价值观·动机。</small></div></div><div class="info-card"><div class="label">Thinking Layer</div><div class="value">模型型<small>水面技能 vs 水下特质/动机，决定长期发展。</small></div></div></div>
         </div>
       </div>
     </section>
 
-    <!-- 误用对比 -->
-    <section id="compare">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>只看简历 vs 看重冰山</h2>
-        <span class="en">Bad vs Good</span>
-      </div>
-      <div class="dual">
-        <div class="sys sys-bad">
-          <div class="num">✕</div>
-          <h3>只看水上部分</h3>
-          <div class="en">Surface-Only Hiring</div>
-          <ul class="trait-list">
-            <li>用证书、学历、技能标签筛人</li>
-            <li>忽略动机和价值观是否匹配</li>
-            <li>招来"能力强但求安稳"的人</li>
-            <li>遇到艰难项目，对方找借口推掉</li>
-          </ul>
-          <div class="ex">例：A 员工技能强，但动机是"求安稳"，开拓新市场时敷衍执行。</div>
-        </div>
-        <div class="sys sys-good">
-          <div class="num">✓</div>
-          <h3>打捞水下冰山</h3>
-          <div class="en">Read the Iceberg</div>
-          <ul class="trait-list">
-            <li>看性格、价值观、动机是否匹配航道</li>
-            <li>重用"冰山深厚"的人，长期更可靠</li>
-            <li>让成就驱动的人主动请缨、全力以赴</li>
-            <li>自己也持续增厚水下部分，建立壁垒</li>
-          </ul>
-          <div class="ex">例：B 员工同样强，但动机是"成就驱动"，主动请缨、全力以赴。</div>
-        </div>
-      </div>
+    <section class="sec" id="compare">
+      <div class="sec-head"><span class="tag"></span><h2>只看简历 vs 看重冰山</h2><span class="en">Bad vs Good</span></div>
+      <div class="two-col"><div class="pit"><div class="tag">✗ 误用</div><h3>只看水上部分</h3><div class="en">Surface-Only Hiring</div><div class="trait-list"><div class="trait">用证书、学历、技能标签筛人</div><div class="trait">忽略动机和价值观是否匹配</div><div class="trait">招来"能力强但求安稳"的人</div><div class="trait">遇到艰难项目，对方找借口推掉</div></div><div class="ex">例：例：A 员工技能强，但动机是"求安稳"，开拓新市场时敷衍执行。</div></div><div class="pit good"><div class="tag">✓ 善用</div><h3>打捞水下冰山</h3><div class="en">Read the Iceberg</div><div class="trait-list"><div class="trait">看性格、价值观、动机是否匹配航道</div><div class="trait">重用"冰山深厚"的人，长期更可靠</div><div class="trait">让成就驱动的人主动请缨、全力以赴</div><div class="trait">自己也持续增厚水下部分，建立壁垒</div></div><div class="ex">例：例：B 员工同样强，但动机是"成就驱动"，主动请缨、全力以赴。</div></div></div>
     </section>
 
-    <!-- 关键要点：六要素 -->
-    <section id="points">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>能力冰山六要素</h2>
-        <span class="en">Six Layers</span>
-      </div>
-      <div class="bias-grid">
-        <div class="bias">
-          <div class="idx">水上</div>
-          <h4>知识 Knowledge</h4>
-          <p>你学过什么？专业知识、行业认知。显性、易观察，是你的入场券。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">水上</div>
-          <h4>技能 Skill</h4>
-          <p>你会用什么？软件操作、外语、编程。同样显性易培养，但替代性高。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">水上</div>
-          <h4>通用能力 Ability</h4>
-          <p>你如何做事？沟通、协作、学习力。比知识技能更底层，仍是显性。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">水下</div>
-          <h4>性格特质 Trait</h4>
-          <p>你是怎样的人？乐观、坚韧、正直。隐性、难改变，却持续驱动行为。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">水下</div>
-          <h4>价值观 Value</h4>
-          <p>你认为什么对？崇尚合作、追求卓越。隐形方向盘，决定你往哪走。</p>
-        </div>
-        <div class="bias">
-          <div class="idx">水下</div>
-          <h4>动机 Motive</h4>
-          <p>你真正渴望什么？成就、权力、亲和驱动。发动机，最深处也最关键。</p>
-        </div>
-      </div>
+    <section class="sec" id="points">
+      <div class="sec-head"><span class="tag"></span><h2>能力冰山六要素</h2><span class="en">Six Layers</span></div>
+      <div class="cards"><div class="feature-card"><div class="idx">01</div><h3>知识 Knowledge</h3><p>你学过什么？专业知识、行业认知。显性、易观察，是你的入场券。</p></div><div class="feature-card"><div class="idx">02</div><h3>技能 Skill</h3><p>你会用什么？软件操作、外语、编程。同样显性易培养，但替代性高。</p></div><div class="feature-card"><div class="idx">03</div><h3>通用能力 Ability</h3><p>你如何做事？沟通、协作、学习力。比知识技能更底层，仍是显性。</p></div><div class="feature-card"><div class="idx">04</div><h3>性格特质 Trait</h3><p>你是怎样的人？乐观、坚韧、正直。隐性、难改变，却持续驱动行为。</p></div><div class="feature-card"><div class="idx">05</div><h3>价值观 Value</h3><p>你认为什么对？崇尚合作、追求卓越。隐形方向盘，决定你往哪走。</p></div><div class="feature-card"><div class="idx">06</div><h3>动机 Motive</h3><p>你真正渴望什么？成就、权力、亲和驱动。发动机，最深处也最关键。</p></div></div>
     </section>
 
-    <!-- 应用流程 -->
-    <section id="flow">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>三步构建深层优势</h2>
-        <span class="en">Build Your Iceberg</span>
-      </div>
-      <div class="flow">
-        <div class="step">
-          <h4>自我探测</h4>
-          <p>回顾最自豪/最挫败的经历，背后体现了你怎样的性格与看重什么；做什么事能让你废寝忘食。</p>
-        </div>
-        <div class="step">
-          <h4>对标校准</h4>
-          <p>你的隐性特质，和当前岗位、团队、公司文化匹配吗？内心渴望自由却身处服从流程，会很痛苦。</p>
-        </div>
-        <div class="step">
-          <h4>刻意强化</h4>
-          <p>承担有挑战的小任务锻炼韧性；面临选择时用原则做决定；拆大目标创造心流，滋养动机。</p>
-        </div>
-        <div class="step">
-          <h4>打捞并展示</h4>
-          <p>别只盯证书，主动把"水下优势"（责任心、成就动机、坚韧）讲给对的人听，建立壁垒。</p>
-        </div>
-      </div>
+    <section class="sec" id="flow">
+      <div class="sec-head"><span class="tag"></span><h2>三步构建深层优势</h2><span class="en">Build Your Iceberg</span></div>
+      <div class="steps"><div class="step"><div class="step-num">1</div><div><span class="rk">自我探测</span><span class="row">回顾最自豪/最挫败的经历，背后体现了你怎样的性格与看重什么；做什么事能让你废寝忘食。</span></div></div><div class="step"><div class="step-num">2</div><div><span class="rk">对标校准</span><span class="row">你的隐性特质，和当前岗位、团队、公司文化匹配吗？内心渴望自由却身处服从流程，会很痛苦。</span></div></div><div class="step"><div class="step-num">3</div><div><span class="rk">刻意强化</span><span class="row">承担有挑战的小任务锻炼韧性；面临选择时用原则做决定；拆大目标创造心流，滋养动机。</span></div></div><div class="step"><div class="step-num">4</div><div><span class="rk">打捞并展示</span><span class="row">别只盯证书，主动把"水下优势"（责任心、成就动机、坚韧）讲给对的人听，建立壁垒。</span></div></div></div>
     </section>
 
-    <!-- 金句 -->
-    <section id="quotes">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>模型金句</h2>
-        <span class="en">In a Nutshell</span>
-      </div>
-      <div class="quotes">
-        <blockquote class="quote">
-          <p>显性能力决定你的起点，隐性素质决定你的顶点。</p>
-          <span class="src">冰山法则</span>
-        </blockquote>
-        <blockquote class="quote">
-          <p>职业生涯前半程拼水上硬实力，后半程拼水下软实力与心之力。</p>
-          <span class="src">长期主义</span>
-        </blockquote>
-        <blockquote class="quote">
-          <p>花点时间打捞你水下那座巨大的、独特的冰山——那才是你无法被轻易替代的真正资本。</p>
-          <span class="src">岛主批注</span>
-        </blockquote>
-      </div>
+    <section class="sec" id="quotes">
+      <div class="sec-head"><span class="tag"></span><h2>模型金句</h2><span class="en">In a Nutshell</span></div>
+      <div class="dark-panel"><div class="deco">underwate</div><div class="q">显性能力决定你的起点，隐性素质决定你的顶点。<span class="src">冰山法则</span></div><div class="q">职业生涯前半程拼水上硬实力，后半程拼水下软实力与心之力。<span class="src">长期主义</span></div><div class="q">花点时间打捞你水下那座巨大的、独特的冰山——那才是你无法被轻易替代的真正资本。<span class="src">岛主批注</span></div></div>
     </section>
 
-    <!-- 行动清单 -->
-    <section id="actions">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>马上能用的事</h2>
-        <span class="en">Put It to Work</span>
-      </div>
-      <div class="actions">
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>画自己的冰山</h4><p>分两栏写下水上技能与水下特质/动机，看哪边更厚。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>问"什么让我废寝忘食"</h4><p>找到自己的核心动机（成就/影响/归属），用它校准方向。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>检查人岗匹配</h4><p>内心渴望创新自由，却身在强调服从的环境？那会持续内耗。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>招人别只看简历</h4><p>多问动机与价值观，找"冰山深厚"的人，长期更可靠。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>用原则做选择</h4><p>面临岔路时，有意识地用你的价值观做决定，强化它。</p></div>
-        </div>
-        <div class="action">
-          <span class="check">✓</span>
-          <div><h4>主动讲出水下优势</h4><p>面试/述职时，把责任心、成就动机说清楚，建立不可替代感。</p></div>
-        </div>
-      </div>
+    <section class="sec" id="actions">
+      <div class="sec-head"><span class="tag"></span><h2>马上能用的事</h2><span class="en">Put It to Work</span></div>
+      <div class="actions"><div class="action"><span class="check">✓</span><div><h4>画自己的冰山</h4><p>分两栏写下水上技能与水下特质/动机，看哪边更厚。</p></div></div><div class="action"><span class="check">✓</span><div><h4>问"什么让我废寝忘食"</h4><p>找到自己的核心动机（成就/影响/归属），用它校准方向。</p></div></div><div class="action"><span class="check">✓</span><div><h4>检查人岗匹配</h4><p>内心渴望创新自由，却身在强调服从的环境？那会持续内耗。</p></div></div><div class="action"><span class="check">✓</span><div><h4>招人别只看简历</h4><p>多问动机与价值观，找"冰山深厚"的人，长期更可靠。</p></div></div><div class="action"><span class="check">✓</span><div><h4>用原则做选择</h4><p>面临岔路时，有意识地用你的价值观做决定，强化它。</p></div></div><div class="action"><span class="check">✓</span><div><h4>主动讲出水下优势</h4><p>面试/述职时，把责任心、成就动机说清楚，建立不可替代感。</p></div></div></div>
     </section>
 
-    <!-- 适用场景 -->
-    <section id="when">
-      <div class="sec-head">
-        <span class="tag"></span>
-        <h2>什么时候该掏出它</h2>
-        <span class="en">When to Use</span>
-      </div>
-      <div class="who">
-        <span>职业规划</span>
-        <span>招聘 / 晋升评估</span>
-        <span>自我优势梳理</span>
-        <span>团队搭建</span>
-        <span>判断人岗匹配</span>
-        <span>核心竞争力建设</span>
-        <span>任何"看懂一个人"的时刻</span>
-      </div>
+    <section class="sec" id="when">
+      <div class="sec-head"><span class="tag"></span><h2>什么时候该掏出它</h2><span class="en">When to Use</span></div>
+      <div class="who"><span>职业规划</span><span>招聘 / 晋升评估</span><span>自我优势梳理</span><span>团队搭建</span><span>判断人岗匹配</span><span>核心竞争力建设</span><span>任何"看懂一个人"的时刻</span></div>
     </section>
-  </main>
+
+  </div>
 
   <footer>
     <div class="mark">思 维 模 型 图 鉴 · No.06</div>
     <p style="margin-top:.6rem;">冰山胜任力模型 · 岛主解读 &nbsp;|&nbsp; 单文件 HTML 笔记 · 可沉淀、可分享、可并入个人站</p>
   </footer>
+
 </body>
 </html>

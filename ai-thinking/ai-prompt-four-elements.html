@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提示词四要素 · 把口头需求翻译成机器能执行的指令 · 岛主的 AI 思考 · 第 66 篇</title>
+<meta name="description" content="写好提示词，就是给 AI 一个角色、任务、上下文、格式的清晰指令。太长说不清，太短说不全。最成功的提示，平均只有 21 个字。">
+<meta property="og:title" content="提示词四要素 · 把口头需求翻译成机器能执行的指令 · 岛主的 AI 思考 · 第 66 篇">
+<meta property="og:description" content="P/T/C/F 四要素，角色、任务、上下文、格式。最成功的提示平均 21 字，太长说不清，太短说不全。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="提示词四要素 · 把口头需求翻译成机器能执行的指令 · 岛主的 AI 思考 · 第 66 篇">
+<meta name="twitter:description" content="P/T/C/F 四要素，角色、任务、上下文、格式。最成功的提示平均 21 字。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+    --go:#3c7a52;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:620px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>提示词四要素 · 把口头需求翻译成机器能执行的指令</h1>
+    <p class="subtitle">写好提示词，就是给 AI 一个角色、任务、上下文、格式的清晰指令。太长说不清，太短说不全。最成功的提示，平均只有 21 个字。</p>
+    <p class="byline">岛主 · 第 66 篇</p>
+  </header>
+
+  <section class="exhibit-diagram">
+    <svg viewBox="0 0 680 320" role="img" aria-label="提示词四要素 PTCF 围绕中心好提示词，P角色T任务C上下文F格式四块指向中心，最成功提示平均21字">
+      <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1a17">四要素，P / T / C / F</text>
+
+      <rect x="40" y="52" width="160" height="66" rx="10" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="120" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">P 角色</text>
+      <text x="120" y="104" text-anchor="middle" font-size="11" fill="#4a443c">你是一家…</text>
+
+      <rect x="480" y="52" width="160" height="66" rx="10" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="560" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">T 任务</text>
+      <text x="560" y="104" text-anchor="middle" font-size="11" fill="#4a443c">写 / 总结 / 改</text>
+
+      <rect x="40" y="208" width="160" height="66" rx="10" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="120" y="238" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">C 上下文</text>
+      <text x="120" y="260" text-anchor="middle" font-size="11" fill="#4a443c">给足背景</text>
+
+      <rect x="480" y="208" width="160" height="66" rx="10" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="560" y="238" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">F 格式</text>
+      <text x="560" y="260" text-anchor="middle" font-size="11" fill="#4a443c">要点 / 表格</text>
+
+      <rect x="260" y="128" width="160" height="74" rx="10" fill="#edf5ec" stroke="#3c7a52" stroke-width="1.8"/>
+      <text x="340" y="164" text-anchor="middle" font-size="16" font-weight="700" fill="#3c7a52">好提示词</text>
+      <text x="340" y="188" text-anchor="middle" font-size="11" fill="#4a443c">P / T / C / F</text>
+
+      <line x1="200" y1="100" x2="260" y2="148" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+      <line x1="480" y1="100" x2="420" y2="148" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+      <line x1="200" y1="240" x2="260" y2="192" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+      <line x1="480" y1="240" x2="420" y2="192" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+      <defs>
+        <marker id="ap" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+          <path d="M0 0 L6 3 L0 6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+
+      <text x="340" y="306" text-anchor="middle" font-size="12.5" fill="#4a443c">最成功的提示平均 21 字，太长说不清，太短说不全</text>
+    </svg>
+    <figcaption>四个要素不必全用，但你得知道它们都在，缺哪个补哪个。</figcaption>
+  </section>
+
+  <div class="prose">
+    <p>很多人觉得写提示词靠天赋。其实它是一门翻译，把你的口头需求，翻译成机器能稳定执行的指令。这门翻译，有结构，能抄。</p>
+
+    <p>#44 讲过，给 AI 一根维度轴，输出当场换物种。#45 讲过，prompt 里只增必要约束，别堆废话。这两篇都是单点技巧。这篇把它们收进一个总结构，告诉你一个能用的提示词，到底由什么组成。</p>
+
+    <h2>四要素，P / T / C / F</h2>
+    <p>写好提示词，核心是四个要素。P 是角色，给 AI 一个身份，你是一家领先广告公司的创意总监，它的发挥立刻不一样。T 是任务，明确告诉它要做什么，写、总结、改语气、创建。C 是上下文，把背景喂足，受众是谁、用途是什么、有什么限制。F 是格式，你要要点、表格、还是一段口语。</p>
+    <p>不必四个全用。谷歌手册里说，用其中几个就有效。但你得知道这四个都在，缺了哪个，补哪个。</p>
+
+    <h2>太长说不清，太短说不全</h2>
+    <p>一个反直觉的数据。最成功的提示，平均只有 21 个字。而人们随手写的，常少于 9 个字。太长，你容易把无关要求堆进去，AI 反而不知道主次。太短，它只能交正确的废话，因为你没给够信息。</p>
+    <p>所以写好提示词，是个收放的平衡。该给的上下文给足，不该说的废话删掉。21 字是平均数，不是铁律，但它提醒你，清晰比堆砌值钱。</p>
+
+    <h2>一个能抄的结构</h2>
+    <p>下次写提示词，照这个模板填。第一行，角色，你是什么。第二行，任务，你要它做什么。第三行，上下文，背景和限制。第四行，格式，你要什么形态。四行写完，一个能用的提示词就成型了。比临时口嗨稳得多。</p>
+    <p>还有一条红线。输出之前必须人工审。AI 帮你，不替你。最终那句话是你说的，准确不准确，责任在你。</p>
+
+    <h2>写在最后</h2>
+    <p>别再把提示词当玄学。它就是角色、任务、上下文、格式四样东西的排列。你越清楚自己要什么，翻译得越准，AI 交得越对。最长不过一张便签，最短不过一句人话。</p>
+  </div>
+
+  <section class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n24.html">第一性原理</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-mece.html">MECE</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-occam.html">奥卡姆剃刀</a></li>
+    </ul>
+  </section>
+
+  <footer class="article-foot">岛主的 AI 思考 · 第 66 篇</footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-spoken-video-from-article.html"><span class="label">上一篇</span>口播动态视频 · 把已发长文变成会动的口播</a>
+  <a class="next" href="index.html"><span class="label">目录</span>岛主的 AI 思考 · 系列总览</a>
+</nav>
+
+<footer class="site-foot">岛主 · 在岛上 · 岛主的 AI 思考系列</footer>
+</body>
+</html>

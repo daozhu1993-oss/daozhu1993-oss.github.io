@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>口播动态视频 · 把已发长文变成会动的口播 · 岛主的 AI 思考 · 第 65 篇</title>
+<meta name="description" content="写了文章只会发图文，视频平台吃不到。文字是原子资产，视频是分发放大器，而且复用已发长文，边际成本近乎为零。">
+<meta property="og:title" content="口播动态视频 · 把已发长文变成会动的口播 · 岛主的 AI 思考 · 第 65 篇">
+<meta property="og:description" content="文字是原子资产，视频是分发放大器。复用已发长文转动态口播，零边际成本，是文字之外的第二杠杆。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="口播动态视频 · 把已发长文变成会动的口播 · 岛主的 AI 思考 · 第 65 篇">
+<meta name="twitter:description" content="文字是原子资产，视频是分发放大器。复用已发长文转动态口播，零边际成本。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+    --go:#3c7a52;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:620px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>口播动态视频 · 把已发长文变成会动的口播</h1>
+    <p class="subtitle">写了文章只会发图文，视频平台吃不到。文字是原子资产，视频是分发放大器，而且复用已发长文，边际成本近乎为零。</p>
+    <p class="byline">岛主 · 第 65 篇</p>
+  </header>
+
+  <section class="exhibit-diagram">
+    <svg viewBox="0 0 680 300" role="img" aria-label="已发长文作为原子资产，经复用模板一键转动态口播视频成为分发放大器，文字写一次视频发多处零边际成本">
+      <text x="340" y="40" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1a17">文字写一次，视频发多处</text>
+
+      <rect x="20" y="110" width="205" height="92" rx="10" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="122" y="146" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">已发长文</text>
+      <text x="122" y="172" text-anchor="middle" font-size="12" fill="#4a443c">原子资产</text>
+      <text x="122" y="192" text-anchor="middle" font-size="11" fill="#8a8175">观点·案例·结构现成</text>
+
+      <line x1="226" y1="156" x2="246" y2="156" stroke="#9e2b25" stroke-width="2" marker-end="url(#av)"/>
+
+      <rect x="252" y="110" width="170" height="92" rx="10" fill="#ece4d6" stroke="#d8cdba" stroke-width="1.6"/>
+      <text x="337" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#4a443c">复用模板</text>
+      <text x="337" y="172" text-anchor="middle" font-size="12" fill="#4a443c">一键转动态口播</text>
+      <text x="337" y="192" text-anchor="middle" font-size="11" fill="#8a8175">抽稿→动效→渲染</text>
+
+      <line x1="424" y1="156" x2="444" y2="156" stroke="#9e2b25" stroke-width="2" marker-end="url(#av)"/>
+      <defs>
+        <marker id="av" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+          <path d="M0 0 L6 3 L0 6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+
+      <rect x="450" y="110" width="210" height="92" rx="10" fill="#edf5ec" stroke="#3c7a52" stroke-width="1.6"/>
+      <text x="555" y="146" text-anchor="middle" font-size="15" font-weight="700" fill="#3c7a52">动态口播视频</text>
+      <text x="555" y="172" text-anchor="middle" font-size="12" fill="#4a443c">分发放大器</text>
+      <text x="555" y="192" text-anchor="middle" font-size="11" fill="#8a8175">触达另一拨读者</text>
+
+      <rect x="20" y="248" width="640" height="44" rx="10" fill="#ece4d6" stroke="#d8cdba" stroke-width="1.4"/>
+      <text x="340" y="275" text-anchor="middle" font-size="12.5" fill="#4a443c">08-06 跑通一版，效果不错，是文字之外的第二杠杆</text>
+    </svg>
+    <figcaption>长文是原料，视频是它长出来的第二种形态。复用，不是重做。</figcaption>
+  </section>
+
+  <div class="prose">
+    <p>很多人写了文章，只会发图文。公众号一发，就当完事了。可视频平台那边的读者，根本刷不到你。文字和视频，是两拨人。你埋头写长文，等于把一半 audience 关在门外。</p>
+
+    <p>反过来想，你那篇长文，已经是最好的一手素材。观点想透了，案例真实的，结构现成的。把它变成口播动态视频，不需要从零构思，只要换一层皮。文字是原子资产，视频是分发放大器。</p>
+
+    <h2>为什么是第二杠杆</h2>
+    <p>第一杠杆是文字本身，一篇篇攒，复利在涨。第二杠杆是视频，把同一篇文字，喂给另一拨读者。你没多想一个观点，没多写一个字，只是换了个载体，触达就翻倍。这才是真正的杠杆，用力小、放大狠。</p>
+    <p>而且边际成本近乎为零。长文你已经写完了，素材现成。转成动态口播，是复用，不用从零重做。你每发一篇长文，顺手多产出一个视频形态，这笔账怎么算都划算。</p>
+
+    <h2>一个能抄的复用模板</h2>
+    <p>08-06 我们跑通了一版，整体效果不错，可以固化成模板。流程就三步。第一步，从已发长文抽口播稿，沿用长文骨架和真实案例，别另写通用稿，否则和原文脱钩。第二步，把口播稿做成动态画面，关键句、关键数据做成像素动效，别干念。第三步，一键渲染导出，多平台分发。</p>
+    <p>关键是复用，不是再造。你那篇长文是地基，视频是同一块料砌的另一面墙。地基不用重打，墙立起来就行。</p>
+
+    <h2>谁该现在开始做</h2>
+    <p>如果你已经攒了十几篇以上的长文，别等。挑一两篇数据最好的，先转成视频发出去，看反馈。文字写一次，视频发多处，这笔杠杆，你不用白不用。</p>
+
+    <h2>写在最后</h2>
+    <p>别把长文当成终点。它是原料。视频是它长出来的第二种形态。你越往后写，这座原料库越厚，能变出来的视频越多。文字之外，还有一杠杆等着你掰。</p>
+  </div>
+
+  <section class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n13.html">复利效应</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n119.html">反脆弱</a></li>
+    </ul>
+  </section>
+
+  <footer class="article-foot">岛主的 AI 思考 · 第 65 篇</footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-notion-serial-insert.html"><span class="label">上一篇</span>Notion 长文批写入的串行纪律</a>
+  <a class="next" href="ai-prompt-four-elements.html"><span class="label">下一篇</span>提示词四要素 · 把口头需求翻译成机器能执行的指令</a>
+</nav>
+
+<footer class="site-foot">岛主 · 在岛上 · 岛主的 AI 思考系列</footer>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion 长文批写入的串行纪律 · 并行 insert 会乱序 · 岛主的 AI 思考 · 第 64 篇</title>
+<meta name="description" content="用 Notion API 写长文的人，迟早踩同一个坑。并行往同一页 insert，顺序不保。串行、每批不超过 110 个中文字、省略 position 让它追加到末尾，顺序才 100% 保真。">
+<meta property="og:title" content="Notion 长文批写入的串行纪律 · 并行 insert 会乱序 · 岛主的 AI 思考 · 第 64 篇">
+<meta property="og:description" content="并行往同一页 insert 顺序不保，串行才保真。单批不超过 110 中文字，长文先建空页再分批 insert。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Notion 长文批写入的串行纪律 · 并行 insert 会乱序 · 岛主的 AI 思考 · 第 64 篇">
+<meta name="twitter:description" content="并行 insert 同页顺序不保，串行、每批≤110字、省略 position 才 100% 保真。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+    --go:#3c7a52;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:620px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>Notion 长文批写入的串行纪律</h1>
+    <p class="subtitle">并行往同一页 insert，顺序不保。串行、每批不超过 110 个中文字、省略 position 让它追加到末尾，顺序才 100% 保真。</p>
+    <p class="byline">岛主 · 第 64 篇</p>
+  </header>
+
+  <section class="exhibit-diagram">
+    <svg viewBox="0 0 680 320" role="img" aria-label="并行insert同页顺序错乱对比串行insert同页100%保真，并行三块段序打乱标红，串行三块段序正确标绿">
+      <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1a17">并行会乱序，串行才保真</text>
+
+      <!-- 并行 -->
+      <text x="20" y="60" font-size="13" font-weight="700" fill="#9e2b25">并行 insert（同页）</text>
+      <rect x="20" y="72" width="120" height="56" rx="8" fill="#fdf0ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="80" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#9e2b25">段 3</text>
+      <rect x="170" y="72" width="120" height="56" rx="8" fill="#fdf0ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="230" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#9e2b25">段 1</text>
+      <rect x="320" y="72" width="120" height="56" rx="8" fill="#fdf0ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="380" y="106" text-anchor="middle" font-size="14" font-weight="700" fill="#9e2b25">段 2</text>
+      <text x="478" y="106" font-size="14" font-weight="700" fill="#9e2b25">✗ 顺序错乱</text>
+
+      <!-- 串行 -->
+      <text x="20" y="180" font-size="13" font-weight="700" fill="#3c7a52">串行 insert（同页）</text>
+      <rect x="20" y="192" width="120" height="56" rx="8" fill="#edf5ec" stroke="#3c7a52" stroke-width="1.6"/>
+      <text x="80" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#3c7a52">段 1</text>
+      <rect x="170" y="192" width="120" height="56" rx="8" fill="#edf5ec" stroke="#3c7a52" stroke-width="1.6"/>
+      <text x="230" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#3c7a52">段 2</text>
+      <rect x="320" y="192" width="120" height="56" rx="8" fill="#edf5ec" stroke="#3c7a52" stroke-width="1.6"/>
+      <text x="380" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#3c7a52">段 3</text>
+      <text x="478" y="226" font-size="14" font-weight="700" fill="#3c7a52">✓ 100% 保真</text>
+
+      <rect x="20" y="268" width="640" height="44" rx="10" fill="#ece4d6" stroke="#d8cdba" stroke-width="1.4"/>
+      <text x="340" y="295" text-anchor="middle" font-size="12.5" fill="#4a443c">insert 单批 ≤ 110 中文字（超 ~330B 报错） · create 正文超 ~600B 报错</text>
+    </svg>
+    <figcaption>并行不听话，串行才保序。长度红线是第二个隐形墙。</figcaption>
+  </section>
+
+  <div class="prose">
+    <p>用 Notion API 写长文，是个舒服的自动化。把成稿一键灌进知识库，省得手抄。但有个坑，踩过的人不多，踩过一次就忘不掉。并行往同一个页面 insert，顺序不保。</p>
+
+    <p>我 08-09 那次就栽了。给 #61 建好空页，然后十六批内容并行往里写，想着快。结果 fetch 回来一看，正文末段和模型链接交错，该在结尾的跑到了中间。并行不保证顺序，这是 Notion API 的行为，不是你代码写错了。</p>
+
+    <h2>纪律只有一条，串行</h2>
+    <p>修这个坑的办法，简单到没什么技术含量。别并行，串行。一批接一批写，前一批回来，再发下一批。慢一点，但顺序铁定保住。</p>
+
+    <h2>每批别太长，有字节红线</h2>
+    <p>另一个隐形墙是长度。insert_content 单批塞太多会直接报错，经验值是单批不超过 110 个中文字，换算字节大约 330B，超了就拒。create_pages 更严，正文一次性塞进去，大约 600B 以上就报参数错误。所以长文的正确姿势，是先建一个只带标题的空页，再用 insert 分批补。</p>
+
+    <h2>省略 position，让它追加到末尾</h2>
+    <p>insert_content 有个参数 position，指定插在哪。大多数人想精确控制，反而容易插错位置。最稳的做法，是省略 position，让每一批默认追加到页面末尾。因为你是串行、按文章顺序批次发的，末尾追加自然就是正确顺序。你不用管坐标，顺序由你的发送顺序保证。</p>
+
+    <h2>写成一条能抄的自动化纪律</h2>
+    <p>三条，记死。第一，同页写入，串行不并行。第二，单批不超过 110 个中文字，长文先建空页再分批 insert。第三，省略 position，靠末尾追加保序。这三条，是 AI 创作者做内容自动化时真实且反直觉的坑，文档里不会写，是字节报错和乱序页面教出来的。</p>
+
+    <h2>写在最后</h2>
+    <p>下次你用 Notion API 灌长文，别贪快并行。串行那点等待，比你发现整页顺序错乱、再一段段重排，便宜太多了。</p>
+  </div>
+
+  <section class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n24.html">第一性原理</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n13.html">复利效应</a></li>
+    </ul>
+  </section>
+
+  <footer class="article-foot">岛主的 AI 思考 · 第 64 篇</footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-no-investigation-no-right.html"><span class="label">上一篇</span>反对本本主义 · 没有调查没有发言权</a>
+  <a class="next" href="ai-spoken-video-from-article.html"><span class="label">下一篇</span>口播动态视频 · 把已发长文变成会动的口播</a>
+</nav>
+
+<footer class="site-foot">岛主 · 在岛上 · 岛主的 AI 思考系列</footer>
+</body>
+</html>

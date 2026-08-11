@@ -1,0 +1,163 @@
+/* 《拾遗》创作案卷 · 展示样式（暖色抽屉底色 + 案卷骨架）
+ * 个站抽屉展示页 (novel/index.html) 与 作家工坊 (novel/workbench/shiyi.html) 共用。
+ */
+:root {
+  --cf-kraft: #e9ddc4;
+  --cf-kraft-2: #e2d4b6;
+  --cf-ink: #3a2f23;
+  --cf-ink-soft: #6b5d46;
+  --cf-line: #cbb892;
+  --cf-accent: #b8623a;   /* 砖红，与抽屉 --accent 同源 */
+  --cf-brass: #a9843f;
+  --cf-tape: rgba(184, 150, 90, .38);
+  --cf-tape-2: rgba(184, 98, 58, .16);
+  --cf-serif: 'Noto Serif SC', 'Songti SC', serif;
+  --cf-mono: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+.cf-host { margin: 4px 18px 22px; }
+
+.cf-panel {
+  position: relative;
+  background:
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0) 0 26px, rgba(120, 96, 60, .05) 27px),
+    linear-gradient(160deg, var(--cf-kraft), var(--cf-kraft-2));
+  border: 1px solid var(--cf-line);
+  border-radius: 10px;
+  padding: 30px 24px 28px;
+  box-shadow: 0 14px 34px rgba(120, 96, 60, .18);
+}
+/* 暖色胶带 */
+.cf-panel::before,
+.cf-panel::after {
+  content: "";
+  position: absolute;
+  top: -11px;
+  width: 86px;
+  height: 26px;
+  background: var(--cf-tape);
+  border: 1px solid rgba(255, 255, 255, .4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+}
+.cf-panel::before { left: 24px; transform: rotate(-4deg); }
+.cf-panel::after { right: 24px; transform: rotate(3deg); background: var(--cf-tape-2); }
+
+/* 卷宗印章 */
+.cf-stamp {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-family: var(--cf-serif);
+  color: var(--cf-accent);
+  border: 2px solid var(--cf-accent);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  letter-spacing: .14em;
+  transform: rotate(-9deg);
+  opacity: .76;
+  box-shadow: inset 0 0 0 1px rgba(184, 98, 58, .35);
+  line-height: 1.2;
+}
+.cf-stamp small { display: block; font-size: 9px; letter-spacing: .28em; opacity: .7; margin-top: 2px; }
+
+.cf-meta { font-size: 11.5px; color: var(--cf-ink-soft); letter-spacing: .04em; margin-bottom: 4px; }
+.cf-one { font-family: var(--cf-serif); font-size: 15px; color: var(--cf-ink); margin: 0 0 6px; line-height: 1.75; max-width: 60ch; }
+
+.cf-h {
+  font-family: var(--cf-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--cf-ink);
+  margin: 24px 0 12px;
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cf-h::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--cf-accent);
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+/* 人物卡 */
+.cf-chars { display: grid; grid-template-columns: repeat(auto-fill, minmax(218px, 1fr)); gap: 14px; }
+.cf-card {
+  background: rgba(255, 253, 247, .72);
+  border: 1px solid var(--cf-line);
+  border-left: 4px solid var(--cf-brass);
+  border-radius: 8px;
+  padding: 14px 14px 12px;
+}
+.cf-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(160deg, var(--cf-brass), var(--cf-accent));
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-family: var(--cf-serif); font-size: 18px; font-weight: 700;
+  float: left; margin: 0 12px 6px 0;
+}
+.cf-name { font-family: var(--cf-serif); font-size: 16px; font-weight: 600; color: var(--cf-ink); line-height: 1.3; }
+.cf-role { font-size: 11px; color: var(--cf-accent); letter-spacing: .06em; margin-top: 2px; }
+.cf-tags { margin: 8px 0 6px; }
+.cf-tag {
+  display: inline-block; font-size: 10.5px; color: var(--cf-ink-soft);
+  border: 1px solid var(--cf-line); border-radius: 12px; padding: 2px 8px; margin: 0 5px 5px 0;
+}
+.cf-bio { font-size: 12.5px; line-height: 1.75; color: var(--cf-ink-soft); clear: both; }
+.cf-status { font-size: 11px; color: var(--cf-ink); opacity: .82; margin-top: 8px; border-top: 1px dashed var(--cf-line); padding-top: 7px; }
+
+/* 线索墙（便签 + 图钉） */
+.cf-wall { display: flex; flex-direction: column; gap: 14px; }
+.cf-clue {
+  position: relative;
+  background: rgba(255, 252, 244, .88);
+  border: 1px solid var(--cf-line);
+  border-radius: 6px;
+  padding: 14px 15px 12px;
+  box-shadow: 0 6px 16px rgba(120, 96, 60, .12);
+}
+.cf-clue::before {
+  content: "";
+  position: absolute; top: -7px; left: 50%; transform: translateX(-50%);
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--cf-accent); box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+}
+.cf-clue .rel { font-family: var(--cf-serif); font-size: 13.5px; color: var(--cf-ink); line-height: 1.5; }
+.cf-clue .rel b { color: var(--cf-accent); font-weight: 600; }
+.cf-clue .type {
+  display: inline-block; font-size: 10px; letter-spacing: .08em; color: var(--cf-brass);
+  border: 1px solid var(--cf-brass); border-radius: 10px; padding: 1px 8px; margin-left: 6px;
+}
+.cf-clue .note { font-size: 12px; color: var(--cf-ink-soft); margin-top: 7px; line-height: 1.65; }
+
+/* 剧情走向（时间线） */
+.cf-time { position: relative; padding-left: 22px; }
+.cf-time::before { content: ""; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: var(--cf-line); }
+.cf-beat { position: relative; margin-bottom: 16px; }
+.cf-beat::before {
+  content: "";
+  position: absolute; left: -19px; top: 5px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--cf-accent); border: 2px solid var(--cf-kraft);
+}
+.cf-phase { font-family: var(--cf-serif); font-size: 14px; font-weight: 600; color: var(--cf-ink); }
+.cf-sum { font-size: 12.5px; line-height: 1.7; color: var(--cf-ink-soft); margin-top: 3px; }
+.cf-hook { font-size: 11.5px; color: var(--cf-accent); margin-top: 4px; }
+
+/* 主题 */
+.cf-themes { display: flex; flex-wrap: wrap; gap: 8px; }
+.cf-theme {
+  font-size: 12px; color: var(--cf-ink);
+  background: rgba(169, 132, 63, .14); border: 1px solid var(--cf-brass);
+  border-radius: 14px; padding: 4px 12px;
+}
+
+@media (max-width: 560px) {
+  .cf-panel { padding: 26px 16px 24px; }
+  .cf-stamp { font-size: 12px; padding: 5px 9px; top: 12px; right: 12px; }
+  .cf-chars { grid-template-columns: 1fr; }
+}

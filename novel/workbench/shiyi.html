@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《拾遗》作家工坊 · 岛主</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../casefile.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #efe9dd; --ink: #2c2519; --ink-soft: #6f6349; --line: #d8ccb4;
+      --accent: #b8623a; --brass: #a9843f;
+      --serif: 'Noto Serif SC', 'Songti SC', serif;
+      --mono: 'Fragment Mono', ui-monospace, Menlo, monospace;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--mono); font-size: 14px; line-height: 1.6; padding: 28px 22px 80px; }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    .back { font-size: 12px; color: var(--ink-soft); text-decoration: none; }
+    .back:hover { color: var(--accent); }
+    .top { display: flex; align-items: baseline; gap: 14px; margin: 18px 0 6px; flex-wrap: wrap; }
+    h1 { font-family: var(--serif); font-size: 26px; font-weight: 700; }
+    .sub { font-size: 12px; color: var(--ink-soft); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 22px; align-items: start; }
+    @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
+    .panel { background: #fbf7ee; border: 1px solid var(--line); border-radius: 10px; padding: 18px 18px 16px; margin-bottom: 18px; }
+    .panel > h2 { font-family: var(--serif); font-size: 17px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .panel > h2::before { content: ""; width: 14px; height: 14px; border: 2px solid var(--accent); border-radius: 50%; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 11px; color: var(--ink-soft); letter-spacing: .04em; margin-bottom: 3px; }
+    .field input, .field textarea {
+      width: 100%; font-family: var(--mono); font-size: 13px; color: var(--ink);
+      border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; background: #fffdf8; resize: vertical;
+    }
+    .field textarea { min-height: 64px; line-height: 1.6; }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(184, 98, 58, .12); }
+    .item { border: 1px dashed var(--line); border-radius: 8px; padding: 12px; margin-bottom: 12px; background: #fffdf8; }
+    .item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .item-head .ix { font-size: 11px; color: var(--brass); letter-spacing: .1em; }
+    .btn {
+      font-family: var(--serif); font-size: 13px; cursor: pointer; border-radius: 8px; padding: 8px 14px;
+      border: 1px solid var(--accent); background: var(--accent); color: #fff; transition: opacity .2s;
+    }
+    .btn:hover { opacity: .9; }
+    .btn.ghost { background: transparent; color: var(--accent); }
+    .btn.mini { font-size: 11px; padding: 4px 9px; border-radius: 6px; }
+    .btn.del { background: transparent; color: #a33; border-color: #d9b3a8; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+    .preview-col { position: sticky; top: 22px; }
+    .preview-col > h2 { font-family: var(--serif); font-size: 15px; color: var(--ink-soft); margin-bottom: 12px; letter-spacing: .04em; }
+    .export-box { margin-top: 4px; }
+    .export-box textarea { width: 100%; min-height: 120px; font-family: var(--mono); font-size: 11px; border: 1px solid var(--line); border-radius: 6px; padding: 8px; background: #fffdf8; color: var(--ink-soft); }
+    .note { font-size: 11px; color: var(--ink-soft); line-height: 1.7; margin-top: 8px; }
+    .save-flash { color: var(--accent); font-size: 11px; margin-left: 8px; opacity: 0; transition: opacity .3s; }
+    .save-flash.on { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html">← 回到小说抽屉</a>
+    <div class="top">
+      <h1>《拾遗》作家工坊</h1>
+      <span class="sub">人物小传 / 人物线索 / 剧情走向 · 一份数据两用</span>
+      <span class="save-flash" id="flash">已更新预览</span>
+    </div>
+
+    <div class="grid">
+      <!-- 编辑区 -->
+      <div class="editor">
+        <div class="panel">
+          <h2>基本信息</h2>
+          <div class="field"><label>一句话梗概</label><input data-meta="one_line"></div>
+          <div class="field"><label>基调</label><input data-meta="tone"></div>
+          <div class="field"><label>状态</label><input data-meta="status"></div>
+          <div class="field"><label>字数</label><input data-meta="wordcount"></div>
+        </div>
+
+        <div class="panel">
+          <h2>人物小传 <button class="btn ghost mini" id="add-char">＋ 添加人物</button></h2>
+          <div id="chars"></div>
+        </div>
+
+        <div class="panel">
+          <h2>人物线索 <button class="btn ghost mini" id="add-rel">＋ 添加线索</button></h2>
+          <div id="rels"></div>
+        </div>
+
+        <div class="panel">
+          <h2>剧情走向 <button class="btn ghost mini" id="add-beat">＋ 添加节点</button></h2>
+          <div id="beats"></div>
+        </div>
+
+        <div class="panel">
+          <h2>主题</h2>
+          <div class="field"><label>逗号分隔</label><input data-meta="themes"></div>
+        </div>
+
+        <div class="panel export-box">
+          <h2>导出数据文件</h2>
+          <div class="row">
+            <button class="btn" id="export">下载 shiyi-data.js</button>
+            <button class="btn ghost" id="copy">复制到剪贴板</button>
+          </div>
+          <textarea id="json" readonly></textarea>
+          <p class="note">导出后，把 shiyi-data.js 覆盖到 <b>novel/shiyi-data.js</b> 并提交，个站抽屉里的"创作案卷"即自动更新（作家工具 → 读者体验，一份数据两用）。</p>
+        </div>
+      </div>
+
+      <!-- 预览区 -->
+      <div class="preview-col">
+        <h2>实时预览（读者看到的样子）</h2>
+        <div class="cf-host" id="preview"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shiyi-data.js"></script>
+  <script src="../casefile-render.js"></script>
+  <script>
+    // 深拷贝工作副本
+    var D = JSON.parse(JSON.stringify(window.SHIYI_DATA));
+    var flash = document.getElementById('flash');
+    function ping() { flash.classList.add('on'); setTimeout(function () { flash.classList.remove('on'); }, 700); }
+
+    function refresh() {
+      window.renderShiyiCasefile(document.getElementById('preview'), D);
+      document.getElementById('json').value = serialize();
+      ping();
+    }
+    function serialize() {
+      var safe = JSON.stringify(D, null, 2).replace(/<\//g, '<\\/');
+      return 'window.SHIYI_DATA = ' + safe + ';\n';
+    }
+
+    // 绑定 meta
+    ['one_line', 'tone', 'status', 'wordcount'].forEach(function (k) {
+      var el = document.querySelector('[data-meta="' + k + '"]');
+      el.value = (D.meta && D.meta[k]) || '';
+      el.addEventListener('input', function () { D.meta[k] = el.value; refresh(); });
+    });
+    var themesEl = document.querySelector('[data-meta="themes"]');
+    themesEl.value = (D.themes || []).join('，');
+    themesEl.addEventListener('input', function () {
+      D.themes = themesEl.value.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+      refresh();
+    });
+
+    // 人物
+    function renderChars() {
+      var box = document.getElementById('chars'); box.innerHTML = '';
+      D.characters.forEach(function (c, i) {
+        var d = document.createElement('div'); d.className = 'item';
+        d.innerHTML =
+          '<div class="item-head"><span class="ix">人物 ' + (i + 1) + '</span>' +
+          '<button class="btn del mini" data-del="char" data-i="' + i + '">删除</button></div>' +
+          '<div class="field"><label>姓名</label><input data-c="' + i + '" data-k="name"></div>' +
+          '<div class="field"><label>身份/角色</label><input data-c="' + i + '" data-k="role"></div>' +
+          '<div class="field"><label>标签（逗号分隔）</label><input data-c="' + i + '" data-k="tags"></div>' +
+          '<div class="field"><label>小传</label><textarea data-c="' + i + '" data-k="bio"></textarea></div>' +
+          '<div class="field"><label>状态/结局</label><input data-c="' + i + '" data-k="status"></div>';
+        box.appendChild(d);
+        d.querySelector('[data-k="name"]').value = c.name || '';
+        d.querySelector('[data-k="role"]').value = c.role || '';
+        d.querySelector('[data-k="tags"]').value = (c.tags || []).join('，');
+        d.querySelector('[data-k="bio"]').value = c.bio || '';
+        d.querySelector('[data-k="status"]').value = c.status || '';
+        d.querySelectorAll('[data-c="' + i + '"]').forEach(function (inp) {
+          inp.addEventListener('input', function () {
+            var k = inp.getAttribute('data-k');
+            if (k === 'tags') D.characters[i].tags = inp.value.split(/[，,]/).map(function (s) { return s.trim(); }).filter(Boolean);
+            else D.characters[i][k] = inp.value;
+            refresh();
+          });
+        });
+        d.querySelector('[data-del="char"]').addEventListener('click', function () {
+          D.characters.splice(i, 1); renderChars(); refresh();
+        });
+      });
+    }
+
+    // 线索
+    function renderRels() {
+      var box = document.getElementById('rels'); box.innerHTML = '';
+      D.relationships.forEach(function (r, i) {
+        var d = document.createElement('div'); d.className = 'item';
+        d.innerHTML =
+          '<div class="item-head"><span class="ix">线索 ' + (i + 1) + '</span>' +
+          '<button class="btn del mini" data-del="rel" data-i="' + i + '">删除</button></div>' +
+          '<div class="field"><label>从（人物/节点）</label><input data-r="' + i + '" data-k="from"></div>' +
+          '<div class="field"><label>到（人物/节点）</label><input data-r="' + i + '" data-k="to"></div>' +
+          '<div class="field"><label>关系类型</label><input data-r="' + i + '" data-k="type"></div>' +
+          '<div class="field"><label>说明</label><textarea data-r="' + i + '" data-k="note"></textarea></div>';
+        box.appendChild(d);
+        ['from', 'to', 'type', 'note'].forEach(function (k) {
+          d.querySelector('[data-r="' + i + '"][data-k="' + k + '"]').value = r[k] || '';
+        });
+        d.querySelectorAll('[data-r="' + i + '"]').forEach(function (inp) {
+          inp.addEventListener('input', function () { D.relationships[i][inp.getAttribute('data-k')] = inp.value; refresh(); });
+        });
+        d.querySelector('[data-del="rel"]').addEventListener('click', function () {
+          D.relationships.splice(i, 1); renderRels(); refresh();
+        });
+      });
+    }
+
+    // 时间线
+    function renderBeats() {
+      var box = document.getElementById('beats'); box.innerHTML = '';
+      D.timeline.forEach(function (t, i) {
+        var d = document.createElement('div'); d.className = 'item';
+        d.innerHTML =
+          '<div class="item-head"><span class="ix">节点 ' + (i + 1) + '</span>' +
+          '<button class="btn del mini" data-del="beat" data-i="' + i + '">删除</button></div>' +
+          '<div class="field"><label>阶段名</label><input data-t="' + i + '" data-k="phase"></div>' +
+          '<div class="field"><label>概要</label><textarea data-t="' + i + '" data-k="summary"></textarea></div>' +
+          '<div class="field"><label>关键钩子</label><input data-t="' + i + '" data-k="beat"></div>';
+        box.appendChild(d);
+        ['phase', 'summary', 'beat'].forEach(function (k) {
+          d.querySelector('[data-t="' + i + '"][data-k="' + k + '"]').value = t[k] || '';
+        });
+        d.querySelectorAll('[data-t="' + i + '"]').forEach(function (inp) {
+          inp.addEventListener('input', function () { D.timeline[i][inp.getAttribute('data-k')] = inp.value; refresh(); });
+        });
+        d.querySelector('[data-del="beat"]').addEventListener('click', function () {
+          D.timeline.splice(i, 1); renderBeats(); refresh();
+        });
+      });
+    }
+
+    document.getElementById('add-char').addEventListener('click', function () {
+      D.characters.push({ id: 'c' + (D.characters.length + 1), name: '新人物', role: '', tags: [], bio: '', status: '' });
+      renderChars(); refresh();
+    });
+    document.getElementById('add-rel').addEventListener('click', function () {
+      D.relationships.push({ from: '', to: '', type: '', note: '' }); renderRels(); refresh();
+    });
+    document.getElementById('add-beat').addEventListener('click', function () {
+      D.timeline.push({ phase: '新阶段', summary: '', beat: '' }); renderBeats(); refresh();
+    });
+
+    document.getElementById('export').addEventListener('click', function () {
+      var blob = new Blob([serialize()], { type: 'text/javascript' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'shiyi-data.js';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    document.getElementById('copy').addEventListener('click', function () {
+      var ta = document.getElementById('json'); ta.removeAttribute('readonly'); ta.select();
+      try { document.execCommand('copy'); flash.textContent = '已复制'; ping(); setTimeout(function(){ flash.textContent='已更新预览'; }, 900); }
+      catch (e) { alert('复制失败，请手动选择文本框复制'); }
+      ta.setAttribute('readonly', '');
+    });
+
+    renderChars(); renderRels(); renderBeats(); refresh();
+  </script>
+</body>
+</html>

@@ -1,235 +1,225 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>给女儿的绘本 · 岛主</title>
-  <meta name="description" content="岛主给女儿一一画的成长绘本，吉卜力水彩风。">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #faf8f3;
-      --surface: #ffffff;
-      --text: #2b2620;
-      --mid: #8b8479;
-      --line: #e8e2d6;
-      --accent: #c98a5a;
-      --ease: cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Fragment Mono', ui-monospace, 'PingFang SC', 'Microsoft YaHei', monospace;
-      line-height: 1.6; padding: 48px 24px 96px;
-      -webkit-font-smoothing: antialiased;
-    }
-    .wrap { max-width: 760px; margin: 0 auto; }
-    .back { font-size: 12px; color: var(--mid); text-decoration: none; }
-    .back:hover { color: var(--text); }
-    .hero { margin: 30px 0 8px; }
-    h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; }
-    .lead { font-size: 14px; color: var(--mid); margin-top: 12px; max-width: 54ch; line-height: 1.85; }
-
-    /* 分页舞台 */
-    .stage { margin-top: 40px; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      min-height: 300px;
-    }
-    .card {
-      display: flex; flex-direction: column; align-items: stretch;
-      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
-      text-decoration: none; color: inherit; overflow: hidden;
-      transition: border-color 240ms var(--ease), box-shadow 240ms var(--ease), transform 240ms var(--ease);
-    }
-    .card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.06);
-      transform: translateY(-3px);
-    }
-    .cover {
-      width: 100%; height: 150px; overflow: hidden; position: relative;
-      background: var(--cc, #ddd);
-    }
-    .cover img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .info {
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      padding: 14px 16px 16px;
-    }
-    .info-main { flex: 1; min-width: 0; }
-    .num { font-size: 11px; color: var(--mid); letter-spacing: 0.06em; }
-    .ttl { font-size: 14.5px; font-weight: 500; margin-top: 3px; line-height: 1.45; }
-    .meta { font-size: 12px; color: var(--mid); margin-top: 6px; }
-    .arrow { flex: 0 0 auto; color: var(--mid); font-size: 18px; transition: color 240ms var(--ease); }
-    .card:hover .arrow { color: var(--accent); }
-
-    /* 翻页控件 */
-    .pager {
-      display: flex; align-items: center; justify-content: center; gap: 18px;
-      margin-top: 38px;
-    }
-    .pbtn {
-      width: 40px; height: 40px; border-radius: 50%;
-      border: 1px solid var(--line); background: var(--surface);
-      color: var(--text); font-size: 16px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: border-color 200ms var(--ease), opacity 200ms var(--ease), transform 200ms var(--ease);
-    }
-    .pbtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
-    .pbtn:active:not(:disabled) { transform: scale(0.92); }
-    .pbtn:disabled { opacity: 0.3; cursor: not-allowed; }
-    .dots { display: flex; align-items: center; gap: 8px; }
-    .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--line); cursor: pointer; transition: all 220ms var(--ease);
-    }
-    .dot.on { width: 22px; border-radius: 4px; background: var(--accent); }
-    .plabel { font-size: 12px; color: var(--mid); min-width: 52px; text-align: center; letter-spacing: 0.05em; }
-
-    @media (max-width: 560px) {
-      .grid { grid-template-columns: 1fr; }
-      .cover { height: 160px; }
-      .ttl { font-size: 14px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>给女儿的绘本 · 一一的第一年</title>
+<meta name="description" content="做了十年编剧，写过很多别人的故事。女儿一一出生那天，我把主角换成了她。31 本成长绘本，从出生画到迈出第一步，还在持续更新——每一个只发生一次的第一次，都被画成了书。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:title" content="给女儿的绘本 · 一一的第一年">
+<meta property="og:description" content="孩子的每个第一次都只发生一次。31 本绘本，把一一的第一年画成了书。">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/picturebook/covers/chuntian.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
 <!-- 51.la analytics -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
+<style>
+  :root{
+    --paper:#FBF8F2;
+    --paper-deep:#F4EEE3;
+    --ink:#2B2620;
+    --ink-soft:#6B6156;
+    --ink-dim:#98897A;
+    --line:rgba(43,38,32,.13);
+    --warm:#C98A5A;          /* 暖橙，延续原绘本页 */
+    --warm-soft:rgba(201,138,90,.12);
+    --sprout:#6F8C7A;        /* 芽绿 */
+    --serif:'Noto Serif SC', 'Songti SC', serif;
+    --sans:'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --shadow:rgba(43,38,32,.10);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.85;-webkit-font-smoothing:antialiased;padding:0 24px 90px;}
+  ::selection{background:var(--warm-soft);}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:960px;margin:0 auto;}
+
+  .topbar{position:sticky;top:0;z-index:5;background:rgba(251,248,242,.88);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line);margin:0 -24px 52px;padding:14px 24px;}
+  .topbar a{font-family:var(--serif);font-size:13px;letter-spacing:.06em;color:var(--ink-soft);display:inline-flex;align-items:center;gap:8px;transition:color .2s var(--ease);}
+  .topbar a:hover{color:var(--warm);}
+
+  .eyebrow{font-family:var(--serif);font-size:12px;letter-spacing:.28em;color:var(--warm);text-transform:uppercase;margin-bottom:14px;}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(38px,7.4vw,64px);letter-spacing:.05em;line-height:1.15;margin-bottom:16px;}
+  h1 .dot{color:var(--warm);}
+  .tagline{font-family:var(--serif);font-size:clamp(16px,2.4vw,19px);color:var(--ink-soft);max-width:640px;margin-bottom:26px;}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:64px;}
+  .stats span{font-size:12.5px;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:rgba(255,255,255,.55);font-family:var(--serif);letter-spacing:.03em;}
+
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.6vw,34px);margin:72px 0 10px;letter-spacing:.02em;}
+  .sec-sub{color:var(--ink-soft);font-size:14.5px;max-width:620px;margin-bottom:34px;}
+
+  /* 为什么画这些 */
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .why div{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:14px;padding:24px 22px;}
+  .why h4{font-family:var(--serif);font-size:17px;font-weight:600;margin-bottom:8px;}
+  .why p{font-size:13.5px;color:var(--ink-soft);line-height:1.8;}
+
+  /* 章节书架 */
+  .chapter{margin-top:46px;}
+  .ch-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:22px;}
+  .ch-no{font-family:var(--serif);font-size:13px;color:var(--warm);letter-spacing:.2em;flex:0 0 auto;}
+  .ch-head h3{font-family:var(--serif);font-weight:600;font-size:21px;}
+  .ch-head p{font-size:13px;color:var(--ink-dim);margin-left:auto;text-align:right;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .card{display:flex;flex-direction:column;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease);}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 40px var(--shadow);border-color:var(--warm);}
+  .cover{width:100%;height:140px;overflow:hidden;background:var(--paper-deep);}
+  .cover img{width:100%;height:100%;object-fit:cover;transition:transform .45s var(--ease);}
+  .card:hover .cover img{transform:scale(1.05);}
+  .card .info{padding:13px 15px 15px;}
+  .card .num{font-family:var(--serif);font-size:11px;color:var(--ink-dim);letter-spacing:.06em;}
+  .card .ttl{font-size:14px;font-weight:500;margin-top:3px;line-height:1.5;}
+
+  /* 未完待续 */
+  .tobe{margin-top:46px;border:1px dashed var(--line);border-radius:16px;padding:30px 28px;text-align:center;background:rgba(255,255,255,.35);}
+  .tobe .ch-no{display:block;margin-bottom:10px;}
+  .tobe p{font-family:var(--serif);font-size:14.5px;color:var(--ink-soft);line-height:2;}
+
+  /* 软钩子 */
+  .invite{margin-top:84px;padding:44px 40px;border:1px solid var(--warm-soft);border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.7),rgba(244,238,227,.55));text-align:center;}
+  .invite h2{margin:0 0 12px;}
+  .invite p{font-family:var(--serif);font-size:15px;color:var(--ink-soft);max-width:560px;margin:0 auto;line-height:2;}
+  .invite .btn{margin-top:26px;display:inline-flex;align-items:center;gap:10px;padding:13px 34px;border-radius:999px;background:var(--ink);color:var(--paper);font-family:var(--serif);font-size:15px;transition:transform .3s var(--ease),box-shadow .3s var(--ease);box-shadow:0 10px 26px rgba(43,38,32,.18);}
+  .invite .btn:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(43,38,32,.24);}
+
+  /* 写给长大后的一一 */
+  .coda{margin-top:70px;text-align:center;}
+  .coda p{font-family:var(--serif);font-size:16px;color:var(--ink-soft);line-height:2.2;}
+  .coda .last{margin-top:18px;font-size:19px;font-weight:600;color:var(--ink);letter-spacing:.05em;}
+  .coda .last em{font-style:normal;color:var(--warm);}
+
+  footer{margin-top:70px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--ink-dim);letter-spacing:.05em;}
+
+  @media (max-width:760px){
+    .why{grid-template-columns:1fr;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .ch-head{flex-wrap:wrap;}
+    .ch-head p{margin-left:0;text-align:left;flex-basis:100%;}
+    .invite{padding:32px 22px;}
+  }
+  @media (max-width:480px){
+    .grid{grid-template-columns:1fr;}
+    .cover{height:160px;}
+  }
+  a:focus-visible{outline:2px solid var(--warm);outline-offset:3px;border-radius:6px;}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <a class="back" href="../v2/index.html#products">← 回到岛主的主页</a>
-    <div class="hero">
-      <h1>给女儿的绘本</h1>
-      <p class="lead">做了十年儿童动画编剧，写过很多别人的故事。直到女儿一一出生，才第一次想把主角换成她。这里画下的这些绘本，记录了她出生后的第一次笑、第一次翻身、第一次理发，以及我想讲给她听的那些小事。</p>
-    </div>
 
-    <div class="stage">
-      <div class="grid" id="grid"></div>
-      <div class="pager">
-        <button class="pbtn" id="prev" aria-label="上一页">‹</button>
-        <div class="dots" id="dots"></div>
-        <span class="plabel" id="plabel">1 / 1</span>
-        <button class="pbtn" id="next" aria-label="下一页">›</button>
-      </div>
-    </div>
+<div class="topbar"><div class="wrap"><a href="../v2/index.html">← 回到岛上</a></div></div>
+
+<main class="wrap">
+
+<header>
+  <div class="eyebrow">FOR YIYI · HER FIRST YEAR</div>
+  <h1>给女儿的绘本<span class="dot">。</span></h1>
+  <p class="tagline">做了十年儿童动画编剧，写过很多别人的故事。女儿一一出生那天，我把主角换成了她。</p>
+  <div class="stats">
+    <span>31 本 · 持续更新</span>
+    <span>从出生画起，跟着她长</span>
+    <span>文 · 图 都是爸爸</span>
+    <span>每本都从一件真实的小事开始</span>
   </div>
+</header>
 
-  <script>
-    // 出生顺序即成长顺序。c 为封面占位色；拿到真实封面图后，
-    // 把封面改成像 <img src="covers/xxx.jpg"> 即可（.cover 已支持 img）。
-    const books = [
-      { n: '01', age: '出生', title: "春天里最重要的事 · 一一出生",       meta: '文/图 岛主王仙客', href: 'chuntian.html', cover: 'covers/chuntian.jpg' },
-      { n: '02', age: '初抱', title: "爸爸的手掌心 · 初抱",       meta: '文/图 岛主王仙客', href: 'shouzhangxin.html', cover: 'covers/shouzhangxin.jpg' },
-      { n: '03', age: '约 1 月', title: "咕嘟咕嘟，一一喝奶啦",       meta: '文/图 岛主王仙客', href: 'gudugudu.html', cover: 'covers/gudugudu.jpg' },
-      { n: '04', age: '约 1.5 月', title: "哗啦哗啦，一一洗澡啦",       meta: '文/图 岛主王仙客', href: 'hualahuala.html', cover: 'covers/hualahuala.jpg' },
-      { n: '05', age: '第一次笑', title: "咯咯，一一笑啦",       meta: '文/图 岛主王仙客', href: 'gege.html', cover: 'covers/gege.jpg' },
-      { n: '06', age: '2 月', title: "哇哇哇，一一不哭啦 · 深夜肠胀气",       meta: '文/图 岛主王仙客', href: 'wawawa.html', cover: 'covers/wawawa.jpg' },
-      { n: '07', age: '3 月', title: "骨碌骨碌，一一翻身啦",       meta: '文/图 岛主王仙客', href: 'gulugulu.html', cover: 'covers/gulugulu.jpg' },
-      { n: '08', age: '3 月+', title: "嗡嗡嗡，一一理发啦 · 第一次理发",       meta: '文/图 岛主王仙客', href: 'wengwengweng.html', cover: 'covers/wengwengweng.jpg' },
-      { n: '09', age: '4 月', title: "咬咬咬，一一长牙啦 · 第一颗乳牙",       meta: '文/图 岛主王仙客', href: 'yaoyaoyao.html', cover: 'covers/yaoyaoyao.jpg' },
-      { n: '10', age: '5 月', title: "第一次去公园 · 奶奶登场",       meta: '文/图 岛主王仙客', href: 'gongyuan.html', cover: 'covers/gongyuan.jpg' },
-      { n: '11', age: '约 100 天', title: "一一的百天宴会 · 四代同堂",       meta: '文/图 岛主王仙客', href: 'baitian.html', cover: 'covers/baitian.jpg' },
-      { n: '12', age: '出远门', title: "去看外公外婆 · 第一次坐汽车",       meta: '文/图 岛主王仙客', href: 'waikanwaipo.html', cover: 'covers/waikanwaipo.jpg' },
-      { n: '13', age: '假期', title: "外婆家的蜜瓜 · 民勤的甜蜜假期",       meta: '文/图 岛主王仙客', href: 'migua.html', cover: 'covers/migua.jpg' },
-      { n: '14', age: '5 月', title: "啃啃啃，一一会啃啦 · 用牙探索世界",       meta: '文/图 岛主王仙客', href: 'kenkenken.html', cover: 'covers/kenkenken.jpg' },
-      { n: '15', age: '6 月', title: "吃吃吃，第一口米粉 · 辅食初体验",       meta: '文/图 岛主王仙客', href: 'chichichi.html', cover: 'covers/chichichi.jpg' },
-      { n: '16', age: '6-7月', title: "坐坐坐，一一会独坐",       meta: '文/图 岛主王仙客', href: 'zuozuozuo.html', cover: 'covers/zuozuozuo.jpg' },
-      { n: '17', age: '1 岁', title: "一一，听！",       meta: '文/图 岛主王仙客', href: 'yiyiting.html', cover: 'covers/yiyiting.jpg' },
-      { n: '18', age: '1 岁+', title: "噼噼啪啪，拍水面！",       meta: '文/图 岛主王仙客', href: 'paishuimian.html', cover: 'covers/paishuimian.jpg' },
-      { n: '19', age: '7-8 月', title: "爬爬爬，一一爬爬爬",       meta: '文/图 岛主王仙客', href: 'yipapapa.html', cover: 'covers/yipapapa.jpg' },
-      { n: '20', age: '7-8 月', title: "怕怕怕，认生小哭包",       meta: '文/图 岛主王仙客', href: 'rensheng.html', cover: 'covers/rensheng.jpg' },
-      { n: '21', age: '8-9 月', title: "捏捏捏，小手指真灵",       meta: '文/图 岛主王仙客', href: 'nienienie.html', cover: 'covers/nienienie.jpg' },
-      { n: '22', age: '9-10 月', title: "喊喊喊，叫出爸爸妈妈",       meta: '文/图 岛主王仙客', href: 'hanhanhan.html', cover: 'covers/hanhanhan.jpg' },
-      { n: '23', age: '10-11 月', title: "指指指，一一会指物",       meta: '文/图 岛主王仙客', href: 'zhizhizhi.html', cover: 'covers/zhizhizhi.jpg' },
-      { n: '24', age: '11 月', title: "玩玩玩，公园露营日",       meta: '文/图 岛主王仙客', href: 'wanwanwan.html', cover: 'covers/wanwanwan.jpg' },
-      { n: '25', age: '12 月', title: "站站站，一一站起来",       meta: '文/图 岛主王仙客', href: 'zhanzhanzhan.html', cover: 'covers/zhanzhanzhan.jpg' },
-      { n: '26', age: '13 月', title: "雪雪雪，一一见下雪",       meta: '文/图 岛主王仙客', href: 'xuexuexue.html', cover: 'covers/xuexuexue.jpg' },
-      { n: '27', age: '13-14 月', title: "叮叮铛，圣诞到",       meta: '文/图 岛主王仙客', href: 'dingdingdang.html', cover: 'covers/dingdingdang.jpg' },
-      { n: '28', age: '春节', title: "咚咚锵，一一过大年",       meta: '文/图 岛主王仙客', href: 'dongdongqiang.html', cover: 'covers/dongdongqiang.jpg' },
-      { n: '29', age: '春节', title: "抱抱抱，一一拜大年",       meta: '文/图 岛主王仙客', href: 'baobaobao.html', cover: 'covers/baobaobao.jpg' },
-      { n: '30', age: '春节', title: "亮亮亮，一一回家啦",       meta: '文/图 岛主王仙客', href: 'liangliangliang.html', cover: 'covers/liangliangliang.jpg' },
-      { n: '31', age: '14 月', title: "走走走，一一会走路",       meta: '文/图 岛主王仙客', href: 'zouzouzou.html', cover: 'covers/zouzouzou.jpg' },
-    ];
+<h2>为什么要画这些</h2>
+<p class="sec-sub">不是为了攒作品。是有些事，只发生一次。</p>
+<div class="why">
+  <div><h4>第一次，只有一次</h4><p>第一次笑、第一次翻身、第一次叫「爸爸」——都只发生一次。当时不记下来，以后就只能听别人转述。</p></div>
+  <div><h4>照片会沉底，故事会被翻开</h4><p>手机里存了几千张照片，真正翻回去看的没几张。做成书就不一样了——故事会被一遍一遍地讲，一遍一遍地读。</p></div>
+  <div><h4>小事才是大事</h4><p>深夜的肠胀气、第一口米粉、理发时的哭——当时觉得熬人，回头看，全是舍不得。</p></div>
+</div>
 
-    const PER = 4;
-    const pages = Math.ceil(books.length / PER);
-    let cur = 0;
+<h2>卷一 · 一一的第一年</h2>
+<p class="sec-sub">出生顺序就是成长顺序。这 31 本，从春天出生，画到她自己迈出第一步——而这只是开头。</p>
 
-    const grid = document.getElementById('grid');
-    const dotsEl = document.getElementById('dots');
-    const plabel = document.getElementById('plabel');
-    const prevBtn = document.getElementById('prev');
-    const nextBtn = document.getElementById('next');
+<section class="chapter">
+  <div class="ch-head"><span class="ch-no">第一章</span><h3>春天，她来了</h3><p>从出生到满月：有第一次笑，也有深夜的哭。</p></div>
+  <div class="grid">
+    <a class="card" href="chuntian.html"><div class="cover"><img src="covers/chuntian.jpg" alt="春天里最重要的事 · 一一出生" loading="lazy"></div><div class="info"><div class="num">01 · 出生</div><div class="ttl">春天里最重要的事 · 一一出生</div></div></a>
+    <a class="card" href="shouzhangxin.html"><div class="cover"><img src="covers/shouzhangxin.jpg" alt="爸爸的手掌心 · 初抱" loading="lazy"></div><div class="info"><div class="num">02 · 初抱</div><div class="ttl">爸爸的手掌心 · 初抱</div></div></a>
+    <a class="card" href="gudugudu.html"><div class="cover"><img src="covers/gudugudu.jpg" alt="咕嘟咕嘟，一一喝奶啦" loading="lazy"></div><div class="info"><div class="num">03 · 约 1 月</div><div class="ttl">咕嘟咕嘟，一一喝奶啦</div></div></a>
+    <a class="card" href="hualahuala.html"><div class="cover"><img src="covers/hualahuala.jpg" alt="哗啦哗啦，一一洗澡啦" loading="lazy"></div><div class="info"><div class="num">04 · 约 1.5 月</div><div class="ttl">哗啦哗啦，一一洗澡啦</div></div></a>
+    <a class="card" href="gege.html"><div class="cover"><img src="covers/gege.jpg" alt="咯咯，一一笑啦" loading="lazy"></div><div class="info"><div class="num">05 · 第一次笑</div><div class="ttl">咯咯，一一笑啦</div></div></a>
+    <a class="card" href="wawawa.html"><div class="cover"><img src="covers/wawawa.jpg" alt="哇哇哇，一一不哭啦 · 深夜肠胀气" loading="lazy"></div><div class="info"><div class="num">06 · 2 月</div><div class="ttl">哇哇哇，一一不哭啦 · 深夜肠胀气</div></div></a>
+  </div>
+</section>
 
-    // 构建页码圆点
-    for (let i = 0; i < pages; i++) {
-      const d = document.createElement('span');
-      d.className = 'dot';
-      d.addEventListener('click', () => go(i));
-      dotsEl.appendChild(d);
-    }
+<section class="chapter">
+  <div class="ch-head"><span class="ch-no">第二章</span><h3>一天一个样</h3><p>翻身、理发、长牙、百天宴，还有第一次出远门。</p></div>
+  <div class="grid">
+    <a class="card" href="gulugulu.html"><div class="cover"><img src="covers/gulugulu.jpg" alt="骨碌骨碌，一一翻身啦" loading="lazy"></div><div class="info"><div class="num">07 · 3 月</div><div class="ttl">骨碌骨碌，一一翻身啦</div></div></a>
+    <a class="card" href="wengwengweng.html"><div class="cover"><img src="covers/wengwengweng.jpg" alt="嗡嗡嗡，一一理发啦 · 第一次理发" loading="lazy"></div><div class="info"><div class="num">08 · 3 月+</div><div class="ttl">嗡嗡嗡，一一理发啦 · 第一次理发</div></div></a>
+    <a class="card" href="yaoyaoyao.html"><div class="cover"><img src="covers/yaoyaoyao.jpg" alt="咬咬咬，一一长牙啦 · 第一颗乳牙" loading="lazy"></div><div class="info"><div class="num">09 · 4 月</div><div class="ttl">咬咬咬，一一长牙啦 · 第一颗乳牙</div></div></a>
+    <a class="card" href="gongyuan.html"><div class="cover"><img src="covers/gongyuan.jpg" alt="第一次去公园 · 奶奶登场" loading="lazy"></div><div class="info"><div class="num">10 · 5 月</div><div class="ttl">第一次去公园 · 奶奶登场</div></div></a>
+    <a class="card" href="baitian.html"><div class="cover"><img src="covers/baitian.jpg" alt="一一的百天宴会 · 四代同堂" loading="lazy"></div><div class="info"><div class="num">11 · 约 100 天</div><div class="ttl">一一的百天宴会 · 四代同堂</div></div></a>
+    <a class="card" href="waikanwaipo.html"><div class="cover"><img src="covers/waikanwaipo.jpg" alt="去看外公外婆 · 第一次坐汽车" loading="lazy"></div><div class="info"><div class="num">12 · 出远门</div><div class="ttl">去看外公外婆 · 第一次坐汽车</div></div></a>
+    <a class="card" href="migua.html"><div class="cover"><img src="covers/migua.jpg" alt="外婆家的蜜瓜 · 民勤的甜蜜假期" loading="lazy"></div><div class="info"><div class="num">13 · 假期</div><div class="ttl">外婆家的蜜瓜 · 民勤的甜蜜假期</div></div></a>
+  </div>
+</section>
 
-    function renderPage(p) {
-      cur = p;
-      const start = p * PER;
-      const slice = books.slice(start, start + PER);
-      grid.innerHTML = '';
-      slice.forEach(b => {
-        const card = document.createElement('a');
-        card.className = 'card';
-        card.href = b.href;
-        card.innerHTML =
-          '<div class="cover"><img src="' + b.cover + '" alt="' + b.title + '" loading="lazy"></div>' +
-          '<div class="info">' +
-            '<div class="info-main">' +
-              '<div class="num">' + b.n + ' · ' + b.age + '</div>' +
-              '<div class="ttl">' + b.title + '</div>' +
-              '<div class="meta">' + b.meta + '</div>' +
-            '</div>' +
-            '<div class="arrow">↗</div>' +
-          '</div>';
-        grid.appendChild(card);
-      });
+<section class="chapter">
+  <div class="ch-head"><span class="ch-no">第三章</span><h3>用嘴和手认识世界</h3><p>第一口米粉、第一次独坐，爬起来，也开始认生。</p></div>
+  <div class="grid">
+    <a class="card" href="kenkenken.html"><div class="cover"><img src="covers/kenkenken.jpg" alt="啃啃啃，一一会啃啦 · 用牙探索世界" loading="lazy"></div><div class="info"><div class="num">14 · 5 月</div><div class="ttl">啃啃啃，一一会啃啦 · 用牙探索世界</div></div></a>
+    <a class="card" href="chichichi.html"><div class="cover"><img src="covers/chichichi.jpg" alt="吃吃吃，第一口米粉 · 辅食初体验" loading="lazy"></div><div class="info"><div class="num">15 · 6 月</div><div class="ttl">吃吃吃，第一口米粉 · 辅食初体验</div></div></a>
+    <a class="card" href="zuozuozuo.html"><div class="cover"><img src="covers/zuozuozuo.jpg" alt="坐坐坐，一一会独坐" loading="lazy"></div><div class="info"><div class="num">16 · 6-7 月</div><div class="ttl">坐坐坐，一一会独坐</div></div></a>
+    <a class="card" href="yiyiting.html"><div class="cover"><img src="covers/yiyiting.jpg" alt="一一，听！" loading="lazy"></div><div class="info"><div class="num">17 · 1 岁</div><div class="ttl">一一，听！</div></div></a>
+    <a class="card" href="paishuimian.html"><div class="cover"><img src="covers/paishuimian.jpg" alt="噼噼啪啪，拍水面！" loading="lazy"></div><div class="info"><div class="num">18 · 1 岁+</div><div class="ttl">噼噼啪啪，拍水面！</div></div></a>
+    <a class="card" href="yipapapa.html"><div class="cover"><img src="covers/yipapapa.jpg" alt="爬爬爬，一一爬爬爬" loading="lazy"></div><div class="info"><div class="num">19 · 7-8 月</div><div class="ttl">爬爬爬，一一爬爬爬</div></div></a>
+    <a class="card" href="rensheng.html"><div class="cover"><img src="covers/rensheng.jpg" alt="怕怕怕，认生小哭包" loading="lazy"></div><div class="info"><div class="num">20 · 7-8 月</div><div class="ttl">怕怕怕，认生小哭包</div></div></a>
+    <a class="card" href="nienienie.html"><div class="cover"><img src="covers/nienienie.jpg" alt="捏捏捏，小手指真灵" loading="lazy"></div><div class="info"><div class="num">21 · 8-9 月</div><div class="ttl">捏捏捏，小手指真灵</div></div></a>
+  </div>
+</section>
 
-      // 更新圆点
-      [...dotsEl.children].forEach((d, i) => d.classList.toggle('on', i === p));
-      // 更新页码
-      plabel.textContent = (p + 1) + ' / ' + pages;
-      // 箭头可用态
-      prevBtn.disabled = (p === 0);
-      nextBtn.disabled = (p === pages - 1);
-    }
+<section class="chapter">
+  <div class="ch-head"><span class="ch-no">第四章</span><h3>站起来，走出去</h3><p>叫出「爸爸妈妈」，见过雪和春节，然后迈出第一步。</p></div>
+  <div class="grid">
+    <a class="card" href="hanhanhan.html"><div class="cover"><img src="covers/hanhanhan.jpg" alt="喊喊喊，叫出爸爸妈妈" loading="lazy"></div><div class="info"><div class="num">22 · 9-10 月</div><div class="ttl">喊喊喊，叫出爸爸妈妈</div></div></a>
+    <a class="card" href="zhizhizhi.html"><div class="cover"><img src="covers/zhizhizhi.jpg" alt="指指指，一一会指物" loading="lazy"></div><div class="info"><div class="num">23 · 10-11 月</div><div class="ttl">指指指，一一会指物</div></div></a>
+    <a class="card" href="wanwanwan.html"><div class="cover"><img src="covers/wanwanwan.jpg" alt="玩玩玩，公园露营日" loading="lazy"></div><div class="info"><div class="num">24 · 11 月</div><div class="ttl">玩玩玩，公园露营日</div></div></a>
+    <a class="card" href="zhanzhanzhan.html"><div class="cover"><img src="covers/zhanzhanzhan.jpg" alt="站站站，一一站起来" loading="lazy"></div><div class="info"><div class="num">25 · 12 月</div><div class="ttl">站站站，一一站起来</div></div></a>
+    <a class="card" href="xuexuexue.html"><div class="cover"><img src="covers/xuexuexue.jpg" alt="雪雪雪，一一见下雪" loading="lazy"></div><div class="info"><div class="num">26 · 13 月</div><div class="ttl">雪雪雪，一一见下雪</div></div></a>
+    <a class="card" href="dingdingdang.html"><div class="cover"><img src="covers/dingdingdang.jpg" alt="叮叮铛，圣诞到" loading="lazy"></div><div class="info"><div class="num">27 · 13-14 月</div><div class="ttl">叮叮铛，圣诞到</div></div></a>
+    <a class="card" href="dongdongqiang.html"><div class="cover"><img src="covers/dongdongqiang.jpg" alt="咚咚锵，一一过大年" loading="lazy"></div><div class="info"><div class="num">28 · 春节</div><div class="ttl">咚咚锵，一一过大年</div></div></a>
+    <a class="card" href="baobaobao.html"><div class="cover"><img src="covers/baobaobao.jpg" alt="抱抱抱，一一拜大年" loading="lazy"></div><div class="info"><div class="num">29 · 春节</div><div class="ttl">抱抱抱，一一拜大年</div></div></a>
+    <a class="card" href="liangliangliang.html"><div class="cover"><img src="covers/liangliangliang.jpg" alt="亮亮亮，一一回家啦" loading="lazy"></div><div class="info"><div class="num">30 · 春节</div><div class="ttl">亮亮亮，一一回家啦</div></div></a>
+    <a class="card" href="zouzouzou.html"><div class="cover"><img src="covers/zouzouzou.jpg" alt="走走走，一一会走路" loading="lazy"></div><div class="info"><div class="num">31 · 14 月</div><div class="ttl">走走走，一一会走路</div></div></a>
+  </div>
+</section>
 
-    function go(p) {
-      if (p < 0 || p >= pages) return;
-      renderPage(p);
-    }
+<div class="tobe">
+  <span class="ch-no">卷二 · 在路上</span>
+  <p>一一还在长大，新的第一次还在发生。<br>会走路之后的故事，正在一本一本画出来——这一页会一直更新。</p>
+</div>
 
-    prevBtn.addEventListener('click', () => go(cur - 1));
-    nextBtn.addEventListener('click', () => go(cur + 1));
+<div class="invite">
+  <h2>你家孩子的第一次，也值得这样记下来</h2>
+  <p>把孩子的名字放进书名里，把 ta 的第一次笑、第一次走路，画成一本可以翻的书。不用会画画，也不用会写故事——把那件小事讲给我听就行。</p>
+  <a class="btn" href="../v2/index.html#contact">来聊聊 →</a>
+</div>
 
-    // 键盘左右翻页
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') go(cur - 1);
-      if (e.key === 'ArrowRight') go(cur + 1);
-    });
+<div class="coda">
+  <p>这些书真正的读者，是二十年后的一一。<br>那时她不会记得第一口米粉的味道，也不会记得第一次见雪时的表情。<br>但书记得。</p>
+  <p class="last">你不记得的那一年，<em>爸爸替你记着</em>。</p>
+</div>
 
-    renderPage(0);
-  </script>
-  <script>
-    // mark that we're navigating back to the homepage, so the letter modal
-    // won't auto-open (it only shows on first open / refresh).
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href="../v2/index.html#products"]');
-      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
-    });
-  </script>
+</main>
+
+<footer>© 岛主 · 给女儿的绘本 · 还在一本一本画下去</footer>
+
+<script>
+  // 返回主页时做标记，主页的信笺弹窗不再自动打开（沿用旧逻辑）
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="../v2/index.html"]');
+    if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
+  });
+</script>
 </body>
 </html>

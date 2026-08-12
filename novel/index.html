@@ -81,7 +81,7 @@
     .drawer.open .chev { transform: rotate(90deg); color: var(--accent); }
 
     .drawer-body { max-height: 0; overflow: hidden; transition: max-height 460ms var(--ease); }
-    .drawer.open .drawer-body { max-height: 640px; }
+    .drawer.open .drawer-body { max-height: 720px; }
     .paper {
       margin: 0 18px 20px; padding: 22px 22px 20px;
       background: repeating-linear-gradient(180deg, #fffdf8 0, #fffdf8 30px, #faf6ec 31px);
@@ -93,8 +93,17 @@
     .beat { display: flex; gap: 10px; font-size: 13px; line-height: 1.8; color: var(--ink-soft); margin-bottom: 7px; }
     .beat b { color: var(--accent); font-weight: 400; flex: 0 0 auto; }
     .meta { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 11px; color: var(--ink-dim); letter-spacing: .05em; }
-    .read-link { display: inline-block; margin-top: 14px; font-family: var(--serif); font-size: 14px; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); border-radius: 8px; padding: 9px 16px; transition: background .25s var(--ease), color .25s var(--ease); }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .read-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 13px; color: var(--accent);
+      text-decoration: none; border: 1px solid var(--accent); border-radius: 8px;
+      padding: 9px 14px; flex: 1 1 auto; min-width: 0;
+      transition: background .25s var(--ease), color .25s var(--ease);
+    }
     .read-link:hover { background: var(--accent); color: #fff; }
+    .read-link--primary { background: var(--accent); color: #fff; }
+    .read-link--primary:hover { background: #9c4f2e; }
 
     .hint { margin-top: 34px; font-size: 11px; color: var(--ink-dim); text-align: center; letter-spacing: .05em; }
   </style>
@@ -108,7 +117,7 @@
     <div class="hero">
       <div class="kicker">Manuscript · 手稿抽屉</div>
       <h1>小说</h1>
-      <p class="lead">正在写的故事都锁在抽屉里。拉开一格，看一格——大纲、进度、片段随写随放。把新的大纲或已发布链接发我，抽屉就会一格格填满。</p>
+      <p class="lead">正在写的故事都锁在抽屉里。拉开一格，看一格——大纲、进度、片段随写随放。案卷已搬到独立页，加小说不再撑长首页。把新的大纲或已发布链接发我，抽屉就会一格格填满。</p>
     </div>
 
     <div class="cabinet">
@@ -118,23 +127,24 @@
           <div class="handle"></div>
           <div class="front-main">
             <div class="front-title">《拾遗》</div>
-            <div class="front-sub">中篇小说 · 约 3.6 万字 · 前 5000 字免费试读</div>
+            <div class="front-sub">中篇小说 · 约 3.2 万字 · 前 5000 字免费试读</div>
           </div>
           <span class="tag">付费阅读</span>
           <span class="chev">▶</span>
         </div>
         <div class="drawer-body">
           <div class="paper">
-            <div class="logline">第三次搬家的时候，纸箱比上一次少了四个。我把这理解为一种进步——一个人到了三十二岁，总该学会往下删东西了。</div>
+            <div class="logline">朋友失踪三年，竟回老家守着被水库淹没的村子。</div>
             <div class="sec-title">关于这篇</div>
-            <div class="beat"><b>类型</b>中长篇 · 生活流 · 关于舍弃、记忆，与一个人怎么把自己重新攒起来。</div>
+            <div class="beat"><b>类型</b>中长篇 · 生活流 · 关于一个失踪三年的人、一座被水淹掉的村、和一个替他按下最后一次快门的朋友。</div>
             <div class="beat"><b>试读</b>前 5000 字免费开放，余下全文需微信扫码付费后阅读。</div>
-            <a class="read-link" href="shiyi.html">阅读全文（前 5000 字免费）→</a>
+            <div class="actions">
+              <a class="read-link read-link--primary" href="shiyi.html">阅读全文 →</a>
+              <a class="read-link" href="shiyi-casefile.html">查看完整创作案卷 →</a>
+            </div>
             <div class="meta">状态 · 已发布 　|　 落笔 · 2026.5.15</div>
           </div>
         </div>
-        <!-- 创作案卷：人物小传 / 人物线索 / 剧情走向（数据驱动，见 shiyi-data.js） -->
-        <div class="cf-host" id="shiyi-casefile"></div>
       </div>
 
       <!-- Drawer: 少年游（长篇小说，付费阅读） -->
@@ -154,41 +164,25 @@
             <div class="sec-title">关于这篇</div>
             <div class="beat"><b>类型</b>长篇小说 · 成长流 · 关于一个没爹娘的孩子，怎么把"理想是吃饱饭"活成一句不肯放下的话。</div>
             <div class="beat"><b>试读</b>前 5000 字免费开放，余下全文需微信扫码付费后阅读。</div>
-            <a class="read-link" href="shaonianyou.html">阅读全文（前 5000 字免费）→</a>
-            <a class="read-link" href="workbench/shaonianyou.html" style="background:transparent;color:var(--accent);border:1px solid var(--accent)">作家工坊（编辑创作案卷）→</a>
+            <div class="actions">
+              <a class="read-link read-link--primary" href="shaonianyou.html">阅读全文 →</a>
+              <a class="read-link" href="shaonianyou-casefile.html">查看完整创作案卷 →</a>
+              <a class="read-link" href="workbench/shaonianyou.html">作家工坊（编辑案卷）→</a>
+            </div>
             <div class="meta">状态 · 已发布 　|　 落笔 · 2026</div>
           </div>
-          <!-- 创作案卷：人物小传 / 人物线索 / 剧情走向（数据驱动，见 shaonianyou-data.js） -->
-          <div class="cf-host" id="shaonianyou-casefile"></div>
         </div>
       </div>
     </div>
 
-    <div class="hint">点击抽屉展开大纲 · 更多作品陆续入柜</div>
+    <div class="hint">拉抽屉看大纲 · 案卷已独立成页 · 更多作品陆续入柜</div>
   </div>
 
-  <script src="shiyi-data.js"></script>
-  <script src="shaonianyou-data.js"></script>
-  <script src="casefile-render.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.renderShiyiCasefile && window.SHIYI_DATA) {
-        renderShiyiCasefile(document.getElementById('shiyi-casefile'), window.SHIYI_DATA);
-      }
-      if (window.renderShiyiCasefile && window.SHAONIANYOU_DATA) {
-        renderShiyiCasefile(document.getElementById('shaonianyou-casefile'), window.SHAONIANYOU_DATA);
-      }
-    });
-  </script>
   <script>
     document.querySelectorAll('[data-toggle]').forEach(function (front) {
       front.addEventListener('click', function () {
         front.closest('[data-drawer]').classList.toggle('open');
       });
-    });
-    // open all drawers by default so the intros are visible
-    document.querySelectorAll('[data-drawer]').forEach(function (d) {
-      d.classList.add('open');
     });
   </script>
   <script>

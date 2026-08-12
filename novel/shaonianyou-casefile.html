@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《少年游》创作案卷 · 岛主</title>
+  <meta name="description" content="《少年游》的人物小传、人物线索、剧情走向、主题——岛主的创作案卷 DOSSIER。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="casefile.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #ece4d6;
+      --ink: #2c2519;
+      --ink-soft: #6f6349;
+      --ink-dim: #9a8e73;
+      --line: #d8ccb4;
+      --brass: #a9843f;
+      --accent: #b8623a;
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --mono: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+      --serif: 'Noto Serif SC', 'Songti SC', serif;
+    }
+    body {
+      background: radial-gradient(120% 80% at 50% 0%, #f0e8da 0%, var(--bg) 62%), var(--bg);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 14px; line-height: 1.6;
+      padding: 36px 24px 110px;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    a { color: inherit; text-decoration: none; }
+
+    .crumb {
+      font-size: 11.5px; letter-spacing: .06em; color: var(--ink-dim);
+      margin-bottom: 22px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    }
+    .crumb a { color: var(--brass); transition: color .2s; }
+    .crumb a:hover { color: var(--accent); }
+    .crumb .cur { color: var(--ink-soft); }
+
+    .cover { margin: 4px 0 22px; }
+    .cover .kicker { font-size: 10.5px; letter-spacing: .34em; color: var(--brass); text-transform: uppercase; margin-bottom: 6px; }
+    .cover h1 { font-family: var(--serif); font-size: 28px; font-weight: 700; letter-spacing: .04em; line-height: 1.25; }
+
+    .actions { margin: 26px 0 8px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 13.5px;
+      padding: 10px 18px; border-radius: 8px;
+      transition: background .25s var(--ease), color .25s var(--ease), transform .25s var(--ease);
+    }
+    .btn--ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn--ghost:hover { background: var(--accent); color: #fff; transform: translateY(-1px); }
+    .btn--primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+    .btn--primary:hover { background: #9c4f2e; border-color: #9c4f2e; transform: translateY(-1px); }
+
+    .foot {
+      margin-top: 28px; padding-top: 16px; border-top: 1px dashed var(--line);
+      font-size: 12px; color: var(--ink-dim);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; letter-spacing: .04em;
+    }
+    .foot a { color: var(--brass); }
+    .foot a:hover { color: var(--accent); }
+
+    @media (max-width: 560px) {
+      .cover h1 { font-size: 24px; }
+      .btn { font-size: 13px; padding: 9px 14px; }
+    }
+  </style>
+<!-- 51.la analytics -->
+  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="crumb">
+      <a href="index.html">← 书架</a>
+      <span>·</span>
+      <span class="cur">《少年游》创作案卷</span>
+    </nav>
+
+    <header class="cover">
+      <div class="kicker">DOSSIER · 案卷</div>
+      <h1>《少年游》</h1>
+    </header>
+
+    <div class="cf-host" id="casefile"></div>
+
+    <div class="actions">
+      <a class="btn btn--ghost" href="workbench/shaonianyou.html">编辑这份案卷 →</a>
+      <a class="btn btn--primary" href="shaonianyou.html">阅读全文（前 5000 字免费）→</a>
+    </div>
+
+    <div class="foot">
+      <a href="index.html">← 回到书架</a>
+      <span>《少年游》· 长篇小说 · 已发布</span>
+    </div>
+  </div>
+
+  <script src="shaonianyou-data.js"></script>
+  <script src="casefile-render.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      renderShiyiCasefile(document.getElementById('casefile'), window.SHAONIANYOU_DATA);
+    });
+  </script>
+</body>
+</html>

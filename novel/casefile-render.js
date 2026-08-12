@@ -13,7 +13,7 @@ window.renderShiyiCasefile = function (el, data) {
     return n ? n[0] : '?';
   };
   var html = '<div class="cf-panel">';
-  html += '<div class="cf-stamp">创作案卷<small>DOSSIER · 拾遗</small></div>';
+  html += '<div class="cf-stamp">创作案卷<small>DOSSIER · ' + esc(data.meta.title) + '</small></div>';
   html += '<div class="cf-meta">' + esc(data.meta.status) + ' ｜ ' + esc(data.meta.wordcount) + ' ｜ 基调 ' + esc(data.meta.tone) + '</div>';
   html += '<div class="cf-one">' + esc(data.meta.one_line) + '</div>';
 

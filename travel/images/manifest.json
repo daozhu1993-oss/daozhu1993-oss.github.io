@@ -1,0 +1,368 @@
+{
+  "shanghai": {
+    "file": "images/shanghai.jpg",
+    "alt": "上海 · 外滩看对岸的陆家嘴天际线",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "huangshan": {
+    "file": "images/huangshan.jpg",
+    "alt": "黄山 · 云海日出与奇松",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "xiamen": {
+    "file": "images/xiamen.jpg",
+    "alt": "厦门 · 鼓浪屿的红顶与海",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "wuyuan": {
+    "file": "images/wuyuan.jpg",
+    "alt": "婺源 · 秋天晒秋的村落",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "qingdao": {
+    "file": "images/qingdao.jpg",
+    "alt": "青岛 · 红瓦绿树碧海蓝天",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "nanjing": {
+    "file": "images/nanjing.jpg",
+    "alt": "南京 · 秋日梧桐大道",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "zhangjiajie": {
+    "file": "images/zhangjiajie.jpg",
+    "alt": "张家界 · 云海中的奇峰",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "wuhan": {
+    "file": "images/wuhan.jpg",
+    "alt": "武汉 · 夜里的长江大桥",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "luoyang": {
+    "file": "images/luoyang.jpg",
+    "alt": "洛阳 · 龙门石窟的卢舍那",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "guilin": {
+    "file": "images/guilin.jpg",
+    "alt": "桂林 · 漓江晨雾与渔火",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "sanya": {
+    "file": "images/sanya.jpg",
+    "alt": "三亚 · 椰林与玻璃海",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "guangzhou": {
+    "file": "images/guangzhou.jpg",
+    "alt": "广州 · 小蛮腰与珠江夜色",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "chongqing": {
+    "file": "images/chongqing.jpg",
+    "alt": "重庆 · 夜里的洪崖洞",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "xian": {
+    "file": "images/xian.jpg",
+    "alt": "西安 · 兵马俑的队列",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "zhangye": {
+    "file": "images/zhangye.jpg",
+    "alt": "张掖 · 七彩丹霞",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "qinghai": {
+    "file": "images/qinghai.jpg",
+    "alt": "青海湖 · 七月花海与蓝",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "kashgar": {
+    "file": "images/kashgar.jpg",
+    "alt": "喀什 · 老城的土黄巷陌",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "beijing": {
+    "file": "images/beijing.jpg",
+    "alt": "北京 · 故宫红墙与晨光",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "chengde": {
+    "file": "images/chengde.jpg",
+    "alt": "承德 · 避暑山庄外八庙",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "hangzhou": {
+    "file": "images/hangzhou.jpg",
+    "alt": "杭州 · 西湖断桥与烟柳",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "harbin": {
+    "file": "images/harbin.jpg",
+    "alt": "哈尔滨 · 中央大街与冰雪",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "pingyao": {
+    "file": "images/pingyao.jpg",
+    "alt": "平遥 · 古城街巷与城墙",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "suzhou": {
+    "file": "images/suzhou.jpg",
+    "alt": "苏州 · 园林水巷与漏窗",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "yanji": {
+    "file": "images/yanji.jpg",
+    "alt": "延吉 · 朝鲜族街巷与美食",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "ulanbutong": {
+    "file": "images/ulanbutong.jpg",
+    "alt": "乌兰布统 · 草原与白桦",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "wuyishan": {
+    "file": "images/wuyishan.jpg",
+    "alt": "武夷山 · 九曲溪竹筏",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "dali": {
+    "file": "images/dali.jpg",
+    "alt": "大理 · 洱海与苍山",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "lijiang": {
+    "file": "images/lijiang.jpg",
+    "alt": "丽江 · 古城与玉龙雪山",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "kunming": {
+    "file": "images/kunming.jpg",
+    "alt": "昆明 · 滇池与红嘴鸥",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "qianxi": {
+    "file": "images/qianxi.jpg",
+    "alt": "西江千户苗寨 · 吊脚楼夜色",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "lhasa": {
+    "file": "images/lhasa.jpg",
+    "alt": "拉萨 · 布达拉宫",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "daocheng": {
+    "file": "images/daocheng.jpg",
+    "alt": "稻城亚丁 · 雪山与海子",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "jiuzhai": {
+    "file": "images/jiuzhai.jpg",
+    "alt": "九寨沟 · 彩林海子",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "yinchuan": {
+    "file": "images/yinchuan.jpg",
+    "alt": "银川 · 西夏王陵与贺兰山",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "hulunbuir": {
+    "file": "images/hulunbuir.jpg",
+    "alt": "呼伦贝尔 · 草原与河流",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "chengdu": {
+    "file": "images/chengdu.jpg",
+    "alt": "成都 · 大熊猫与竹影",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "dunhuang": {
+    "file": "images/dunhuang.jpg",
+    "alt": "敦煌 · 莫高窟与鸣沙山",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "chaozhou": {
+    "file": "images/chaozhou.jpg",
+    "alt": "潮州 · 广济桥与牌坊",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "shanhaiguan": {
+    "file": "images/shanhaiguan.jpg",
+    "alt": "山海关 · 天下第一关",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "qinhuangdao": {
+    "file": "images/qinhuangdao.jpg",
+    "alt": "秦皇岛 · 北戴河海岸",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "dalian": {
+    "file": "images/dalian.jpg",
+    "alt": "大连 · 有轨电车与滨海路",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "yantai": {
+    "file": "images/yantai.jpg",
+    "alt": "烟台 · 海滨城市",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "datong": {
+    "file": "images/datong.jpg",
+    "alt": "大同 · 云冈石窟",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "hengshan": {
+    "file": "images/hengshan.jpg",
+    "alt": "恒山 · 悬空寺",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "tianjin": {
+    "file": "images/tianjin.jpg",
+    "alt": "天津 · 五大道与小洋楼",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "baoji": {
+    "file": "images/baoji.jpg",
+    "alt": "宝鸡 · 青铜器之乡",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "tengger": {
+    "file": "images/tengger.jpg",
+    "alt": "腾格里沙漠 · 沙海星空",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "wuwei": {
+    "file": "images/wuwei.jpg",
+    "alt": "武威 · 河西走廊门户",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "qilian": {
+    "file": "images/qilian.jpg",
+    "alt": "祁连山脉 · 雪山草原",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "hami": {
+    "file": "images/hami.jpg",
+    "alt": "哈密大海道 · 雅丹戈壁",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "ulungur": {
+    "file": "images/ulungur.jpg",
+    "alt": "乌伦古湖 · 戈壁蓝湖",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "tianshan": {
+    "file": "images/tianshan.jpg",
+    "alt": "北疆天山 · 雪线草原",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "kanas": {
+    "file": "images/kanas.jpg",
+    "alt": "喀纳斯 · 三道湾晨雾",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "kangding": {
+    "file": "images/kangding.jpg",
+    "alt": "康定 · 跑马溜溜的城与折多山",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "xindugiao": {
+    "file": "images/xindugiao.jpg",
+    "alt": "新都桥 · 318 光影草甸",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "litang": {
+    "file": "images/litang.jpg",
+    "alt": "理塘 · G318 天空之城",
+    "credit": "Wikimedia Commons",
+    "license": "CC BY-SA"
+  },
+  "xining": {
+    "file": "images/xining.jpg",
+    "alt": "xining 风光",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "chaka": {
+    "file": "images/chaka.jpg",
+    "alt": "chaka 风光",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "jiayuguan": {
+    "file": "images/jiayuguan.jpg",
+    "alt": "jiayuguan 风光",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "xiata": {
+    "file": "images/xiata.jpg",
+    "alt": "xiata 风光",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  },
+  "dachaidan": {
+    "file": "images/dachaidan.jpg",
+    "alt": "大柴旦 翡翠湖",
+    "credit": "Wikimedia Commons",
+    "license": "CC (见原图)"
+  }
+}

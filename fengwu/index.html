@@ -4,227 +4,187 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>风物中国 · AIGC 系列纪录片</title>
-<meta name="description" content="《风物中国》——以纸工艺拼贴美学与 Vox 解说风格，系统讲述中国文化的 AI 系列微型纪录片。五个系列，一百一十个片段，一次用 AI 的笔触重新描摹中国的尝试。">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%AE%3C/text%3E%3C/svg%3E">
-<meta property="og:type" content="website">
+<meta name="description" content="《风物中国》——以纸工艺拼贴美学与 Vox 解说风格，系统讲述中国文化的 AI 系列微型纪录片。">
 <meta property="og:title" content="风物中国 · AIGC 系列纪录片">
 <meta property="og:description" content="五个系列，一百一十个片段。物、时、空、人、艺——用 AI 的笔触，重新描摹中国。">
 <meta property="og:image" content="https://daozhu1993-oss.github.io/img/fengwu/fengwu-01.jpg">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#F7F1E5;          /* 旧纸底色，取自封面 */
-    --paper-deep:#F0E7D5;
-    --ink:#3A2E26;
-    --ink-soft:#6B5D50;
-    --ink-dim:#98897A;
-    --line:rgba(58,46,38,.14);
-    --cinnabar:#C13B2C;       /* 朱砂红 */
-    --cinnabar-soft:rgba(193,59,44,.10);
-    --gold:#C99548;
-    --serif:'Noto Serif SC',  'Songti SC', serif;
-    --sans:'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    --ease:cubic-bezier(.22,.61,.36,1);
-    --shadow:rgba(58,46,38,.12);
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.85;-webkit-font-smoothing:antialiased;padding:0 24px 90px;}
-  ::selection{background:var(--cinnabar-soft);}
-  a{color:inherit;text-decoration:none;}
-  img{max-width:100%;display:block;}
-  .wrap{max-width:960px;margin:0 auto;}
-
-  .topbar{position:sticky;top:0;z-index:5;background:rgba(247,241,229,.88);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line);margin:0 -24px 52px;padding:14px 24px;}
-  .topbar a{font-family:var(--serif);font-size:13px;letter-spacing:.06em;color:var(--ink-soft);display:inline-flex;align-items:center;gap:8px;transition:color .2s var(--ease);}
-  .topbar a:hover{color:var(--cinnabar);}
-
-  .eyebrow{font-family:var(--serif);font-size:12px;letter-spacing:.32em;color:var(--cinnabar);text-transform:uppercase;margin-bottom:14px;}
-  h1{font-family:var(--serif);font-weight:700;font-size:clamp(40px,8vw,68px);letter-spacing:.06em;line-height:1.15;margin-bottom:16px;}
-  h1 .seal{color:var(--cinnabar);}
-  .tagline{font-family:var(--serif);font-size:clamp(16px,2.4vw,19px);color:var(--ink-soft);max-width:640px;margin-bottom:26px;}
-  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:64px;}
-  .stats span{font-size:12.5px;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:5px 14px;background:rgba(255,255,255,.5);font-family:var(--serif);letter-spacing:.03em;}
-
-  h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.6vw,34px);margin:72px 0 10px;letter-spacing:.02em;}
-  .sec-sub{color:var(--ink-soft);font-size:14.5px;max-width:620px;margin-bottom:34px;}
-
-  /* 五维矩阵 */
-  .matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
-  .mx{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-align:center;transition:transform .35s var(--ease),border-color .35s var(--ease);}
-  .mx:hover{transform:translateY(-4px);border-color:var(--cinnabar-soft);}
-  .mx .zi{font-family:var(--serif);font-weight:700;font-size:30px;color:var(--cinnabar);margin-bottom:6px;}
-  .mx .axis{font-family:var(--serif);font-size:14px;font-weight:600;margin-bottom:4px;}
-  .mx p{font-size:12px;color:var(--ink-dim);line-height:1.6;}
-
-  /* 成片卡 */
-  .films{display:flex;flex-direction:column;gap:30px;}
-  .film{display:flex;background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);}
-  .film:hover{transform:translateY(-5px);box-shadow:0 22px 46px var(--shadow);border-color:var(--cinnabar-soft);}
-  .film .cover{flex:0 0 46%;position:relative;overflow:hidden;min-height:210px;}
-  .film .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
-  .film:hover .cover img{transform:scale(1.04);}
-  .film .info{flex:1;padding:30px 32px;display:flex;flex-direction:column;justify-content:center;}
-  .film .no{font-family:var(--serif);font-size:12px;color:var(--cinnabar);letter-spacing:.2em;margin-bottom:8px;}
-  .film h3{font-family:var(--serif);font-weight:600;font-size:24px;margin-bottom:4px;}
-  .film .axis-tag{font-family:var(--serif);font-size:13px;color:var(--gold);margin-bottom:10px;}
-  .film p{font-size:14px;color:var(--ink-soft);line-height:1.8;}
-  .film .watch{margin-top:16px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-family:var(--serif);font-size:14px;color:var(--cinnabar);border:1px solid var(--cinnabar-soft);border-radius:999px;padding:8px 20px;transition:background .3s var(--ease),color .3s var(--ease);}
-  .film .watch:hover{background:var(--cinnabar);color:var(--paper);}
-  .film.wip{opacity:.85;}
-  .film.wip .cover{background:linear-gradient(150deg,var(--paper-deep),#E7DCC6);display:flex;align-items:center;justify-content:center;}
-  .film.wip .cover .zi-big{font-family:var(--serif);font-weight:700;font-size:64px;color:var(--cinnabar);opacity:.35;letter-spacing:.1em;}
-  .badge{display:inline-block;font-size:11px;letter-spacing:.1em;color:var(--ink-dim);border:1px solid var(--line);border-radius:999px;padding:3px 12px;margin-top:16px;font-family:var(--serif);align-self:flex-start;}
-
-  /* 美学 */
-  .aes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-  .aes div{background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:14px;padding:22px 20px;}
-  .aes h4{font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:8px;color:var(--ink);}
-  .aes p{font-size:13px;color:var(--ink-soft);line-height:1.75;}
-
-  /* 延展 */
-  .next-list{display:flex;flex-wrap:wrap;gap:10px;}
-  .next-list span{font-family:var(--serif);font-size:13.5px;color:var(--ink-soft);border:1px dashed var(--line);border-radius:999px;padding:7px 18px;background:rgba(255,255,255,.4);}
-  .next-list b{color:var(--cinnabar);font-weight:600;margin-right:6px;}
-
-  /* 结语 */
-  .coda{margin-top:80px;padding:44px 40px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,rgba(255,255,255,.65),rgba(240,231,213,.5));text-align:center;}
-  .coda p{font-family:var(--serif);font-size:16px;color:var(--ink-soft);line-height:2.2;}
-  .coda .last{margin-top:18px;font-size:20px;font-weight:600;color:var(--ink);letter-spacing:.08em;}
-  .coda .last em{font-style:normal;color:var(--cinnabar);}
-
-  /* 软钩子 */
-  .invite{margin-top:56px;text-align:center;font-family:var(--serif);font-size:15px;color:var(--ink-soft);line-height:2;}
-  .invite a{color:var(--cinnabar);border-bottom:1px solid var(--cinnabar-soft);padding-bottom:2px;transition:border-color .3s var(--ease);}
-  .invite a:hover{border-color:var(--cinnabar);}
-
-  footer{margin-top:70px;text-align:center;font-family:var(--serif);font-size:12px;color:var(--ink-dim);letter-spacing:.05em;}
-
-  @media (max-width:760px){
-    .matrix{grid-template-columns:repeat(2,1fr);}
-    .matrix .mx:last-child{grid-column:1/-1;}
-    .film{flex-direction:column;}
-    .film .cover{flex:none;height:190px;min-height:0;}
-    .film .info{padding:24px 22px;}
-    .aes{grid-template-columns:1fr;}
-    .coda{padding:32px 22px;}
-  }
-  a:focus-visible{outline:2px solid var(--cinnabar);outline-offset:3px;border-radius:6px;}
+:root{--bg:#F5F1E8;--bg2:#FCFAF3;--ink:#2A2723;--muted:#7C756A;--line:#E4DCCB;--clay:#B45A3C;--green:#3B5B49;--soft:#efe6d6}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans SC',system-ui,sans-serif;line-height:1.78;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Noto Serif SC',serif}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--clay);font-weight:700;margin-bottom:14px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 0 0}
+.back{font-size:14px;color:var(--muted)}.back:hover{color:var(--clay)}
+.langtoggle{border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;transition:.2s}
+.langtoggle:hover{background:var(--ink);color:var(--bg)}
+.hero{padding:34px 0 60px;text-align:center}
+.hero h1{font-size:clamp(48px,10vw,104px);font-weight:900;line-height:1;margin:18px 0 24px}
+.hero h1 .dot{color:var(--clay)}
+.hero .lead{font-size:clamp(17px,2.3vw,21px);color:#453f37;max-width:680px;margin:0 auto 30px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:8px 18px;font-size:13.5px;color:#5a544b}
+.chip b{color:var(--clay)}
+section{padding:60px 0;border-top:1px solid var(--line)}
+.sec-title{font-size:clamp(26px,3.6vw,36px);font-weight:700;margin-bottom:12px;text-align:center}
+.sec-sub{color:var(--muted);max-width:680px;margin:0 auto 40px;text-align:center}
+.matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media(max-width:820px){.matrix{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.matrix{grid-template-columns:1fr}}
+.dim{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center;transition:.2s}
+.dim:hover{transform:translateY(-3px);border-color:var(--clay)}
+.dim .g{font-family:'Noto Serif SC';font-size:34px;font-weight:900;color:var(--clay);line-height:1;margin-bottom:10px}
+.dim h3{font-size:18px;margin-bottom:8px}.dim p{font-size:12.5px;color:var(--muted);line-height:1.6}
+.eps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:820px){.eps{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.eps{grid-template-columns:1fr}}
+.ep{background:var(--bg2);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.22s;display:flex;flex-direction:column}
+.ep:hover{transform:translateY(-4px);box-shadow:0 18px 46px -26px rgba(120,70,40,.5);border-color:var(--clay)}
+.ep .cover{aspect-ratio:16/10;background:var(--soft);overflow:hidden}
+.ep .cover img{width:100%;height:100%;object-fit:cover}
+.ep .body{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}
+.ep .lab{font-size:12px;letter-spacing:.05em;color:var(--green);font-weight:600;margin-bottom:8px}
+.ep h3{font-size:22px;margin-bottom:4px}.ep .cn{font-size:13.5px;color:var(--clay);margin-bottom:12px}
+.ep p{font-size:14px;color:#4a453d;line-height:1.7;margin-bottom:16px;flex:1}
+.ep .watch{font-size:14px;color:var(--clay);font-weight:500}
+.ep.soon{opacity:.72;border-style:dashed}
+.ep.soon .cover{display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC';font-size:40px;color:#cbb89a}
+.ep .soontag{font-size:13px;color:var(--muted)}
+.aes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:760px){.aes{grid-template-columns:1fr}}
+.aes .c{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:24px}
+.aes .c h4{font-size:18px;margin-bottom:8px}.aes .c p{font-size:14px;color:var(--muted);line-height:1.65}
+.more{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+@media(max-width:820px){.more{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.more{grid-template-columns:1fr}}
+.more .m{border:1px dashed var(--line);border-radius:14px;padding:18px;text-align:center}
+.more .m b{display:block;font-size:16px;margin-bottom:4px}.more .m span{font-size:12.5px;color:var(--muted)}
+.closing{text-align:center;background:linear-gradient(180deg,transparent,#ece2d0)}
+.closing .poem{font-family:'Noto Serif SC';font-size:clamp(18px,2.6vw,22px);line-height:2;color:var(--ink);margin:6px 0 22px}
+.closing .big{font-family:'Noto Serif SC';font-size:clamp(28px,5vw,44px);font-weight:900;margin-bottom:30px}
+.closing .big em{font-style:italic;color:var(--clay)}
+.closing .pitch{max-width:620px;margin:0 auto 22px;color:#4a453d;font-size:16px}
+.btn{display:inline-block;padding:13px 28px;border-radius:999px;background:var(--clay);color:#fff;font-weight:500;font-size:15px;transition:.2s}
+.btn:hover{background:#9c4a2f}
+footer{padding:30px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+.reveal{opacity:0;transform:translateY(18px);transition:.7s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
 </style>
 </head>
 <body>
 
-<div class="topbar"><div class="wrap"><a href="../v2/index.html">← 回到岛上</a></div></div>
+<div class="wrap"><div class="topbar">
+  <a class="back" href="https://daozhu1993-oss.github.io/v2/index.html" data-en="← Back to the island">← 回到岛上</a>
+  <button id="langbtn" class="langtoggle">EN</button>
+</div></div>
 
-<main class="wrap">
-
-<header>
-  <div class="eyebrow">AIGC DOCUMENTARY SERIES</div>
-  <h1>风物中国<span class="seal">。</span></h1>
-  <p class="tagline">一套关于「物」的系列纪录片，核心始终是「人」。策划、审美、叙事是我的；AI，是这次用来描摹中国的那支笔。</p>
-  <div class="stats">
-    <span>5 个系列</span>
-    <span>110 个片段</span>
-    <span>总时长约 18 分 20 秒</span>
-    <span>纸工艺拼贴 × Vox 解说风格</span>
+<header class="hero"><div class="wrap">
+  <div class="eyebrow reveal" style="margin-top:20px">AIGC Documentary Series</div>
+  <h1 class="serif reveal" data-en="Fengwu · China<span class='dot'>.</span>">风物中国<span class="dot">。</span></h1>
+  <p class="lead reveal" data-en="A documentary series about things — but its heart is always people. The planning, the taste, the narrative are mine; AI is simply the brush I used this time to draw China.">一套关于「物」的系列纪录片，核心始终是「人」。策划、审美、叙事是我的；AI，是这次用来描摹中国的那支笔。</p>
+  <div class="chips reveal">
+    <div class="chip"><b>5</b> <span data-en="series">个系列</span></div>
+    <div class="chip"><b>110</b> <span data-en="segments">个片段</span></div>
+    <div class="chip" data-en="≈ <b>18 min 20 sec</b> total">总时长约 <b>18 分 20 秒</b></div>
+    <div class="chip" data-en="Paper collage × Vox narration">纸工艺拼贴 × Vox 解说</div>
   </div>
-</header>
+</div></header>
 
-<h2>一个叙事矩阵</h2>
-<p class="sec-sub">五个系列不是并列的五集，而是中国文化的五个基本面——合在一起，物、时、空、人、艺，各占一维。</p>
-<div class="matrix">
-  <div class="mx"><div class="zi">物</div><div class="axis">食俗文行</div><p>横截面 · 四个切面看文化的广度</p></div>
-  <div class="mx"><div class="zi">艺</div><div class="axis">手上功夫</div><p>纵深度 · 深入匠人造物，见微知著</p></div>
-  <div class="mx"><div class="zi">时</div><div class="axis">四时有序</div><p>时间轴 · 沿四季轮回展开生活画卷</p></div>
-  <div class="mx"><div class="zi">空</div><div class="axis">万里河山</div><p>空间轴 · 沿山河通道丈量文明版图</p></div>
-  <div class="mx"><div class="zi">人</div><div class="axis">百态人生</div><p>人的维度 · 回归具体的人，四种理想人生</p></div>
-</div>
+<section><div class="wrap">
+  <div class="eyebrow reveal" style="text-align:center">The Matrix</div>
+  <h2 class="sec-title serif reveal" data-en="A Narrative Matrix">一个叙事矩阵</h2>
+  <p class="sec-sub reveal" data-en="The five series aren’t five parallel episodes but five basic dimensions of Chinese culture — matter, time, space, people, craft, each an axis.">五个系列不是并列的五集，而是中国文化的五个基本面——合在一起，物、时、空、人、艺，各占一维。</p>
+  <div class="matrix">
+    <div class="dim reveal"><div class="g" data-en="Matter">物</div><h3 data-en="Food · Custom · Word · Travel">食俗文行</h3><p data-en="Cross-section · four facets, the breadth of culture">横截面 · 四个切面看文化的广度</p></div>
+    <div class="dim reveal"><div class="g" data-en="Craft">艺</div><h3 data-en="Handcraft">手上功夫</h3><p data-en="Depth · into the maker’s craft, the world in small things">纵深度 · 深入匠人造物，见微知著</p></div>
+    <div class="dim reveal"><div class="g" data-en="Time">时</div><h3 data-en="The Ordered Seasons">四时有序</h3><p data-en="Time · life unfolding through the turning seasons">时间轴 · 沿四季轮回展开生活画卷</p></div>
+    <div class="dim reveal"><div class="g" data-en="Space">空</div><h3 data-en="Rivers &amp; Mountains">万里河山</h3><p data-en="Space · civilization measured along mountains and rivers">空间轴 · 沿山河通道丈量文明版图</p></div>
+    <div class="dim reveal"><div class="g" data-en="People">人</div><h3 data-en="A Hundred Lives">百态人生</h3><p data-en="People · back to real people, four ideal lives">人的维度 · 回归具体的人，四种理想人生</p></div>
+  </div>
+</div></section>
 
-<h2>已完成的三部</h2>
-<p class="sec-sub">每集 22 个片段（序章 + 四篇章 + 尾声），成片约 3 分 40 秒。在小红书 / 视频号同步更新。</p>
-<div class="films">
-  <article class="film">
-    <div class="cover"><img src="../img/fengwu/fengwu-01.jpg" alt="风物中国第一集《食俗文行》封面：纸工艺拼贴的饺子、年画娃娃、汉字与舟车" loading="lazy"></div>
-    <div class="info">
-      <div class="no">EP.01 · 横截面</div>
-      <h3>食俗文行</h3>
-      <div class="axis-tag">一集 · 四章 · 见中国</div>
-      <p>从饮食、节庆、文字、交通四个切面进入——一枚饺子里有土地的恩泽，一个「福」字里有一整年的盼头。</p>
-      <a class="watch" href="https://www.xiaohongshu.com/explore/6a7156880000000025014cbb?xsec_token=YBjFHgIwX-xGRiRXcsoOERIgriKNnJVs9Ph0r7B6H8AV4=&amp;xsec_source=pc_creatormng" target="_blank" rel="noopener">在小红书观看 →</a>
+<section><div class="wrap">
+  <div class="eyebrow reveal" style="text-align:center">Episodes</div>
+  <h2 class="sec-title serif reveal" data-en="Three Films Done">已完成的三部</h2>
+  <p class="sec-sub reveal" data-en="Each film has 22 segments (prologue + four chapters + coda), ~3 min 40 sec, updated on Xiaohongshu / Video Channels.">每集 22 个片段（序章 + 四篇章 + 尾声），成片约 3 分 40 秒。在小红书 / 视频号同步更新。</p>
+  <div class="eps">
+    <div class="ep reveal">
+      <div class="cover"><img src="https://daozhu1993-oss.github.io/img/fengwu/fengwu-01.jpg" alt="风物中国第一集《食俗文行》封面"></div>
+      <div class="body"><div class="lab" data-en="EP.01 · Cross-section">EP.01 · 横截面</div><h3 data-en="Food, Custom, Word &amp; Travel">食俗文行</h3><div class="cn" data-en="One film · four chapters · see China">一集 · 四章 · 见中国</div><p data-en="Entering through food, festivals, writing, and travel — a dumpling holds the land’s bounty; a single 福 holds a whole year of hope.">从饮食、节庆、文字、交通四个切面进入——一枚饺子里有土地的恩泽，一个「福」字里有一整年的盼头。</p><a class="watch" href="https://www.xiaohongshu.com/explore/6a7156880000000025014cbb?xsec_token=YBjFHgIwX-xGRiRXcsoOERIgriKNnJVs9Ph0r7B6H8AV4=&xsec_source=pc_creatormng" target="_blank" data-en="Watch on Xiaohongshu →">在小红书观看 →</a></div>
     </div>
-  </article>
-  <article class="film">
-    <div class="cover"><img src="../img/fengwu/fengwu-02.jpg" alt="风物中国第二集《手上功夫》封面" loading="lazy"></div>
-    <div class="info">
-      <div class="no">EP.02 · 纵深度</div>
-      <h3>手上功夫</h3>
-      <div class="axis-tag">深入匠人造物的过程</div>
-      <p>一捧泥土里，有匠人的手温。从原料到成器，看一双手如何把时间做进东西里。</p>
-      <a class="watch" href="https://www.xiaohongshu.com/discovery/item/6a7160fb0000000005028171?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=YBjFHgIwX-xGRiRXcsoOERIkmBlELxH-wpWE8rC35vGjQ=&amp;xsec_source=pc_share" target="_blank" rel="noopener">在小红书观看 →</a>
+    <div class="ep reveal">
+      <div class="cover"><img src="https://daozhu1993-oss.github.io/img/fengwu/fengwu-02.jpg" alt="风物中国第二集《手上功夫》封面"></div>
+      <div class="body"><div class="lab" data-en="EP.02 · Depth">EP.02 · 纵深度</div><h3 data-en="Handcraft">手上功夫</h3><div class="cn" data-en="Inside how artisans make things">深入匠人造物的过程</div><p data-en="In a handful of clay is a maker’s warmth. From raw material to finished object, watch how a pair of hands works time into things.">一捧泥土里，有匠人的手温。从原料到成器，看一双手如何把时间做进东西里。</p><a class="watch" href="https://www.xiaohongshu.com/discovery/item/6a7160fb0000000005028171?source=webshare&xhsshare=pc_web&xsec_token=YBjFHgIwX-xGRiRXcsoOERIkmBlELxH-wpWE8rC35vGjQ=&xsec_source=pc_share" target="_blank" data-en="Watch on Xiaohongshu →">在小红书观看 →</a></div>
     </div>
-  </article>
-  <article class="film">
-    <div class="cover"><img src="../img/fengwu/fengwu-03.jpg" alt="风物中国第三集《四时有序》封面" loading="lazy"></div>
-    <div class="info">
-      <div class="no">EP.03 · 时间轴</div>
-      <h3>四时有序</h3>
-      <div class="axis-tag">沿着四季轮回展开的生活画卷</div>
-      <p>春生、夏长、秋收、冬藏。中国人的日子，是按着节气过出来的。</p>
-      <a class="watch" href="https://www.xiaohongshu.com/discovery/item/6a79ec970000000022032264?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=YBL5XjrE9JXNEWCxNtqCYtZuVH2-sR-TWlaZjfJJluaqw=&amp;xsec_source=pc_share" target="_blank" rel="noopener">在小红书观看 →</a>
+    <div class="ep reveal">
+      <div class="cover"><img src="https://daozhu1993-oss.github.io/img/fengwu/fengwu-03.jpg" alt="风物中国第三集《四时有序》封面"></div>
+      <div class="body"><div class="lab" data-en="EP.03 · Time">EP.03 · 时间轴</div><h3 data-en="The Ordered Seasons">四时有序</h3><div class="cn" data-en="A scroll of life along the turning seasons">沿四季轮回展开的生活画卷</div><p data-en="Spring births, summer grows, autumn harvests, winter stores. Chinese life is lived by the solar terms.">春生、夏长、秋收、冬藏。中国人的日子，是按着节气过出来的。</p><a class="watch" href="https://www.xiaohongshu.com/discovery/item/6a79ec970000000022032264?source=webshare&xhsshare=pc_web&xsec_token=YBL5XjrE9JXNEWCxNtqCYtZuVH2-sR-TWlaZjfJJluaqw=&xsec_source=pc_share" target="_blank" data-en="Watch on Xiaohongshu →">在小红书观看 →</a></div>
     </div>
-  </article>
-  <article class="film wip">
-    <div class="cover"><span class="zi-big">河山</span></div>
-    <div class="info">
-      <div class="no">EP.04 · 空间轴</div>
-      <h3>万里河山</h3>
-      <div class="axis-tag">沿着山河通道丈量文明版图</div>
-      <p>一条黄河边，有整个民族的来路。</p>
-      <span class="badge">制作中</span>
+    <div class="ep soon reveal">
+      <div class="cover">河山</div>
+      <div class="body"><div class="lab" data-en="EP.04 · Space">EP.04 · 空间轴</div><h3 data-en="Rivers and Mountains">万里河山</h3><div class="cn" data-en="Measuring civilization along its rivers and mountains">沿山河通道丈量文明版图</div><p data-en="Along one Yellow River lies a whole people’s origin.">一条黄河边，有整个民族的来路。</p><span class="soontag" data-en="In production">制作中</span></div>
     </div>
-  </article>
-  <article class="film wip">
-    <div class="cover"><span class="zi-big">人生</span></div>
-    <div class="info">
-      <div class="no">EP.05 · 人的维度</div>
-      <h3>百态人生</h3>
-      <div class="axis-tag">回归到具体的人，四种理想人生</div>
-      <p>一盏青灯下，有读书人的一生。</p>
-      <span class="badge">制作中</span>
+    <div class="ep soon reveal">
+      <div class="cover">人生</div>
+      <div class="body"><div class="lab" data-en="EP.05 · People">EP.05 · 人的维度</div><h3 data-en="A Hundred Lives">百态人生</h3><div class="cn" data-en="Back to real people — four ideal lives">回归具体的人，四种理想人生</div><p data-en="Under one dim lamp is a scholar’s whole life.">一盏青灯下，有读书人的一生。</p><span class="soontag" data-en="In production">制作中</span></div>
     </div>
-  </article>
-</div>
+  </div>
+</div></section>
 
-<h2>一套美学体系</h2>
-<p class="sec-sub">不是一条条零散的 AI 视频，而是一套统一的视觉语言——每个系列有专属色调，五个系列共享同一套视觉基因。</p>
-<div class="aes">
-  <div><h4>纸工艺拼贴</h4><p>剪纸、旧纸纹理与拼贴质感，让 AI 生成的画面落回手工的温度。</p></div>
-  <div><h4>Vox 式解说</h4><p>动作图形 + 信息密度 + 节奏感的解说叙事，把宏大叙事讲成可感知的具体事物。</p></div>
-  <div><h4>可复用的框架</h4><p>一套提示词写作框架与叙事骨架，可迁移到任何文化主题上继续生长。</p></div>
-</div>
+<section><div class="wrap">
+  <div class="eyebrow reveal" style="text-align:center">Aesthetics</div>
+  <h2 class="sec-title serif reveal" data-en="An Aesthetic System">一套美学体系</h2>
+  <p class="sec-sub reveal" data-en="Not scattered AI clips but one unified visual language — each series has its own palette, all five share the same visual genes.">不是一条条零散的 AI 视频，而是一套统一的视觉语言——每个系列有专属色调，五个系列共享同一套视觉基因。</p>
+  <div class="aes">
+    <div class="c reveal"><h4 data-en="Paper-collage craft">纸工艺拼贴</h4><p data-en="Cut-paper, aged-paper textures and collage bring AI-generated images back to the warmth of the handmade.">剪纸、旧纸纹理与拼贴质感，让 AI 生成的画面落回手工的温度。</p></div>
+    <div class="c reveal"><h4 data-en="Vox-style narration">Vox 式解说</h4><p data-en="Motion graphics + information density + rhythm, turning grand narratives into tangible, specific things.">动作图形 + 信息密度 + 节奏感的解说叙事，把宏大叙事讲成可感知的具体事物。</p></div>
+    <div class="c reveal"><h4 data-en="A reusable framework">可复用的框架</h4><p data-en="A prompt-writing framework and narrative skeleton that transfer to any cultural theme and keep growing.">一套提示词写作框架与叙事骨架，可迁移到任何文化主题上继续生长。</p></div>
+  </div>
+</div></section>
 
-<h2>还会继续画下去</h2>
-<p class="sec-sub">五个系列之外，这份中国文化的影像档案还有更多留白：</p>
-<div class="next-list">
-  <span><b>器物篇</b>衣冠风华 · 汉服 / 刺绣 / 银饰 / 布鞋</span>
-  <span><b>音律篇</b>宫商角徵 · 古琴 / 编钟 / 笛箫 / 琵琶</span>
-  <span><b>建筑篇</b>飞檐斗拱 · 园林 / 宫殿 / 民居 / 桥梁</span>
-  <span><b>饮食篇</b>酸甜苦辣 · 醋 / 酱 / 酒 / 蜜</span>
-  <span><b>书画篇</b>笔墨春秋 · 书法 / 国画 / 篆刻 / 装裱</span>
-</div>
+<section><div class="wrap">
+  <div class="eyebrow reveal" style="text-align:center">To Be Continued</div>
+  <h2 class="sec-title serif reveal" data-en="More to Come">还会继续画下去</h2>
+  <p class="sec-sub reveal" data-en="Beyond the five series, this visual archive of Chinese culture leaves room for more:">五个系列之外，这份中国文化的影像档案还有更多留白：</p>
+  <div class="more">
+    <div class="m reveal"><b data-en="Objects">器物篇</b><span data-en="Attire &amp; adornment · hanfu / embroidery / silver / cloth shoes">衣冠风华 · 汉服 / 刺绣 / 银饰 / 布鞋</span></div>
+    <div class="m reveal"><b data-en="Music">音律篇</b><span data-en="The old scales · guqin / bells / flute / pipa">宫商角徵 · 古琴 / 编钟 / 笛箫 / 琵琶</span></div>
+    <div class="m reveal"><b data-en="Architecture">建筑篇</b><span data-en="Eaves &amp; brackets · gardens / palaces / houses / bridges">飞檐斗拱 · 园林 / 宫殿 / 民居 / 桥梁</span></div>
+    <div class="m reveal"><b data-en="Food">饮食篇</b><span data-en="The flavors · vinegar / sauce / wine / honey">酸甜苦辣 · 醋 / 酱 / 酒 / 蜜</span></div>
+    <div class="m reveal"><b data-en="Brush">书画篇</b><span data-en="Ink through the ages · calligraphy / painting / seals / mounting">笔墨春秋 · 书法 / 国画 / 篆刻 / 装裱</span></div>
+  </div>
+</div></section>
 
-<div class="coda">
-  <p>一捧泥土里，有匠人的手温。<br>一枚饺子里，有土地的恩泽。<br>一盏青灯下，有读书人的一生。<br>一条黄河边，有整个民族的来路。</p>
-  <p class="last">风物长存，<em>中国不老</em>。</p>
-</div>
+<section class="closing"><div class="wrap">
+  <p class="poem serif reveal" data-en="In a handful of clay, a maker’s warmth.<br>In a single dumpling, the land’s bounty.<br>Under one dim lamp, a scholar’s life.<br>Along one Yellow River, a people’s origin.">一捧泥土里，有匠人的手温。<br>一枚饺子里，有土地的恩泽。<br>一盏青灯下，有读书人的一生。<br>一条黄河边，有整个民族的来路。</p>
+  <div class="big serif reveal" data-en="Landscapes endure; <em>China stays young</em>.">风物长存，<em>中国不老</em>。</div>
+  <p class="pitch reveal" data-en="This “humans do the vision, AI does the execution” pipeline can also tell the story of your brand, your city, or your cultural project.">这套「人做策划与审美、AI 负责执行」的流程，也可以用来讲你的品牌、你的城市、你的文化项目。</p>
+  <a class="btn reveal" href="https://daozhu1993-oss.github.io/v2/index.html#contact" data-en="Let’s talk — find me on the island →">想聊聊，来岛上找我 →</a>
+</div></section>
 
-<p class="invite">这套「人做策划与审美、AI 负责执行」的流程，也可以用来讲你的品牌、你的城市、你的文化项目。<br><a href="../v2/index.html#contact">想聊聊，来岛上找我 →</a></p>
+<footer><span data-en="© Daozhu · Fengwu · Redrawing China with the brush of AI">© 岛主 · 《风物中国》 · 用 AI 的笔触，重新描摹中国</span></footer>
 
-</main>
-
-<footer>© 岛主 · 《风物中国》 · 用 AI 的笔触，重新描摹中国</footer>
-
+<script>
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i%6,5)*45)+'ms';io.observe(el)});
+const langbtn=document.getElementById('langbtn');
+let EN=false;
+langbtn.addEventListener('click',()=>{
+  EN=!EN;
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    if(el.dataset.zh===undefined) el.dataset.zh=el.innerHTML;
+    el.innerHTML = EN ? el.dataset.en : el.dataset.zh;
+  });
+  document.documentElement.lang = EN ? 'en' : 'zh-CN';
+  langbtn.textContent = EN ? '中' : 'EN';
+});
+</script>
 </body>
 </html>

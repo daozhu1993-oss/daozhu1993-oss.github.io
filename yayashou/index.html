@@ -92,12 +92,45 @@
     transition:transform .25s var(--ease),box-shadow .25s var(--ease);
   }
   .vi-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(44,42,38,.08);}
+  .vi-card:focus-visible{outline:3px solid rgba(127,168,107,.55);outline-offset:3px;}
   .vi-card .thumb{aspect-ratio:4/3;overflow:hidden;border-bottom:1px solid var(--line);background:#f4f1ea;}
   .vi-card .thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease);}
   .vi-card:hover .thumb img{transform:scale(1.04);}
   .vi-card .meta{padding:14px 16px;}
   .vi-card .meta h4{font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:4px;}
   .vi-card .meta p{font-size:12px;color:var(--ink-dim);}
+
+  /* 多元世界·第一弹 */
+  .multiverse-hero{
+    display:grid;grid-template-columns:minmax(230px,.82fr) minmax(0,1.45fr);
+    gap:18px;align-items:stretch;
+  }
+  .multiverse-copy,.multiverse-visual{
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;
+  }
+  .multiverse-copy{padding:28px 28px 30px;display:flex;flex-direction:column;justify-content:center;}
+  .multiverse-kicker{
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gold);
+    text-transform:uppercase;margin-bottom:18px;
+  }
+  .multiverse-copy h3{font-family:var(--serif);font-size:clamp(24px,3vw,34px);line-height:1.25;font-weight:600;margin-bottom:14px;}
+  .multiverse-copy p{font-size:14px;line-height:1.8;color:var(--ink-soft);max-width:32ch;}
+  .multiverse-link{
+    display:inline-flex;align-items:center;gap:8px;width:fit-content;margin-top:24px;
+    color:var(--sprout);font-family:var(--mono);font-size:12px;text-decoration:none;
+    border-bottom:1px solid rgba(127,168,107,.5);padding-bottom:4px;
+    transition:gap .2s var(--ease),color .2s var(--ease);
+  }
+  .multiverse-link:hover{gap:12px;color:var(--gold);}
+  .multiverse-visual{position:relative;display:block;text-decoration:none;color:inherit;}
+  .multiverse-visual img{display:block;width:100%;height:100%;min-height:260px;object-fit:cover;transition:transform .45s var(--ease);}
+  .multiverse-visual:hover img{transform:scale(1.025);}
+  .multiverse-visual-label{
+    position:absolute;left:18px;bottom:16px;padding:7px 10px;background:rgba(250,248,243,.9);
+    color:var(--ink-soft);font-family:var(--mono);font-size:10px;letter-spacing:.08em;border-radius:6px;
+  }
+  .multiverse-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px;}
+  .multiverse-grid .vi-card .thumb{aspect-ratio:16/9;}
 
   /* 科普绘本卡片 */
   .book-card{
@@ -141,6 +174,15 @@
     body{padding:0 18px 72px;}
     .topbar{margin:0 -18px 32px;padding:12px 18px;}
     .vi-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:720px){
+    .multiverse-hero{grid-template-columns:1fr;}
+    .multiverse-copy{padding:24px;}
+    .multiverse-visual img{min-height:0;aspect-ratio:16/9;}
+    .multiverse-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:420px){
+    .multiverse-grid{grid-template-columns:1fr;}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition:none!important;scroll-behavior:auto;}
@@ -218,8 +260,35 @@
       </div>
     </section>
 
+    <section id="multiverse">
+      <h2 class="sec-title"><span class="idx">03</span>多元世界·第一弹</h2>
+      <p class="sec-sub">从一个小盒子，到一整个可以摆放、组合、继续玩的故事。点图可放大，完整商品化展示页另开一页。</p>
+
+      <div class="multiverse-hero">
+        <article class="multiverse-copy">
+          <div class="multiverse-kicker">YAYA MULTIVERSE · FIRST WAVE</div>
+          <h3>一个先出发，两个会相遇，五位朋友把故事收起来。</h3>
+          <p>八个主题把芽芽兽带进城市、太空、森林、深海和夜晚阅读营地。角色本体保持一致，场景、配件和动作让每一盒都有下一步。</p>
+          <a class="multiverse-link" href="multiverse-productization-v04.html" target="_blank" rel="noopener">查看完整商品化展示页 <span>→</span></a>
+        </article>
+        <a class="multiverse-visual" href="multiverse-productization-v04.html" target="_blank" rel="noopener">
+          <img src="assets/multiverse/05-display-combination.png" alt="芽芽兽单个陈列、两款互动和 M08 五位朋友全员场景">
+          <span class="multiverse-visual-label">单个 / 两款 / M08 全员</span>
+        </a>
+      </div>
+
+      <div class="multiverse-grid">
+        <div class="vi-card" role="button" tabindex="0" aria-label="查看包装结构" data-cap="多元世界 · 包装结构"><div class="thumb"><img src="assets/multiverse/01-packaging-architecture.png" alt="芽芽兽多元世界单盒、整箱、展示盒与全员场景礼盒" loading="lazy"></div><div class="meta"><h4>包装结构</h4><p>单盒 / 整箱 / 展示盒 / 全员场景礼盒</p></div></div>
+        <div class="vi-card" role="button" tabindex="0" aria-label="查看八个主题与开盒内容" data-cap="多元世界 · 八个主题与开盒内容"><div class="thumb"><img src="assets/multiverse/02-open-box-content.png" alt="八款芽芽兽盲盒的角色、底座、配件与故事卡" loading="lazy"></div><div class="meta"><h4>八个主题</h4><p>角色、底座、配件和故事卡一一对应</p></div></div>
+        <div class="vi-card" role="button" tabindex="0" aria-label="查看角色与组合设计" data-cap="多元世界 · 角色与组合"><div class="thumb"><img src="assets/multiverse/04-roles.png" alt="芽芽兽多元世界角色与组合设计板" loading="lazy"></div><div class="meta"><h4>角色与组合</h4><p>本体一致，配件带来主题变化</p></div></div>
+        <div class="vi-card" role="button" tabindex="0" aria-label="查看陈列与互动关系" data-cap="多元世界 · 陈列与组合"><div class="thumb"><img src="assets/multiverse/05-display-combination.png" alt="芽芽兽单个陈列、两款互动和 M08 全员收束" loading="lazy"></div><div class="meta"><h4>陈列与互动</h4><p>单个怎么摆，两款怎么相遇</p></div></div>
+        <div class="vi-card" role="button" tabindex="0" aria-label="查看收藏版与亲子版分龄边界" data-cap="多元世界 · 安全与年龄"><div class="thumb"><img src="assets/multiverse/03-display-safety.png" alt="芽芽兽收藏展示版与 3 岁以上亲子大颗粒版" loading="lazy"></div><div class="meta"><h4>安全与年龄</h4><p>收藏展示版 / 3 岁以上亲子大颗粒版</p></div></div>
+        <div class="vi-card" role="button" tabindex="0" aria-label="查看生活应用场景" data-cap="多元世界 · 生活应用"><div class="thumb"><img src="assets/multiverse/06-lifestyle.png" alt="芽芽兽进入绘本旁、桌面、亲子练习和成长记录场景" loading="lazy"></div><div class="meta"><h4>生活应用</h4><p>绘本旁 / 桌面上 / 亲子练习 / 成长记录</p></div></div>
+      </div>
+    </section>
+
     <section id="books">
-      <h2 class="sec-title"><span class="idx">03</span>科普绘本</h2>
+      <h2 class="sec-title"><span class="idx">04</span>科普绘本</h2>
       <p class="sec-sub">围绕芽芽兽的科普向绘本——和「给一一的绘本」不同，这一辑更偏生活科普。每一本都从一个小麻烦开始，陪孩子做一次小行动。</p>
       <div class="vi-grid">
         <a class="book-card" href="books/book01.html" target="_blank" rel="noopener">
@@ -286,14 +355,21 @@
       var lb = document.getElementById('lightbox');
       var lbImg = document.getElementById('lightboxImg');
       var lbCap = document.getElementById('lightboxCap');
+      function openCard(card){
+        var img = card.querySelector('img');
+        lbImg.src = img.src;
+        lbImg.alt = img.alt || '';
+        lbCap.textContent = card.getAttribute('data-cap') || '';
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
       document.querySelectorAll('.vi-card').forEach(function(card){
-        card.addEventListener('click', function(){
-          var img = card.querySelector('img');
-          lbImg.src = img.src;
-          lbCap.textContent = card.getAttribute('data-cap') || '';
-          lb.classList.add('open');
-          document.body.style.overflow = 'hidden';
-        });
+        card.addEventListener('click', function(){openCard(card);});
+        if(card.getAttribute('tabindex') === '0'){
+          card.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' '){e.preventDefault();openCard(card);}
+          });
+        }
       });
       lb.addEventListener('click', function(){
         lb.classList.remove('open');

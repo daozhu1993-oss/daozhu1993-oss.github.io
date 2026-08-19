@@ -1,6 +1,6 @@
 /*!
  * 岛主个站 · 分享组件（单文件、零依赖）
- * 注入到思维模型 / AI 思考等单篇页面，提供：
+ * 注入到思维模型 / AI 思考 / 绘本 / 芽芽兽等单篇内容页，提供：
  *   1) 复制链接  2) 下载 HTML（离线可读单文件）  3) 导出长图（PNG，适合朋友圈/社群）
  * 用法：在 </body> 前加 <script src="../assets/share/share-widget.js"></script>
  */
@@ -184,25 +184,41 @@
   var h2cLoading = false;
   function exportImage() {
     if (h2cLoading) return;
-    var main = document.querySelector('main');
-    if (!main) { showToast('未找到正文，无法导出'); return; }
+    // 正文容器优先级：main > .book(绘本) > article > .content > body
+    var root = document.querySelector('main') ||
+               document.querySelector('.book') ||
+               document.querySelector('article') ||
+               document.querySelector('.content') ||
+               document.body;
+    if (!root) { showToast('未找到正文，无法导出'); return; }
     showToast('正在生成长图…');
     loadH2C().then(function (h2c) {
-      var clone = main.cloneNode(true);
-      clone.querySelectorAll('.site-header,.article-nav,.related-models,footer,.footer,nav').forEach(function (n) { n.remove(); });
-      // 还原 main 自身的内外边距，避免在窄框里被压扁
+      // 翻页式绘本：临时展开所有页面，整本导出；同时量出真实高度以自适应清晰度
+      var pages = root.querySelectorAll ? root.querySelectorAll('.page') : [];
+      var saved = [];
+      pages.forEach(function (p) { saved.push(p.style.display); p.style.display = 'block'; });
+      var est = root.scrollHeight || root.offsetHeight || (pages.length * 900) || 4000;
+      var clone = root.cloneNode(true);
+      pages.forEach(function (p, i) { p.style.display = saved[i] || ''; }); // 还原原始翻页状态
+
+      clone.querySelectorAll('.site-header,.article-nav,.related-models,footer,.footer,nav,.nav-dots,.book-nav,.page-nav,.toolbar').forEach(function (n) { n.remove(); });
       clone.style.maxWidth = '100%';
       clone.style.margin = '0';
       clone.style.padding = '0';
 
+      // 内容过高（如整本绘本）时降为 1 倍，规避浏览器画布尺寸上限
+      var scale = est > 12000 ? 1 : 2;
+
       var wrapper = document.createElement('div');
       wrapper.style.cssText = 'position:fixed;left:-10000px;top:0;width:760px;padding:0;background:#fbf7ee;';
 
+      var isBook = !!document.querySelector('.book');
+      var brand = isBook ? '给一一的成长绘本' : '岛主 · 思享';
       var head = document.createElement('div');
       var sub = getSub();
       head.style.cssText = 'padding:52px 52px 6px;background:#fbf7ee;font-family:"Noto Serif SC",serif;color:#2c2620;';
       head.innerHTML =
-        '<div style="font-size:13px;letter-spacing:.18em;color:#9a6a32;margin-bottom:12px;">岛主 · 思享</div>' +
+        '<div style="font-size:13px;letter-spacing:.18em;color:#9a6a32;margin-bottom:12px;">' + escapeHtml(brand) + '</div>' +
         '<div style="font-size:30px;font-weight:700;line-height:1.3;">' + escapeHtml(getTitle()) + '</div>' +
         (sub ? '<div style="font-size:15px;color:#8a8074;margin-top:10px;">' + escapeHtml(sub) + '</div>' : '');
 
@@ -212,7 +228,7 @@
 
       var credit = document.createElement('div');
       credit.style.cssText = 'padding:0 52px 44px;background:#fbf7ee;font-size:12px;color:#a89e90;text-align:center;font-family:"Noto Serif SC",serif;';
-      credit.textContent = '岛主 · daozhu1993-oss.github.io';
+      credit.textContent = isBook ? '岛主 · 给一一的成长绘本' : '岛主 · daozhu1993-oss.github.io';
 
       wrapper.appendChild(head);
       wrapper.appendChild(body);
@@ -220,7 +236,7 @@
       document.body.appendChild(wrapper);
 
       h2cLoading = true;
-      h2c(wrapper, { backgroundColor: '#fbf7ee', scale: 2, useCORS: true, logging: false }).then(function (canvas) {
+      h2c(wrapper, { backgroundColor: '#fbf7ee', scale: scale, useCORS: true, logging: false }).then(function (canvas) {
         document.body.removeChild(wrapper);
         h2cLoading = false;
         canvas.toBlob(function (blob) {

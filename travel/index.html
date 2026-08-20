@@ -14,6 +14,8 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
   <!-- ============ 顶部导航 ============ -->
   <header class="app-header">
     <div class="wrap bar">
@@ -21,7 +23,7 @@
         <span class="logo">🧳</span>
         <span class="name">岛主和佳佳的旅行手账<small>SLOW CHINA · 慢游中国</small></span>
       </div>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="页面导航">
         <a href="#customize">定制路线</a>
         <a href="#result">我的行程</a>
         <a href="#footprints">我们的足迹</a>
@@ -29,25 +31,24 @@
     </div>
   </header>
 
+  <main id="main-content">
+
   <!-- ============ Hero（沉浸式照片封面） ============ -->
   <section class="hero">
     <img class="hero-bg" id="heroBg" alt="中国山水风光" />
     <div class="hero-scrim"></div>
     <div class="hero-inner wrap">
-      <div class="kicker">SLOW CHINA · 慢慢走中国</div>
-      <h1>把偏好、节奏与真实约束<br/>交给一套路线引擎，<em>长一条能出发的路</em></h1>
+      <div class="kicker">SLOW CHINA / 慢慢走中国</div>
+      <h1>把喜欢的地方，<em>串成一条能出发的路</em></h1>
       <p class="lead">
-        这是岛主和佳佳的旅行手账。我们不爱赶场，只爱把喜欢的地儿串成一条顺的线——
-        你告诉它想去几天、什么节奏、爱吃什么拍什么、有没有娃和老人要顾及，
-        它就把这些长成一份带着地图、时间线和吃喝故事的行程。
+        这是岛主和佳佳的旅行手账。我们不爱赶场，只爱把喜欢的地儿串成一条顺的线。
+        告诉我们想去几天、喜欢什么、要避开什么，路线会替你把顺序理清。
       </p>
       <div class="meta">
-        <span>🇨🇳 国内目的地 40+</span>
-        <span>🗺️ 自动串成不绕路的线</span>
-        <span>🍜 每天都有吃喝 &amp; 出片</span>
-        <span>📖 每一站都有故事</span>
+        <span>40+ 个国内目的地</span>
+        <span>按你的节奏串成一条路线</span>
       </div>
-      <a class="hero-cta" href="#customize">✨ 开始定制我的路线</a>
+      <a class="hero-cta" href="#customize">开始定制我的路线</a>
       <div class="hero-credit" id="heroCredit"></div>
     </div>
   </section>
@@ -55,7 +56,7 @@
   <!-- ============ 灵感相册（真实旅行图） ============ -->
   <section class="inspo wrap" id="inspo">
     <div class="inspo-head">
-      <span class="kicker">INSPO · 灵感相册</span>
+      <span class="kicker">INSPO / 灵感相册</span>
       <h2>中国很大，慢慢走才看得清</h2>
     </div>
     <div class="inspo-strip" id="inspoStrip"></div>
@@ -65,7 +66,7 @@
   <section class="wrap" id="customize">
     <div class="customize">
       <div class="hd">
-        <span class="badge">AI 路线引擎</span>
+          <span class="badge">路线工作台</span>
         <div>
           <h2>告诉我，你想怎么走</h2>
           <p>选得越具体，长出来的路线越像为你量身定做。</p>
@@ -77,19 +78,19 @@
       <div class="form-grid">
         <!-- 出发地 -->
         <div class="field">
-          <label><span class="ic">📍</span>从哪儿出发</label>
+          <label><span class="field-mark" aria-hidden="true"></span>从哪儿出发</label>
           <select id="origin"></select>
         </div>
 
         <!-- 天数 -->
         <div class="field">
-          <label><span class="ic">📅</span>总共多少天</label>
+          <label><span class="field-mark" aria-hidden="true"></span>总共多少天</label>
           <input type="number" id="days" min="2" max="21" value="7" />
         </div>
 
         <!-- 季节 -->
         <div class="field">
-          <label><span class="ic">🌤️</span>打算什么季节去</label>
+          <label><span class="field-mark" aria-hidden="true"></span>打算什么季节去</label>
           <select id="month">
             <option value="auto">不限 / 自动挑合适地儿</option>
             <option value="1">1 月 · 隆冬</option>
@@ -109,7 +110,7 @@
 
         <!-- 预算 -->
         <div class="field">
-          <label><span class="ic">💰</span>预算取向</label>
+          <label><span class="field-mark" aria-hidden="true"></span>预算取向</label>
           <select id="budget">
             <option value="econ">尽量省钱</option>
             <option value="mid" selected>舒适适中</option>
@@ -119,41 +120,41 @@
 
         <!-- 偏好（多选） -->
         <div class="field full">
-          <label><span class="ic">🎒</span>你偏爱什么（可多选）</label>
+          <label><span class="field-mark" aria-hidden="true"></span>你偏爱什么（可多选）</label>
           <div class="chips">
-            <span class="chip" data-tag="自然"><span class="dot" style="background:var(--olive)"></span>自然山水</span>
-            <span class="chip" data-tag="人文"><span class="dot" style="background:var(--atlantic)"></span>古城人文</span>
-            <span class="chip" data-tag="美食"><span class="dot" style="background:var(--saffron)"></span>美食吃喝</span>
-            <span class="chip" data-tag="出片"><span class="dot" style="background:var(--rose)"></span>拍照出片</span>
-            <span class="chip" data-tag="亲子"><span class="dot" style="background:var(--terracotta)"></span>亲子友好</span>
+            <button type="button" class="chip" data-tag="自然" aria-pressed="false"><span class="dot" style="background:var(--olive)"></span>自然山水</button>
+            <button type="button" class="chip" data-tag="人文" aria-pressed="false"><span class="dot" style="background:var(--atlantic)"></span>古城人文</button>
+            <button type="button" class="chip" data-tag="美食" aria-pressed="false"><span class="dot" style="background:var(--saffron)"></span>美食吃喝</button>
+            <button type="button" class="chip" data-tag="出片" aria-pressed="false"><span class="dot" style="background:var(--rose)"></span>拍照出片</button>
+            <button type="button" class="chip" data-tag="亲子" aria-pressed="false"><span class="dot" style="background:var(--terracotta)"></span>亲子友好</button>
           </div>
         </div>
 
         <!-- 节奏 -->
         <div class="field full">
-          <label><span class="ic">🐢</span>旅行节奏</label>
+          <label><span class="field-mark" aria-hidden="true"></span>旅行节奏</label>
           <div class="seg">
-            <button data-pace="slow">慢慢游<small>每站住久点</small></button>
-            <button data-pace="mid">适中<small>松紧刚好</small></button>
-            <button data-pace="fast">紧凑<small>多看几站</small></button>
+            <button type="button" data-pace="slow" aria-pressed="false">慢慢游<small>每站住久点</small></button>
+            <button type="button" data-pace="mid" aria-pressed="true">适中<small>松紧刚好</small></button>
+            <button type="button" data-pace="fast" aria-pressed="false">紧凑<small>多看几站</small></button>
           </div>
         </div>
 
         <!-- 真实约束（多选） -->
         <div class="field full">
-          <label><span class="ic">🧩</span>真实约束（可多选）</label>
+          <label><span class="field-mark" aria-hidden="true"></span>真实约束（可多选）</label>
           <div class="chips">
-            <span class="chip" data-cons="kids">👶 带娃</span>
-            <span class="chip" data-cons="elder">🧓 带老人</span>
-            <span class="chip" data-cons="nohike">🚫 不爬山</span>
-            <span class="chip" data-cons="noplateau">⛰️ 不去高原</span>
-            <span class="chip" data-cons="frugal">💡 尽量省钱</span>
+            <button type="button" class="chip" data-cons="kids" aria-pressed="false">带娃</button>
+            <button type="button" class="chip" data-cons="elder" aria-pressed="false">带老人</button>
+            <button type="button" class="chip" data-cons="nohike" aria-pressed="false">不爬山</button>
+            <button type="button" class="chip" data-cons="noplateau" aria-pressed="false">不去高原</button>
+            <button type="button" class="chip" data-cons="frugal" aria-pressed="false">尽量省钱</button>
           </div>
         </div>
 
         <!-- 交通 -->
         <div class="field">
-          <label><span class="ic">🚄</span>长途交通偏好</label>
+          <label><span class="field-mark" aria-hidden="true"></span>长途交通偏好</label>
           <select id="transport">
             <option value="any">都行</option>
             <option value="rail">高铁优先</option>
@@ -164,16 +165,16 @@
       </div>
 
       <div class="gen-row">
-        <button class="btn-gen" id="genBtn">✨ 长出我的路线</button>
+        <button type="button" class="btn-gen" id="genBtn">长出我的路线</button>
         <span class="gen-hint">点一下，地图和每天的安排都会为你铺开。</span>
       </div>
     </div>
   </section>
 
   <!-- ============ 结果区 ============ -->
-  <section class="wrap result hidden" id="result">
+  <section class="wrap result hidden" id="result" aria-live="polite">
     <div class="trip-head">
-      <div class="kicker">你的慢游中国 · 已生成</div>
+      <div class="kicker">你的慢游中国 / 已生成</div>
       <h2 id="tripTitle">—</h2>
       <div class="sub" id="tripSub">—</div>
       <div class="progress">
@@ -184,16 +185,28 @@
 
     <!-- 地图 -->
     <div class="map-card">
-      <div class="map-title"><span>🗺️ 路线在地图上长出来（橄榄点是我们走过的足迹）</span><span id="mapNow"></span></div>
-      <svg id="mapSvg" class="map-svg" viewBox="0 0 680 520" role="img" aria-label="旅行路线地图"></svg>
+      <div class="map-title"><span>路线在地图上长出来 <small>橄榄点是我们走过的足迹</small></span></div>
+      <div class="map-layout">
+        <div class="map-stage">
+          <svg id="mapSvg" class="map-svg" viewBox="0 0 680 520" role="img" aria-label="旅行路线地图"></svg>
+        </div>
+        <aside class="map-aside" aria-label="路线顺序">
+          <div class="map-aside-head">
+            <span>这条线怎么走</span>
+            <strong id="mapNow">点击行程查看</strong>
+          </div>
+          <ol class="map-stops" id="mapStops"></ol>
+          <p class="map-note" id="mapNote">编号对应地图上的停靠点。橄榄色小点，是我们已经走过的地方。</p>
+        </aside>
+      </div>
     </div>
 
     <!-- 视图切换 -->
-    <div class="tabs">
-      <button class="tab on" data-view="route"><span class="ic">🧭</span>路线</button>
-      <button class="tab" data-view="photo"><span class="ic">📷</span>出片</button>
-      <button class="tab" data-view="food"><span class="ic">🍜</span>吃喝</button>
-      <button class="tab" data-view="story"><span class="ic">📖</span>故事</button>
+    <div class="tabs" role="tablist" aria-label="行程内容视图">
+      <button type="button" role="tab" aria-selected="true" class="tab on" data-view="route">路线</button>
+      <button type="button" role="tab" aria-selected="false" class="tab" data-view="photo">出片</button>
+      <button type="button" role="tab" aria-selected="false" class="tab" data-view="food">吃喝</button>
+      <button type="button" role="tab" aria-selected="false" class="tab" data-view="story">故事</button>
     </div>
 
     <!-- 每日卡片 -->
@@ -206,12 +219,14 @@
   <!-- ============ 我们的足迹 ============ -->
   <section class="wrap footprints" id="footprints">
     <div class="fp-head">
-      <div class="kicker">SLOW CHINA · 走过的</div>
+      <div class="kicker">SLOW CHINA / 走过的</div>
       <h2>岛主和佳佳的足迹</h2>
       <p>这趟手账，是从我们一起走过的地儿里长出来的。下面这些，是我们真实去过的（种子清单，等你把小红书日记里的地儿补全）。</p>
     </div>
     <div class="fp-grid" id="fpGrid"></div>
   </section>
+
+  </main>
 
   <!-- ============ 页脚 ============ -->
   <footer class="app-footer">

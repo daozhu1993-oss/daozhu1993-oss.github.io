@@ -75,6 +75,24 @@
     const x = Math.sin(dLat / 2) ** 2 + Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) ** 2;
     return 2 * R * Math.asin(Math.sqrt(x));
   }
+  // ponytail: 城市坐标只能做路线级估算；接入道路导航 API 后再替换这两个常量。
+  const DRIVE_ROAD_FACTOR = 1.25;
+  const DRIVE_AVG_KMH = 65;
+  function formatDriveTime(hours) {
+    const minutes = Math.max(30, Math.round(hours * 60 / 10) * 10);
+    const h = Math.floor(minutes / 60), m = minutes % 60;
+    return h ? `${h}小时${m ? `${m}分` : ""}` : `${m}分钟`;
+  }
+  function driveLeg(from, to) {
+    const km = Math.max(1, Math.round(geoKm(from.coord, to.coord) * DRIVE_ROAD_FACTOR / 10) * 10);
+    const hours = km / DRIVE_AVG_KMH;
+    return { km, hours, label: `约 ${km} 公里 · 约 ${formatDriveTime(hours)} 车程` };
+  }
+  function planPoints(plan) {
+    const points = [plan.origin, ...plan.stops.map((s) => s.dest)];
+    if (plan.returnToOrigin) points.push(plan.origin);
+    return points;
+  }
   const byId = (id) => D.destinations.find((d) => d.id === id);
 
   /* ---------------- 真实照片（来自 Wikimedia Commons，与参考站同源） ----------------
@@ -143,7 +161,7 @@
         i = (i + 1) % alloc.length;
       }
       const stopsWithDays = route.map((d, k) => ({ dest: d, days: alloc[k] }));
-      return { origin, stops: stopsWithDays, fixed: true };
+      return { origin, stops: stopsWithDays, fixed: true, returnToOrigin: state.transport === "drive" };
     }
     const cand = D.destinations.filter((d) => d.id !== state.origin);
     cand.forEach((d) => (d._s = scoreDest(d)));
@@ -166,7 +184,9 @@
         if (used.has(d.id)) continue;
         const km = geoKm(prev, d.coord);
         // 离上一站越近越好（避免折返），但分数权重更高
-        const key = d._s - km / 380;
+        // 自驾最后一站还要承担回到出发地的路程，避免把远端目的地随手排成终点
+        const returnKm = state.transport === "drive" && i === stops - 1 ? geoKm(d.coord, origin.coord) : 0;
+        const key = d._s - km / 380 - returnKm / 380;
         if (key > bestKey) { bestKey = key; best = d; }
       }
       if (!best) break;
@@ -193,20 +213,17 @@
     }
 
     const stopsWithDays = route.map((d, i) => ({ dest: d, days: alloc[i] }));
-    return { origin, stops: stopsWithDays };
+    return { origin, stops: stopsWithDays, returnToOrigin: state.transport === "drive" };
   }
 
   /* ---------------- 渲染：行程头 ---------------- */
   function renderHead(plan) {
     const regions = new Set(plan.stops.map((s) => s.dest.region));
     const regionName = regions.size === 1 ? D.REGIONS[[...regions][0]].name : "环游";
-    const seq = [plan.origin.name, ...plan.stops.map((s) => s.dest.name)].join(" → ");
+    const routePoints = planPoints(plan);
+    const seq = routePoints.map((d, i) => plan.returnToOrigin && i === routePoints.length - 1 ? `${d.name}（返程）` : d.name).join(" → ");
     const totalDays = plan.stops.reduce((a, b) => a + b.days, 0);
-    const totalKm = (() => {
-      let km = 0, prev = plan.origin.coord;
-      plan.stops.forEach((s) => { km += geoKm(prev, s.dest.coord); prev = s.dest.coord; });
-      return Math.round(km);
-    })();
+    const totalKm = routePoints.slice(1).reduce((sum, d, i) => sum + geoKm(routePoints[i].coord, d.coord), 0);
 
     const title = state.presetLabel ? state.presetLabel : `${totalDays}天，慢游中国 · ${regionName}线`;
     $("#tripTitle").innerHTML = title;
@@ -214,12 +231,31 @@
     const fill = $("#progFill");
     fill.style.width = "0%";
     requestAnimationFrame(() => { setTimeout(() => (fill.style.width = "100%"), 80); });
-    $("#progLbl").textContent = `全程约 ${totalKm} 公里 · ${plan.stops.length} 站`;
+    if (plan.returnToOrigin) {
+      const legs = routePoints.slice(1).map((d, i) => driveLeg(routePoints[i], d));
+      const driveKm = legs.reduce((sum, leg) => sum + leg.km, 0);
+      const driveHours = legs.reduce((sum, leg) => sum + leg.hours, 0);
+      $("#progLbl").textContent = `自驾约 ${driveKm} 公里 · 约 ${formatDriveTime(driveHours)} 车程 · ${plan.stops.length} 站 · 回到起点`;
+    } else {
+      $("#progLbl").textContent = `全程约 ${Math.round(totalKm)} 公里 · ${plan.stops.length} 站`;
+    }
   }
 
   /* ---------------- 渲染：地图 ---------------- */
+  function setMapActive(index) {
+    const stop = $("#mapStops .map-stop[data-stop-index=\"" + index + "\"]");
+    const cityIndex = stop ? +(stop.dataset.cityIndex || index) : index;
+    $$("#mapSvg .city").forEach((c) => c.classList.toggle("now", +c.dataset.i === cityIndex));
+    $$("#mapStops .map-stop").forEach((stop) => stop.classList.toggle("now", +stop.dataset.stopIndex === index));
+    if (stop) $("#mapNow").textContent = stop.querySelector("strong").textContent;
+  }
+
   function renderMap(plan) {
-    const pts = [plan.origin, ...plan.stops.map((s) => s.dest)];
+    const routePoints = planPoints(plan).map((dest, i, points) => ({
+      dest,
+      kind: i === 0 ? "origin" : (plan.returnToOrigin && i === points.length - 1 ? "return" : "stop"),
+    }));
+    const pts = routePoints.map((p) => p.dest);
     const coords = pts.map((d) => project(d.coord[0], d.coord[1]));
     // 国界
     const bnd = D.chinaBoundary.map((p) => project(p[0], p[1]).join(",")).join(" ");
@@ -243,18 +279,52 @@
     // 路线
     const dAttr = coords.map((c, i) => (i === 0 ? "M" : "L") + c[0].toFixed(1) + " " + c[1].toFixed(1)).join(" ");
     let cities = "";
+    let stops = "";
     coords.forEach((c, i) => {
-      const isOrigin = i === 0;
+      const point = routePoints[i];
+      const isOrigin = point.kind === "origin";
+      const isReturn = point.kind === "return";
       const d = pts[i];
       const cls = "city" + (isOrigin ? " done" : "");
-      cities += `<circle class="${cls}" data-i="${i}" cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="4.5"/>`;
-      const lx = c[0] + 7, ly = c[1] - 6;
-      cities += `<text class="city-label" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}">${d.name.replace(/\s*\(.*\)/, "")}</text>`;
+      const label = d.name.replace(/\s*\(.*\)/, "");
+      if (!isReturn) {
+        const crowded = coords.slice(0, i).some((p) => dist(c, p) < 38);
+        const side = crowded && i % 2 ? -1 : 1;
+        const dx = side < 0 ? -12 : 12;
+        const dy = crowded ? (i % 2 ? 18 : -18) : -12;
+        const labelWidth = Math.max(44, label.length * 10 + 16);
+        const boxX = side < 0 ? dx - labelWidth : dx;
+        const textX = side < 0 ? dx - 8 : dx + 8;
+        const anchor = side < 0 ? "end" : "start";
+        cities += `<circle class="${cls}" data-i="${i}" cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="8.5"/>`;
+        cities += `<text class="city-number" x="${c[0].toFixed(1)}" y="${(c[1] + 3.5).toFixed(1)}" text-anchor="middle">${i + 1}</text>`;
+        cities += `<g class="city-label" transform="translate(${c[0].toFixed(1)} ${c[1].toFixed(1)})"><rect x="${boxX}" y="${dy - 17}" width="${labelWidth}" height="23" rx="7"/><text x="${textX}" y="${dy}" text-anchor="${anchor}">${label}</text></g>`;
+      }
+      const stopLabel = isReturn ? `返回 ${label}` : label;
+      const leg = i > 0 && plan.returnToOrigin ? driveLeg(pts[i - 1], d) : null;
+      const stopSub = isOrigin
+        ? "出发地"
+        : isReturn
+          ? `最后一天返程 · ${leg.label}`
+          : plan.returnToOrigin
+            ? `第 ${i} 站 · ${leg.label}`
+            : "第 " + i + " 站";
+      const cityIndex = isReturn ? 0 : i;
+      stops += `<li><button type="button" class="map-stop${isOrigin ? " now" : ""}${isReturn ? " return" : ""}" data-stop-index="${i}" data-city-index="${cityIndex}"><span class="stop-no">${String(i + 1).padStart(2, "0")}</span><span class="stop-copy"><strong>${stopLabel}</strong><small>${stopSub}</small></span></button></li>`;
     });
 
     $("#mapSvg").innerHTML =
       `<polygon class="cn-land" points="${bnd}"/>${hainan}${taiwan}${grid}${foots}` +
       `<path class="route" d="${dAttr}"/><path class="route drawn" d="${dAttr}"/>${cities}`;
+    $("#mapStops").innerHTML = stops;
+    const mapNote = $("#mapNote");
+    if (mapNote) {
+      mapNote.textContent = plan.returnToOrigin
+        ? "自驾公里数与车程按城市间道路距离估算，不含堵车、停车和景区接驳；出发前请再用导航确认。"
+        : "编号对应地图上的停靠点。橄榄色小点，是我们已经走过的地方。";
+    }
+    $$("#mapStops .map-stop").forEach((stop) => stop.addEventListener("click", () => setMapActive(+stop.dataset.stopIndex)));
+    setMapActive(0);
   }
 
   /* ---------------- 渲染：每日卡片 ---------------- */
@@ -264,18 +334,25 @@
     plan.stops.forEach((stop, si) => {
       const d = stop.dest;
       const n = stop.days;
+      const arrivalLabel = plan.returnToOrigin
+        ? ` · ${driveLeg(si === 0 ? plan.origin : plan.stops[si - 1].dest, d).label}`
+        : "";
       // 拆分亮点到若干天
       const fixed = d.highlights.filter((h) => h.fixed);
       const opt = d.highlights.filter((h) => !h.fixed);
       const cardCount = n >= 2 ? Math.min(2, n) : 1;
       if (cardCount === 1) {
-        days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name, sub: `${d.city} · 全程 ${stop.days} 天`, tags: d.tags, items: d.highlights, food: d.food, photo: d.photo, story: d.story });
+        days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name, sub: `${d.city} · 全程 ${stop.days} 天${arrivalLabel}`, tags: d.tags, items: d.highlights, food: d.food, photo: d.photo, story: d.story });
       } else {
         const half = Math.ceil(d.highlights.length / 2);
-        days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name + "（上）", sub: `${d.city} · 第 1/${n} 天`, tags: d.tags, items: d.highlights.slice(0, half), food: d.food, photo: d.photo, story: d.story });
+        days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name + "（上）", sub: `${d.city} · 第 1/${n} 天${arrivalLabel}`, tags: d.tags, items: d.highlights.slice(0, half), food: d.food, photo: d.photo, story: d.story });
         days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name + "（下）", sub: `${d.city} · 第 2/${n} 天`, tags: d.tags, items: d.highlights.slice(half), food: d.food, photo: d.photo, story: d.story });
       }
     });
+    if (plan.returnToOrigin && days.length) {
+      const lastStop = plan.stops[plan.stops.length - 1].dest;
+      days[days.length - 1].returnLeg = { city: plan.origin.name, ...driveLeg(lastStop, plan.origin) };
+    }
     return days;
   }
 
@@ -319,6 +396,9 @@
       } else if (view === "story") {
         bodyInner = `<div class="story-block"><span class="dayname">${day.city}</span>${day.story}</div>`;
       }
+      if (day.returnLeg) {
+        bodyInner += `<div class="return-leg"><span class="return-label">自驾返程</span><strong>最后一天返回${day.returnLeg.city}</strong><p>${day.returnLeg.label}。已把回到出发地的路程计入路线；出发前再确认还车、加油和高速时间。</p></div>`;
+      }
 
       // 封面图：除"出片"视图外，每个卡片顶部配一张真实旅行照
       if (view !== "photo" && day.destId) {
@@ -343,11 +423,7 @@
       list.appendChild(card);
 
       // 点击卡片 -> 高亮地图对应城市
-      card.addEventListener("click", () => {
-        $$("#mapSvg .city").forEach((c) => c.classList.remove("now"));
-        const target = $(`#mapSvg .city[data-i="${day.stop + 1}"]`);
-        if (target) target.classList.add("now");
-      });
+      card.addEventListener("click", () => setMapActive(day.stop + 1));
     });
 
     // 入场动画
@@ -380,7 +456,12 @@
       else if ([6, 7, 8].includes(m)) tips.push("夏季：南方多雨闷热，随身带伞与驱蚊；高原/草原白天晒、夜里凉。");
       else tips.push("春秋最舒服：昼夜温差仍在，备一件外套，拍照光线也最柔。");
     }
-    tips.push("交通：长途优先高铁/飞机，市内用打车+地铁；热门景区门票尽量提前在官方渠道预约。");
+    if (plan.returnToOrigin) {
+      const lastStop = plan.stops[plan.stops.length - 1];
+      tips.push(`交通：这是闭环自驾路线，最后一天从${lastStop ? lastStop.dest.name : "途中"}返回${plan.origin.name}；热门景区门票尽量提前在官方渠道预约。`);
+    } else {
+      tips.push("交通：长途优先高铁/飞机，市内用打车+地铁；热门景区门票尽量提前在官方渠道预约。");
+    }
     tips.push("节奏：把'团上安排'当主线，'有空可以这样加'留作弹性，别把每天排太满——旅行的余味在计划外。");
     $("#tipsBox").innerHTML = `<h3>出发前的小抄</h3><ul>${tips.map((t) => `<li>${t}</li>`).join("")}</ul>`;
   }
@@ -450,9 +531,21 @@
     set("#month", state.month);
     set("#budget", state.budget);
     set("#transport", state.transport);
-    $$(".seg button[data-pace]").forEach((b) => b.classList.toggle("on", b.dataset.pace === state.pace));
-    $$(".chip[data-tag]").forEach((c) => c.classList.toggle("on", state.tags.has(c.dataset.tag)));
-    $$(".chip[data-cons]").forEach((c) => c.classList.toggle("on", state.constraints.has(c.dataset.cons)));
+    $$(".seg button[data-pace]").forEach((b) => {
+      const on = b.dataset.pace === state.pace;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    $$(".chip[data-tag]").forEach((c) => {
+      const on = state.tags.has(c.dataset.tag);
+      c.classList.toggle("on", on);
+      c.setAttribute("aria-pressed", String(on));
+    });
+    $$(".chip[data-cons]").forEach((c) => {
+      const on = state.constraints.has(c.dataset.cons);
+      c.classList.toggle("on", on);
+      c.setAttribute("aria-pressed", String(on));
+    });
   }
 
   /* ---------------- UI 绑定 ---------------- */
@@ -482,16 +575,21 @@
     $$(".chip[data-tag]").forEach((chip) => {
       chip.addEventListener("click", () => {
         const t = chip.dataset.tag;
-        if (state.tags.has(t)) { state.tags.delete(t); chip.classList.remove("on"); }
-        else { state.tags.add(t); chip.classList.add("on"); }
+        if (state.tags.has(t)) { state.tags.delete(t); chip.classList.remove("on"); chip.setAttribute("aria-pressed", "false"); }
+        else { state.tags.add(t); chip.classList.add("on"); chip.setAttribute("aria-pressed", "true"); }
       });
     });
 
     // 节奏
     $$(".seg button[data-pace]").forEach((b) => {
       b.addEventListener("click", () => {
-        $$(".seg button[data-pace]").forEach((x) => x.classList.remove("on"));
-        b.classList.add("on"); state.pace = b.dataset.pace;
+        $$(".seg button[data-pace]").forEach((x) => {
+          x.classList.remove("on");
+          x.setAttribute("aria-pressed", "false");
+        });
+        b.classList.add("on");
+        b.setAttribute("aria-pressed", "true");
+        state.pace = b.dataset.pace;
       });
     });
 
@@ -499,16 +597,21 @@
     $$(".chip[data-cons]").forEach((chip) => {
       chip.addEventListener("click", () => {
         const t = chip.dataset.cons;
-        if (state.constraints.has(t)) { state.constraints.delete(t); chip.classList.remove("on"); }
-        else { state.constraints.add(t); chip.classList.add("on"); }
+        if (state.constraints.has(t)) { state.constraints.delete(t); chip.classList.remove("on"); chip.setAttribute("aria-pressed", "false"); }
+        else { state.constraints.add(t); chip.classList.add("on"); chip.setAttribute("aria-pressed", "true"); }
       });
     });
 
     // tabs
     $$(".tab[data-view]").forEach((tab) => {
       tab.addEventListener("click", () => {
-        $$(".tab[data-view]").forEach((x) => x.classList.remove("on"));
-        tab.classList.add("on"); state.view = tab.dataset.view;
+        $$(".tab[data-view]").forEach((x) => {
+          x.classList.remove("on");
+          x.setAttribute("aria-selected", "false");
+        });
+        tab.classList.add("on");
+        tab.setAttribute("aria-selected", "true");
+        state.view = tab.dataset.view;
         if (state.plan) renderDays(state.plan);
       });
     });
@@ -518,9 +621,6 @@
 
     // 回到顶部
     const totop = $("#totop");
-    window.addEventListener("scroll", () => {
-      totop.classList.toggle("show", window.scrollY > 600);
-    });
     totop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
     // 默认 pace 高亮
@@ -543,10 +643,15 @@
     bindUI();
     loadPhotos();          // 拉取照片清单 -> 设置 Hero 封面 / 灵感相册 / 足迹配图
     renderFootprints();    // 先出文字版，照片到位后 loadPhotos 内会重渲染
-    // Hero 封面轻微视差
+    // 用观察器处理首屏状态与回顶按钮，避免每一帧读取 scrollY。
     const hero = $(".hero");
-    window.addEventListener("scroll", () => {
-      if (hero) hero.classList.toggle("scrolled", window.scrollY > 40);
-    });
+    const totop = $("#totop");
+    if (hero && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        hero.classList.toggle("scrolled", !entry.isIntersecting);
+        totop.classList.toggle("show", !entry.isIntersecting);
+      }, { threshold: 0.08 });
+      observer.observe(hero);
+    }
   });
 })();

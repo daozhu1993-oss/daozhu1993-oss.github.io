@@ -5,37 +5,48 @@
  * ========================================================================= */
 
 :root {
-  /* —— 纸张与墨色 —— */
-  --paper:        #f7f2e8;
-  --paper-deep:   #ede4d6;
-  --paper-bright: #fcfaf5;
-  --ink:          #0d3155;   /* 深藏青，主文字（非纯黑，更有书卷气） */
-  --ink-soft:     #526779;
-  --ink-faint:    #8a98a6;
+  /* —— 纸张与墨色（温润纸感，最终调色） —— */
+  --paper:        #f5f0e7;
+  --paper-deep:   #e9dfd0;
+  --paper-bright: #fbf8f1;
+  --ink:          #173b57;   /* 深藏青，主文字（非纯黑，更有书卷气） */
+  --ink-soft:     #5e6f7b;
+  --ink-faint:    #8b989d;
 
   /* —— 叙事四色 —— */
-  --terracotta:   #bd5732;   /* 陶土红：主强调（路线/行动） */
-  --terracotta-d: #934127;
-  --saffron:      #bd8c2f;   /* 赭黄：美食/暖 */
-  --olive:        #6f7f42;   /* 橄榄绿：自然 */
-  --atlantic:     #3e759f;   /* 海蓝：人文/水 */
-  --rose:         #b0576f;   /* 故事/柔 */
+  --terracotta:   #b2573a;   /* 陶土红：主强调（路线/行动） */
+  --terracotta-d: #8e3f2b;
+  --saffron:      #a98543;   /* 赭黄：美食/暖 */
+  --olive:        #66764a;   /* 橄榄绿：自然 */
+  --atlantic:     #4a748c;   /* 海蓝：人文/水 */
+  --rose:         #966578;   /* 故事/柔 */
 
   /* —— 线框与阴影 —— */
-  --line:         #d8cdbd;
-  --line-strong:  #bcae9a;
-  --shadow:       0 16px 42px rgba(38, 50, 57, 0.10);
-  --shadow-sm:    0 4px 14px rgba(38, 50, 57, 0.08);
+  --line:         #d8cdbf;
+  --line-strong:  #b8a895;
+  --shadow:       0 20px 54px rgba(30, 53, 65, 0.09);
+  --shadow-sm:    0 8px 22px rgba(30, 53, 65, 0.07);
 
   /* —— 字体 —— */
   --serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", "STSong", Georgia, "Times New Roman", serif;
   --sans:  "PingFang SC", "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
 
-  /* —— 节奏 —— */
-  --r:   14px;
-  --r-sm: 9px;
-  --ease: cubic-bezier(.22,.61,.36,1);
-  --dur: 420ms;
+  /* —— 圆角 —— */
+  --r:      18px;
+  --r-sm:   10px;
+  --r-pill: 999px;
+
+  /* —— 动效令牌（统一节奏，便于全局调参） —— */
+  --ease:        cubic-bezier(.22,.61,.36,1);
+  --ease-in-out: cubic-bezier(.65,0,.35,1);
+  --dur:        420ms;
+  --dur-1:      240ms;
+  --dur-2:      420ms;
+  --dur-3:      680ms;
+
+  /* —— 间距标尺（4px 栅格，纵向韵律统一） —— */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
 }
 
 * { box-sizing: border-box; }
@@ -299,8 +310,23 @@ select:focus, input:focus { outline: none; border-color: var(--terracotta); box-
   background: var(--paper-bright); border: 1px solid var(--line); border-radius: var(--r);
   box-shadow: var(--shadow-sm); overflow: hidden; opacity: 0; transform: translateY(14px);
 }
-.day-card.in { animation: rise .5s var(--ease) forwards; }
-@keyframes rise { to { opacity: 1; transform: none; } }
+.day-card.in { opacity: 1; transform: none; animation: rise .5s var(--ease) both; }
+.day-card.instant { animation: none; } /* 切 Tab 等二次渲染：直接显形，不重放动画 */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* 地图站点点击 -> 对应日卡高亮闪一下 */
+.day-card.flash { box-shadow: 0 0 0 2px var(--terracotta), var(--shadow-sm); transition: box-shadow var(--dur-1) var(--ease); }
+
+/* ====================== 流畅层：生成后的编排式揭幕 ====================== */
+/* generate() 给 #result 加 .reveal-in，让头部/地图/标签/贴士错落上浮入场，
+   每日卡片仍由各自 .in 错落动画负责，二者不重叠。 */
+#result.reveal-in > .trip-head    { animation: su-rise .55s var(--ease) both; }
+#result.reveal-in > .map-card     { animation: su-rise .55s .08s var(--ease) both; }
+#result.reveal-in > .poster-launch{ animation: su-rise .55s .14s var(--ease) both; }
+#result.reveal-in > .poster-panel { animation: su-rise .55s .14s var(--ease) both; }
+#result.reveal-in > .tabs        { animation: su-rise .55s .18s var(--ease) both; }
+#result.reveal-in > .tips        { animation: su-rise .55s .26s var(--ease) both; }
+@keyframes su-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 .day-card .dc-head {
   display: flex; align-items: center; gap: 14px; padding: 16px 20px;
   border-bottom: 1px solid var(--line); background: linear-gradient(90deg, rgba(189,87,50,.06), transparent);
@@ -399,29 +425,7 @@ select:focus, input:focus { outline: none; border-color: var(--terracotta); box-
 /* 空状态 */
 .empty { text-align:center; color: var(--ink-soft); padding: 40px; font-family: var(--sans); }
 
-/* ====================== A 方案：旅行杂志感升级 ====================== */
-:root {
-  --paper:        #f5f0e7;
-  --paper-deep:   #e9dfd0;
-  --paper-bright: #fbf8f1;
-  --ink:          #173b57;
-  --ink-soft:     #5e6f7b;
-  --ink-faint:    #8b989d;
-  --terracotta:   #b2573a;
-  --terracotta-d: #8e3f2b;
-  --saffron:      #a98543;
-  --olive:        #66764a;
-  --atlantic:     #4a748c;
-  --rose:         #966578;
-  --line:         #d8cdbf;
-  --line-strong:  #b8a895;
-  --shadow:       0 20px 54px rgba(30, 53, 65, 0.09);
-  --shadow-sm:    0 8px 22px rgba(30, 53, 65, 0.07);
-  --r:            18px;
-  --r-sm:         10px;
-  --r-pill:       999px;
-}
-
+/* ====================== 杂志感升级（视觉细化层，沿用上方 :root 令牌） ====================== */
 button, input, select { font: inherit; }
 
 button:focus-visible,

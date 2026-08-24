@@ -323,7 +323,7 @@
         ? "自驾公里数与车程按城市间道路距离估算，不含堵车、停车和景区接驳；出发前请再用导航确认。"
         : "编号对应地图上的停靠点。橄榄色小点，是我们已经走过的地方。";
     }
-    $$("#mapStops .map-stop").forEach((stop) => stop.addEventListener("click", () => setMapActive(+stop.dataset.stopIndex)));
+    $$("#mapStops .map-stop").forEach((stop) => stop.addEventListener("click", () => { const idx = +stop.dataset.stopIndex; setMapActive(idx); scrollToDay(idx); }));
     setMapActive(0);
   }
 
@@ -565,7 +565,7 @@
     return days;
   }
 
-  function renderDays(plan) {
+  function renderDays(plan, animate) {
     const days = buildDays(plan);
     const view = state.view;
     const list = $("#dayList");
@@ -635,8 +635,11 @@
       card.addEventListener("click", () => setMapActive(day.stop + 1));
     });
 
-    // 入场动画
-    $$("#dayList .day-card").forEach((c, i) => setTimeout(() => c.classList.add("in"), 60 * i + 40));
+    // 入场动画：首次生成错落上浮；切 Tab 等二次渲染直接显形，不重放动画
+    $$("#dayList .day-card").forEach((c, i) => {
+      if (animate === false) { c.classList.add("in", "instant"); }
+      else setTimeout(() => c.classList.add("in"), 60 * i + 40);
+    });
   }
 
   function tlItem(h) {
@@ -675,14 +678,40 @@
     $("#tipsBox").innerHTML = `<h3>出发前的小抄</h3><ul>${tips.map((t) => `<li>${t}</li>`).join("")}</ul>`;
   }
 
+  /* ---------------- 地图 ↔ 每日卡片 双向联动 ---------------- */
+  let dayObserver = null;
+  // 点地图站点 -> 滚到对应日卡并轻闪
+  function scrollToDay(stopIndex) {
+    if (stopIndex <= 0) return; // 出发地无对应日卡
+    const card = $(`#dayList .day-card[data-stop="${stopIndex - 1}"]`);
+    if (!card) return;
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+    card.classList.add("flash");
+    setTimeout(() => card.classList.remove("flash"), 900);
+  }
+  // 滚读日卡 -> 地图高亮当前站（地图跟随阅读），形成一条连贯的线
+  function setupScrollSpy() {
+    if (dayObserver) dayObserver.disconnect();
+    const cards = $$("#dayList .day-card");
+    if (!("IntersectionObserver" in window) || !cards.length) return;
+    dayObserver = new IntersectionObserver((entries) => {
+      let best = null, bestRatio = 0;
+      entries.forEach((e) => { if (e.isIntersecting && e.intersectionRatio > bestRatio) { bestRatio = e.intersectionRatio; best = e.target; } });
+      if (best) setMapActive(+(best.dataset.stop) + 1);
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 1] });
+    cards.forEach((c) => dayObserver.observe(c));
+  }
+
   /* ---------------- 主流程 ---------------- */
   function generate() {
     const plan = buildPlan();
     state.plan = plan;
-    $("#result").classList.remove("hidden");
+    const result = $("#result");
+    result.classList.remove("hidden");
+    result.classList.remove("reveal-in"); void result.offsetWidth; // 复位，保证每次都能重放编排入场
     renderHead(plan);
     renderMap(plan);
-    renderDays(plan);
+    renderDays(plan, true);
     renderTips(plan);
     posterMarkup = "";
     const posterPanel = $("#posterPanel");
@@ -704,8 +733,11 @@
       note.textContent = "—— 这一程，替你把顺序理顺了";
       head.appendChild(note);
     }
-    // 滚动到结果
-    setTimeout(() => { const el = $("#result"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 120);
+    // 编排式揭幕：先平滑滚到结果区，再触发头部→地图→标签→贴士的错落上浮
+    result.scrollIntoView({ behavior: "smooth", block: "start" });
+    requestAnimationFrame(() => result.classList.add("reveal-in"));
+    setupScrollSpy();
+    setTimeout(() => result.classList.remove("reveal-in"), 1100);
   }
 
   /* ---------------- 足迹 ---------------- */
@@ -841,7 +873,7 @@
         tab.classList.add("on");
         tab.setAttribute("aria-selected", "true");
         state.view = tab.dataset.view;
-        if (state.plan) renderDays(state.plan);
+        if (state.plan) renderDays(state.plan, false);
       });
     });
 

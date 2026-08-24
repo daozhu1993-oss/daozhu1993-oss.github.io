@@ -201,6 +201,31 @@
       </div>
     </div>
 
+    <!-- 路线手账图 -->
+    <section class="poster-launch" aria-labelledby="posterTitle">
+      <div>
+        <span class="poster-kicker">分享版路线图</span>
+        <h3 id="posterTitle">把这次行程装进一张手账图</h3>
+        <p>保留真实的城市顺序、公里数和返程信息，再用一张长卷把旅途串起来。</p>
+      </div>
+      <button type="button" class="btn-poster" id="posterBtn">生成路线手账图</button>
+    </section>
+
+    <section class="poster-panel hidden" id="posterPanel" aria-labelledby="posterPanelTitle" aria-live="polite">
+      <div class="poster-panel-head">
+        <div>
+          <span class="poster-kicker">已生成</span>
+          <h3 id="posterPanelTitle">这趟路，值得留一张图</h3>
+        </div>
+        <div class="poster-tools">
+          <button type="button" class="btn-quiet" id="posterDownload">下载 PNG</button>
+          <button type="button" class="btn-quiet" id="posterDownloadSvg">下载 SVG</button>
+        </div>
+      </div>
+      <div class="poster-stage" id="posterStage"></div>
+      <p class="poster-status" id="posterStatus">路线图里的文字和公里数来自当前行程；风景图只是这一趟旅程的视觉底色。</p>
+    </section>
+
     <!-- 视图切换 -->
     <div class="tabs" role="tablist" aria-label="行程内容视图">
       <button type="button" role="tab" aria-selected="true" class="tab on" data-view="route">路线</button>

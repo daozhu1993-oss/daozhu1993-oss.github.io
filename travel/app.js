@@ -327,6 +327,215 @@
     setMapActive(0);
   }
 
+  /* ---------------- 渲染：路线手账图 ---------------- */
+  let posterMarkup = "";
+  const escapeXml = (value) => String(value == null ? "" : value)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+  const posterAssetUrl = (id, assets = {}) => {
+    if (assets[id]) return assets[id];
+    try { return new URL(coverSrc(id), document.baseURI).href; }
+    catch (_) { return coverSrc(id); }
+  };
+  function posterWrap(value, max) {
+    const text = String(value == null ? "" : value);
+    const lines = [], chars = [...text];
+    let line = "";
+    chars.forEach((char) => {
+      if (line.length >= max && char !== " ") { lines.push(line); line = ""; }
+      line += char;
+    });
+    if (line) lines.push(line);
+    return lines.length ? lines : [""];
+  }
+  function posterText(x, y, value, opts = {}) {
+    const lines = posterWrap(value, opts.max || 18);
+    const size = opts.size || 24;
+    const lineHeight = opts.lineHeight || Math.round(size * 1.45);
+    const attrs = `x="${x}" y="${y}" fill="${opts.fill || "#183b50"}" font-size="${size}" font-family="Noto Serif SC, Songti SC, serif" font-weight="${opts.weight || 500}"${opts.anchor ? ` text-anchor="${opts.anchor}"` : ""}`;
+    return `<text ${attrs}>${lines.map((line, i) => `<tspan x="${x}" dy="${i ? lineHeight : 0}">${escapeXml(line)}</tspan>`).join("")}</text>`;
+  }
+  function posterSegment(a, b) {
+    const mid = (a.y + b.y) / 2;
+    return `M ${a.x.toFixed(1)} ${a.y.toFixed(1)} C ${a.x.toFixed(1)} ${mid.toFixed(1)} ${b.x.toFixed(1)} ${mid.toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+  }
+  function posterMetrics(plan) {
+    if (!plan.returnToOrigin) return null;
+    const points = planPoints(plan);
+    const legs = points.slice(1).map((dest, i) => driveLeg(points[i], dest));
+    return {
+      legs,
+      km: legs.reduce((sum, leg) => sum + leg.km, 0),
+      hours: legs.reduce((sum, leg) => sum + leg.hours, 0),
+    };
+  }
+  function renderPoster(plan, assets = {}) {
+    const W = 1080, H = 1440, split = 458, rightX = split, rightW = W - split;
+    const points = planPoints(plan);
+    const metrics = posterMetrics(plan);
+    const regions = new Set(plan.stops.map((s) => s.dest.region));
+    const regionName = regions.size === 1 ? D.REGIONS[[...regions][0]].name : "环游";
+    const totalDays = plan.stops.reduce((sum, stop) => sum + stop.days, 0);
+    const title = state.presetLabel || `${totalDays}天 · ${regionName}线`;
+    const meta = metrics
+      ? `自驾 · ${metrics.km} 公里 · 约 ${formatDriveTime(metrics.hours)} 车程`
+      : `${totalDays}天 · ${plan.stops.length}站 · 慢游路线`;
+    const sceneDestinations = [plan.origin, ...plan.stops.map((s) => s.dest)].slice(0, 7);
+    const sceneH = H / Math.max(1, sceneDestinations.length);
+    const scenes = sceneDestinations.map((dest, i) => {
+      const href = escapeXml(posterAssetUrl(dest.id, assets));
+      return `<image href="${href}" x="${rightX}" y="${(i * sceneH).toFixed(1)}" width="${rightW}" height="${(sceneH + 2).toFixed(1)}" preserveAspectRatio="xMidYMid slice" filter="url(#posterPhoto)"/>`;
+    }).join("");
+    const routePoints = points.map((dest, i) => {
+      const progress = points.length > 1 ? i / (points.length - 1) : 0.5;
+      const x = rightX + rightW * (0.49 + Math.sin(i * 1.55) * 0.15);
+      const y = H - 112 - progress * (H - 224);
+      return { dest, x, y, isOrigin: i === 0, isReturn: plan.returnToOrigin && i === points.length - 1 };
+    });
+    const segmentMarkup = routePoints.slice(1).map((point, i) => `<path d="${posterSegment(routePoints[i], point)}" fill="none" stroke="#f3e5c9" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" opacity=".86"/><path d="${posterSegment(routePoints[i], point)}" fill="none" stroke="#1f6370" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#posterArrow)"/>`).join("");
+    const labelMarkup = routePoints.map((point, i) => {
+      const label = point.isReturn ? `返回 ${point.dest.name}` : point.dest.name;
+      const prev = i ? routePoints[i - 1].dest : null;
+      const leg = metrics && prev ? driveLeg(prev, point.dest) : null;
+      const sub = point.isOrigin ? "出发地" : point.isReturn ? `最后一天返程 · ${leg.label}` : `第 ${i} 站${leg ? ` · ${leg.label}` : ""}`;
+      const boxW = 214, boxH = point.isOrigin ? 62 : 86;
+      const boxX = point.x < rightX + rightW * 0.53 ? rightX + 68 : rightX + rightW - boxW - 28;
+      const boxY = Math.max(24, Math.min(H - boxH - 20, point.y - boxH / 2));
+      const fill = point.isReturn ? "#f4ead8" : "#f8f0de";
+      return `<g class="poster-node"><circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="24" fill="${fill}" stroke="#245d67" stroke-width="6"/><circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="12" fill="#d47754"/><rect x="${boxX.toFixed(1)}" y="${boxY.toFixed(1)}" width="${boxW}" height="${boxH}" rx="12" fill="#f8f0de" stroke="#245d67" stroke-width="3"/><text x="${(boxX + 18).toFixed(1)}" y="${(boxY + 30).toFixed(1)}" fill="#183b50" font-family="Noto Serif SC, Songti SC, serif" font-size="22" font-weight="700">${escapeXml(label)}</text>${boxH > 62 ? `<text x="${(boxX + 18).toFixed(1)}" y="${(boxY + 58).toFixed(1)}" fill="#52666b" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="15">${escapeXml(sub)}</text>` : ""}</g>`;
+    }).join("");
+    let dayNo = 1;
+    const itinerary = plan.stops.slice(0, 5).map((stop) => {
+      const start = dayNo, end = dayNo + stop.days - 1;
+      dayNo = end + 1;
+      return { day: start === end ? `DAY ${start}` : `DAY ${start}—${end}`, name: stop.dest.name };
+    });
+    const itineraryMarkup = itinerary.map((item, i) => {
+      const y = 410 + i * 92;
+      return `<text x="246" y="${y}" fill="#b35a4b" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="17" font-weight="700" letter-spacing="1.4">${item.day}</text>${posterText(246, y + 31, item.name, { max: 9, size: 23, lineHeight: 27, weight: 700 })}`;
+    }).join("");
+    const checklist = [
+      metrics ? "导航复核每段车程" : "确认交通与住宿",
+      metrics ? "最后一天留足返程" : "留出一段弹性时间",
+      "热门景区提前预约",
+      "给天气变化留余地",
+    ];
+    const checklistMarkup = checklist.map((item, i) => `<text x="72" y="${690 + i * 42}" fill="#52666b" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="20">□ ${escapeXml(item)}</text>`).join("");
+    const driveText = metrics
+      ? `总计约 ${metrics.km} 公里 · 约 ${formatDriveTime(metrics.hours)} 车程。公里数按城市坐标估算，出发前再用导航确认。`
+      : "路线按城市顺序生成，留一段空白给临时起意的风景。";
+    posterMarkup = `<svg class="poster-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeXml(title)}路线手账图">
+      <defs>
+        <filter id="posterPhoto" x="-10%" y="-10%" width="120%" height="120%"><feColorMatrix type="saturate" values=".62"/><feComponentTransfer><feFuncR type="linear" slope=".92" intercept=".06"/><feFuncG type="linear" slope=".92" intercept=".06"/><feFuncB type="linear" slope=".88" intercept=".08"/></feComponentTransfer></filter>
+        <filter id="posterPaper" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="7"/><feColorMatrix values="1 0 0 0 .75 0 1 0 0 .7 0 0 1 0 .58 0 0 0 .12 0"/></filter>
+        <marker id="posterArrow" viewBox="0 0 14 14" refX="11" refY="7" markerWidth="11" markerHeight="11" orient="auto"><path d="M 0 0 L 14 7 L 0 14 z" fill="#1f6370"/></marker>
+      </defs>
+      <rect width="${W}" height="${H}" fill="#b9c6c3"/>
+      <rect x="${rightX}" y="0" width="${rightW}" height="${H}" fill="#9aabb0"/>
+      ${scenes}
+      <rect x="${rightX}" y="0" width="${rightW}" height="${H}" fill="#6b6a53" opacity=".13"/>
+      <rect x="0" y="0" width="${split}" height="${H}" fill="#b9c6c3"/>
+      <path d="M 25 0 L 25 ${H} M 440 0 L 440 ${H}" stroke="#819694" stroke-width="2" opacity=".35"/>
+      <rect x="50" y="48" width="382" height="260" rx="8" fill="#ecdfc6" stroke="#8b8775" stroke-width="3" transform="rotate(-1 241 178)"/>
+      <rect x="50" y="48" width="382" height="260" rx="8" fill="#e6d7b8" opacity=".22" filter="url(#posterPaper)"/>
+      <text x="78" y="100" fill="#b35a4b" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="18" font-weight="700" letter-spacing="2">慢游中国 · ROUTE JOURNAL</text>
+      ${posterText(78, 166, title, { max: 12, size: 42, lineHeight: 52, weight: 700, fill: "#183b50" })}
+      <path d="M 78 225 H 285" stroke="#bd7254" stroke-width="5"/>
+      ${posterText(78, 263, meta, { max: 25, size: 18, lineHeight: 26, fill: "#52666b" })}
+      <rect x="36" y="348" width="182" height="220" rx="8" fill="#eee2cb" stroke="#8b8775" stroke-width="3" transform="rotate(-2 127 458)"/>
+      <text x="65" y="395" fill="#1f6370" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="23" font-weight="700">这一趟的提醒</text>
+      <path d="M 65 414 H 175" stroke="#1f6370" stroke-width="4"/>
+      ${posterText(65, 460, metrics ? "早晚温差大，返程别赶夜路。" : "别把每天排满，留一点临时起意。", { max: 9, size: 18, lineHeight: 33, fill: "#52666b" })}
+      <rect x="220" y="346" width="212" height="570" rx="8" fill="#efe3cd" stroke="#8b8775" stroke-width="3" transform="rotate(.8 326 631)"/>
+      <text x="246" y="382" fill="#1f6370" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="23" font-weight="700">行程手札</text>
+      <path d="M 246 397 H 350" stroke="#1f6370" stroke-width="4"/>
+      ${itineraryMarkup}
+      <rect x="36" y="604" width="182" height="270" rx="8" fill="#efe3cd" stroke="#8b8775" stroke-width="3" transform="rotate(1.2 127 739)"/>
+      <text x="65" y="650" fill="#b35a4b" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="23" font-weight="700">出发前清单</text>
+      <path d="M 65 666 H 164" stroke="#b35a4b" stroke-width="4"/>
+      ${checklistMarkup}
+      <rect x="42" y="970" width="390" height="238" rx="8" fill="#e9dfcc" stroke="#8b8775" stroke-width="3" transform="rotate(-1 237 1089)"/>
+      <text x="72" y="1026" fill="#1f6370" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="23" font-weight="700">${metrics ? "自驾指南" : "路上留白"}</text>
+      <path d="M 72 1042 H 166" stroke="#1f6370" stroke-width="4"/>
+      ${posterText(72, 1092, driveText, { max: 24, size: 18, lineHeight: 29, fill: "#52666b" })}
+      <g opacity=".75"><path d="M 20 1270 h 70 v 100 H 20z" fill="#8f6f4f"/><path d="M 27 1288 h 56 M 27 1310 h 56 M 27 1332 h 56" stroke="#e5d3b1" stroke-width="4"/><circle cx="55" cy="1282" r="8" fill="#e5d3b1"/></g>
+      ${segmentMarkup}
+      ${labelMarkup}
+      <text x="${rightX + 34}" y="${H - 34}" fill="#f6ecd7" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="15" letter-spacing="1">真实行程 · 手账视觉 · ${metrics ? "自驾闭环" : "慢游路线"}</text>
+    </svg>`;
+    const stage = $("#posterStage");
+    if (stage) stage.innerHTML = posterMarkup;
+    const status = $("#posterStatus");
+    if (status) status.textContent = metrics ? "路线节点、公里数和返程信息来自当前行程；风景图只是这一趟旅程的视觉底色。" : "路线节点和行程信息来自当前生成结果；风景图只是这一趟旅程的视觉底色。";
+  }
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url; link.download = filename; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 500);
+  }
+  function imageDataUrl(src) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      if (/^https?:/i.test(src)) image.crossOrigin = "anonymous";
+      image.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = image.naturalWidth || image.width;
+          canvas.height = image.naturalHeight || image.height;
+          if (!canvas.width || !canvas.height) throw new Error("image has no dimensions");
+          canvas.getContext("2d").drawImage(image, 0, 0);
+          resolve(canvas.toDataURL("image/jpeg", 0.92));
+        } catch (error) { reject(error); }
+      };
+      image.onerror = () => reject(new Error(`image failed: ${src}`));
+      image.src = src;
+    });
+  }
+  async function preparePosterAssets() {
+    if (!state.plan) return { assets: {}, failures: [] };
+    const ids = [...new Set([state.plan.origin.id, ...state.plan.stops.map((stop) => stop.dest.id)])];
+    const assets = {}, failures = [];
+    await Promise.all(ids.map(async (id) => {
+      try { assets[id] = await imageDataUrl(posterAssetUrl(id)); }
+      catch (_) { failures.push(id); }
+    }));
+    renderPoster(state.plan, assets);
+    return { assets, failures };
+  }
+  async function downloadPoster(kind) {
+    if (!posterMarkup || !state.plan) return;
+    const title = state.presetLabel || "旅行路线手账图";
+    const status = $("#posterStatus");
+    if (status) status.textContent = "正在把风景图嵌入下载文件…";
+    const { failures } = await preparePosterAssets();
+    if (failures.length && status) status.textContent = "部分风景图无法读取，正在保留可下载的路线与文字；请确认图片文件可访问。";
+    if (kind === "svg") {
+      downloadBlob(new Blob([posterMarkup], { type: "image/svg+xml;charset=utf-8" }), `${title}.svg`);
+      return;
+    }
+    if (status) status.textContent = "正在生成 PNG…";
+    const svgUrl = URL.createObjectURL(new Blob([posterMarkup], { type: "image/svg+xml;charset=utf-8" }));
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 2160; canvas.height = 2880;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#b9c6c3"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => {
+        if (blob) downloadBlob(blob, `${title}.png`);
+        if (status) status.textContent = "PNG 已准备下载；如果浏览器拦截，请再次点击下载。";
+        URL.revokeObjectURL(svgUrl);
+      }, "image/png");
+    };
+    image.onerror = () => {
+      if (status) status.textContent = "PNG 导出失败，可以先下载 SVG；路线图预览不受影响。";
+      URL.revokeObjectURL(svgUrl);
+    };
+    image.src = svgUrl;
+  }
+
   /* ---------------- 渲染：每日卡片 ---------------- */
   function buildDays(plan) {
     const days = [];
@@ -475,6 +684,11 @@
     renderMap(plan);
     renderDays(plan);
     renderTips(plan);
+    posterMarkup = "";
+    const posterPanel = $("#posterPanel");
+    if (posterPanel) posterPanel.classList.add("hidden");
+    const posterStage = $("#posterStage");
+    if (posterStage) posterStage.innerHTML = "";
     // 滚动到结果
     setTimeout(() => { const el = $("#result"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 120);
   }
@@ -618,6 +832,19 @@
 
     // 生成（手动：清掉预设，走评分引擎）
     $("#genBtn").addEventListener("click", () => { state.fixed = null; state.presetLabel = null; generate(); });
+
+    // 生成路线手账图
+    $("#posterBtn")?.addEventListener("click", () => {
+      if (!state.plan) return;
+      renderPoster(state.plan);
+      const panel = $("#posterPanel");
+      if (panel) {
+        panel.classList.remove("hidden");
+        setTimeout(() => panel.scrollIntoView({ behavior: "smooth", block: "start" }), 40);
+      }
+    });
+    $("#posterDownload")?.addEventListener("click", () => downloadPoster("png"));
+    $("#posterDownloadSvg")?.addEventListener("click", () => downloadPoster("svg"));
 
     // 回到顶部
     const totop = $("#totop");

@@ -688,7 +688,22 @@
     const posterPanel = $("#posterPanel");
     if (posterPanel) posterPanel.classList.add("hidden");
     const posterStage = $("#posterStage");
-    if (posterStage) posterStage.innerHTML = "";
+    if (posterStage)     posterStage.innerHTML = "";
+    // 愉悦细节：盖上「已规划」朱砂印 + 手写批注
+    const head = $("#result .trip-head");
+    if (head) {
+      const oldS = head.querySelector(".trip-stamp"); if (oldS) oldS.remove();
+      const stamp = document.createElement("div");
+      stamp.className = "trip-stamp";
+      stamp.setAttribute("aria-hidden", "true");
+      stamp.innerHTML = '<span class="mk">✦</span> 已规划 · 慢慢走';
+      head.appendChild(stamp);
+      const oldN = head.querySelector(".trip-script"); if (oldN) oldN.remove();
+      const note = document.createElement("p");
+      note.className = "trip-script";
+      note.textContent = "—— 这一程，替你把顺序理顺了";
+      head.appendChild(note);
+    }
     // 滚动到结果
     setTimeout(() => { const el = $("#result"); if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 120);
   }
@@ -831,7 +846,12 @@
     });
 
     // 生成（手动：清掉预设，走评分引擎）
-    $("#genBtn").addEventListener("click", () => { state.fixed = null; state.presetLabel = null; generate(); });
+    $("#genBtn").addEventListener("click", () => {
+      state.fixed = null; state.presetLabel = null;
+      const b = $("#genBtn");
+      if (b) { b.classList.remove("splat"); void b.offsetWidth; b.classList.add("splat"); setTimeout(() => b.classList.remove("splat"), 520); }
+      generate();
+    });
 
     // 生成路线手账图
     $("#posterBtn")?.addEventListener("click", () => {
@@ -849,6 +869,32 @@
     // 回到顶部
     const totop = $("#totop");
     totop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    // 彩蛋：连点三次品牌，手账里飘起几枚小符号
+    const brand = $(".brand");
+    if (brand) {
+      let taps = 0, resetT = null;
+      const glyphs = ["✈️", "🌿", "🏔️", "🧭", "🌄", "📷"];
+      brand.addEventListener("click", () => {
+        taps++;
+        clearTimeout(resetT);
+        resetT = setTimeout(() => (taps = 0), 1200);
+        if (taps >= 3) {
+          taps = 0;
+          for (let i = 0; i < glyphs.length; i++) {
+            const e = document.createElement("div");
+            e.className = "fly-emoji";
+            e.textContent = glyphs[i];
+            e.style.setProperty("--x", (18 + Math.random() * 64) + "vw");
+            e.style.setProperty("--dx", (Math.random() * 80 - 40) + "px");
+            e.style.setProperty("--rot", (Math.random() * 60 - 30) + "deg");
+            e.style.animationDelay = (i * 0.08) + "s";
+            document.body.appendChild(e);
+            setTimeout(() => e.remove(), 3200 + i * 80);
+          }
+        }
+      });
+    }
 
     // 默认 pace 高亮
     $('.seg button[data-pace="mid"]').classList.add("on");

@@ -1042,6 +1042,75 @@ select, input[type="number"], input[type="text"] {
 }
 
 /* 减少动效偏好 */
+/* ===================== 愉悦层：手账里的小惊喜 ===================== */
+/* 生成完成：盖一枚朱砂印 + 一行手写批注 */
+.trip-stamp {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 12px auto 0; padding: 7px 16px;
+  font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 2px;
+  color: var(--terracotta-d); border: 2px solid var(--terracotta);
+  border-radius: 11px; background: rgba(189,87,50,.05);
+  transform: rotate(-7deg); opacity: 1;
+  box-shadow: 0 2px 0 rgba(147,65,39,.16) inset;
+  animation: stampIn .55s var(--ease) .12s both;
+}
+.trip-stamp::after {
+  content: ""; position: absolute; inset: 3px; border-radius: 7px;
+  border: 1px dashed rgba(147,65,39,.32); pointer-events: none;
+}
+.trip-stamp .mk { color: var(--terracotta); font-size: 14px; }
+@keyframes stampIn {
+  0%   { opacity: 0; transform: rotate(-7deg) scale(1.9); }
+  55%  { opacity: 1; transform: rotate(-7deg) scale(.9); }
+  72%  { transform: rotate(-7deg) scale(1.05); }
+  100% { opacity: 1; transform: rotate(-7deg) scale(1); }
+}
+.trip-script {
+  margin: 10px 0 0; font-family: var(--serif); font-style: italic;
+  font-size: 14px; color: var(--ink-soft); letter-spacing: .5px;
+}
+
+/* 生成按钮：按下溅起一点墨 */
+.btn-gen { position: relative; overflow: hidden; }
+.btn-gen::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  transform: translate(-50%,-50%) scale(0); opacity: 0; pointer-events: none;
+}
+.btn-gen.splat::after { animation: splat .5s var(--ease); }
+@keyframes splat {
+  0%   { opacity: .6; transform: translate(-50%,-50%) scale(0); }
+  100% { opacity: 0;  transform: translate(-50%,-50%) scale(15); }
+}
+
+/* 路线节点：悬停落下一枚定位针 */
+.map-stop::after {
+  content: "\1F4CD"; position: absolute; right: 2px; top: 50%;
+  font-size: 13px; opacity: 0; transform: translateY(-12px) rotate(-10deg);
+  pointer-events: none;
+}
+.map-stop:hover::after, .map-stop:focus-within::after { animation: pinDrop .5s var(--ease) forwards; }
+@keyframes pinDrop {
+  0%   { opacity: 0; transform: translateY(-14px) rotate(-10deg); }
+  55%  { opacity: 1; transform: translateY(2px) rotate(-10deg); }
+  78%  { opacity: 1; transform: translateY(-3px) rotate(-10deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(-10deg); }
+}
+
+/* 彩蛋：手账里飘起的小符号 */
+.fly-emoji {
+  position: fixed; left: var(--x, 50%); bottom: 92px; z-index: 95;
+  font-size: 26px; pointer-events: none; opacity: 0;
+  animation: flyUp 2.6s var(--ease) forwards;
+}
+@keyframes flyUp {
+  0%   { opacity: 0; transform: translateY(0) rotate(0); }
+  15%  { opacity: .95; }
+  100% { opacity: 0; transform: translateY(-190px) translateX(var(--dx, 0)) rotate(var(--rot, 20deg)); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
   .map-svg .route { stroke-dashoffset: 0 !important; }

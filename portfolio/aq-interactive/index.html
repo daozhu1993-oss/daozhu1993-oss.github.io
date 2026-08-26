@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#151713" />
+    <meta name="description" content="未庄可行走叙事世界 v1.26：余温与回填。香炉里的火还没断气，门槛上的灰会自己长回来。你留下的，未庄都会慢慢抹平。" />
+    <title>未庄｜可行走叙事世界 v1.26</title>
+    <script type="module" crossorigin src="/portfolio/aq-interactive/assets/index-B5SCSoEW.js"></script>
+    <link rel="stylesheet" crossorigin href="/portfolio/aq-interactive/assets/index-C_7oy4TH.css">
+  </head>
+  <body>
+    <!-- v1.25 画风滤镜化：内联 SVG 噪声位移滤镜，给矢量人物与背景「打毛边」，统一水墨手绘质感 -->
+    <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+      <filter id="ink-rough" x="-6%" y="-6%" width="112%" height="112%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.016 0.02" numOctaves="2" seed="7" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="ink-rough-soft" x="-4%" y="-4%" width="108%" height="108%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="3" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="1.8" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+    <main class="game-shell" aria-label="未庄可行走叙事世界">
+      <canvas id="game-canvas" aria-label="未庄三维场景"></canvas>
+
+      <section class="painted-stage scene-tavern" id="painted-stage" aria-label="未庄酒店视觉现场">
+        <img class="painted-backdrop" id="painted-backdrop" src="/portfolio/aq-interactive/assets/weizhuang-tavern-bg-v1-BB2tZF3i.png" alt="黄昏时分的未庄酒店街口，远处是山，近处是石板路与旧屋" />
+        <div class="paint-depth painted-depth-haze" aria-hidden="true"></div>
+        <div class="paint-depth painted-depth-roof" aria-hidden="true"></div>
+        <div class="paint-depth painted-depth-cloth" aria-hidden="true"><i></i><i></i></div>
+        <div class="paint-dust" id="paint-dust" aria-hidden="true"></div>
+
+        <!-- v1.26 门槛灰痕：指认后你站过的地方留下一道痕迹；离开赵府后尘土自动回填，把它抹平 -->
+        <div class="threshold-dust" id="threshold-dust" hidden aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span class="threshold-trace"></span></div>
+        <div class="scene-effects ambient-tavern" id="scene-effects" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+        <div class="paint-exits" id="paint-exits" aria-hidden="true"></div>
+
+        <div class="paint-hotspots" id="paint-hotspots" aria-label="可观察的现场"></div>
+
+        <div class="paint-actor paint-player" id="paint-player" aria-label="你，未庄的看客">
+          <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-leg actor-leg-left"></span><span class="actor-leg actor-leg-right"></span><span class="actor-mark">看客</span>
+        </div>
+        <div class="paint-actor actor-aq has-character-image" id="paint-aq" aria-label="阿Q">
+          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/aq-character-cutout-v1-mGeb1Yg7.png" alt="阿Q，穿旧棉袄走在未庄街上" />
+          <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">阿Q</span>
+        </div>
+        <div class="paint-actor actor-wanghu has-character-image" id="paint-wanghu" aria-label="王胡">
+          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/wanghu-character-cutout-v1-CLrrNVY2.png" alt="王胡，穿深色坎肩走在未庄街上" />
+          <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">王胡</span>
+        </div>
+        <div class="paint-actor actor-xiaod has-character-image" id="paint-xiaod" aria-label="小D">
+          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/xiaod-character-cutout-v1-CVV3GHtB.png" alt="小D，穿灰蓝短褂走在未庄街上" />
+          <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">小D</span>
+        </div>
+        <div class="paint-actor actor-gatekeeper has-character-image" id="paint-gatekeeper" aria-label="赵府门房">
+          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/gatekeeper-character-cutout-v1-Kos0a4N_.png" alt="赵府门房，穿深色长坎肩守在门口" />
+          <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">门房</span>
+        </div>
+        <div class="conflict-link" id="conflict-link" aria-hidden="true" hidden></div>
+        <div class="conflict-event" id="conflict-event" aria-live="polite" hidden>
+          <span>现场变化</span><strong>擦肩以前</strong><small>一句话卡在两个人中间</small>
+        </div>
+        <div class="paint-scene-caption" aria-hidden="true"><span id="caption-label">视觉切片 · 2</span><strong id="caption-title">未庄酒店</strong></div>
+      </section>
+      <div class="grain" aria-hidden="true"></div>
+      <div class="vignette" aria-hidden="true"></div>
+      <div class="reaction-flash" id="reaction-flash" hidden aria-hidden="true"></div>
+
+      <header class="hud hud-top">
+        <div class="masthead">
+          <span class="seal">未</span>
+          <div>
+            <strong>未庄</strong>
+            <small>阿Q正传 · 可行走叙事世界 / v1.26 · 余温回填</small>
+          </div>
+        </div>
+        <div class="world-clock">
+          <span id="clock-label">申时 · 15:00</span>
+          <small id="weather-label">南风，微尘</small>
+        </div>
+        <div class="watcher-hud" id="watcher-hud" hidden aria-live="polite">
+          <span class="watcher-dot" aria-hidden="true"></span>
+          <span id="watcher-count">你在看 · 0 次沉默</span>
+        </div>
+        <button class="hud-button" id="key-button" type="button" title="给人物装对话大脑">对话 Key</button>
+        <button class="hud-button" id="sound-toggle" type="button" title="环境声与音效">声音 开</button>
+        <button class="hud-button" id="share-button" type="button" title="生成这一局的记录卡">带走这一局</button>
+        <button class="hud-button" id="reset-world" type="button">重置这一局</button>
+      </header>
+
+      <section class="mission-card" aria-live="polite">
+        <p class="eyebrow">今日的传记纸</p>
+        <h1>走进未庄，看看你会不会开口。</h1>
+        <p id="mission-copy">你以一个新搬来看客的身份落了脚。先别急着替谁说话，跟着人走，看事情会先露出哪一角。</p>
+        <p id="goal-copy">去土谷祠找阿Q，跟他说句话。</p>
+      </section>
+
+      <aside class="margin-panel" id="margin-panel" hidden aria-label="你在书页边的批注" aria-live="polite">
+        <div class="panel-heading">
+          <span class="eyebrow">书页边的批注</span>
+          <strong id="margin-count">0 / 4</strong>
+        </div>
+        <div class="margin-list" id="margin-list"></div>
+      </aside>
+
+      <aside class="world-map" aria-label="未庄地点">
+        <div class="panel-heading">
+          <span class="eyebrow">未庄地图</span>
+          <span id="map-status">四处可达</span>
+        </div>
+        <div class="map-lines" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <button class="map-node is-active" data-location="shrine" type="button"><b>01</b><span>土谷祠</span><small>阿Q住处</small></button>
+        <button class="map-node" data-location="tavern" type="button"><b>02</b><span>未庄酒店</span><small>传闻聚集</small></button>
+        <button class="map-node" data-location="lane" type="button"><b>03</b><span>未庄街巷</span><small>短工与交叉路线</small></button>
+        <button class="map-node" data-location="zhao" type="button"><b>04</b><span>赵府门口</span><small>规矩所在</small></button>
+      </aside>
+
+      <aside class="clue-panel" aria-live="polite">
+        <div class="panel-heading">
+          <span class="eyebrow">线索簿</span>
+          <strong id="clue-count">0 / 5</strong>
+        </div>
+        <div id="clue-list" class="clue-list">
+          <p class="empty-clue">走近一个人，或在路上等一会儿。你看到的才算数。</p>
+        </div>
+      </aside>
+
+      <section class="people-panel" aria-label="当前人物">
+        <div class="panel-heading"><span class="eyebrow">在场的人</span><span id="people-status">都在各自走动</span></div>
+        <div id="people-list" class="people-list"></div>
+      </section>
+
+      <footer class="hud hud-bottom">
+        <div class="control-hint"><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span><span>行走</span><span class="key key-wide">E</span><span>靠近时交涉</span></div>
+        <div class="location-readout"><span id="location-label">土谷祠</span><span class="dot"></span><span id="activity-label">风从祠堂后面绕出来</span></div>
+        <button class="wait-button" id="wait-button" type="button">等一会儿 <span>＋1分钟</span></button>
+      </footer>
+
+      <section class="interaction-card" id="interaction-card" hidden aria-live="polite">
+        <div class="interaction-marker">·</div>
+        <div class="interaction-copy">
+          <span id="interaction-kicker">你走近了</span>
+          <h2 id="interaction-title">有人在前面停下</h2>
+          <p id="interaction-body"></p>
+        </div>
+        <div class="interaction-actions" id="interaction-actions"></div>
+        <div class="interaction-input" id="interaction-input" hidden>
+          <p class="interaction-input-hint" id="interaction-input-hint"></p>
+          <form class="interaction-form" id="interaction-form">
+            <input type="text" id="interaction-text" placeholder="说点什么……" autocomplete="off" maxlength="120" />
+            <button type="submit" id="interaction-send">说这句话</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="dialog-panel" id="dialog-panel" hidden aria-live="polite">
+        <div class="dialog-head">
+          <span class="dialog-npc" id="dialog-npc">阿Q</span>
+          <button class="dialog-close" id="dialog-close" type="button">离开对话</button>
+        </div>
+        <div class="dialog-log" id="dialog-log" aria-live="polite"></div>
+        <form class="dialog-input" id="dialog-form">
+          <input type="text" id="dialog-text" placeholder="说点什么……" autocomplete="off" maxlength="120" />
+          <button type="submit" id="dialog-send">说</button>
+        </form>
+      </section>
+
+      <div class="ink-circle" id="ink-circle" hidden aria-hidden="true">
+        <svg viewBox="0 0 240 240" fill="none" aria-hidden="true">
+          <path d="M120 32 A88 88 0 1 1 110 33.6 q -12 -16 10 -25" pathLength="1" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+        </svg>
+        <p>他使尽平生的力画圆，几乎要合缝，却又向外一耸。</p>
+      </div>
+
+      <div class="toast" id="toast" role="status" hidden></div>
+
+      <!-- v1.25 面包屑回响：离开一处，听见自己刚才在那里留下的声音 -->
+      <div class="echo-whisper" id="echo-whisper" hidden aria-hidden="true"></div>
+
+      <div class="moment-card" id="moment-card" hidden aria-live="polite">
+        <div class="moment-frame" id="moment-frame">
+          <div class="moment-grain" aria-hidden="true"></div>
+          <div class="moment-copy">
+            <span class="moment-kicker" id="moment-kicker">瞬间定格</span>
+            <strong id="moment-title">有人先走开了</strong>
+            <small id="moment-body">冲突没有结束，只是有人先走开。</small>
+          </div>
+          <div class="moment-corner moment-corner-tl" aria-hidden="true"></div>
+          <div class="moment-corner moment-corner-br" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div class="prologue-card" id="prologue-card" hidden>
+        <div class="prologue-paper">
+          <span class="eyebrow">上一页记录</span>
+          <p id="prologue-copy">纸页残了一角。</p>
+          <button type="button" id="prologue-enter">走进未庄</button>
+        </div>
+      </div>
+
+      <div class="key-card" id="key-card" hidden>
+        <div class="key-paper">
+          <span class="eyebrow">给人物装大脑</span>
+          <p>想让阿Q、王胡、门房开口回你话，需要一个 DeepSeek Key。它只存在你自己的浏览器里，不会上传。</p>
+          <input type="password" id="key-input" placeholder="sk-..." autocomplete="off" />
+          <button type="button" id="key-save">保存 Key</button>
+          <button type="button" id="key-later" class="key-later">先不填，用哑巴人物</button>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

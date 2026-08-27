@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>把《阿Q正传》做成游戏 · 当一本书可以被「玩」 · 岛主的 AI 思考 · 第 67 篇</title>
+<meta name="description" content="今天我们把鲁迅的《阿Q正传》做成了一个能玩的交互游戏。读者变成玩家，AI 把做交互的代价从团队级压到个人级。但互动是入口，不是替代，经典的内核不能动。">
+<meta property="og:title" content="把《阿Q正传》做成游戏 · 当一本书可以被「玩」 · 岛主的 AI 思考 · 第 67 篇">
+<meta property="og:description" content="读者变成玩家，AI 把做交互的代价从团队级压到个人级。互动是入口，不是替代，经典的内核不能动。">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="把《阿Q正传》做成游戏 · 当一本书可以被「玩」 · 岛主的 AI 思考 · 第 67 篇">
+<meta name="twitter:description" content="读者变成玩家，AI 把做交互的代价从团队级压到个人级。互动是入口，不是替代。">
+<style>
+  :root{
+    --ink:#1c1a17; --ink-soft:#4a443c; --paper:#f4efe6; --paper-2:#ece4d6;
+    --line:#d8cdba; --accent:#9e2b25; --accent-soft:#c0413a; --seal:#b23b2e;
+    --go:#3c7a52;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Songti SC","Noto Serif CJK SC",serif;
+    line-height:1.85; font-size:18px; letter-spacing:.01em;
+  }
+  .post{max-width:720px; margin:0 auto; padding:64px 24px 40px;}
+  .post-header{margin-bottom:8px;}
+  .kicker{font-size:13px; letter-spacing:.32em; color:var(--accent); text-transform:uppercase; margin:0 0 18px; font-weight:600;}
+  h1{font-size:30px; line-height:1.4; margin:0 0 14px; font-weight:700; letter-spacing:.01em;}
+  .subtitle{font-size:18px; color:var(--ink-soft); margin:0 0 18px; font-style:normal;}
+  .byline{font-size:14px; color:#8a8175; margin:0 0 8px; border-bottom:1px solid var(--line); padding-bottom:22px;}
+  .exhibit-diagram{
+    margin:30px 0 8px; background:var(--paper-2); border:1px solid var(--line);
+    border-radius:10px; padding:18px 14px 10px; text-align:center;
+  }
+  .exhibit-diagram svg{width:100%; height:auto; max-width:620px;}
+  .exhibit-diagram figcaption{font-size:13px; color:var(--ink-soft); margin-top:10px; line-height:1.6;}
+  .prose p{margin:22px 0; text-align:justify;}
+  .prose h2{
+    font-size:22px; margin:42px 0 14px; padding-left:14px; position:relative; font-weight:700;
+  }
+  .prose h2::before{content:""; position:absolute; left:0; top:6px; bottom:6px; width:5px; background:var(--accent); border-radius:3px;}
+  .prose strong{color:var(--ink); font-weight:700;}
+  .pull{
+    margin:32px 0; padding:18px 22px; background:var(--paper-2); border-left:4px solid var(--accent);
+    border-radius:0 8px 8px 0; color:var(--ink-soft); font-size:17px;
+  }
+  .related-models{
+    margin:44px 0 10px; padding:22px 24px; background:var(--paper-2);
+    border:1px solid var(--line); border-radius:10px;
+  }
+  .related-models h3{font-size:15px; letter-spacing:.12em; margin:0 0 12px; color:var(--accent); font-weight:700;}
+  .related-models ul{margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:10px;}
+  .related-models li{margin:0; font-size:14px; color:var(--ink-soft);}
+  .related-models li a{
+    display:inline-block; padding:7px 14px; background:var(--paper); border:1px solid var(--line);
+    border-radius:999px; color:var(--ink); text-decoration:none; transition:.15s;
+  }
+  .related-models li a:hover{border-color:var(--accent); color:var(--accent);}
+  .article-foot{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:14px; color:#8a8175;}
+  .article-nav{
+    max-width:720px; margin:30px auto 0; padding:24px; display:flex; justify-content:space-between; gap:16px;
+    border-top:1px solid var(--line);
+  }
+  .article-nav a{color:var(--ink-soft); text-decoration:none; font-size:15px; max-width:48%;}
+  .article-nav a:hover{color:var(--accent);}
+  .article-nav .next{text-align:right; margin-left:auto;}
+  .article-nav .label{display:block; font-size:12px; letter-spacing:.2em; color:#a99e8c; margin-bottom:4px;}
+  .site-foot{max-width:720px; margin:0 auto; padding:30px 24px 60px; font-size:13px; color:#a99e8c; text-align:center;}
+  @media (max-width:560px){
+    body{font-size:17px;} .post{padding:44px 18px 30px;} h1{font-size:25px;}
+    .prose h2{font-size:20px;}
+  }
+</style>
+</head>
+<body>
+<article class="post">
+  <header class="post-header">
+    <p class="kicker">岛主的 AI 思考</p>
+    <h1>把《阿Q正传》做成游戏 · 当一本书可以被「玩」</h1>
+    <p class="subtitle">今天我们把鲁迅的《阿Q正传》做成了一个能玩的交互游戏。这件事本身，比游戏好不好玩更值得想。它逼我们重新看一个问题，在 AI 时代，一本书的边界到底在哪里。</p>
+    <p class="byline">岛主 · 第 67 篇</p>
+  </header>
+
+  <section class="exhibit-diagram">
+    <svg viewBox="0 0 680 320" role="img" aria-label="一本书左侧读者被动翻页，右侧玩家替阿Q做选择走向不同结局，阅读是唯一的，游玩是分叉的">
+      <text x="340" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1a17">一本书，做成一扇能走进去的门</text>
+
+      <rect x="36" y="96" width="150" height="132" rx="10" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.6"/>
+      <text x="111" y="150" text-anchor="middle" font-size="15" font-weight="700" fill="#9e2b25">书</text>
+      <text x="111" y="178" text-anchor="middle" font-size="12" fill="#4a443c">读者 · 被动翻页</text>
+      <text x="111" y="200" text-anchor="middle" font-size="11" fill="#8a8175">一条路走到尾</text>
+
+      <line x1="186" y1="162" x2="262" y2="162" stroke="#9e2b25" stroke-width="1.8" marker-end="url(#ap)"/>
+
+      <rect x="262" y="134" width="116" height="56" rx="10" fill="#edf5ec" stroke="#3c7a52" stroke-width="1.8"/>
+      <text x="320" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#3c7a52">你成了阿Q</text>
+      <text x="320" y="180" text-anchor="middle" font-size="11" fill="#4a443c">替他拿主意</text>
+
+      <line x1="378" y1="150" x2="498" y2="84" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+      <line x1="378" y1="162" x2="498" y2="162" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+      <line x1="378" y1="174" x2="498" y2="240" stroke="#9e2b25" stroke-width="1.6" marker-end="url(#ap)"/>
+
+      <rect x="498" y="60" width="146" height="48" rx="9" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.4"/>
+      <text x="571" y="89" text-anchor="middle" font-size="13" fill="#4a443c">选择① · 闹酒店</text>
+      <rect x="498" y="138" width="146" height="48" rx="9" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.4"/>
+      <text x="571" y="167" text-anchor="middle" font-size="13" fill="#4a443c">选择② · 比虱子</text>
+      <rect x="498" y="216" width="146" height="48" rx="9" fill="#fbf6ee" stroke="#9e2b25" stroke-width="1.4"/>
+      <text x="571" y="245" text-anchor="middle" font-size="13" fill="#4a443c">选择③ · 画圆圈</text>
+
+      <defs>
+        <marker id="ap" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+          <path d="M0 0 L6 3 L0 6 Z" fill="#9e2b25"/>
+        </marker>
+      </defs>
+
+      <text x="340" y="306" text-anchor="middle" font-size="12.5" fill="#4a443c">同一个阿Q，因你的选择走向不同结局。阅读是唯一的，游玩是分叉的。</text>
+    </svg>
+    <figcaption>书把人带到一个终点，游戏把人放到一个路口。</figcaption>
+  </section>
+
+  <div class="prose">
+    <p>今天做了一件事。我们把鲁迅的《阿Q正传》做成了一个可以玩的交互游戏。不是改编电影，不是有声书，是能点、能选、能自己走下去的那种。你打开它，等着你的第一句话是「我该怎么做」。你不再站在外面看阿Q，你成了阿Q。</p>
+
+    <p>这件事我越想越觉得有意思。它不只是一个小项目做完了，它把一根一直模糊的线，突然拉直了。在 AI 时代，一本书的边界，到底在哪里。</p>
+
+    <div class="pull">同一个阿Q，因你的选择走向不同结局。阅读是唯一的，游玩是分叉的。</div>
+
+    <h2>第一根线，读者变成了玩家</h2>
+    <p>过去读《阿Q正传》，你是旁观者。鲁迅把阿Q的丑和痛摆在你面前，你叹气，你反思，然后合上书。交互游戏把位置换了。到了关键处，系统让你替阿Q拿主意。要不要去酒店闹一场，要不要跟王胡比捉虱子，临刑前那个圆圈又该怎么画。每一个选择，都把你再往里头推一层。</p>
+    <p>你不再只是看精神胜利法，你是亲手按下了那个按钮。这种代入，纸书给不了。纸书里的阿Q是鲁迅写的，游戏里的阿Q，有你的一份。你选了，你就得认。这是阅读永远给不了的重量。</p>
+
+    <h2>第二根线，做书的人多了一件杠杆</h2>
+    <p>说句实在话，五年前做这种东西是个工程活。你要搭引擎、写分支逻辑、管状态、接剧情树，没个程序员团队干不动。现在不一样了。AI 帮我们把原著拆成节点，帮我们给每个选择写台词，帮我们对着阿Q的腔调补对话。</p>
+    <p>做的人还是我们，定调子的还是我们。那些重复的、机械的、搭骨架的活，AI 接走了。结果就是，一个人，一个下午，能把一本影响过自己的书，变成一扇别人能走进去的门。门槛降下来的地方，创作的形式就会跟着变。</p>
+
+    <h2>第三根线，互动是入口，不是替代</h2>
+    <p>但我得泼盆冷水。交互不是万能钥匙。阿Q的骨头是鲁迅的，是那个对国民性的冷眼，是那种看完笑不出来、后背发凉的东西。如果为了好玩，把精神胜利法做成一路爽文的选项，那不是在玩游戏，是在糟蹋原著。</p>
+    <p>互动该做的，是给读者一个入口，让他自己走一遍，然后撞上那个该撞上的东西。游戏可以让人先走进来，但真正留下来的，还是书里那根刺。所以我们做的时候一直守一条线。经典的内核不能动，能动的是进入的方式。</p>
+
+    <h2>写在最后</h2>
+    <p>做完这个游戏，我对自己的活法多了一个判断。我们这代内容创作者，手里多了一件以前没有的杠杆。一本书、一部电影、一段历史，不再只是拿来读和看的，也可以拿来玩。AI 把做交互的代价，从团队级压到了个人级。你不必是工程师，只要你想让谁走进去，就能给他造一扇门。</p>
+    <p>下一步我打算把这套做法理成一套能复用的东西。哪天你也有本影响过自己的书，咱们就把它做成一个能玩的东西。门，本来就该多开几扇。</p>
+  </div>
+
+  <section class="related-models">
+    <h3>关联思维模型</h3>
+    <ul>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-learning-pyramid.html">学习金字塔</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-n24.html">第一性原理</a></li>
+      <li><a href="https://daozhu1993-oss.github.io/models/model-occam.html">奥卡姆剃刀</a></li>
+    </ul>
+  </section>
+
+  <footer class="article-foot">岛主的 AI 思考 · 第 67 篇</footer>
+</article>
+
+<nav class="article-nav">
+  <a class="prev" href="ai-prompt-four-elements.html"><span class="label">上一篇</span>提示词四要素 · 把口头需求翻译成机器能执行的指令</a>
+  <a class="next" href="index.html"><span class="label">目录</span>岛主的 AI 思考 · 系列总览</a>
+</nav>
+
+<footer class="site-foot">岛主 · 在岛上 · 岛主的 AI 思考系列</footer>
+  <script src="../assets/share/share-widget.js"></script>
+</body>
+</html>

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#151713" />
     <meta name="description" content="未庄可行走叙事世界 v1.26：余温与回填。香炉里的火还没断气，门槛上的灰会自己长回来。你留下的，未庄都会慢慢抹平。" />
-    <title>未庄｜可行走叙事世界 v1.26</title>
-    <script type="module" crossorigin src="/portfolio/aq-interactive/assets/index-B5SCSoEW.js"></script>
-    <link rel="stylesheet" crossorigin href="/portfolio/aq-interactive/assets/index-C_7oy4TH.css">
+    <title>未庄｜可行走叙事世界 v1.30 · 看客立场与精神全胜</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./app-upgrade.js"></script>
   </head>
   <body>
     <!-- v1.25 画风滤镜化：内联 SVG 噪声位移滤镜，给矢量人物与背景「打毛边」，统一水墨手绘质感 -->
@@ -25,7 +26,7 @@
       <canvas id="game-canvas" aria-label="未庄三维场景"></canvas>
 
       <section class="painted-stage scene-tavern" id="painted-stage" aria-label="未庄酒店视觉现场">
-        <img class="painted-backdrop" id="painted-backdrop" src="/portfolio/aq-interactive/assets/weizhuang-tavern-bg-v1-BB2tZF3i.png" alt="黄昏时分的未庄酒店街口，远处是山，近处是石板路与旧屋" />
+        <img class="painted-backdrop" id="painted-backdrop" src="./assets/weizhuang-tavern-bg-v1-BB2tZF3i.png" alt="黄昏时分的未庄酒店街口，远处是山，近处是石板路与旧屋" />
         <div class="paint-depth painted-depth-haze" aria-hidden="true"></div>
         <div class="paint-depth painted-depth-roof" aria-hidden="true"></div>
         <div class="paint-depth painted-depth-cloth" aria-hidden="true"><i></i><i></i></div>
@@ -43,19 +44,19 @@
           <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-leg actor-leg-left"></span><span class="actor-leg actor-leg-right"></span><span class="actor-mark">看客</span>
         </div>
         <div class="paint-actor actor-aq has-character-image" id="paint-aq" aria-label="阿Q">
-          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/aq-character-cutout-v1-mGeb1Yg7.png" alt="阿Q，穿旧棉袄走在未庄街上" />
+          <img class="paint-character-image" src="./assets/aq-character-cutout-v1-mGeb1Yg7.png" alt="阿Q，穿旧棉袄走在未庄街上" />
           <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">阿Q</span>
         </div>
         <div class="paint-actor actor-wanghu has-character-image" id="paint-wanghu" aria-label="王胡">
-          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/wanghu-character-cutout-v1-CLrrNVY2.png" alt="王胡，穿深色坎肩走在未庄街上" />
+          <img class="paint-character-image" src="./assets/wanghu-character-cutout-v1-CLrrNVY2.png" alt="王胡，穿深色坎肩走在未庄街上" />
           <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">王胡</span>
         </div>
         <div class="paint-actor actor-xiaod has-character-image" id="paint-xiaod" aria-label="小D">
-          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/xiaod-character-cutout-v1-CVV3GHtB.png" alt="小D，穿灰蓝短褂走在未庄街上" />
+          <img class="paint-character-image" src="./assets/xiaod-character-cutout-v1-CVV3GHtB.png" alt="小D，穿灰蓝短褂走在未庄街上" />
           <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">小D</span>
         </div>
         <div class="paint-actor actor-gatekeeper has-character-image" id="paint-gatekeeper" aria-label="赵府门房">
-          <img class="paint-character-image" src="/portfolio/aq-interactive/assets/gatekeeper-character-cutout-v1-Kos0a4N_.png" alt="赵府门房，穿深色长坎肩守在门口" />
+          <img class="paint-character-image" src="./assets/gatekeeper-character-cutout-v1-Kos0a4N_.png" alt="赵府门房，穿深色长坎肩守在门口" />
           <span class="actor-shadow"></span><span class="actor-body"></span><span class="actor-head"></span><span class="actor-mark">门房</span>
         </div>
         <div class="conflict-link" id="conflict-link" aria-hidden="true" hidden></div>
@@ -73,7 +74,7 @@
           <span class="seal">未</span>
           <div>
             <strong>未庄</strong>
-            <small>阿Q正传 · 可行走叙事世界 / v1.26 · 余温回填</small>
+            <small>阿Q正传 · 可行走叙事世界 / v1.30 · 看客立场与精神全胜</small>
           </div>
         </div>
         <div class="world-clock">

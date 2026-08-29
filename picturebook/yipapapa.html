@@ -7,8 +7,6 @@
 <!-- 用法：替换 TITLE / COVER_B64 / PAGES_HTML / BACK_HTML 四处占位符 -->
 <title>爬爬爬，一一爬爬爬 · 一一成长绘本</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -114,9 +112,30 @@
     .cover { aspect-ratio: auto; height: 100vh; }
     .page img { max-height: 100vh; width: auto; margin: 0 auto; }
   }
+
+  /* V0.2 封面保真：统一 3:2 视窗，不裁切内嵌文字。 */
+  .cover { aspect-ratio: 3 / 2; height: auto; overflow: hidden; background: #f3ead8; }
+  .cover.imgcover > img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; background: #f3ead8; display: block;
+  }
+  @media print {
+    .cover { aspect-ratio: auto; height: auto; }
+    .cover.imgcover > img { position: static; width: 100%; height: auto; object-fit: contain; }
+  }
+
+  /* V0.2 画幅归一：异常比例内页保持完整展示。 */
+  body.ratio-repair .page .img-area {
+    width: 100%; aspect-ratio: 3 / 2; display: flex;
+    align-items: center; justify-content: center; overflow: hidden;
+    background: #f3ead8; line-height: 0;
+  }
+  body.ratio-repair .page .img-area img {
+    width: 100%; height: 100%; object-fit: contain; display: block;
+  }
 </style>
 </head>
-<body>
+<body class="ratio-repair">
 
 <div class="book" id="book">
 
@@ -307,12 +326,6 @@
   pages[0].classList.add('active');
 </script>
 
-
-<div style="position:fixed;top:16px;right:16px;z-index:999">
-<a href="index.html" id="backToCatalogBtn" style="display:none;padding:8px 18px;background:rgba(0,0,0,.55);color:#fff;border-radius:20px;font-size:13px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">← 回到目录</a>
-</div>
-<script>(function(){try{if(sessionStorage.getItem('fromCatalog')){document.getElementById('backToCatalogBtn').style.display='block'}}catch(e){}})()</script>
-
-  <script src="../assets/share/share-widget.js"></script>
+<script src="../assets/share/share-widget.js"></script>
 </body>
 </html>

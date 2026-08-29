@@ -9,8 +9,6 @@
 <!-- 用法：替换 TITLE / COVER_B64 / PAGES_HTML / BACK_HTML 四处占位符；内页 .img-area 内可选加 .fx-layer -->
 <title>亮亮亮，一一回家啦</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
-
   * { margin:0; padding:0; box-sizing: border-box; }
 
   body {
@@ -170,6 +168,17 @@
     .page img { max-height: 100vh; width: auto; margin: 0 auto; animation: none !important; transform: none !important; }
     .fx-layer { display: none !important; }   /* 打印时装饰层全部隐藏 */
   }
+
+  /* V0.2 封面保真：统一 3:2 视窗，不裁切内嵌文字。 */
+  .cover { aspect-ratio: 3 / 2; height: auto; overflow: hidden; background: #f3ead8; }
+  .cover.imgcover > img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; background: #f3ead8; display: block;
+  }
+  @media print {
+    .cover { aspect-ratio: auto; height: auto; }
+    .cover.imgcover > img { position: static; width: 100%; height: auto; object-fit: contain; }
+  }
 </style>
 </head>
 <body>
@@ -182,7 +191,7 @@
   </div>
 
   <!-- 内页 1-10：每页 = .img-area(图) + .text-area(文字条，不烤字)，脚本填充 PAGES_HTML 占位符 -->
-  <!-- 动态版用法：在 .img-area 的 <img> 之后，可加一个 .fx-layer 放装饰元素，例如：
+  <!-- 动态版用法：在 .img-area 的 <img alt="封面"> 之后，可加一个 .fx-layer 放装饰元素，例如：
        <div class="fx-layer">
          <div class="fx-bubble" style="left:30%; bottom:30%; animation-delay:.2s"></div>
          <div class="fx-splash" style="left:50%; bottom:48%; --dx:34px; --dy:-70px"></div>
@@ -353,12 +362,6 @@
   pages[0].classList.add('active');
 </script>
 
-
-<div style="position:fixed;top:16px;right:16px;z-index:999">
-<a href="index.html" id="backToCatalogBtn" style="display:none;padding:8px 18px;background:rgba(0,0,0,.55);color:#fff;border-radius:20px;font-size:13px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.3);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">← 回到目录</a>
-</div>
-<script>(function(){try{if(sessionStorage.getItem('fromCatalog')){document.getElementById('backToCatalogBtn').style.display='block'}}catch(e){}})()</script>
-
-  <script src="../assets/share/share-widget.js"></script>
+<script src="../assets/share/share-widget.js"></script>
 </body>
 </html>

@@ -1,0 +1,1115 @@
+/* ─────────────────────────────────────────────────────────────
+   DAOZHU POCKET (岛主口袋掌机) - DMG-01 Ultra-Realistic Theme
+   复古任天堂 Game Boy 拟物与点阵像素交互样式系统
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* 掌机机身材质与光影 */
+  --case-bg: #E3DFD5;
+  --case-bg-top: #EAE6DD;
+  --case-bg-bottom: #D6D1C6;
+  --case-shadow: rgba(30, 26, 20, 0.28);
+  --case-bevel-light: rgba(255, 255, 255, 0.7);
+  --case-bevel-dark: rgba(0, 0, 0, 0.15);
+
+  /* 屏幕外框与镜面 */
+  --bezel-bg: #6E6D76;
+  --bezel-dark: #585760;
+  --bezel-line-red: #8B2544;
+  --bezel-line-blue: #23416F;
+  --led-off: #3E1616;
+  --led-on: #FF3B30;
+  --led-glow: rgba(255, 59, 48, 0.65);
+
+  /* 点阵液晶 LCD 4阶绿屏配色 (经典 DMG-01) */
+  --lcd-bg: #9BBC0F;
+  --lcd-light: #8BAC0F;
+  --lcd-mid: #306230;
+  --lcd-dark: #0F380F;
+
+  /* 品牌印字与物理按键 */
+  --brand-blue: #2B3766;
+  --brand-grey: #6E6B65;
+  --dpad-color: #27272A;
+  --dpad-active: #18181B;
+  --action-btn: #94254E;
+  --action-btn-active: #731A3B;
+  --pill-btn: #7E8580;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: #E8E5DD;
+  background-image: 
+    radial-gradient(#D6D1C6 1px, transparent 1px),
+    radial-gradient(#D6D1C6 1px, #E8E5DD 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  color: #2A2723;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* 顶部操作工具条 */
+.top-toolbar {
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.toolbar-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #6A665E;
+  text-transform: uppercase;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.tool-btn {
+  background: #FFF;
+  border: 1px solid #D0CCC2;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4A463F;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.tool-btn:hover {
+  background: #2B3766;
+  color: #FFF;
+  border-color: #2B3766;
+  transform: translateY(-1px);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GAME BOY 掌机主体外壳 (DMG-01 Console)
+   ══════════════════════════════════════════════════════════════ */
+.gameboy-console {
+  position: relative;
+  width: 100%;
+  max-width: 410px;
+  background: linear-gradient(180deg, var(--case-bg-top) 0%, var(--case-bg) 60%, var(--case-bg-bottom) 100%);
+  border-radius: 24px 24px 70px 70px;
+  padding: 34px 24px 44px;
+  box-shadow: 
+    0 22px 60px -10px var(--case-shadow),
+    inset 0 2px 4px var(--case-bevel-light),
+    inset 0 -4px 6px var(--case-bevel-dark);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* 顶部卡槽卡扣线 */
+.gameboy-console::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 60px;
+  right: 60px;
+  height: 3px;
+  background: #C8C3B7;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   屏幕外框 (Bezel Glass Area)
+   ══════════════════════════════════════════════════════════════ */
+.screen-bezel {
+  position: relative;
+  background: linear-gradient(180deg, #74737D 0%, var(--bezel-bg) 50%, var(--bezel-dark) 100%);
+  border-radius: 14px 14px 14px 46px; /* 经典右下斜切圆角 */
+  padding: 22px 18px 20px;
+  box-shadow: 
+    inset 0 3px 6px rgba(0, 0, 0, 0.45),
+    0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+/* 屏幕顶部标线 */
+.bezel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.bezel-line {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+}
+.bezel-line.red { background: var(--bezel-line-red); margin-right: 10px; }
+.bezel-line.blue { background: var(--bezel-line-blue); margin-left: 10px; }
+
+.bezel-title {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #1F1F24;
+  white-space: nowrap;
+}
+
+/* 屏幕区域排布 (LED + 液晶屏) */
+.screen-main-row {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+}
+
+/* 电池指示灯 */
+.battery-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 28px;
+}
+
+.led {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--led-off);
+  transition: all 0.3s ease;
+}
+
+.led.on {
+  background: var(--led-on);
+  box-shadow: 0 0 10px var(--led-glow), 0 0 4px #FFA19C;
+}
+
+.led-label {
+  font-size: 6.5px;
+  letter-spacing: 0.05em;
+  color: #BBB8B0;
+  writing-mode: vertical-rl;
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LCD 点阵液晶屏幕 (Dot-Matrix Screen)
+   ══════════════════════════════════════════════════════════════ */
+.lcd-screen {
+  flex: 1;
+  background: linear-gradient(180deg, #A2BE20 0%, var(--lcd-bg) 60%, var(--lcd-light) 100%);
+  border-radius: 6px;
+  box-shadow: inset 0 2px 8px rgba(25, 45, 10, 0.45);
+  border: 2px solid #586B16;
+  position: relative;
+  overflow: hidden;
+  height: 236px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 细微点阵与扫描线滤镜效果 */
+.lcd-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(0deg, rgba(30, 50, 15, 0.05) 0px, rgba(30, 50, 15, 0.05) 1px, transparent 1px, transparent 2px),
+    repeating-linear-gradient(90deg, rgba(30, 50, 15, 0.04) 0px, rgba(30, 50, 15, 0.04) 1px, transparent 1px, transparent 2px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* 屏幕顶部状态栏 */
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  border-bottom: 1.5px solid var(--lcd-mid);
+  color: var(--lcd-dark);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sound-toggle {
+  cursor: pointer;
+}
+
+/* 屏幕主体滚动内容区 */
+.screen-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 6px 8px;
+  color: var(--lcd-dark);
+  position: relative;
+}
+
+/* 隐藏默认滚动条但保留滚动 */
+.screen-body::-webkit-scrollbar {
+  width: 4px;
+}
+.screen-body::-webkit-scrollbar-thumb {
+  background: var(--lcd-mid);
+  border-radius: 2px;
+}
+
+/* 屏幕底部按键提示胶囊 */
+.screen-footer {
+  background: var(--lcd-mid);
+  color: var(--lcd-bg);
+  padding: 4px 6px;
+  font-size: 9.5px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-top: 1.5px solid var(--lcd-dark);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DAOZHU OS 页面组件样式
+   ══════════════════════════════════════════════════════════════ */
+
+/* HOME 视图 */
+.view-home {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-card {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 1.5px solid var(--lcd-dark);
+  padding: 5px 6px;
+  border-radius: 4px;
+  background: rgba(139, 172, 15, 0.25);
+}
+
+.avatar-box {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--lcd-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: var(--lcd-light);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-info .name {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--lcd-dark);
+}
+
+.profile-info .badge {
+  font-size: 8px;
+  border: 1px solid var(--lcd-dark);
+  padding: 0 3px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.profile-info .role-desc {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--lcd-mid);
+}
+
+.profile-info .quote {
+  font-size: 8.5px;
+  color: var(--lcd-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+/* 菜单列表 */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.menu-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+}
+
+.menu-row.active {
+  background: var(--lcd-dark);
+  color: var(--lcd-bg);
+}
+
+.menu-row .cursor {
+  width: 12px;
+  font-weight: 900;
+  font-size: 11px;
+}
+
+.menu-row .label-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-row .m-label {
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.menu-row .m-sub {
+  font-size: 8.5px;
+  opacity: 0.85;
+}
+
+.menu-row .m-code {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* 卡带列表视图 (GAMES) */
+.view-games {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sub-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  font-weight: 800;
+  border-bottom: 1px dashed var(--lcd-mid);
+  padding-bottom: 3px;
+}
+
+.cartridge-selector {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin: 2px 0;
+}
+
+.cart-pill {
+  font-size: 9px;
+  font-weight: 800;
+  border: 1px solid var(--lcd-dark);
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.cart-pill.selected {
+  background: var(--lcd-dark);
+  color: var(--lcd-bg);
+}
+
+.cartridge-card {
+  border: 1.5px solid var(--lcd-dark);
+  border-radius: 4px;
+  padding: 6px;
+  background: rgba(139, 172, 15, 0.2);
+  display: flex;
+  gap: 8px;
+}
+
+.cart-img-wrap {
+  width: 60px;
+  height: 60px;
+  border: 1.5px solid var(--lcd-dark);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: #000;
+}
+
+.cart-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-stamp {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 56, 15, 0.85);
+  color: var(--lcd-bg);
+  font-size: 6.5px;
+  text-align: center;
+  padding: 1px 0;
+  font-weight: 700;
+}
+
+.cart-detail {
+  flex: 1;
+  overflow: hidden;
+}
+
+.cart-title {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--lcd-dark);
+}
+
+.cart-source {
+  font-size: 8.5px;
+  color: var(--lcd-mid);
+  font-weight: 600;
+}
+
+.cart-tags {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  margin: 3px 0;
+}
+
+.cart-tag {
+  font-size: 7.5px;
+  background: var(--lcd-mid);
+  color: var(--lcd-bg);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+.cart-desc {
+  font-size: 8px;
+  line-height: 1.35;
+  color: var(--lcd-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cart-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.screen-btn {
+  background: var(--lcd-dark);
+  color: var(--lcd-bg);
+  border: none;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.1s ease;
+}
+
+.screen-btn:hover {
+  transform: scale(1.03);
+}
+
+/* 8-Bit 小游戏视图 (MINIGAME) */
+.view-minigame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#cricket-canvas {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  border: 1px solid var(--lcd-dark);
+}
+
+/* 关于与作品视图 */
+.view-about, .view-works, .view-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.about-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.about-block h3 {
+  font-size: 10px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.about-block p {
+  font-size: 8.5px;
+  line-height: 1.45;
+}
+
+.works-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.work-card {
+  border: 1px solid var(--lcd-dark);
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.work-card:hover {
+  background: rgba(15, 56, 15, 0.15);
+}
+
+.work-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.work-title {
+  font-size: 9.5px;
+  font-weight: 800;
+}
+
+.work-tag {
+  font-size: 7.5px;
+  background: var(--lcd-mid);
+  color: var(--lcd-bg);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+
+.work-desc {
+  font-size: 8px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.contact-box {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.qr-frame {
+  width: 70px;
+  height: 70px;
+  border: 1.5px solid var(--lcd-dark);
+  background: #FFF;
+  padding: 3px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.qr-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.contact-info .c-title {
+  font-size: 10.5px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.contact-info .c-item {
+  font-size: 8.5px;
+  line-height: 1.4;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   掌机机身中下部 (Branding + Controls)
+   ══════════════════════════════════════════════════════════════ */
+.console-middle {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 19px;
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  color: var(--brand-blue);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.brand-sub {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: var(--brand-grey);
+  margin-top: 1px;
+}
+
+.brand-serial {
+  font-size: 7.5px;
+  letter-spacing: 0.08em;
+  color: #8C8880;
+  margin-top: 3px;
+  font-family: monospace;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   操作控件区 (D-Pad, A/B Buttons, Select/Start)
+   ══════════════════════════════════════════════════════════════ */
+.controls-container {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* 1. 十字键 (D-Pad) */
+.dpad-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 十字键圆形底凹槽 */
+.dpad-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  background: #D9D5CB;
+  box-shadow: 
+    inset 0 3px 6px rgba(0, 0, 0, 0.18),
+    0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.dpad {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  z-index: 2;
+}
+
+/* 十字键十字骨架 */
+.dpad-cross {
+  position: absolute;
+  background: var(--dpad-color);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.dpad-cross.horizontal {
+  top: 34px;
+  left: 0;
+  width: 100px;
+  height: 32px;
+}
+
+.dpad-cross.vertical {
+  top: 0;
+  left: 34px;
+  width: 32px;
+  height: 100px;
+}
+
+/* 中心小圆凹陷 */
+.dpad-center {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #1C1C1F;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  z-index: 3;
+}
+
+/* 四向点击热区 */
+.dpad-btn {
+  position: absolute;
+  z-index: 4;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #55555C;
+  font-size: 11px;
+}
+
+.dpad-btn.up { top: 0; left: 34px; width: 32px; height: 34px; }
+.dpad-btn.down { bottom: 0; left: 34px; width: 32px; height: 34px; }
+.dpad-btn.left { top: 34px; left: 0; width: 34px; height: 32px; }
+.dpad-btn.right { top: 34px; right: 0; width: 34px; height: 32px; }
+
+.dpad-btn:active, .dpad-btn.pressed {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+}
+
+/* 2. A / B 红色圆形按键 */
+.action-buttons-wrapper {
+  position: relative;
+  width: 130px;
+  height: 100px;
+}
+
+/* 倾斜胶囊底槽 */
+.action-tilted-tray {
+  position: absolute;
+  right: 0;
+  top: 10px;
+  width: 124px;
+  height: 64px;
+  background: #D9D5CB;
+  border-radius: 32px;
+  transform: rotate(-26deg);
+  box-shadow: 
+    inset 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 1px 2px rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+
+.action-btn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-round {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #BA3264 0%, var(--action-btn) 60%, var(--action-btn-active) 100%);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  border: none;
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+
+.btn-round:active, .btn-round.pressed {
+  transform: translateY(2px) scale(0.96);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.btn-letter {
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--brand-blue);
+  margin-top: 4px;
+  transform: rotate(26deg);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   底部功能按键与扬声器 (Select / Start + Speaker)
+   ══════════════════════════════════════════════════════════════ */
+.console-bottom-row {
+  margin-top: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 8px;
+}
+
+.meta-info {
+  font-size: 7.5px;
+  color: #8C8880;
+  letter-spacing: 0.1em;
+  font-family: monospace;
+}
+
+/* Select & Start 橡胶胶囊键 */
+.select-start-wrapper {
+  display: flex;
+  gap: 16px;
+  transform: rotate(-26deg);
+  margin-left: 20px;
+}
+
+.pill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-pill {
+  width: 46px;
+  height: 14px;
+  background: linear-gradient(180deg, #8E9490 0%, var(--pill-btn) 50%, #656C67 100%);
+  border-radius: 7px;
+  border: none;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: transform 0.06s ease;
+}
+
+.btn-pill:active, .btn-pill.pressed {
+  transform: translateY(1.5px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.pill-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--brand-blue);
+}
+
+/* 扬声器倾斜出音槽 */
+.speaker-grille {
+  display: flex;
+  gap: 6px;
+  transform: rotate(-26deg);
+  margin-bottom: 6px;
+}
+
+.speaker-slit {
+  width: 5px;
+  height: 48px;
+  background: #3B3833;
+  border-radius: 3px;
+  box-shadow: 
+    inset 0 1px 2px rgba(0,0,0,0.6),
+    0 1px 1px rgba(255,255,255,0.4);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   游戏全屏启动弹窗 (Game Launcher Modal)
+   ══════════════════════════════════════════════════════════════ */
+.game-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 18, 0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.game-modal.active {
+  display: flex;
+}
+
+.modal-container {
+  background: #25242A;
+  border: 1px solid #3F3D45;
+  border-radius: 18px;
+  max-width: 860px;
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #1C1B20;
+  border-bottom: 1px solid #333139;
+  color: #FFF;
+}
+
+.modal-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-cart-tag {
+  background: #94254E;
+  color: #FFF;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.modal-game-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-btn {
+  background: #333139;
+  border: 1px solid #484552;
+  color: #EEE;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background 0.15s ease;
+}
+
+.modal-btn:hover {
+  background: #484552;
+}
+
+.modal-btn.primary {
+  background: #94254E;
+  border-color: #94254E;
+  color: #FFF;
+}
+
+.modal-body {
+  flex: 1;
+  background: #000;
+  position: relative;
+}
+
+.modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* 底部键盘与交互指引提示 */
+.keyboard-hints {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #7D786E;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.keyboard-hints kbd {
+  background: #FFF;
+  border: 1px solid #C8C3B7;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: monospace;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   响应式移动端适配 (Mobile Fullscreen Ergonomics)
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 440px) {
+  body {
+    padding: 8px 4px;
+  }
+  .gameboy-console {
+    border-radius: 18px 18px 50px 50px;
+    padding: 24px 16px 36px;
+  }
+  .lcd-screen {
+    height: 220px;
+  }
+  .dpad-wrapper {
+    width: 110px;
+    height: 110px;
+  }
+  .keyboard-hints {
+    display: none; /* 手机端隐藏电脑键盘快捷键提示 */
+  }
+}

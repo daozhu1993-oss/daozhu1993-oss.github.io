@@ -345,11 +345,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>05/05</span>
         </div>
         <div class="contact-box">
-          <div class="qr-frame">
-            <img src="assets/wechat.png" alt="岛主微信二维码" onerror="this.src='assets/covers/aq.jpg'">
+          <div class="qr-frame" onclick="window.open('assets/wechat-card.png', '_blank')" style="cursor:pointer;" title="点击查看大图名片">
+            <img src="assets/wechat.png" alt="微信二维码：岛主王仙客" onerror="this.src='assets/covers/aq.jpg'">
           </div>
           <div class="contact-info">
-            <div class="c-title">微信扫码添加岛主</div>
+            <div class="c-title">微信扫码：@岛主王仙客</div>
             <div class="c-item">✦ 个人小岛：daozhuai.cn</div>
             <a class="c-item xhs-item" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation(); window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank')">
               ✦ 小红书：@岛主 <span class="xhs-badge">989赞藏</span> ↗
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `;
-    bottomHint.textContent = '按 A 键或点击直达小红书 · B 键返回';
+    bottomHint.textContent = '扫码添加 · 按 A 键直达小红书 · B 键返回';
   }
 
   // 掌机按键操作总分发

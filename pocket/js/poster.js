@@ -350,6 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (exportBtn) {
     exportBtn.addEventListener('click', () => {
       if (window.retroAudio) window.retroAudio.confirm();
+      if (window.trackPocketEvent) {
+        window.trackPocketEvent('export_poster', { size: '1116x2232' });
+      }
       window.posterGenerator.download();
     });
   }

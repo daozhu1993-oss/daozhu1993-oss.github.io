@@ -84,6 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 埋点监测辅助函数 (51.la 自定义事件，国内免翻墙极速上报)
+  function trackPocketEvent(eventName, eventData = {}) {
+    try {
+      if (window.LA && typeof window.LA.track === 'function') {
+        window.LA.track(eventName, eventData);
+      }
+    } catch (e) {}
+  }
+  window.trackPocketEvent = trackPocketEvent;
+
   // 关闭弹窗辅助函数
   function closeModal() {
     const modal = document.getElementById('game-launcher-modal');
@@ -100,6 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cart) cart = CARTRIDGES[state.gameIndex];
     if (window.retroAudio) window.retroAudio.cartridge();
     vibrate(30);
+
+    // 上报开始玩游戏事件
+    trackPocketEvent('play_game', {
+      rom: cart.rom,
+      title: cart.title,
+      url: cart.url
+    });
 
     const modal = document.getElementById('game-launcher-modal');
     const modalTitle = document.getElementById('modal-game-title');
@@ -318,6 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. 渲染函数：内置 8-Bit 像素游戏 (MINIGAME)
   function renderMinigame() {
     state.currentView = 'MINIGAME';
+    trackPocketEvent('play_cricket_minigame', { title: '促织跳跳乐' });
     screenContent.innerHTML = `
       <div class="view-minigame">
         <canvas id="cricket-canvas"></canvas>
@@ -345,13 +363,13 @@ document.addEventListener('DOMContentLoaded', () => {
           <span>05/05</span>
         </div>
         <div class="contact-box">
-          <div class="qr-frame" onclick="window.open('assets/wechat-card.png', '_blank')" style="cursor:pointer;" title="点击查看大图名片">
+          <div class="qr-frame" onclick="trackPocketEvent('click_wechat_card'); window.open('assets/wechat-card.png', '_blank')" style="cursor:pointer;" title="点击查看大图名片">
             <img src="assets/wechat.png" alt="微信二维码：岛主王仙客" onerror="this.src='assets/covers/aq.jpg'">
           </div>
           <div class="contact-info">
             <div class="c-title">微信扫码：@岛主王仙客</div>
             <div class="c-item">✦ 个人小岛：daozhuai.cn</div>
-            <a class="c-item xhs-item" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation(); window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank')">
+            <a class="c-item xhs-item" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation(); trackPocketEvent('click_xiaohongshu', { pos: 'screen' }); window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank')">
               ✦ 小红书：@岛主 <span class="xhs-badge">989赞藏</span> ↗
             </a>
             <div class="c-item">✦ 探讨：AI、故事、游戏化</div>
@@ -462,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.currentView === 'CONTACT') {
       if (action === 'A') {
         if (window.retroAudio) window.retroAudio.confirm();
+        trackPocketEvent('click_xiaohongshu', { pos: 'gamepad_a_button' });
         window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank');
         return;
       }

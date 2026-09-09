@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一人公司的"数字群岛"：为什么我不再做一个扁平的个人博客？ · 岛主的AI思考</title>
+<meta name="description" content="从单体博客到多维群岛。用 0 成本边缘架构将求职母港、思想私域、AI流水线与交互实验场彻底解耦，打造高杠杆、反脆弱的个人资产矩阵。">
+<meta property="og:title" content="一人公司的「数字群岛」：为什么我不再做一个扁平的个人博客？ · 岛主的AI思考">
+<meta property="og:description" content="从单体博客到多维群岛。用 0 成本边缘架构将求职母港、思想私域、AI流水线与交互实验场彻底解耦，打造高杠杆、反脆弱的个人资产矩阵。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/digital-archipelago.html">
+<meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1024">
+<meta property="og:site_name" content="岛主的AI思考">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="一人公司的「数字群岛」：为什么我不再做一个扁平的个人博客？ · 岛主的AI思考">
+<meta name="twitter:description" content="从单体博客到多维群岛。用 0 成本边缘架构将求职母港、思想私域、AI流水线与交互实验场彻底解耦，打造高杠杆、反脆弱的个人资产矩阵。">
+<meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- 51.la analytics -->
+<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})}else{setTimeout(function(){if(window.LA)LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"})},1800)}</script>
+
+<style>
+  @import url('../design-system/tokens.css');
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg,#fbf8f1);color:var(--ink,#222);font-family:var(--sans,'Noto Sans SC',sans-serif);font-weight:300;line-height:1.8;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent-soft,rgba(200,101,75,.12));color:var(--ink,#222);}
+
+  /* 头部 */
+  .site-header{position:sticky;top:0;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line,#e6ded2);z-index:40;}
+  .site-header nav{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;gap:16px;}
+  .site-header .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--mid,#666);transition:color .3s var(--ease,ease);}
+  .site-header .back:hover{color:var(--accent,#c04040);}
+  .site-header .back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;}
+  .site-header .brand{font-family:var(--serif,'Noto Serif SC',serif);font-weight:600;font-size:16px;}
+
+  main{max-width:720px;margin:0 auto;padding:72px 24px 120px;}
+
+  /* 文章排版 */
+  article h1{font-family:var(--serif,'Noto Serif SC',serif);font-weight:600;font-size:clamp(26px,5vw,36px);line-height:1.35;margin-bottom:18px;letter-spacing:.01em;color:var(--ink,#222);}
+  article h2{font-family:var(--serif,'Noto Serif SC',serif);font-weight:600;font-size:clamp(20px,3.6vw,26px);margin-top:48px;margin-bottom:16px;color:var(--ink,#222);line-height:1.35;}
+  article h3{font-family:var(--serif,'Noto Serif SC',serif);font-weight:600;font-size:18px;margin-top:34px;margin-bottom:12px;color:var(--mid,#555);}
+  article p{font-size:16px;color:#4a443c;margin-bottom:20px;}
+  article ul{margin:0 0 22px 22px;}
+  article li{font-size:16px;color:#4a443c;margin-bottom:10px;}
+  article strong{color:var(--ink,#222);font-weight:500;}
+  article hr{border:none;border-top:1px solid var(--line,#e6ded2);margin:42px 0 32px;}
+  article a{color:var(--accent,#c04040);text-decoration:underline;text-underline-offset:3px;}
+  article blockquote{border-left:3px solid var(--accent-soft,rgba(200,101,75,.3));padding-left:20px;margin:24px 0;color:var(--mid,#666);font-style:italic;}
+
+  .meta-bar{display:flex;gap:16px;align-items:center;font-size:13px;color:var(--faint,#888);font-family:var(--serif,'Noto Serif SC',serif);margin-bottom:42px;flex-wrap:wrap;}
+  .meta-bar .tag{font-size:11px;color:var(--accent,#c04040);border:1px solid var(--accent-soft,rgba(200,101,75,.25));border-radius:999px;padding:3px 10px;}
+
+  .article-nav{display:flex;justify-content:space-between;gap:16px;margin-top:64px;padding-top:32px;border-top:1px solid var(--line,#e6ded2);}
+  .article-nav a{display:inline-flex;align-items:center;gap:8px;font-family:var(--serif,'Noto Serif SC',serif);font-size:15px;color:var(--mid,#666);transition:color .3s var(--ease,ease);}
+  .article-nav a:hover{color:var(--accent,#c04040);}
+  .article-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;}
+
+  .footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--faint,#888);font-family:var(--serif,'Noto Serif SC',serif);border-top:1px solid var(--line,#e6ded2);}
+
+  /* 关联思维模型模块 */
+  .related-models {
+    margin: 2.5em auto;
+    max-width: 680px;
+    padding: 1.5em 1.8em;
+    background: #fbf7ee;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent, #c04040);
+  }
+  .related-models h2 {
+    font-size: 1.05em;
+    margin: 0 0 0.8em;
+    color: var(--line-dark, #222);
+    font-family: var(--serif, 'Noto Serif SC', serif);
+    font-weight: 600;
+  }
+  .related-models ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .related-models li {
+    margin-bottom: 0.65em;
+    font-size: 0.93em;
+    line-height: 1.65;
+    color: var(--mid, #555);
+  }
+  .related-models li:last-child { margin-bottom: 0; }
+  .rm-tag {
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 1px 8px;
+    border-radius: 10px;
+    background: #f0e6d6;
+    color: #8b6914;
+    margin-right: 5px;
+    vertical-align: 1px;
+    font-weight: 500;
+  }
+  .related-models a {
+    color: var(--accent, #c04040);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .related-models a:hover { border-bottom-color: var(--accent, #c04040); }
+
+  /* 核心概念图 */
+  .exhibit-diagram{margin:32px 0 40px;padding:24px 20px;background:var(--panel,#f6f2ea);border:1px solid var(--line,#e6ded2);border-radius:14px;}
+  .exhibit-diagram svg{display:block;width:100%;height:auto;}
+  .exhibit-diagram .cap{margin-top:16px;font-size:13px;color:var(--mid,#666);text-align:center;line-height:1.6;}
+
+  /* 站点清单小表格/网格 */
+  .site-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin: 24px 0 32px;
+  }
+  .site-item {
+    background: #fff;
+    border: 1px solid var(--line, #e6ded2);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.02);
+  }
+  .site-item .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #f4eee1;
+    color: #8b6914;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .site-item h4 {
+    font-size: 15px;
+    margin-bottom: 4px;
+    font-family: var(--serif, 'Noto Serif SC', serif);
+    color: var(--ink, #222);
+  }
+  .site-item p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .site-item code {
+    font-size: 12px;
+    color: var(--accent, #c04040);
+    font-family: monospace;
+    background: #fdf5f2;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  @media (max-width:560px){
+    main{padding:48px 18px 80px;}
+    article h1{font-size:24px;}
+    article h2{font-size:20px;}
+    article p, article li{font-size:15px;}
+    .exhibit-diagram{padding:16px 12px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav>
+    <a class="back" href="index.html" data-ai-back="1">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      目录
+    </a>
+    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <div class="meta-bar">
+      <span class="tag">数字群岛</span>
+      <span class="tag">一人公司</span>
+      <span class="tag">系统架构</span>
+      <span class="tag">反脆弱</span>
+      <span>2026 · #68</span>
+    </div>
+
+    <h1>一人公司的"数字群岛"：为什么我不再做一个扁平的个人博客？</h1>
+
+    <p>很多朋友做个人网站，默认思路都是：搭一个单体博客。不管是 WordPress、Notion 导出的静态站，还是 Hexo / Hugo，所有的东西都塞在同一个主域名下：自我介绍、几篇流水账博客、放两个 PDF 简历，或者堆几张设计图。</p>
+
+    <p>过去十几年，这个模式没毛病。但到了 2026 年，当一个独立创作者或"一人公司"开始真正用 AI 驱动高频产出时，扁平单体站的弊端就会像滚雪球一样爆发。</p>
+
+    <p>前几天，我做了一次彻底的系统解构：<strong>我把我所有的数字化身、工具与创作，拆解重组为了一个拥有 8 座独立岛屿的「数字群岛」</strong>。母港求职站、思想后花园、AI 自动化流水线、街机交互世界全部解耦，全部挂载到独立二级域名上，并且实现了国内免挂梯秒开与 0 服务器成本。</p>
+
+    <p>这不是为了炫技，而是一场关乎<strong>个人资产反脆弱</strong>和<strong>高杠杆心智表达</strong>的产品重构。</p>
+
+    <div class="exhibit-diagram">
+      <svg viewBox="0 0 660 420" role="img" aria-label="一人公司数字群岛架构图：用户经由 Cloudflare Anycast 边缘网络加速直连，通过 DNS 与 Edge Workers 分流至旗舰母港、专属个站、AI生产流水线与交互实验场四大群岛，底层基于 GitHub Pages 多仓自治，实现零服务器成本与反脆弱隔离">
+        <defs>
+          <style>
+            .st{font-family:'Noto Serif SC',serif;font-weight:600;}
+            .lb{font-family:'Noto Sans SC',sans-serif;font-weight:300;}
+            .ct{font-family:'Noto Serif SC',serif;font-weight:700;}
+            .mo{font-family:monospace;font-size:11px;}
+          </style>
+          <marker id="arRed" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0 0 L6 3 L0 6 Z" fill="#a23b2e"/>
+          </marker>
+          <marker id="arGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0 0 L6 3 L0 6 Z" fill="#2f7d5b"/>
+          </marker>
+          <marker id="arGold" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0 0 L6 3 L0 6 Z" fill="#a9802f"/>
+          </marker>
+        </defs>
+
+        <!-- 顶部：全局边缘路由层 -->
+        <rect x="20" y="15" width="620" height="74" rx="10" ry="10" fill="#fdfaf3" stroke="#d8ccb8" stroke-width="1.5"/>
+        <text x="330" y="38" text-anchor="middle" class="st" font-size="14.5" fill="#a23b2e">全网统一接入 · Cloudflare Anycast Edge CDN</text>
+        <text x="330" y="60" text-anchor="middle" class="lb" font-size="12" fill="#7a7268">国内直连免梯 · 智能路由中枢 · HTTPS / HTTP/2 · DDoS 全免防护</text>
+        <text x="330" y="78" text-anchor="middle" class="mo" fill="#a23b2e">daozhuai.cn 根域 + 7 大专属二级域调度</text>
+
+        <!-- 垂直连线与分流中枢 -->
+        <path d="M100 89 v36" stroke="#a23b2e" stroke-width="1.6" fill="none" marker-end="url(#arRed)"/>
+        <path d="M250 89 v36" stroke="#a9802f" stroke-width="1.6" fill="none" marker-end="url(#arGold)"/>
+        <path d="M410 89 v36" stroke="#2f7d5b" stroke-width="1.6" fill="none" marker-end="url(#arGreen)"/>
+        <path d="M560 89 v36" stroke="#526b84" stroke-width="1.6" fill="none"/>
+
+        <!-- 四大群岛功能模块 -->
+        <!-- 1. 旗舰母港 -->
+        <rect x="20" y="130" width="146" height="186" rx="8" ry="8" fill="#fdf5f2" stroke="#e8c2b5" stroke-width="1.4"/>
+        <text x="93" y="155" text-anchor="middle" class="st" font-size="13" fill="#a23b2e">🌟 旗舰母港</text>
+        <text x="93" y="174" text-anchor="middle" class="mo" fill="#a23b2e">daozhuai.cn</text>
+        <line x1="32" y1="184" x2="154" y2="184" stroke="#ecd1c7" stroke-width="1"/>
+        <text x="93" y="204" text-anchor="middle" class="lb" font-size="11" fill="#665">求职与商务门面</text>
+        <text x="93" y="224" text-anchor="middle" class="lb" font-size="11" fill="#665">代表作 · 极速加载</text>
+        <text x="93" y="244" text-anchor="middle" class="lb" font-size="11" fill="#665">第一专业信用触点</text>
+        <rect x="34" y="266" width="118" height="26" rx="4" ry="4" fill="#fae8e3"/>
+        <text x="93" y="283" text-anchor="middle" class="lb" font-size="10.5" fill="#a23b2e">专业 · 商务无干扰</text>
+
+        <!-- 2. 专属个站 -->
+        <rect x="176" y="130" width="146" height="186" rx="8" ry="8" fill="#fcf7ec" stroke="#dfcda8" stroke-width="1.4"/>
+        <text x="249" y="155" text-anchor="middle" class="st" font-size="13" fill="#9d741c">🏝️ 思想后花园</text>
+        <text x="249" y="174" text-anchor="middle" class="mo" fill="#9d741c">me.daozhuai.cn</text>
+        <line x1="188" y1="184" x2="310" y2="184" stroke="#ebd9b9" stroke-width="1"/>
+        <text x="249" y="204" text-anchor="middle" class="lb" font-size="11" fill="#665">200+ 思维模型</text>
+        <text x="249" y="224" text-anchor="middle" class="lb" font-size="11" fill="#665">深度思考 · 灵感日记</text>
+        <text x="249" y="244" text-anchor="middle" class="lb" font-size="11" fill="#665">边缘路由访问隔离</text>
+        <rect x="190" y="266" width="118" height="26" rx="4" ry="4" fill="#f8eed6"/>
+        <text x="249" y="283" text-anchor="middle" class="lb" font-size="10.5" fill="#886415">深度心智 · 慢沉淀</text>
+
+        <!-- 3. AI流水线 -->
+        <rect x="332" y="130" width="146" height="186" rx="8" ry="8" fill="#eef6f0" stroke="#b2d4bd" stroke-width="1.4"/>
+        <text x="405" y="155" text-anchor="middle" class="st" font-size="13" fill="#287350">⚡ 生产力流水线</text>
+        <text x="405" y="174" text-anchor="middle" class="mo" fill="#287350">dailyone / script</text>
+        <line x1="344" y1="184" x2="466" y2="184" stroke="#c8e4d1" stroke-width="1"/>
+        <text x="405" y="204" text-anchor="middle" class="lb" font-size="11" fill="#665">AI 资讯全网日刊</text>
+        <text x="405" y="224" text-anchor="middle" class="lb" font-size="11" fill="#665">编剧分镜剧本工坊</text>
+        <text x="405" y="244" text-anchor="middle" class="lb" font-size="11" fill="#665">审美终端灵感库</text>
+        <rect x="346" y="266" width="118" height="26" rx="4" ry="4" fill="#dceddf"/>
+        <text x="405" y="283" text-anchor="middle" class="lb" font-size="10.5" fill="#287350">高频产出 · 自动化</text>
+
+        <!-- 4. 交互实验场 -->
+        <rect x="488" y="130" width="152" height="186" rx="8" ry="8" fill="#f3f5f8" stroke="#bcc7d4" stroke-width="1.4"/>
+        <text x="564" y="155" text-anchor="middle" class="st" font-size="13" fill="#3a5675">🎮 交互实验场</text>
+        <text x="564" y="174" text-anchor="middle" class="mo" fill="#3a5675">cuzhi / aq</text>
+        <line x1="500" y1="184" x2="628" y2="184" stroke="#cfd8e2" stroke-width="1"/>
+        <text x="564" y="204" text-anchor="middle" class="lb" font-size="11" fill="#665">聊斋促织街机博弈</text>
+        <text x="564" y="224" text-anchor="middle" class="lb" font-size="11" fill="#665">鲁迅未庄文字冒险</text>
+        <text x="564" y="244" text-anchor="middle" class="lb" font-size="11" fill="#665">全动态沉浸音画</text>
+        <rect x="504" y="266" width="120" height="26" rx="4" ry="4" fill="#e1e8f0"/>
+        <text x="564" y="283" text-anchor="middle" class="lb" font-size="10.5" fill="#3a5675">极致交互 · 趣味表达</text>
+
+        <!-- 底部：底层自治基础设施 -->
+        <rect x="20" y="338" width="620" height="66" rx="8" ry="8" fill="#f6f2ea" stroke="#d5cbba" stroke-width="1.4"/>
+        <text x="330" y="362" text-anchor="middle" class="st" font-size="13.5" fill="#4a443c">底层架构：GitHub 多仓自治 ＋ Edge Workers 隔离 ＝ 0 服务器成本 · 反脆弱</text>
+        <text x="330" y="386" text-anchor="middle" class="lb" font-size="11.5" fill="#7a7268">任何单岛崩溃不影响母港 · 独立部署流水线 · 零边际运营维护负担</text>
+      </svg>
+      <div class="cap">图：一人公司的「数字群岛」架构体系。将多维度的个人表达进行物理隔离与按需分流，兼顾极致专业度与无限创造力。</div>
+    </div>
+
+    <h2>一、单体博客的死结：你无法在同一块招牌下既当专家又当玩童</h2>
+
+    <p>做产品的人都知道一个概念：<strong>信息信噪比</strong>。但很多人一到做个人网站，就容易犯"贪多嚼不烂"的毛病。</p>
+
+    <p>想想看，如果你把所有的东西都堆在同一个主页：</p>
+
+    <ul>
+      <li><strong>当投资人或猎头点开你的网站</strong>，他们想在 3 秒钟内看到你的代表作品、商业落地能力和职业履历。结果一进去，迎面扑来的是你昨天熬夜写的《聊斋志异》促织斗虫街机游戏，或者是你情绪波动时写的散文。他们会觉得你"很有趣"，但也会怀疑你"够不够职业"。</li>
+      <li><strong>当喜欢你互动实验的读者点开你的网站</strong>，他们想立刻沉浸在鲁迅《阿Q正传》的文字冒险世界里，结果满屏都是严肃的商业数据看板和思维模型索引，体验瞬间出戏。</li>
+      <li><strong>当技术性能发生故障时</strong>，交互游戏可能调用了大量的音频和动效资源，如果它们跟求职简历部署在同一个仓库，一旦某天游戏流量激增或脚本报错，你的主干商务形象就跟着瘫痪了。</li>
+    </ul>
+
+    <p><strong>扁平单体网站，本质上是用一种单一的身份，去强行应对一个复杂的多维世界。</strong></p>
+
+    <p>一人公司的核心优势在于灵活与多面。你既可以是一个严谨的产品设计师，又可以是一个深邃的哲思作者，还可以是一个天马行空的独立游戏开发者。这三种身份不该互相拉扯，而应该互为犄角——这就是<strong>数字群岛</strong>的由来。</p>
+
+    <h2>二、四维群岛：每一个子域名都是一艘独立快艇</h2>
+
+    <p>在数字群岛架构中，我将个人的数字化身划分为四个互不干扰的群岛圈层：</p>
+
+    <div class="site-grid">
+      <div class="site-item">
+        <span class="badge">母港 · 旗舰</span>
+        <h4>daozhuai.cn</h4>
+        <p>个人核心代表作与商业案例母港。干净利落，针对高端合作与招聘，第一触点免打扰。</p>
+        <code>daozhuai.cn</code>
+      </div>
+      <div class="site-item">
+        <span class="badge">私域 · 思想</span>
+        <h4>me.daozhuai.cn</h4>
+        <p>专属个人小岛。承载 200+ 思维模型库、AI 思考长文与个人日常，带访问隔离保护。</p>
+        <code>me.daozhuai.cn</code>
+      </div>
+      <div class="site-item">
+        <span class="badge">AI流水线 · 资讯</span>
+        <h4>dailyone.daozhuai.cn</h4>
+        <p>全网 24 小时 AI 资讯策展终端。自动化信息清洗与高密度情报沉淀。</p>
+        <code>dailyone.daozhuai.cn</code>
+      </div>
+      <div class="site-item">
+        <span class="badge">AI流水线 · 编剧</span>
+        <h4>script.daozhuai.cn</h4>
+        <p>编剧分镜剧本工坊。AI 辅助剧情推演、人物小传与故事分镜生成器。</p>
+        <code>script.daozhuai.cn</code>
+      </div>
+      <div class="site-item">
+        <span class="badge">交互场 · 街机</span>
+        <h4>cuzhi.daozhuai.cn</h4>
+        <p>聊斋促织街机博弈。古典志怪美学 + 8-bit 复古搏斗音画互动小游戏。</p>
+        <code>cuzhi.daozhuai.cn</code>
+      </div>
+      <div class="site-item">
+        <span class="badge">交互场 · 文学</span>
+        <h4>aq.daozhuai.cn</h4>
+        <p>阿Q未庄沉浸世界。将鲁迅名作重构为分支选择类文字互动冒险。</p>
+        <code>aq.daozhuai.cn</code>
+      </div>
+    </div>
+
+    <p>这种设计带来了三个前所未有的自由度：</p>
+
+    <p><strong>1. 场景专注（Context Isolation）</strong>：发给 HR 的时候，我只发 <code>daozhuai.cn</code>；跟业内朋友探讨认知框架时，我分享 <code>me.daozhuai.cn</code>；在社交媒体上做趣味裂变时，我甩出 <code>cuzhi.daozhuai.cn</code>。每个受众拿到的，都是为他量身定做的极致体验。</p>
+
+    <p><strong>2. 心理包袱归零</strong>：很多创作者之所以迟迟不敢公开自己的作品，是因为害怕"不够完美"影响了自己的主页形象。一旦拆成群岛，我今天哪怕写了一个只有 50 行代码的荒诞交互，给它分配一个子域名就能立即上线。岛与岛之间有安全防火墙，创新的心理摩擦力直接降到了零。</p>
+
+    <p><strong>3. 系统反脆弱（Anti-fragile）</strong>：每个站对应独立的 Git 仓库。促织游戏改版崩了，母港主站毫发无损；AI 资讯流水线爬虫异常了，不影响读者看思维模型。这正是塔勒布在《反脆弱》里说的模块化生存：<strong>通过局部的易碎，换取整体的永生。</strong></p>
+
+    <h2>三、奥卡姆剃刀：0 服务器成本与国内免梯秒开的工程学</h2>
+
+    <p>很多开发者看到这套矩阵，第一反应是：<i>"这得买好几台云服务器吧？一个月运维费不少吧？国内能正常打开吗？"</i></p>
+
+    <p>答案是：<strong>全套架构服务器成本为 0 元，免备案，且全国各地不挂任何梯子秒开。</strong></p>
+
+    <p>我们采用的是极致的「边缘中枢 + 多仓托管」技术组合：</p>
+
+    <ul>
+      <li><strong>存储自治：GitHub Pages / Cloudflare Pages 多仓托管</strong><br>每个子站点都是一个独立的公共或私有 Git 仓库。利用现代静态站点生成与前端单页技术，代码一推即自动部署。不买任何一台云主机，不跑任何重型后台数据库。</li>
+      <li><strong>网络调度：Cloudflare Anycast 边缘路由</strong><br>利用顶级边缘 CDN 节点接管主域名 DNS。无论用户身处北京、上海还是海外，请求都会被调度到最近的 Anycast 节点。通过边缘缓存策略，静态资源首屏加载压到毫秒级。</li>
+      <li><strong>智能网关：Edge Workers 动态反向代理与分流</strong><br>国内直连 GitHub Pages 往往受限或速度不稳定。我们在边缘节点上部署了轻量级的 Workers 网关，自动进行请求清洗、路径重写与 SSL 握手加速。甚至还能实现路径级的权限隔离——比如外界无法直接探测我的求职隐私页面，除非经由白名单路由。</li>
+    </ul>
+
+    <p>如无必要，勿增实体。这就是奥卡姆剃刀的威力。你不需要 Kubernetes，不需要每月几百块的阿里云 ECS 账单，不需要成天半夜被报警短信惊醒去重启 Nginx。利用边缘无服务器计算，一个人的技术栈可以轻如鸿毛，却稳如磐石。</p>
+
+    <h2>四、一人公司的本质，是把数字资产做成"复利飞轮"</h2>
+
+    <p>硅谷投资人纳瓦尔在《纳瓦尔宝典》里提到过现代人的核心杠杆：<strong>"代码与媒体是无需许可的杠杆。它们创造出可以在你睡觉时代替你工作的军队。"</strong></p>
+
+    <p>以前我们把代码当成软件公司的专属物，把媒体当成公众号或博主的自留地。而在 2026 年，由于 AI 的加持，一个人就能自如地驾驭代码与媒体这两大杠杆。</p>
+
+    <p>这八个站点，不是一次性的展览品，而是我个人系统的持续输出终端：</p>
+
+    <ul>
+      <li>每天清晨，AI 日刊自动化流水线在后台清洗前沿资讯，输出沉淀；</li>
+      <li>每有深度思考，它会沉淀为原子思维模型，挂载在心智小岛上；</li>
+      <li>每有一段动人的文学或创意，它会在实验场里长成一个可互动的游戏；</li>
+      <li>而这一切最终汇入母港，成为个人商业信用的一块坚固砖石。</li>
+    </ul>
+
+    <p>现实世界里，开八家专卖店需要承受高昂的租金、人力和沉没成本。但在数字世界里，拥有一个完整的「数字群岛」，所需要的仅仅是一台电脑、一套清晰的架构思维，以及不断把好想法变成现实的动手欲望。</p>
+
+    <p>与其在算法平台上跟几千万同质化的内容卷推荐流，不如抽身出来，在开放互联网上筑起属于自己的数字大陆。从一座小岛开始，慢慢长出一片群岛。</p>
+
+    <hr>
+
+    <blockquote>
+      <p>这是「岛主的 AI 思考」第 68 篇。从一个写字的小岛，到如今八座互为互补的数字群岛。我们建站，不是为了证明自己会写前端代码，而是为了在喧嚣的公域平台之外，为自己的灵魂、审美与创造力，安放一块真正自由、长青的立足之地。</p>
+    </blockquote>
+  </article>
+
+  <section class="related-models" aria-label="本文关联的思维模型">
+    <h2>📎 本文用到的思维模型</h2>
+    <ul>
+      <li><span class="rm-tag">思维</span><a href="../models/model-n24.html">第一性原理</a> —— 穿透"个人网站必须是博客"的经验假象，从个人数字资产的真实价值起点重新推导架构。</li>
+      <li><span class="rm-tag">系统</span><a href="../models/model-n119.html">反脆弱</a> —— 模块化解耦，局部易碎不损整体，从多维度的实验与不确定性中持续汲取养分。</li>
+      <li><span class="rm-tag">极简</span><a href="../models/model-n01.html">奥卡姆剃刀</a> —— 如无必要勿增实体，砍掉高昂臃肿的服务器运维，用边缘网络与多仓自治实现极度纯粹。</li>
+      <li><span class="rm-tag">决策</span><a href="../models/model-result-thinking.html">结果思维</a> —— 以终为始：求职看母港，深度看心智，玩乐看交互，根据最终交付价值倒推入口设计。</li>
+      <li><span class="rm-tag">增长</span><a href="../models/model-n15.html">复利效应</a> —— 每一个子域都是一枚持续生长的数字资产，随时间推移积累全网域名权重与个人信用。</li>
+    </ul>
+  </section>
+
+  <div class="article-nav">
+    <a data-ai-back="1" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      返回目录
+    </a>
+    <a href="../v2/index.html#content">
+      回岛上
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</main>
+
+<div class="footer">© 岛主 · 在岛上慢慢长出来的东西</div>
+
+<script>
+/* ---- "返回目录"链接：history.back() 优先，保留原滚动位置 ---- */
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[data-ai-back]');
+    if (!a) return;
+    var ref = document.referrer || '';
+    if (history.length > 1 && ref.indexOf('/ai-thinking/') > -1) {
+      e.preventDefault();
+      history.back();
+    }
+  });
+})();
+</script>
+
+<script src="../assets/share/share-widget.js"></script>
+</body>
+</html>

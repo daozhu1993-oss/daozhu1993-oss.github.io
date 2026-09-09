@@ -691,6 +691,44 @@ body {
   line-height: 1.4;
 }
 
+.contact-info .xhs-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--lcd-dark);
+  font-weight: 700;
+  background: rgba(53, 51, 48, 0.08);
+  padding: 1.5px 5px;
+  border-radius: 3px;
+  margin: 2px 0;
+  border: 1px dashed rgba(53, 51, 48, 0.4);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.contact-info .xhs-item:hover,
+.contact-info .xhs-item:active {
+  background: var(--lcd-dark);
+  color: var(--lcd-bg);
+}
+
+.contact-info .xhs-item .xhs-badge {
+  font-size: 7px;
+  line-height: 1;
+  background: var(--lcd-dark);
+  color: var(--lcd-bg);
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: normal;
+}
+
+.contact-info .xhs-item:hover .xhs-badge,
+.contact-info .xhs-item:active .xhs-badge {
+  background: var(--lcd-bg);
+  color: var(--lcd-dark);
+}
+
 /* ══════════════════════════════════════════════════════════════
    掌机机身中下部 (Branding + Controls)
    ══════════════════════════════════════════════════════════════ */

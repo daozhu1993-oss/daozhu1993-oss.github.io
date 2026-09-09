@@ -351,13 +351,15 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="contact-info">
             <div class="c-title">微信扫码添加岛主</div>
             <div class="c-item">✦ 个人小岛：daozhuai.cn</div>
-            <div class="c-item">✦ 小红书：@岛主</div>
-            <div class="c-item">✦ 欢迎探讨：AI、故事、游戏化</div>
+            <a class="c-item xhs-item" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation(); window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank')">
+              ✦ 小红书：@岛主 <span class="xhs-badge">989赞藏</span> ↗
+            </a>
+            <div class="c-item">✦ 探讨：AI、故事、游戏化</div>
           </div>
         </div>
       </div>
     `;
-    bottomHint.textContent = '长按识别或扫码 · B 键返回主菜单';
+    bottomHint.textContent = '按 A 键或点击直达小红书 · B 键返回';
   }
 
   // 掌机按键操作总分发
@@ -452,6 +454,21 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (action === 'B') {
         if (window.retroAudio) window.retroAudio.cancel();
         renderHome();
+      }
+      return;
+    }
+
+    // CONTACT 视图按键：A 键直达小红书
+    if (state.currentView === 'CONTACT') {
+      if (action === 'A') {
+        if (window.retroAudio) window.retroAudio.confirm();
+        window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank');
+        return;
+      }
+      if (action === 'B') {
+        if (window.retroAudio) window.retroAudio.cancel();
+        renderHome();
+        return;
       }
       return;
     }

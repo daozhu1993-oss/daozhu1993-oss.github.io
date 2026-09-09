@@ -60,6 +60,32 @@ document.addEventListener('DOMContentLoaded', () => {
       url: isLocal ? 'http://localhost:7788/' : 'https://kart.daozhuai.cn',
       fallbackUrl: 'https://kart.daozhuai.cn',
       tip: '极速飞驰漂移 · 单击 A 键开玩'
+    },
+    {
+      id: 'tetris',
+      rom: 'ROM 05',
+      title: 'GB 俄罗斯方块 1989',
+      source: '任天堂 Game Boy 封神之作',
+      year: '1989 · TETRIS',
+      tags: ['经典消除', '喀秋莎BGM', '幽灵阴影', '一键硬降'],
+      desc: '原汁原味 1989 初代点阵绿调、7大经典骨牌、Web Audio 原生合成喀秋莎芯片音乐，支持暂存与打榜记分。',
+      cover: 'assets/covers/tetris.jpg',
+      url: 'games/tetris/index.html',
+      fallbackUrl: 'games/tetris/index.html',
+      tip: '经典点阵消除 · 单击 A 键开玩'
+    },
+    {
+      id: 'shanhai',
+      rom: 'ROM 06',
+      title: '山海灵感图鉴',
+      source: '《山海经》× 宝可梦 8-Bit 复刻',
+      year: '1996 · POKÉDEX',
+      tags: ['像素大地图', '草丛遇怪', '回合对战', '全图鉴收服'],
+      desc: '漫步山海海岛大地图，踩草丛遭遇九尾狐、饕餮、毕方与心魔异兽，压低血量投掷收妖葫芦，点亮全套山海图鉴！',
+      cover: 'assets/covers/shanhai.jpg',
+      url: 'games/shanhai/index.html',
+      fallbackUrl: 'games/shanhai/index.html',
+      tip: '像素冒险遇怪 · 单击 A 键开玩'
     }
   ];
 
@@ -133,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderHome() {
     state.currentView = 'HOME';
     const menuItems = [
-      { id: 'games', label: '游戏匣子', code: '01', sub: '4款经典游戏卡带' },
+      { id: 'games', label: '游戏匣子', code: '01', sub: '6款经典游戏卡带' },
       { id: 'minigame', label: '掌机彩蛋', code: '02', sub: '8-Bit 促织跳跳乐' },
       { id: 'about', label: '关于岛主', code: '03', sub: '故事驱动器与理念' },
       { id: 'works', label: '作品示例', code: '04', sub: '灵感库/绘本/工具' },

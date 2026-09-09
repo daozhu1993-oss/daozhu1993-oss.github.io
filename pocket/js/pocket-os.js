@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="profile-info">
             <div class="name-row">
-              <span class="name">岛主 · 郭轩</span>
+              <span class="name">岛主</span>
               <span class="badge">PROD</span>
             </div>
             <div class="role-desc">全栈产品人 · 故事驱动器</div>
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="about-scroll">
           <div class="about-block">
-            <h3>【关于郭轩 · 岛主】</h3>
+            <h3>【关于岛主】</h3>
             <p>你好，我是岛主。一个相信<strong>“故事是最高效沟通算法”</strong>的全栈产品人与独立探索者。</p>
           </div>
           <div class="about-block">

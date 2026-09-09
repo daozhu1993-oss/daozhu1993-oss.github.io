@@ -149,7 +149,7 @@ class PosterGenerator {
 
     // 顶栏
     ctx.font = 'bold 22px monospace';
-    ctx.fillText('PLAYER 01 · 岛主 (郭轩)', lcdX + 30, lcdY + 45);
+    ctx.fillText('PLAYER 01 · 岛主', lcdX + 30, lcdY + 45);
     ctx.fillText('♥♥♥', lcdX + lcdW - 110, lcdY + 45);
 
     // 个人卡片框
@@ -162,7 +162,7 @@ class PosterGenerator {
     ctx.fillText('🐱', lcdX + 45, lcdY + 130);
 
     ctx.font = 'bold 26px sans-serif';
-    ctx.fillText('郭轩 · 岛主', lcdX + 115, lcdY + 105);
+    ctx.fillText('岛主', lcdX + 115, lcdY + 105);
     ctx.font = '20px sans-serif';
     ctx.fillText('全栈产品人 · 故事驱动器', lcdX + 115, lcdY + 138);
 

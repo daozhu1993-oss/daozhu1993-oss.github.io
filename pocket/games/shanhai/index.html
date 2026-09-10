@@ -41,15 +41,15 @@
     /* 掌机屏幕容器 */
     .game-wrapper {
       background: var(--gb-lightest);
-      border: 12px solid var(--bezel);
-      border-radius: 12px 12px 36px 12px;
+      border: 10px solid var(--bezel);
+      border-radius: 12px 12px 32px 12px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(0, 0, 0, 0.4);
       display: flex;
       flex-direction: column;
       position: relative;
-      max-width: 480px;
+      max-width: 460px;
       width: 100%;
-      padding: 8px;
+      padding: 6px;
     }
 
     /* 顶栏信息 */
@@ -57,7 +57,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 4px 8px 6px;
+      padding: 4px 6px;
       border-bottom: 2px solid var(--gb-dark);
       font-size: 11px;
       font-weight: 900;
@@ -73,8 +73,8 @@
       color: var(--gb-lightest);
       border: none;
       border-radius: 3px;
-      padding: 2px 6px;
-      font-size: 10px;
+      padding: 2px 7px;
+      font-size: 10.5px;
       font-weight: bold;
       cursor: pointer;
     }
@@ -83,13 +83,33 @@
       background: var(--gb-darkest);
     }
 
-    /* 游戏主画布容器 (160x144 GB 分辨率放大) */
+    /* 游戏引导提示条 */
+    .guide-bar {
+      background: rgba(48, 98, 48, 0.15);
+      border-bottom: 1px dashed var(--gb-dark);
+      padding: 3px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .guide-tag {
+      background: var(--gb-dark);
+      color: var(--gb-lightest);
+      padding: 1px 4px;
+      border-radius: 2px;
+      font-size: 8.5px;
+    }
+
+    /* 游戏核心画布容器 (160x144 GB 分辨率以 2x 缩放呈现) */
     .screen-frame {
       position: relative;
       border: 3px solid var(--gb-darkest);
       border-radius: 2px;
       background: var(--gb-lightest);
-      margin: 8px auto 4px;
+      margin: 4px auto 2px;
       width: 320px;
       height: 288px;
       box-shadow: inset 0 0 8px rgba(15, 56, 15, 0.3);
@@ -101,13 +121,14 @@
       width: 100%;
       height: 100%;
       image-rendering: pixelated;
+      cursor: crosshair;
     }
 
     .scanlines {
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: linear-gradient(rgba(15, 56, 15, 0) 50%, rgba(15, 56, 15, 0.09) 50%);
+      background: linear-gradient(rgba(15, 56, 15, 0) 50%, rgba(15, 56, 15, 0.08) 50%);
       background-size: 100% 4px;
     }
 
@@ -116,9 +137,9 @@
       border: 2px solid var(--gb-darkest);
       border-radius: 4px;
       background: var(--gb-lightest);
-      min-height: 72px;
-      margin: 4px auto 0;
-      padding: 6px 10px;
+      min-height: 80px;
+      margin: 2px auto 0;
+      padding: 6px 8px;
       font-size: 11.5px;
       line-height: 1.45;
       font-weight: 700;
@@ -136,19 +157,7 @@
       flex: 1;
     }
 
-    .dialog-prompt {
-      align-self: flex-end;
-      font-size: 9px;
-      color: var(--gb-dark);
-      animation: blink 0.8s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* 战斗指令按钮栅格 (2x2) */
+    /* 战斗指令面板 (2x2) */
     .battle-menu {
       display: none;
       grid-template-columns: 1fr 1fr;
@@ -166,7 +175,7 @@
       color: var(--gb-darkest);
       font-size: 11px;
       font-weight: 900;
-      padding: 4px 6px;
+      padding: 5px 6px;
       border-radius: 3px;
       cursor: pointer;
       display: flex;
@@ -175,44 +184,67 @@
       gap: 3px;
     }
 
-    .b-btn:active, .b-btn.active {
+    .b-btn.primary {
+      background: #8b264e;
+      color: #fff;
+      border-color: #5a1832;
+    }
+
+    .b-btn:active {
       background: var(--gb-darkest);
       color: var(--gb-lightest);
     }
 
-    /* 图鉴弹窗 (Pokédex Modal) */
-    .pokedex-modal {
+    /* 新手引导与图鉴弹窗 (Modal) */
+    .modal-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(15, 56, 15, 0.94);
+      background: rgba(15, 56, 15, 0.95);
       color: var(--gb-lightest);
       display: none;
       flex-direction: column;
-      z-index: 20;
-      padding: 10px;
+      z-index: 25;
+      padding: 12px;
+      overflow-y: auto;
     }
 
-    .pokedex-modal.active {
+    .modal-overlay.active {
       display: flex;
     }
 
-    .dex-header {
+    .modal-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 900;
       border-bottom: 2px solid var(--gb-light);
       padding-bottom: 4px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .dex-list {
-      flex: 1;
-      overflow-y: auto;
+    .guide-card {
+      background: rgba(139, 172, 15, 0.18);
+      border: 1px solid var(--gb-light);
+      border-radius: 4px;
+      padding: 8px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .guide-card h4 {
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+
+    .dex-grid {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      flex: 1;
+      overflow-y: auto;
     }
 
     .dex-item {
@@ -221,9 +253,9 @@
       gap: 8px;
       background: rgba(139, 172, 15, 0.2);
       border: 1px solid var(--gb-light);
-      padding: 4px 6px;
+      padding: 5px 8px;
       border-radius: 4px;
-      font-size: 10.5px;
+      font-size: 11px;
     }
 
     .dex-num {
@@ -232,31 +264,31 @@
     }
 
     .dex-name {
-      font-weight: 700;
+      font-weight: 800;
       flex: 1;
     }
 
-    .dex-status {
+    .dex-badge {
       font-size: 9px;
-      padding: 1px 4px;
-      border-radius: 2px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
       background: var(--gb-dark);
       color: var(--gb-lightest);
     }
 
-    .dex-status.caught {
+    .dex-badge.caught {
       background: var(--accent-gold);
       color: var(--gb-darkest);
       font-weight: 900;
     }
 
-    /* 移动端屏幕触控控制器 (底部) */
+    /* 触控按键区 */
     .touch-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 14px 14px;
-      gap: 16px;
+      padding: 8px 12px 10px;
+      gap: 12px;
       background: rgba(48, 98, 48, 0.15);
       border-top: 2px solid var(--gb-dark);
       margin-top: 6px;
@@ -264,30 +296,30 @@
 
     .dpad-cluster {
       display: grid;
-      grid-template-columns: repeat(3, 44px);
-      grid-template-rows: repeat(3, 44px);
-      gap: 4px;
+      grid-template-columns: repeat(3, 40px);
+      grid-template-rows: repeat(3, 40px);
+      gap: 3px;
     }
 
     .touch-btn {
       background: var(--gb-dark);
       color: var(--gb-lightest);
       border: 2px solid var(--gb-darkest);
-      border-radius: 8px;
-      font-size: 15px;
+      border-radius: 6px;
+      font-size: 14px;
       font-weight: 900;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 3px 0 var(--gb-darkest);
+      box-shadow: 0 2px 0 var(--gb-darkest);
       touch-action: none;
     }
 
     .touch-btn:active, .touch-btn.pressed {
       background: var(--gb-darkest);
       transform: translateY(2px);
-      box-shadow: 0 1px 0 var(--gb-darkest);
+      box-shadow: none;
     }
 
     .dpad-up { grid-column: 2; grid-row: 1; }
@@ -297,19 +329,19 @@
 
     .action-cluster {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
     }
 
     .btn-circle {
-      width: 54px;
-      height: 54px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: #8b264e;
       color: #fff;
       border: 2px solid #5a1832;
-      box-shadow: 0 4px 0 #3e1022;
-      font-size: 16px;
+      box-shadow: 0 3px 0 #3e1022;
+      font-size: 15px;
       font-weight: 900;
       display: flex;
       flex-direction: column;
@@ -320,8 +352,8 @@
     }
 
     .btn-circle:active, .btn-circle.pressed {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #3e1022;
+      transform: translateY(2px);
+      box-shadow: none;
     }
 
     .btn-circle span {
@@ -330,14 +362,14 @@
       font-weight: normal;
     }
 
-    .btn-dex {
+    .btn-action-dex {
       width: 44px;
       height: 44px;
       border-radius: 8px;
       background: var(--gb-dark);
       color: var(--gb-lightest);
       border: 2px solid var(--gb-darkest);
-      box-shadow: 0 3px 0 var(--gb-darkest);
+      box-shadow: 0 2px 0 var(--gb-darkest);
       font-size: 11px;
       font-weight: 900;
       display: flex;
@@ -346,31 +378,21 @@
       cursor: pointer;
     }
 
-    @media (min-width: 800px) and (min-height: 700px) {
-      .touch-controls {
-        display: none;
-      }
-      .game-wrapper {
-        padding-bottom: 16px;
-      }
-    }
-
-    @media (max-width: 400px) {
+    @media (max-width: 380px) {
       .screen-frame {
-        width: 290px;
-        height: 260px;
+        width: 280px;
+        height: 252px;
       }
       .dialog-box {
-        max-width: 290px;
+        max-width: 280px;
       }
       .dpad-cluster {
-        grid-template-columns: repeat(3, 38px);
-        grid-template-rows: repeat(3, 38px);
+        grid-template-columns: repeat(3, 34px);
+        grid-template-rows: repeat(3, 34px);
       }
       .btn-circle {
-        width: 46px;
-        height: 46px;
-        font-size: 14px;
+        width: 44px;
+        height: 44px;
       }
     }
   </style>
@@ -382,43 +404,75 @@
     <header class="gb-header">
       <span>◆ 山海灵感图鉴 · SHANHAI-DEX ◆</span>
       <div class="header-btns">
-        <button class="icon-btn" id="btn-dex">📖 图鉴</button>
+        <button class="icon-btn" id="btn-how">❓ 玩法指南</button>
+        <button class="icon-btn" id="btn-dex">📖 图鉴(<span id="dex-count">0</span>/6)</button>
         <button class="icon-btn" id="btn-sound">🔊 声音</button>
       </div>
     </header>
 
-    <!-- 掌机核心画布 (320x288) -->
+    <!-- 目标引导栏 -->
+    <div class="guide-bar">
+      <span>🌾 目标：在深色晃动草丛中走动寻找异兽</span>
+      <span class="guide-tag" id="hud-status">营地探索中</span>
+    </div>
+
+    <!-- 游戏画布 (320x288) -->
     <div class="screen-frame">
       <canvas id="game-canvas" width="160" height="144"></canvas>
       <div class="scanlines"></div>
 
+      <!-- 新手玩法指南弹窗 -->
+      <div class="modal-overlay active" id="modal-guide">
+        <div class="modal-head">
+          <span>🎮 山海图鉴 · 玩法说明书</span>
+          <button class="icon-btn" id="btn-start-game">进入探险 ➔</button>
+        </div>
+        <div class="guide-card">
+          <h4>1. 移动探索（点击屏幕或按方向键）</h4>
+          <p>您扮演岛主，可以在海岛地图中任意移动。点击地图任意位置，小人会自动朝着该方向行走。</p>
+        </div>
+        <div class="guide-card">
+          <h4>2. 深入草丛（触发经典遇怪）</h4>
+          <p>海岛上有茂密的【深色草丛】。走进草丛走动时，会触发经典宝可梦黑白旋涡转场，偶遇野生山海神兽！</p>
+        </div>
+        <div class="guide-card">
+          <h4>3. 战斗与收服（核心技巧）</h4>
+          <p>• 先点【⚔️ 招式】削弱神兽生命值；<br>
+             • <strong>生命值越低，收服成功率越高！</strong><br>
+             • 血条变红后，点击【🏺 葫芦收妖】掷出收妖葫芦；<br>
+             • 晃动三下咔哒一声，即可收录进您的山海全图鉴！</p>
+        </div>
+        <button class="b-btn primary" id="btn-close-guide" style="padding:8px;font-size:12px;margin-top:4px;">
+          知道了，立即开始探险 (A)
+        </button>
+      </div>
+
       <!-- 图鉴列表覆盖层 -->
-      <div class="pokedex-modal" id="pokedex-modal">
-        <div class="dex-header">
-          <span>山海全图鉴 (SHANHAI-DEX)</span>
+      <div class="modal-overlay" id="modal-dex">
+        <div class="modal-head">
+          <span>📖 山海全图鉴 (<span id="dex-total">0</span>/6)</span>
           <button class="icon-btn" id="btn-close-dex">✕ 关闭 (B)</button>
         </div>
-        <div class="dex-list" id="dex-list">
-          <!-- 动态渲染图鉴列表 -->
+        <div class="dex-grid" id="dex-grid">
+          <!-- 动态注入 6 大异兽卡片 -->
         </div>
       </div>
     </div>
 
     <!-- 底部对白与指令栏 -->
     <div class="dialog-box">
-      <div class="dialog-text" id="dialog-text">在草丛中漫游，寻找山海异兽……\n方向键移动 · [A] 键确认</div>
+      <div class="dialog-text" id="dialog-text">在海岛深色草丛中漫步，寻找山海异兽……\n方向键移动 · 点击地图亦可寻路</div>
       
-      <!-- 战斗指令面板 -->
+      <!-- 战斗指令面板 (对战时显现) -->
       <div class="battle-menu" id="battle-menu">
-        <button class="b-btn" id="cmd-fight">⚔️ 招式</button>
-        <button class="b-btn" id="cmd-catch">🏺 葫芦收妖</button>
+        <button class="b-btn" id="cmd-fight">⚔️ 招式攻击</button>
+        <button class="b-btn primary" id="cmd-catch">🏺 葫芦收妖</button>
         <button class="b-btn" id="cmd-item">🌿 长生仙露</button>
-        <button class="b-btn" id="cmd-run">🏃 撤退</button>
+        <button class="b-btn" id="cmd-run">🏃 撤退回营</button>
       </div>
-      <div class="dialog-prompt" id="dialog-prompt">▼</div>
     </div>
 
-    <!-- 手机触控按键区 -->
+    <!-- 屏幕触控控制器 (底部) -->
     <div class="touch-controls">
       <div class="dpad-cluster">
         <button class="touch-btn dpad-up" id="t-up">▲</button>
@@ -428,8 +482,8 @@
       </div>
 
       <div class="action-cluster">
-        <button class="btn-dex" id="t-dex">图鉴</button>
-        <button class="btn-circle" id="t-b">B<span>取消</span></button>
+        <button class="btn-action-dex" id="t-dex">图鉴</button>
+        <button class="btn-circle" id="t-b">B<span>返回</span></button>
         <button class="btn-circle" id="t-a">A<span>确定</span></button>
       </div>
     </div>
@@ -437,7 +491,7 @@
 
   <script>
     /**
-     * Web Audio API 纯原生芯片音效引擎 (遇怪转场旋涡音、对战音、收妖成功音)
+     * Web Audio API 原生芯片音效合成器
      */
     class ShanhaiAudio {
       constructor() {
@@ -471,21 +525,18 @@
         } catch(e) {}
       }
 
-      sfxStep() { this.playTone(160, 'triangle', 0.03, 0.05); }
+      sfxStep() { this.playTone(180, 'triangle', 0.03, 0.04); }
       sfxConfirm() { this.playTone(660, 'square', 0.06, 0.08); }
       sfxCancel() { this.playTone(280, 'square', 0.06, 0.08); }
 
       sfxEncounter() {
-        // 经典宝可梦遇怪螺旋音阶
         const notes = [220, 330, 440, 550, 660, 880, 1100];
-        notes.forEach((f, i) => {
-          setTimeout(() => this.playTone(f, 'sawtooth', 0.12, 0.12), i * 60);
-        });
+        notes.forEach((f, i) => setTimeout(() => this.playTone(f, 'sawtooth', 0.12, 0.12), i * 50));
       }
 
       sfxAttack() {
-        this.playTone(480, 'square', 0.05, 0.12);
-        setTimeout(() => this.playTone(240, 'sawtooth', 0.1, 0.15), 50);
+        this.playTone(440, 'square', 0.05, 0.12);
+        setTimeout(() => this.playTone(220, 'sawtooth', 0.09, 0.15), 50);
       }
 
       sfxCatchShake() {
@@ -493,16 +544,13 @@
       }
 
       sfxCatchSuccess() {
-        // 胜利号角
         const fanfare = [523, 659, 783, 1046];
-        fanfare.forEach((f, i) => {
-          setTimeout(() => this.playTone(f, 'square', 0.2, 0.15), i * 90);
-        });
+        fanfare.forEach((f, i) => setTimeout(() => this.playTone(f, 'square', 0.2, 0.15), i * 90));
       }
     }
 
     /**
-     * 6 大山海异兽图鉴数据库
+     * 6 大山海异兽图鉴数据库（带生动生平与典故）
      */
     const BEASTS = [
       {
@@ -510,72 +558,78 @@
         name: '九尾狐',
         title: '青丘灵狐',
         source: '《山海经·南山经》',
-        desc: '青丘之山有兽焉，其状如狐而九尾，其音如婴儿，食者不蛊。',
+        desc: '青丘之山有兽焉，其状如狐而九尾，其音如婴儿，食者不蛊。九尾摇曳，惑人心智。',
         hpMax: 45,
-        attack: 16,
+        attack: 15,
         rare: '稀有',
         color: '#d46b40',
-        catchRate: 0.55
+        catchRate: 0.60,
+        type: 'fox'
       },
       {
         id: '002',
         name: '饕餮',
         title: '吞噬之神',
         source: '《山海经·北山经》',
-        desc: '钩吾之山其上多玉，有兽焉，其状如羊身人面，目在腋下，虎齿人爪。',
+        desc: '钩吾之山其上多玉，有兽焉，其状如羊身人面，目在腋下，虎齿人爪，贪食博识。',
         hpMax: 65,
         attack: 22,
         rare: '史诗',
         color: '#63487c',
-        catchRate: 0.40
+        catchRate: 0.40,
+        type: 'taotie'
       },
       {
         id: '003',
         name: '毕方',
         title: '灵感之火',
         source: '《山海经·西山经》',
-        desc: '章莪之山有鸟焉，其状如鹤，一足，赤文青质而白喙，名曰毕方。',
+        desc: '章莪之山有鸟焉，其状如鹤，一足，赤文青质而白喙，名曰毕方，见则其邑有讹火。',
         hpMax: 50,
         attack: 18,
         rare: '稀有',
         color: '#d14334',
-        catchRate: 0.50
+        catchRate: 0.50,
+        type: 'bifang'
       },
       {
         id: '004',
         name: '鲲鹏',
         title: '北冥巨浪',
         source: '庄子《逍遥游》',
-        desc: '北冥有鱼，其名为鲲，鲲之大不知其几千里也；化而为鸟，其名为鹏。',
+        desc: '北冥有鱼其名为鲲，鲲之大不知几千里；化而为鸟其名为鹏，怒而飞其翼若垂天之云。',
         hpMax: 85,
-        attack: 26,
+        attack: 25,
         rare: '传说',
         color: '#2a5caa',
-        catchRate: 0.25
+        catchRate: 0.28,
+        type: 'kunpeng'
       },
       {
         id: '005',
         name: '拖延怪',
         title: '心魔之虫',
-        source: '现代超级个体观察',
-        desc: '常在deadline前夕出没，窃取专注力，口头禅是“明天再做吧”。',
+        source: '超级个体生存观察',
+        desc: '常在截止日出没，背负走慢的时钟，偷取行动力，口头禅是“明天再说吧”。',
         hpMax: 35,
-        attack: 12,
+        attack: 10,
         rare: '常见',
         color: '#728059',
-        catchRate: 0.75
+        catchRate: 0.80,
+        type: 'snail'
       },
       {
         id: '006',
         name: '完美主义妖',
         title: '思维枷锁',
-        source: '现代创作者寓言',
-        desc: '用苛刻的细节缠绕灵感，破解之法为“先完成，再完美”。',
+        source: '创作者心灵寓言',
+        desc: '用苛刻的标尺丈量每一丝灵感，唯有领悟“先完成，再完美”方能将其收服破除！',
         hpMax: 55,
-        attack: 20,
+        attack: 19,
         rare: '罕见',
         color: '#496072',
-        catchRate: 0.45
+        catchRate: 0.45,
+        type: 'demon'
       }
     ];
 
@@ -590,15 +644,15 @@
 
         // 玩家状态
         this.player = {
-          x: 4, // 瓦片网格
+          x: 4,
           y: 4,
           dir: 'down',
           stepAnim: 0,
           hp: 100,
           hpMax: 100,
           level: 5,
-          gourds: 8, // 收妖葫芦
-          potions: 3 // 长生仙露
+          gourds: 10,
+          potions: 3
         };
 
         // 地图尺寸 16 x 14 (每格 10x10 像素)
@@ -610,13 +664,17 @@
         // 状态: 'OVERWORLD' | 'ENCOUNTER_TRANSITION' | 'BATTLE'
         this.gameState = 'OVERWORLD';
         this.transitionFrame = 0;
+        this.grassAnimTime = 0;
 
         // 战斗状态
         this.battle = {
           beast: null,
           beastHp: 0,
-          turn: 'PLAYER', // 'PLAYER' | 'ENEMY' | 'ANIM'
-          message: ''
+          turn: 'PLAYER',
+          isCatching: false,
+          catchStep: 0,
+          enemyShake: 0,
+          playerShake: 0
         };
 
         // 图鉴收服记录持久化
@@ -625,31 +683,34 @@
 
         this.initDOM();
         this.initControls();
+        this.updateDexBadge();
         this.loop();
       }
 
-      // 生成海岛山川像素地图 (0=草地, 1=深草丛遇怪, 2=石板路, 3=湖水, 4=古树/神庙)
       generateMap() {
         const m = [];
         for (let y = 0; y < this.MAP_H; y++) {
           const row = [];
           for (let x = 0; x < this.MAP_W; x++) {
-            // 水域边界
+            // 水域边界 (3)
             if (x === 0 || x === this.MAP_W - 1 || y === 0 || y === this.MAP_H - 1) {
               row.push(3);
             }
-            // 中间石板路
-            else if (x === 8 || (y === 7 && x >= 4 && x <= 12)) {
+            // 石板主路 (2)
+            else if (x === 8 || (y === 7 && x >= 3 && x <= 13)) {
               row.push(2);
             }
-            // 深草丛 (遇怪区)
+            // 西北与东南两大【深草丛遇怪区】 (1)
             else if ((x >= 2 && x <= 6 && y >= 2 && y <= 5) || (x >= 10 && x <= 14 && y >= 8 && y <= 12)) {
               row.push(1);
             }
-            // 神庙与古树
-            else if ((x === 4 && y === 10) || (x === 12 && y === 3)) {
+            // 岛主营地帐篷 (5) 与 不周山神庙 (4)
+            else if (x === 4 && y === 9) {
+              row.push(5);
+            } else if (x === 12 && y === 3) {
               row.push(4);
             }
+            // 普通浅草地 (0)
             else {
               row.push(0);
             }
@@ -662,13 +723,18 @@
       initDOM() {
         this.dialogText = document.getElementById('dialog-text');
         this.battleMenu = document.getElementById('battle-menu');
+        this.hudStatus = document.getElementById('hud-status');
 
-        // 图鉴按钮
-        document.getElementById('btn-dex').addEventListener('click', () => this.toggleDex());
-        document.getElementById('t-dex').addEventListener('click', () => this.toggleDex());
-        document.getElementById('btn-close-dex').addEventListener('click', () => this.toggleDex());
+        // 指南与图鉴弹窗
+        document.getElementById('btn-how').addEventListener('click', () => this.toggleGuide(true));
+        document.getElementById('btn-start-game').addEventListener('click', () => this.toggleGuide(false));
+        document.getElementById('btn-close-guide').addEventListener('click', () => this.toggleGuide(false));
 
-        // 声音切换
+        document.getElementById('btn-dex').addEventListener('click', () => this.toggleDex(true));
+        document.getElementById('t-dex').addEventListener('click', () => this.toggleDex(true));
+        document.getElementById('btn-close-dex').addEventListener('click', () => this.toggleDex(false));
+
+        // 声音开关
         const btnSound = document.getElementById('btn-sound');
         btnSound.addEventListener('click', () => {
           this.audio.init();
@@ -676,22 +742,39 @@
           btnSound.textContent = this.audio.muted ? '🔇 声音(关)' : '🔊 声音(开)';
         });
 
-        // 战斗指令按钮
+        // 战斗指令
         document.getElementById('cmd-fight').addEventListener('click', () => this.battleAction('FIGHT'));
         document.getElementById('cmd-catch').addEventListener('click', () => this.battleAction('CATCH'));
         document.getElementById('cmd-item').addEventListener('click', () => this.battleAction('ITEM'));
         document.getElementById('cmd-run').addEventListener('click', () => this.battleAction('RUN'));
+
+        // 点击画布直接寻路行走
+        this.canvas.addEventListener('click', (e) => {
+          const rect = this.canvas.getBoundingClientRect();
+          const clickX = Math.floor((e.clientX - rect.left) / (rect.width / this.MAP_W));
+          const clickY = Math.floor((e.clientY - rect.top) / (rect.height / this.MAP_H));
+
+          const dx = clickX - this.player.x;
+          const dy = clickY - this.player.y;
+
+          if (Math.abs(dx) > Math.abs(dy)) {
+            this.move(dx > 0 ? 1 : -1, 0, dx > 0 ? 'right' : 'left');
+          } else if (dy !== 0) {
+            this.move(0, dy > 0 ? 1 : -1, dy > 0 ? 'down' : 'up');
+          }
+        });
       }
 
-      setDialog(text) {
-        this.dialogText.textContent = text;
-      }
-
-      toggleDex() {
+      toggleGuide(show) {
         this.audio.init();
-        const modal = document.getElementById('pokedex-modal');
-        const isActive = modal.classList.toggle('active');
-        if (isActive) {
+        document.getElementById('modal-guide').classList.toggle('active', show);
+      }
+
+      toggleDex(show) {
+        this.audio.init();
+        const modal = document.getElementById('modal-dex');
+        modal.classList.toggle('active', show);
+        if (show) {
           this.renderDexList();
           this.audio.sfxConfirm();
         } else {
@@ -699,25 +782,36 @@
         }
       }
 
+      updateDexBadge() {
+        const count = this.caughtBeasts.length;
+        document.getElementById('dex-count').textContent = count;
+        document.getElementById('dex-total').textContent = count;
+      }
+
       renderDexList() {
-        const list = document.getElementById('dex-list');
+        const list = document.getElementById('dex-grid');
+        this.updateDexBadge();
         list.innerHTML = BEASTS.map(b => {
           const isCaught = this.caughtBeasts.includes(b.id);
           const isSeen = isCaught || this.seenBeasts.includes(b.id);
           return `
             <div class="dex-item">
               <span class="dex-num">#${b.id}</span>
-              <span class="dex-name">${isSeen ? b.name : '？？？？'}</span>
-              <span class="dex-status ${isCaught ? 'caught' : ''}">
+              <span class="dex-name">${isSeen ? b.name : '？？？？'} <small style="font-weight:normal;opacity:0.8;">(${b.title})</small></span>
+              <span class="dex-badge ${isCaught ? 'caught' : ''}">
                 ${isCaught ? '★ 已收服' : (isSeen ? '已目击' : '未探索')}
               </span>
             </div>
-            ${isCaught ? `<div style="font-size:8.5px;color:#8bac0f;padding:2px 8px 4px;">出处：${b.source} · 属性：${b.rare}</div>` : ''}
+            ${isCaught ? `<div style="font-size:9.5px;color:#8bac0f;padding:2px 8px 4px;line-height:1.4;">${b.source}：${b.desc}</div>` : ''}
           `;
         }).join('');
       }
 
-      // 玩家移动 (大地图)
+      setDialog(text) {
+        this.dialogText.textContent = text;
+      }
+
+      // 玩家移动
       move(dx, dy, dir) {
         if (this.gameState !== 'OVERWORLD') return;
         this.audio.init();
@@ -727,7 +821,7 @@
         const nx = this.player.x + dx;
         const ny = this.player.y + dy;
 
-        // 碰撞检查 (不能进水和古树)
+        // 碰撞检查 (不能进水3或神庙4)
         if (nx >= 0 && nx < this.MAP_W && ny >= 0 && ny < this.MAP_H) {
           const tile = this.map[ny][nx];
           if (tile !== 3 && tile !== 4) {
@@ -735,9 +829,22 @@
             this.player.y = ny;
             this.audio.sfxStep();
 
+            // 踩营地回血
+            if (tile === 5) {
+              this.player.hp = this.player.hpMax;
+              this.hudStatus.textContent = '营地休憩 · HP全满';
+              this.setDialog('回到了岛主营地！喝了一口清泉，生命值全部恢复！');
+              return;
+            }
+
             // 踩深草丛 (Tile 1) 概率触发遇怪！
-            if (tile === 1 && Math.random() < 0.28) {
-              this.startEncounter();
+            if (tile === 1) {
+              this.hudStatus.textContent = '🌾 深草丛遇怪区！';
+              if (Math.random() < 0.32) {
+                this.startEncounter();
+              }
+            } else {
+              this.hudStatus.textContent = '平原漫步中';
             }
           }
         }
@@ -749,11 +856,12 @@
         this.transitionFrame = 0;
         this.audio.sfxEncounter();
 
-        // 随机选择一只异兽
+        // 随机选择一只异兽 (传说更稀有)
         const beast = BEASTS[Math.floor(Math.random() * BEASTS.length)];
         this.battle.beast = beast;
         this.battle.beastHp = beast.hpMax;
         this.battle.turn = 'PLAYER';
+        this.battle.isCatching = false;
 
         if (!this.seenBeasts.includes(beast.id)) {
           this.seenBeasts.push(beast.id);
@@ -763,80 +871,87 @@
         setTimeout(() => {
           this.gameState = 'BATTLE';
           this.battleMenu.classList.add('active');
-          this.setDialog(`野生的【${beast.name}】出现了！\n出处：${beast.source}`);
+          this.hudStatus.textContent = `⚔️ 对决：${beast.name}`;
+          this.setDialog(`野生的【${beast.name}】出现了！\n出处：${beast.source}\n建议：打到红血后用【葫芦收妖】！`);
         }, 800);
       }
 
       // 战斗指令处理
       battleAction(type) {
-        if (this.gameState !== 'BATTLE' || this.battle.turn !== 'PLAYER') return;
+        if (this.gameState !== 'BATTLE' || this.battle.turn !== 'PLAYER' || this.battle.isCatching) return;
         this.audio.init();
 
         const beast = this.battle.beast;
 
         if (type === 'FIGHT') {
           this.audio.sfxAttack();
-          const dmg = Math.floor(12 + Math.random() * 10);
+          this.battle.enemyShake = 8;
+          const dmg = Math.floor(14 + Math.random() * 8);
           this.battle.beastHp = Math.max(0, this.battle.beastHp - dmg);
           this.setDialog(`岛主使出【故事冲击】，对 ${beast.name} 造成 ${dmg} 点伤害！`);
 
           if (this.battle.beastHp <= 0) {
-            setTimeout(() => this.winBattle(), 1000);
+            setTimeout(() => this.winBattle(), 900);
             return;
           }
           this.enemyTurn();
         } 
         else if (type === 'CATCH') {
           if (this.player.gourds <= 0) {
-            this.setDialog(`收妖葫芦已经用光了！\n请先攻击削弱敌方或撤退。`);
+            this.setDialog(`收妖葫芦已用尽！\n请先击败敌方或撤退回营。`);
             return;
           }
           this.player.gourds--;
-          this.setDialog(`投掷出【收妖葫芦】！\n葫芦正在吸纳 ${beast.name}……`);
+          this.battle.isCatching = true;
+          this.battle.catchStep = 1;
           this.battleMenu.classList.remove('active');
+          this.setDialog(`投掷出【收妖葫芦】！\n葫芦将 ${beast.name} 吸入其中……`);
 
-          // 计算捕获成功率：血量越低越容易抓
+          // 核心捕获概率：血量越低越容易抓 (残血高达 85%+)
           const hpFactor = (beast.hpMax - this.battle.beastHp) / beast.hpMax;
-          const successChance = beast.catchRate + hpFactor * 0.45;
+          const successChance = beast.catchRate + hpFactor * 0.5;
 
-          setTimeout(() => this.audio.sfxCatchShake(), 500);
-          setTimeout(() => this.audio.sfxCatchShake(), 1100);
+          // 经典摇晃判定动画
+          setTimeout(() => { this.audio.sfxCatchShake(); this.battle.catchStep = 2; }, 600);
+          setTimeout(() => { this.audio.sfxCatchShake(); this.battle.catchStep = 3; }, 1200);
 
           setTimeout(() => {
+            this.battle.isCatching = false;
             if (Math.random() < successChance) {
-              // 捕获成功！
+              // 捕获大获全胜！
               this.audio.sfxCatchSuccess();
               if (!this.caughtBeasts.includes(beast.id)) {
                 this.caughtBeasts.push(beast.id);
                 localStorage.setItem('daozhu_shanhai_caught', JSON.stringify(this.caughtBeasts));
+                this.updateDexBadge();
               }
-              this.setDialog(`咔哒！收服成功！\n【${beast.name}】已被收录进山海图鉴！`);
-              setTimeout(() => this.exitBattle(), 1800);
+              this.setDialog(`✨ 咔哒！收服成功！\n【${beast.name}】已载入《山海全图鉴》！\n已收服神兽: ${this.caughtBeasts.length}/6`);
+              setTimeout(() => this.exitBattle(), 2000);
             } else {
-              this.setDialog(`糟糕！${beast.name} 挣脱了收妖葫芦！`);
+              this.setDialog(`糟糕！${beast.name} 挣脱了收妖葫芦！\n请继续削弱其体力！`);
               this.battleMenu.classList.add('active');
               this.enemyTurn();
             }
-          }, 1600);
+          }, 1800);
         }
         else if (type === 'ITEM') {
           if (this.player.potions <= 0) {
-            this.setDialog(`长生仙露已用完！`);
+            this.setDialog(`长生仙露已用完！可返回营地休憩恢复。`);
             return;
           }
           this.player.potions--;
-          this.player.hp = Math.min(this.player.hpMax, this.player.hp + 45);
+          this.player.hp = Math.min(this.player.hpMax, this.player.hp + 50);
           this.audio.sfxConfirm();
-          this.setDialog(`服下长生仙露，生命值恢复 45 点！\n当前 HP: ${this.player.hp}/${this.player.hpMax}`);
+          this.setDialog(`饮下长生仙露，生命值恢复 50 点！\n当前 HP: ${this.player.hp}/${this.player.hpMax}`);
           this.enemyTurn();
         }
         else if (type === 'RUN') {
           if (Math.random() < 0.8) {
             this.audio.sfxCancel();
-            this.setDialog(`安全撤退，回到了安全营地！`);
-            setTimeout(() => this.exitBattle(), 1000);
+            this.setDialog(`安全撤退，回到了安全空地！`);
+            setTimeout(() => this.exitBattle(), 900);
           } else {
-            this.setDialog(`逃跑失败！被 ${beast.name} 截住了退路！`);
+            this.setDialog(`逃跑失败！被 ${beast.name} 挡住了去路！`);
             this.enemyTurn();
           }
         }
@@ -850,8 +965,9 @@
           const beast = this.battle.beast;
           const dmg = Math.floor(beast.attack * (0.8 + Math.random() * 0.4));
           this.player.hp = Math.max(0, this.player.hp - dmg);
+          this.battle.playerShake = 8;
           this.audio.sfxAttack();
-          this.setDialog(`${beast.name} 发动招式，造成 ${dmg} 点伤害！`);
+          this.setDialog(`${beast.name} 发动反击，造成 ${dmg} 点伤害！`);
 
           if (this.player.hp <= 0) {
             setTimeout(() => {
@@ -868,17 +984,20 @@
 
       winBattle() {
         this.audio.sfxCatchSuccess();
-        this.setDialog(`击败了 ${this.battle.beast.name}！\n获得 40 点经验值！`);
-        setTimeout(() => this.exitBattle(), 1500);
+        this.setDialog(`击败了 ${this.battle.beast.name}！\n获得 45 点经验值！`);
+        setTimeout(() => this.exitBattle(), 1400);
       }
 
       exitBattle() {
         this.gameState = 'OVERWORLD';
         this.battleMenu.classList.remove('active');
-        this.setDialog(`在草丛中漫游，寻找山海异兽……\n方向键移动 · [A] 键确认`);
+        this.hudStatus.textContent = '营地探索中';
+        this.setDialog(`在海岛深色草丛中漫步，寻找山海异兽……\n方向键移动 · 点击地图亦可寻路`);
       }
 
-      // 绘制逻辑
+      // ══════════════════════════════════════════════════════════════
+      // 绘图引擎 (大地图、精致异兽点阵像素、战斗特效)
+      // ══════════════════════════════════════════════════════════════
       render() {
         const ctx = this.ctx;
         ctx.clearRect(0, 0, 160, 144);
@@ -894,7 +1013,9 @@
       }
 
       drawOverworld(ctx) {
-        // 1. 绘制瓦片地图
+        this.grassAnimTime = (this.grassAnimTime + 0.05) % (Math.PI * 2);
+
+        // 1. 绘制海岛地图
         for (let y = 0; y < this.MAP_H; y++) {
           for (let x = 0; x < this.MAP_W; x++) {
             const px = x * this.TILE_SIZE;
@@ -906,12 +1027,13 @@
               ctx.fillStyle = '#8bac0f';
               ctx.fillRect(px, py, 10, 10);
             } else if (tile === 1) {
-              // 深草丛 (点阵纹理)
+              // 深色草丛 (动态摇曳草尖)
               ctx.fillStyle = '#306230';
               ctx.fillRect(px, py, 10, 10);
               ctx.fillStyle = '#0f380f';
-              ctx.fillRect(px + 2, py + 2, 2, 4);
-              ctx.fillRect(px + 6, py + 4, 2, 4);
+              const sway = Math.sin(this.grassAnimTime + x + y) > 0 ? 1 : 0;
+              ctx.fillRect(px + 2 + sway, py + 2, 2, 4);
+              ctx.fillRect(px + 6 - sway, py + 4, 2, 4);
             } else if (tile === 2) {
               // 石板路
               ctx.fillStyle = '#9bbc0f';
@@ -919,54 +1041,59 @@
               ctx.strokeStyle = '#8bac0f';
               ctx.strokeRect(px + 0.5, py + 0.5, 9, 9);
             } else if (tile === 3) {
-              // 水体
+              // 水体微澜
               ctx.fillStyle = '#306230';
               ctx.fillRect(px, py, 10, 10);
               ctx.fillStyle = '#8bac0f';
               ctx.fillRect(px + 3, py + 4, 4, 1);
             } else if (tile === 4) {
-              // 古树 / 神庙
+              // 不周山神庙
               ctx.fillStyle = '#0f380f';
               ctx.fillRect(px + 1, py + 1, 8, 8);
-              ctx.fillStyle = '#8bac0f';
+              ctx.fillStyle = '#e2a82b';
               ctx.fillRect(px + 3, py + 3, 4, 4);
+            } else if (tile === 5) {
+              // 岛主营地帐篷
+              ctx.fillStyle = '#0f380f';
+              ctx.fillRect(px + 1, py + 2, 8, 7);
+              ctx.fillStyle = '#9bbc0f';
+              ctx.fillRect(px + 3, py + 4, 4, 5);
             }
           }
         }
 
-        // 2. 绘制玩家小人 (8-Bit 点阵角色)
+        // 2. 绘制玩家小人 (岛主 8-Bit 像素形象)
         const px = this.player.x * this.TILE_SIZE;
         const py = this.player.y * this.TILE_SIZE;
 
-        // 斗笠/头发
+        // 斗笠草帽
         ctx.fillStyle = '#0f380f';
-        ctx.fillRect(px + 2, py, 6, 2);
-        // 脸部
+        ctx.fillRect(px + 1, py, 8, 2);
+        // 脸蛋
         ctx.fillStyle = '#9bbc0f';
         ctx.fillRect(px + 2, py + 2, 6, 3);
-        // 眼睛
+        // 双眼
         ctx.fillStyle = '#0f380f';
         ctx.fillRect(px + 3, py + 3, 1, 1);
         ctx.fillRect(px + 6, py + 3, 1, 1);
-        // 身躯/长衫
+        // 长衫
         ctx.fillStyle = '#306230';
         ctx.fillRect(px + 2, py + 5, 6, 4);
-        // 脚步动画
+        // 行走小碎步
         ctx.fillStyle = '#0f380f';
         if (this.player.stepAnim % 2 === 0) {
           ctx.fillRect(px + 2, py + 9, 2, 1);
           ctx.fillRect(px + 6, py + 9, 2, 1);
         } else {
-          ctx.fillRect(px + 3, py + 9, 4, 1);
+          ctx.fillRect(px + 4, py + 9, 2, 1);
         }
       }
 
       drawTransition(ctx) {
         this.transitionFrame++;
-        const progress = Math.min(1, this.transitionFrame / 20);
+        const progress = Math.min(1, this.transitionFrame / 18);
         ctx.fillStyle = progress % 2 < 1 ? '#0f380f' : '#9bbc0f';
 
-        // 螺旋遮蔽
         const bars = 8;
         for (let i = 0; i < bars; i++) {
           const h = (144 / bars) * progress;
@@ -975,61 +1102,188 @@
       }
 
       drawBattle(ctx) {
-        // 背景分界线
+        // 背景底色
         ctx.fillStyle = '#9bbc0f';
         ctx.fillRect(0, 0, 160, 144);
 
-        // 敌方平台椭圆
+        // 敌方战斗地盘椭圆 (右上)
         ctx.fillStyle = '#8bac0f';
         ctx.beginPath();
-        ctx.ellipse(120, 52, 32, 10, 0, 0, Math.PI * 2);
+        ctx.ellipse(118, 54, 32, 10, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // 己方平台椭圆
+        // 己方战斗地盘椭圆 (左下)
         ctx.beginPath();
-        ctx.ellipse(40, 115, 34, 11, 0, 0, Math.PI * 2);
+        ctx.ellipse(42, 114, 34, 11, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // 1. 敌方异兽立绘 (右上正脸 32x32 像素点阵)
+        // ══════════════════════════════════════════════════════════
+        // 1. 绘制野生神兽高保真 8-Bit 像素立绘 (右上正脸)
+        // ══════════════════════════════════════════════════════════
         const beast = this.battle.beast;
-        ctx.fillStyle = '#0f380f';
-        // 异兽剪影与形态
-        ctx.fillRect(108, 22, 24, 24);
-        ctx.fillStyle = '#306230';
-        ctx.fillRect(112, 26, 16, 16);
-        ctx.fillStyle = '#9bbc0f';
-        ctx.fillRect(114, 28, 4, 4);
-        ctx.fillRect(122, 28, 4, 4);
+        let beastX = 104;
+        let beastY = 22;
 
-        // 敌方状态框 (左上)
-        ctx.fillStyle = '#0f380f';
-        ctx.strokeRect(10, 12, 80, 26);
-        ctx.fillStyle = '#306230';
-        ctx.font = 'bold 9px monospace';
-        ctx.fillText(`${beast.name}`, 14, 22);
+        // 震动受击特效
+        if (this.battle.enemyShake > 0) {
+          beastX += (Math.random() - 0.5) * 6;
+          this.battle.enemyShake--;
+        }
 
-        // 敌方血条
+        if (this.battle.isCatching) {
+          // 正在收妖：绘制投掷出的葫芦在地面晃动！
+          this.drawGourd(ctx, 115, 45, this.battle.catchStep);
+        } else {
+          // 绘制对应神兽像素图案
+          this.drawBeastSprite(ctx, beast.type, beastX, beastY);
+        }
+
+        // 敌方血条与状态框 (左上)
+        ctx.strokeStyle = '#0f380f';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(8, 10, 84, 28);
+        ctx.fillStyle = '#8bac0f';
+        ctx.fillRect(9, 11, 82, 26);
+
+        ctx.fillStyle = '#0f380f';
+        ctx.font = 'bold 9.5px monospace';
+        ctx.fillText(`${beast.name}`, 12, 22);
+
+        // 敌方血条槽
         const enemyHpPct = Math.max(0, this.battle.beastHp / beast.hpMax);
-        ctx.strokeRect(14, 26, 70, 5);
+        ctx.strokeRect(12, 26, 72, 6);
         ctx.fillStyle = enemyHpPct > 0.3 ? '#306230' : '#c93434';
-        ctx.fillRect(15, 27, 68 * enemyHpPct, 3);
+        ctx.fillRect(13, 27, 70 * enemyHpPct, 4);
 
-        // 2. 己方岛主背影立绘 (左下 32x32)
-        ctx.fillStyle = '#0f380f';
-        ctx.fillRect(26, 82, 26, 26);
-        ctx.fillStyle = '#306230';
-        ctx.fillRect(28, 84, 22, 22);
+        // ══════════════════════════════════════════════════════════
+        // 2. 绘制己方岛主背影立绘 (左下背影)
+        // ══════════════════════════════════════════════════════════
+        let playerX = 28;
+        let playerY = 82;
+        if (this.battle.playerShake > 0) {
+          playerX += (Math.random() - 0.5) * 6;
+          this.battle.playerShake--;
+        }
+        this.drawDaozhuBackSprite(ctx, playerX, playerY);
 
-        // 己方状态框 (右下)
-        ctx.strokeRect(85, 78, 68, 26);
+        // 己方血条与等级框 (右下)
+        ctx.strokeStyle = '#0f380f';
+        ctx.strokeRect(82, 78, 72, 28);
+        ctx.fillStyle = '#8bac0f';
+        ctx.fillRect(83, 79, 70, 26);
+
         ctx.fillStyle = '#0f380f';
-        ctx.fillText(`岛主 Lv.${this.player.level}`, 89, 88);
-        
-        // 己方血条
+        ctx.font = 'bold 9px monospace';
+        ctx.fillText(`岛主 Lv.${this.player.level}`, 86, 90);
+
         const playerHpPct = Math.max(0, this.player.hp / this.player.hpMax);
-        ctx.strokeRect(89, 92, 58, 5);
+        ctx.strokeRect(86, 94, 62, 5);
         ctx.fillStyle = playerHpPct > 0.3 ? '#306230' : '#c93434';
-        ctx.fillRect(90, 93, 56 * playerHpPct, 3);
+        ctx.fillRect(87, 95, 60 * playerHpPct, 3);
+      }
+
+      // 绘制岛主背影像素
+      drawDaozhuBackSprite(ctx, x, y) {
+        // 斗笠圆弧
+        ctx.fillStyle = '#0f380f';
+        ctx.fillRect(x + 2, y, 22, 5);
+        ctx.fillRect(x, y + 3, 26, 3);
+        // 绑带
+        ctx.fillStyle = '#306230';
+        ctx.fillRect(x + 11, y + 6, 4, 3);
+        // 蓝青长衫背影
+        ctx.fillStyle = '#306230';
+        ctx.fillRect(x + 4, y + 8, 18, 16);
+        // 书卷行囊
+        ctx.fillStyle = '#8bac0f';
+        ctx.fillRect(x + 6, y + 10, 14, 8);
+        ctx.fillStyle = '#0f380f';
+        ctx.fillRect(x + 9, y + 9, 2, 10);
+      }
+
+      // 绘制各神兽具象像素立绘
+      drawBeastSprite(ctx, type, x, y) {
+        ctx.fillStyle = '#0f380f';
+
+        if (type === 'fox') {
+          // 🦊 九尾狐：尖耳、狡黠眼、华丽扇形九尾
+          // 头部与尖耳
+          ctx.fillRect(x + 10, y + 4, 3, 5);
+          ctx.fillRect(x + 18, y + 4, 3, 5);
+          ctx.fillRect(x + 8, y + 8, 15, 10);
+          // 白面与眼睛
+          ctx.fillStyle = '#9bbc0f';
+          ctx.fillRect(x + 10, y + 11, 3, 2);
+          ctx.fillRect(x + 18, y + 11, 3, 2);
+          // 扇形九尾 (深绿与浅绿叠层)
+          ctx.fillStyle = '#306230';
+          ctx.fillRect(x, y + 2, 6, 16);
+          ctx.fillRect(x + 24, y + 2, 6, 16);
+          ctx.fillRect(x + 2, y, 26, 4);
+        } 
+        else if (type === 'taotie') {
+          // 👹 饕餮：巨角、裂口獠牙、凶恶双目
+          ctx.fillRect(x + 4, y + 2, 5, 8);
+          ctx.fillRect(x + 22, y + 2, 5, 8);
+          ctx.fillRect(x + 6, y + 8, 19, 16);
+          ctx.fillStyle = '#9bbc0f';
+          ctx.fillRect(x + 8, y + 16, 15, 4); // 巨嘴
+          ctx.fillStyle = '#0f380f';
+          ctx.fillRect(x + 10, y + 16, 2, 4); // 尖牙
+          ctx.fillRect(x + 18, y + 16, 2, 4);
+        }
+        else if (type === 'bifang') {
+          // 🐦 毕方：单足赤鸟、长喙、烈火羽冠
+          ctx.fillRect(x + 12, y + 2, 6, 4); // 羽冠
+          ctx.fillRect(x + 10, y + 6, 10, 8); // 鸟首
+          ctx.fillRect(x + 6, y + 8, 5, 2);  // 白喙
+          ctx.fillRect(x + 12, y + 14, 12, 10); // 身躯与翼
+          ctx.fillRect(x + 16, y + 24, 3, 7);  // 独足！
+        }
+        else if (type === 'kunpeng') {
+          // 🐋 鲲鹏：巨鲸浮海、垂天之云双翼
+          ctx.fillRect(x + 6, y + 8, 20, 12); // 巨鲸体
+          ctx.fillRect(x + 2, y + 4, 8, 6);   // 鹏翼左
+          ctx.fillRect(x + 22, y + 4, 8, 6);  // 鹏翼右
+          ctx.fillStyle = '#9bbc0f';
+          ctx.fillRect(x + 20, y + 12, 3, 2); // 鲸目
+          ctx.fillStyle = '#0f380f';
+          ctx.fillRect(x + 12, y + 20, 6, 4); // 浪花尾
+        }
+        else if (type === 'snail') {
+          // 🐌 拖延怪：背着时钟的慢吞吞小蜗牛
+          ctx.fillRect(x + 8, y + 6, 16, 16); // 钟形蜗牛壳
+          ctx.fillStyle = '#9bbc0f';
+          ctx.fillRect(x + 12, y + 10, 8, 8); // 表盘
+          ctx.fillStyle = '#0f380f';
+          ctx.fillRect(x + 15, y + 12, 1, 4); // 指针
+          ctx.fillRect(x + 2, y + 18, 12, 4); // 软体头部
+          ctx.fillRect(x + 2, y + 15, 2, 3);  // 触角
+        }
+        else {
+          // 🦹 完美主义妖：执掌标尺的心魔面具
+          ctx.fillRect(x + 8, y + 4, 16, 16);
+          ctx.fillStyle = '#9bbc0f';
+          ctx.fillRect(x + 10, y + 8, 4, 3);
+          ctx.fillRect(x + 18, y + 8, 4, 3);
+          ctx.fillStyle = '#0f380f';
+          ctx.fillRect(x + 2, y + 18, 26, 2); // 绝对标尺
+        }
+      }
+
+      // 绘制收妖葫芦晃动特效
+      drawGourd(ctx, x, y, step) {
+        let shakeOffset = 0;
+        if (step === 2) shakeOffset = -3;
+        if (step === 3) shakeOffset = 3;
+
+        ctx.fillStyle = '#e2a82b'; // 金黄葫芦
+        ctx.fillRect(x + shakeOffset + 3, y, 4, 3);
+        ctx.fillRect(x + shakeOffset + 1, y + 3, 8, 5);
+        ctx.fillRect(x + shakeOffset, y + 8, 10, 8);
+
+        ctx.fillStyle = '#0f380f';
+        ctx.fillRect(x + shakeOffset + 4, y - 2, 2, 2); // 葫芦塞
       }
 
       loop() {
@@ -1038,7 +1292,6 @@
       }
 
       initControls() {
-        // 键盘操作
         window.addEventListener('keydown', (e) => {
           if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') this.move(0, -1, 'up');
           else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') this.move(0, 1, 'down');
@@ -1052,7 +1305,7 @@
           }
         });
 
-        // 移动端触控按键
+        // 触控按键
         const bindTouch = (id, fn) => {
           const el = document.getElementById(id);
           if (!el) return;

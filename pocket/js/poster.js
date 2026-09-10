@@ -173,7 +173,7 @@ class PosterGenerator {
       { text: '   02 掌机彩蛋 · 8-BIT 促织跳跳乐', active: false },
       { text: '   03 关于岛主 · 故事思维与理念', active: false },
       { text: '   04 作品示例 · 灵感库与绘本', active: false },
-      { text: '   05 联络名片 · 微信与小红书 (989赞藏)', active: false }
+      { text: '   05 联络名片 · 微信与小红书', active: false }
     ];
 
     menuList.forEach((m, idx) => {
@@ -306,7 +306,7 @@ class PosterGenerator {
     ctx.fillStyle = '#5A564F';
     ctx.font = 'bold 26px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('✦ 小红书关注 @岛主 (989次赞与收藏) · 在线试玩 pocket.daozhuai.cn ✦', bodyX + bodyW / 2, bodyY + bodyH + 70);
+    ctx.fillText('✦ 小红书关注 @岛主 · 在线试玩 pocket.daozhuai.cn ✦', bodyX + bodyW / 2, bodyY + bodyH + 70);
     ctx.restore();
   }
 

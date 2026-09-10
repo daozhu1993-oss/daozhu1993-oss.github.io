@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="c-title">微信扫码：@岛主王仙客</div>
             <div class="c-item">✦ 个人小岛：daozhuai.cn</div>
             <a class="c-item xhs-item" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation(); trackPocketEvent('click_xiaohongshu', { pos: 'screen' }); window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank')">
-              ✦ 小红书：@岛主 <span class="xhs-badge">989赞藏</span> ↗
+              ✦ 小红书：@岛主 ↗
             </a>
             <div class="c-item">✦ 探讨：AI、故事、游戏化</div>
           </div>

@@ -86,6 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
       url: 'games/shanhai/index.html',
       fallbackUrl: 'games/shanhai/index.html',
       tip: '像素冒险遇怪 · 单击 A 键开玩'
+    },
+    {
+      id: 'pelican',
+      rom: 'ROM 07',
+      title: '别洒了，鹈鹕！· 海风送鲜',
+      source: 'The Slow Club · 治愈单车漫游',
+      year: '2026 · A MOUTHFUL OF FISH',
+      tags: ['单键心流', '绘本治愈', '海风骑行', '双模切换'],
+      desc: '海风不急，这一嘴要稳！按住张嘴接鱼，松开护嘴防颠。支持 8-Bit 掌机像素模式 与 法式慢调绘本全屏模式 自由切换。',
+      cover: 'assets/covers/pelican.jpg',
+      url: 'games/pelican/index.html',
+      fallbackUrl: 'games/pelican/index.html',
+      tip: '按住张嘴松开护鱼 · 单击 A 键开玩'
     }
   ];
 
@@ -159,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderHome() {
     state.currentView = 'HOME';
     const menuItems = [
-      { id: 'games', label: '游戏匣子', code: '01', sub: '6款经典游戏卡带' },
+      { id: 'games', label: '游戏匣子', code: '01', sub: '7款经典游戏卡带' },
       { id: 'minigame', label: '掌机彩蛋', code: '02', sub: '8-Bit 促织跳跳乐' },
       { id: 'about', label: '关于岛主', code: '03', sub: '故事驱动器与理念' },
       { id: 'works', label: '作品示例', code: '04', sub: '灵感库/绘本/工具' },

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>别洒了，鹈鹕！(A MOUTHFUL OF FISH · THE SLOW CLUB)</title>
+  <meta name="description" content="治愈系单车海滨漫游单键小游戏：按住张嘴接鱼，松开护嘴防颠。法式绘本与Game Boy像素双模支持！">
+  <link rel="stylesheet" href="pelican.css">
+</head>
+<body>
+
+  <div class="game-viewport">
+    
+    <!-- 1. 顶部 Header (THE SLOW CLUB) -->
+    <header class="top-nav">
+      <div class="brand-badge">
+        <svg class="wheel-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="4.93" y1="19.07" x2="19.07" y2="4.93"></line>
+        </svg>
+        <span>THE SLOW CLUB</span>
+      </div>
+      <div class="nav-controls">
+        <button class="mode-pill-btn" id="btn-mode-toggle" onclick="window.game && window.game.toggleMode()" title="切换法式绘本 / Game Boy 像素模式">
+          <span>📟</span> GB像素
+        </button>
+        <button class="icon-btn" id="btn-theme-toggle" onclick="window.game && window.game.toggleDarkMode()" title="日间/夜间模式">
+          ☾
+        </button>
+        <button class="icon-btn" id="btn-sound-toggle" onclick="const m = window.game && window.game.audio.toggleMute(); this.textContent = m ? '🔇' : '♪';" title="背景音乐与音效开关">
+          ♪
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. 标题区 -->
+    <section class="title-section">
+      <div class="subtitle-en">A MOUTHFUL OF FISH</div>
+      <h1 class="main-title">别洒了，鹈鹕！</h1>
+    </section>
+
+    <!-- 3. 核心游戏卡片容器 (HUD + 画布) -->
+    <main class="game-card-frame">
+      <!-- 顶部时间进度条 -->
+      <div class="card-top-track">
+        <div class="card-top-fill" id="card-top-fill"></div>
+      </div>
+
+      <!-- 实时 HUD 仪表盘 -->
+      <div class="game-hud">
+        <div class="hud-item">
+          <span class="hud-label">距码头还有</span>
+          <div class="hud-val-wrap">
+            <span class="hud-num" id="timer-val">35</span>
+            <span class="hud-unit">秒</span>
+          </div>
+        </div>
+
+        <div class="hud-item">
+          <span class="hud-label">海货</span>
+          <div class="hud-val-wrap">
+            <span class="hud-num" id="fish-val" style="color:var(--accent-green);">0</span>
+            <span class="hud-unit">份</span>
+          </div>
+        </div>
+
+        <div class="hud-item">
+          <span class="hud-label">颠洒了</span>
+          <div class="hud-val-wrap">
+            <span class="hud-num" id="lost-val" style="color:var(--accent-orange);">0</span>
+            <span class="hud-unit">份</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心画布区域 -->
+      <div class="canvas-wrapper">
+        <canvas id="pelican-canvas"></canvas>
+        <div class="gb-scanlines"></div>
+        <div class="poetic-caption">海风不急，这一嘴要稳</div>
+      </div>
+    </main>
+
+    <!-- 4. 玩法提示横幅 -->
+    <div class="hint-banner" id="hint-banner">
+      松开时护鱼 · 想接鱼就按住
+    </div>
+
+    <!-- 5. 底部操作按键 -->
+    <div class="controls-row">
+      <button class="hold-btn" id="btn-hold" aria-label="按住张嘴接鱼，松开护住这一嘴">
+        <span class="btn-main-text">按住张嘴</span>
+        <div class="btn-state-bar">
+          <div class="btn-state-fill"></div>
+        </div>
+        <span class="btn-sub-text">松开护住这一嘴</span>
+      </button>
+
+      <button class="pause-btn" id="btn-pause" aria-label="暂停或继续游戏">
+        <span class="pause-icon">||</span>
+        <span class="pause-text">暂停</span>
+      </button>
+    </div>
+
+    <!-- 6. 快捷操作提示 -->
+    <footer class="footer-tip">
+      画面也能按住 · 电脑可用空格键 / A 键
+    </footer>
+
+  </div>
+
+  <!-- 7. 结算与小红书海报生成弹窗 -->
+  <div class="modal-overlay" id="settle-modal">
+    <div class="settle-card">
+      <span class="settle-badge">✦ 抵达码头 · 鲜鱼送达 ✦</span>
+      <h2 class="settle-title">码头到了！</h2>
+      <p class="settle-subtitle">骑行穿过海滨公路，今日海产收获如下：</p>
+
+      <div class="settle-stats-grid">
+        <div class="stat-box">
+          <span class="stat-label">新鲜送达</span>
+          <span class="stat-num safe" id="settle-fish-count">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">路上颠洒</span>
+          <span class="stat-num lost" id="settle-lost-count">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">稳健护鱼率</span>
+          <span class="stat-num" id="settle-safe-rate">100%</span>
+        </div>
+      </div>
+
+      <div class="settle-rating-box">
+        <div class="rating-title" id="settle-rating-title">【海边最稳的鸟】</div>
+        <div class="rating-desc" id="settle-rating-desc">大嘴一张一合游刃有余，海风吹过纹丝不动！</div>
+      </div>
+
+      <div class="settle-actions">
+        <button class="primary-btn" id="btn-export-poster">
+          <span>📸</span> 一键生成小红书专属战绩海报
+        </button>
+        <button class="secondary-btn" id="btn-restart">
+          <span>↺</span> 再送一趟海产
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 模块脚本引入 -->
+  <script src="pelican-audio.js"></script>
+  <script src="pelican-poster.js"></script>
+  <script src="pelican-game.js"></script>
+
+</body>
+</html>

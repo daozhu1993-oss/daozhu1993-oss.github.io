@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>别洒了，鹈鹕！(A MOUTHFUL OF FISH · THE SLOW CLUB)</title>
-  <meta name="description" content="治愈系单车海滨漫游单键小游戏：按住张嘴接鱼，松开护嘴防颠。法式绘本与Game Boy像素双模支持！">
+  <meta name="description" content="治愈系单车海滨漫游单键小游戏：按住张嘴接鱼，松开护嘴防颠。支持狂蹬加速冲刺，法式绘本与Game Boy像素双模支持！">
   <link rel="stylesheet" href="pelican.css">
 </head>
 <body>
@@ -89,7 +89,7 @@
       松开时护鱼 · 想接鱼就按住
     </div>
 
-    <!-- 5. 底部操作按键 -->
+    <!-- 5. 底部操作按键 (张嘴/护鱼 + 狂蹬加速 + 暂停) -->
     <div class="controls-row">
       <button class="hold-btn" id="btn-hold" aria-label="按住张嘴接鱼，松开护住这一嘴">
         <span class="btn-main-text">按住张嘴</span>
@@ -97,6 +97,11 @@
           <div class="btn-state-fill"></div>
         </div>
         <span class="btn-sub-text">松开护住这一嘴</span>
+      </button>
+
+      <button class="sprint-btn" id="btn-sprint" aria-label="按住狂蹬加速冲刺">
+        <span class="btn-main-text">⚡ 狂蹬加速</span>
+        <span class="btn-sub-text">按住单车冲刺</span>
       </button>
 
       <button class="pause-btn" id="btn-pause" aria-label="暂停或继续游戏">
@@ -107,7 +112,8 @@
 
     <!-- 6. 快捷操作提示 -->
     <footer class="footer-tip">
-      画面也能按住 · 电脑可用空格键 / A 键
+      <div>【按住空格 / A键 / 屏幕左侧】：张嘴接鱼 · 松开护鱼</div>
+      <div>【按住右方向键 → / D键 / ⚡按钮】：狂蹬加速冲刺</div>
     </footer>
 
   </div>

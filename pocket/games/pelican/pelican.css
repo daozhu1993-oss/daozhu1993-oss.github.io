@@ -13,6 +13,7 @@
   --accent-green: #294A3E;
   --accent-green-active: #1D362C;
   --accent-orange: #DF714B;
+  --accent-orange-active: #BF5733;
   --accent-sand: #E6A756;
   --accent-sea: #9ABCB3;
   --beak-yellow: #F2AF42;
@@ -35,6 +36,7 @@ body.dark-mode {
   --accent-green: #376353;
   --accent-green-active: #2C5043;
   --accent-orange: #E6825E;
+  --accent-orange-active: #C96644;
   --accent-sand: #F0B86E;
   --accent-sea: #4B6B66;
   --beak-yellow: #F7BA55;
@@ -50,7 +52,8 @@ body.gb-mode {
   --border-color: #306230;
   --accent-green: #306230;
   --accent-green-active: #0F380F;
-  --accent-orange: #0F380F;
+  --accent-orange: #306230;
+  --accent-orange-active: #0F380F;
   --accent-sand: #8BAC0F;
   --accent-sea: #8BAC0F;
   --beak-yellow: #306230;
@@ -76,7 +79,7 @@ html, body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* 容器居中与竖屏限制 (小红书/手机同款优雅比例) */
+/* 容器居中与竖屏限制 */
 .game-viewport {
   max-width: 520px;
   min-height: 100vh;
@@ -169,10 +172,10 @@ html, body {
 }
 
 /* ════════════════════════════════════════════════════════════
-   2. 标题区 (法式儿童绘本排版)
+   2. 标题区
    ════════════════════════════════════════════════════════════ */
 .title-section {
-  padding: 18px 0 10px;
+  padding: 16px 0 10px;
 }
 
 .subtitle-en {
@@ -189,11 +192,10 @@ html, body {
   font-weight: 900;
   letter-spacing: 1px;
   color: var(--text-main);
-  font-family: var(--font-sans);
 }
 
 /* ════════════════════════════════════════════════════════════
-   3. 核心游戏卡片容器 (包含 HUD 与 Canvas)
+   3. 核心游戏卡片容器
    ════════════════════════════════════════════════════════════ */
 .game-card-frame {
   background: var(--bg-card);
@@ -204,7 +206,6 @@ html, body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-/* 顶部进度条 */
 .card-top-track {
   height: 6px;
   width: 100%;
@@ -216,15 +217,14 @@ html, body {
   height: 100%;
   width: 0%;
   background: var(--accent-orange);
-  transition: width 0.3s linear;
+  transition: width 0.2s linear;
 }
 
-/* 实时 HUD 仪表 */
 .game-hud {
   display: flex;
   align-items: baseline;
   padding: 14px 18px 8px;
-  gap: 20px;
+  gap: 16px;
 }
 
 .hud-item {
@@ -258,7 +258,6 @@ html, body {
   font-weight: 500;
 }
 
-/* 画布区域 */
 .canvas-wrapper {
   position: relative;
   width: 100%;
@@ -282,7 +281,6 @@ body.gb-mode .canvas-wrapper {
   display: block;
 }
 
-/* 画面右下角诗意台词 */
 .poetic-caption {
   position: absolute;
   right: 14px;
@@ -305,7 +303,6 @@ body.gb-mode .poetic-caption {
   text-shadow: none;
 }
 
-/* GB 模式扫描线与点阵遮罩 */
 .gb-scanlines {
   display: none;
   position: absolute;
@@ -326,7 +323,7 @@ body.gb-mode .gb-scanlines {
    4. 提示条 (松开时护鱼 · 想接鱼就按住)
    ════════════════════════════════════════════════════════════ */
 .hint-banner {
-  margin-top: 14px;
+  margin-top: 12px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -346,6 +343,12 @@ body.gb-mode .gb-scanlines {
   animation: pulse-shake 0.4s ease;
 }
 
+.hint-banner.sprinting {
+  background: #FFF7ED;
+  color: var(--accent-orange);
+  border-color: #FDBA74;
+}
+
 @keyframes pulse-shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
@@ -353,17 +356,18 @@ body.gb-mode .gb-scanlines {
 }
 
 /* ════════════════════════════════════════════════════════════
-   5. 操作按键区 (Hold Button & Pause)
+   5. 操作按键区 (Hold Button + Sprint Button + Pause)
    ════════════════════════════════════════════════════════════ */
 .controls-row {
   margin-top: 12px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   height: 84px;
 }
 
+/* 1. 张嘴/护鱼 主按键 */
 .hold-btn {
-  flex: 1;
+  flex: 1.6;
   background: var(--accent-green);
   border-radius: 14px;
   border: none;
@@ -386,19 +390,18 @@ body.gb-mode .gb-scanlines {
 }
 
 .btn-main-text {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   margin-bottom: 2px;
 }
 
-/* 中间的小状态药丸条 */
 .btn-state-bar {
-  width: 60px;
+  width: 55px;
   height: 5px;
   background: rgba(255, 255, 255, 0.22);
   border-radius: 4px;
-  margin: 4px 0 5px;
+  margin: 3px 0 4px;
   overflow: hidden;
 }
 
@@ -414,13 +417,50 @@ body.gb-mode .gb-scanlines {
 }
 
 .btn-sub-text {
-  font-size: 12px;
+  font-size: 11.5px;
   color: rgba(255, 255, 255, 0.75);
   font-weight: 500;
 }
 
+/* 2. 狂蹬加速 冲刺按键 */
+.sprint-btn {
+  flex: 1.1;
+  background: var(--accent-orange);
+  border-radius: 14px;
+  border: none;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(223, 113, 75, 0.28);
+  transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sprint-btn:active, .sprint-btn.sprinting {
+  background: var(--accent-orange-active);
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(223, 113, 75, 0.2);
+}
+
+.sprint-btn .btn-main-text {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.sprint-btn .btn-sub-text {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+/* 3. 暂停按键 */
 .pause-btn {
-  width: 80px;
+  width: 66px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 14px;
@@ -439,29 +479,30 @@ body.gb-mode .gb-scanlines {
 }
 
 .pause-icon {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .pause-text {
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-muted);
   font-weight: 600;
 }
 
-/* 底部操作快捷键指引 */
+/* 底部操作指引 */
 .footer-tip {
   margin-top: 14px;
   text-align: center;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-muted);
   letter-spacing: 0.5px;
+  line-height: 1.6;
 }
 
 /* ════════════════════════════════════════════════════════════
-   6. 结算与海报生成弹窗 (Settlement Modal)
+   6. 结算与海报生成弹窗
    ════════════════════════════════════════════════════════════ */
 .modal-overlay {
   position: fixed;

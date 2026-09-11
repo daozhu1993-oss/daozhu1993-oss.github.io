@@ -1,6 +1,6 @@
 /**
- * 别洒了，鹈鹕！(A Mouthful of Fish · The Slow Club)
- * 核心游戏逻辑与渲染引擎
+ * 别洒了，鹈鹕！(A MOUTHFUL OF FISH · THE SLOW CLUB)
+ * 核心游戏逻辑与渲染引擎 - 优化版 (精准吸鱼判定 + 狂蹬加速冲刺系统)
  */
 
 class PelicanGame {
@@ -15,29 +15,43 @@ class PelicanGame {
     this.audio = new PelicanAudio();
     this.poster = new PelicanPoster();
 
-    // 模式状态：book (绘本) 或 gb (Game Boy 8-Bit)
+    // 模式状态
     const urlParams = new URLSearchParams(window.location.search);
     this.isGbMode = urlParams.get('mode') === 'gb';
     this.isDarkMode = false;
 
-    // 核心数值状态
-    this.totalTime = 35; // 35秒冲刺至码头
+    // 基础数值
+    this.totalTime = 35; // 35秒到达码头
     this.timeLeft = this.totalTime;
     this.fishCount = 0;
     this.lostCount = 0;
     this.gameState = 'READY'; // READY, RUNNING, PAUSED, ARRIVED
 
+    // 速度与加速系统 (狂蹬冲刺)
+    this.baseSpeed = 3.8;
+    this.sprintSpeed = 7.6;
+    this.speed = this.baseSpeed;
+    this.isSprinting = false;
+
     // 鹈鹕操控与物理
     this.isHolding = false;
-    this.beakProgress = 0; // 0: 闭嘴护鱼, 1: 大嘴囊张开
+    this.beakProgress = 0; // 0: 闭合护鱼, 1: 大嘴囊张开
     this.pedalAngle = 0;
     this.bikeYOffset = 0;
     this.bikeYVel = 0;
     this.shakeIntensity = 0;
 
-    // 视差与移动背景
+    // 视差与背景
     this.scrollX = 0;
-    this.speed = 3.8;
+    this.windStreaks = [];
+    for (let i = 0; i < 8; i++) {
+      this.windStreaks.push({
+        x: Math.random() * this.width,
+        y: 80 + Math.random() * 320,
+        len: 40 + Math.random() * 80,
+        speed: 8 + Math.random() * 8
+      });
+    }
 
     // 实体队列
     this.fishList = [];
@@ -47,8 +61,8 @@ class PelicanGame {
     this.toastList = [];
 
     // 定时生成器
-    this.nextFishTime = 1.2;
-    this.nextBumpTime = 4.5;
+    this.nextFishTime = 0.8;
+    this.nextBumpTime = 4.0;
     this.lastTimestamp = 0;
 
     // DOM 引用
@@ -57,6 +71,7 @@ class PelicanGame {
     this.lostValEl = document.getElementById('lost-val');
     this.topFillEl = document.getElementById('card-top-fill');
     this.holdBtn = document.getElementById('btn-hold');
+    this.sprintBtn = document.getElementById('btn-sprint');
     this.pauseBtn = document.getElementById('btn-pause');
     this.hintBanner = document.getElementById('hint-banner');
     this.modalOverlay = document.getElementById('settle-modal');
@@ -94,8 +109,30 @@ class PelicanGame {
     }
   }
 
+  setSprint(sprinting) {
+    if (this.gameState === 'READY') {
+      this.gameState = 'RUNNING';
+      this.audio.startBgm();
+      this.audio.ringBell();
+    }
+    this.isSprinting = sprinting;
+    if (this.sprintBtn) {
+      this.sprintBtn.classList.toggle('sprinting', sprinting);
+    }
+    if (this.hintBanner) {
+      this.hintBanner.classList.toggle('sprinting', sprinting);
+      if (sprinting) {
+        this.hintBanner.textContent = '⚡ 狂蹬冲刺中！倒计时快速前进，小心颠簸！';
+      } else {
+        this.hintBanner.textContent = '松开时护鱼 · 想接鱼就按住';
+      }
+    }
+    if (sprinting) {
+      this.vibrate(18);
+    }
+  }
+
   bindEvents() {
-    // 1. 操作按键与触控绑定
     const setHold = (holding) => {
       if (this.gameState === 'READY') {
         this.gameState = 'RUNNING';
@@ -113,7 +150,7 @@ class PelicanGame {
       }
     };
 
-    // 底部大按钮
+    // 1. 张嘴主按键
     if (this.holdBtn) {
       this.holdBtn.addEventListener('mousedown', (e) => { e.preventDefault(); setHold(true); });
       window.addEventListener('mouseup', () => setHold(false));
@@ -122,36 +159,78 @@ class PelicanGame {
       window.addEventListener('touchcancel', () => setHold(false));
     }
 
-    // 画布触控点击也能张嘴
-    const canvasWrap = document.querySelector('.canvas-wrapper');
-    if (canvasWrap) {
-      canvasWrap.addEventListener('mousedown', (e) => { e.preventDefault(); setHold(true); });
-      canvasWrap.addEventListener('touchstart', (e) => { e.preventDefault(); setHold(true); }, { passive: false });
+    // 2. 狂蹬加速冲刺按键
+    if (this.sprintBtn) {
+      this.sprintBtn.addEventListener('mousedown', (e) => { e.preventDefault(); this.setSprint(true); });
+      window.addEventListener('mouseup', () => this.setSprint(false));
+      this.sprintBtn.addEventListener('touchstart', (e) => { e.preventDefault(); this.setSprint(true); }, { passive: false });
+      window.addEventListener('touchend', () => this.setSprint(false));
+      window.addEventListener('touchcancel', () => this.setSprint(false));
     }
 
-    // 键盘操作 (空格键、Enter 或 A 键按住张嘴)
+    // 3. 画布触控分区：点击左侧张嘴，点击右侧狂蹬加速！
+    const canvasWrap = document.querySelector('.canvas-wrapper');
+    if (canvasWrap) {
+      canvasWrap.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const rect = canvasWrap.getBoundingClientRect();
+        const touch = e.touches[0];
+        if (touch.clientX - rect.left > rect.width * 0.6) {
+          this.setSprint(true);
+        } else {
+          setHold(true);
+        }
+      }, { passive: false });
+
+      canvasWrap.addEventListener('touchend', (e) => {
+        setHold(false);
+        this.setSprint(false);
+      });
+
+      canvasWrap.addEventListener('mousedown', (e) => {
+        const rect = canvasWrap.getBoundingClientRect();
+        if (e.clientX - rect.left > rect.width * 0.6) {
+          this.setSprint(true);
+        } else {
+          setHold(true);
+        }
+      });
+      window.addEventListener('mouseup', () => {
+        setHold(false);
+        this.setSprint(false);
+      });
+    }
+
+    // 4. 键盘操作：空格/A/Enter 张嘴；右箭头/D/Shift 狂蹬加速
     window.addEventListener('keydown', (e) => {
       if (e.repeat) return;
-      if (e.code === 'Space' || e.key === ' ' || e.key === 'a' || e.key === 'A' || e.key === 'Enter') {
+      const key = e.key.toLowerCase();
+      if (e.code === 'Space' || key === ' ' || key === 'a' || e.code === 'Enter') {
         e.preventDefault();
         setHold(true);
-      } else if (e.key === 'p' || e.key === 'P') {
+      } else if (e.code === 'ArrowRight' || key === 'd' || e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+        e.preventDefault();
+        this.setSprint(true);
+      } else if (key === 'p') {
         this.togglePause();
       }
     });
 
     window.addEventListener('keyup', (e) => {
-      if (e.code === 'Space' || e.key === ' ' || e.key === 'a' || e.key === 'A' || e.key === 'Enter') {
+      const key = e.key.toLowerCase();
+      if (e.code === 'Space' || key === ' ' || key === 'a' || e.code === 'Enter') {
         setHold(false);
+      } else if (e.code === 'ArrowRight' || key === 'd' || e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+        this.setSprint(false);
       }
     });
 
-    // 暂停按钮
+    // 暂停
     if (this.pauseBtn) {
       this.pauseBtn.addEventListener('click', () => this.togglePause());
     }
 
-    // 结算海报导出
+    // 结算海报
     const btnPoster = document.getElementById('btn-export-poster');
     if (btnPoster) {
       btnPoster.addEventListener('click', () => {
@@ -160,7 +239,7 @@ class PelicanGame {
       });
     }
 
-    // 再来一局按钮
+    // 再来一局
     const btnRestart = document.getElementById('btn-restart');
     if (btnRestart) {
       btnRestart.addEventListener('click', () => this.restart());
@@ -189,11 +268,27 @@ class PelicanGame {
     this.toastList.push({
       text,
       color,
-      x: x || 300,
-      y: y || 240,
+      x: x || 340,
+      y: y || 200,
       alpha: 1,
-      vy: -1.2
+      vy: -1.4
     });
+  }
+
+  addSparkles(x, y, color = '#F2AF42') {
+    for (let i = 0; i < 6; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 40 + Math.random() * 80;
+      this.particleList.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color,
+        size: 3 + Math.random() * 3,
+        alpha: 1
+      });
+    }
   }
 
   restart() {
@@ -201,13 +296,16 @@ class PelicanGame {
     this.timeLeft = this.totalTime;
     this.fishCount = 0;
     this.lostCount = 0;
+    this.speed = this.baseSpeed;
+    this.isSprinting = false;
     this.gameState = 'RUNNING';
     this.fishList = [];
     this.bumpList = [];
+    this.particleList = [];
     this.spilledFishList = [];
     this.toastList = [];
-    this.nextFishTime = 1.0;
-    this.nextBumpTime = 4.0;
+    this.nextFishTime = 0.8;
+    this.nextBumpTime = 3.5;
     this.updateHUD();
     this.audio.startBgm();
     this.audio.ringBell();
@@ -241,13 +339,16 @@ class PelicanGame {
   // ════════════════════════════════════════════════════════════
   update(dt) {
     if (this.gameState !== 'RUNNING') {
-      // 待机轻微呼吸
       this.pedalAngle += 0.8 * dt;
       return;
     }
 
-    // 1. 倒计时与码头抵达
-    this.timeLeft -= dt;
+    // 1. 速度过渡与狂蹬冲刺
+    const targetSpeed = this.isSprinting ? this.sprintSpeed : this.baseSpeed;
+    this.speed += (targetSpeed - this.speed) * 8 * dt;
+
+    // 倒计时扣减 (加速时路程进度成倍递进！)
+    this.timeLeft -= (this.speed / this.baseSpeed) * dt;
     if (this.timeLeft <= 0) {
       this.timeLeft = 0;
       this.gameState = 'ARRIVED';
@@ -257,106 +358,130 @@ class PelicanGame {
     }
     this.updateHUD();
 
-    // 2. 鹈鹕大嘴张合物理 (果冻平滑插值)
+    // 2. 鹈鹕大嘴张开与闭合动画 (果冻柔和过渡)
     const targetBeak = this.isHolding ? 1.0 : 0.0;
-    const lerpSpeed = this.isHolding ? 10.0 : 16.0;
+    const lerpSpeed = this.isHolding ? 12.0 : 18.0;
     this.beakProgress += (targetBeak - this.beakProgress) * lerpSpeed * dt;
 
-    // 3. 自行车踩踏动画
-    this.pedalAngle += (this.speed * 2.8) * dt;
-    this.scrollX += this.speed * 60 * dt;
+    // 3. 自行车踩踏与滚动视差
+    this.pedalAngle += (this.speed * 3.6) * dt;
+    this.scrollX += this.speed * 65 * dt;
 
-    // 4. 车身悬挂阻尼弹性
+    // 4. 车架悬挂弹性与路面反馈
     this.bikeYOffset += this.bikeYVel * dt;
-    this.bikeYVel -= this.bikeYOffset * 40 * dt; // 弹簧回归
-    this.bikeYVel *= 0.88; // 阻尼衰减
+    this.bikeYVel -= this.bikeYOffset * 45 * dt;
+    this.bikeYVel *= 0.86;
 
-    // 屏幕微震
     if (this.shakeIntensity > 0) {
-      this.shakeIntensity -= dt * 18;
+      this.shakeIntensity -= dt * 20;
       if (this.shakeIntensity < 0) this.shakeIntensity = 0;
     }
 
-    // 5. 生成飞鱼
+    // 更新冲刺风线
+    for (const w of this.windStreaks) {
+      w.x -= (this.speed * 70 + w.speed * 20) * dt;
+      if (w.x < -100) {
+        w.x = this.width + Math.random() * 100;
+        w.y = 80 + Math.random() * 320;
+      }
+    }
+
+    // 5. 定时生成飞鱼 (频率提高，节奏更欢快)
     this.nextFishTime -= dt;
     if (this.nextFishTime <= 0) {
       this.spawnFish();
-      this.nextFishTime = 1.6 + Math.random() * 2.2;
+      this.nextFishTime = 1.0 + Math.random() * 1.6;
     }
 
-    // 6. 生成路面颠簸 (石子、减速带、突风)
+    // 6. 生成路面颠簸
     this.nextBumpTime -= dt;
     if (this.nextBumpTime <= 0) {
       this.spawnBump();
-      this.nextBumpTime = 4.2 + Math.random() * 3.5;
+      this.nextBumpTime = 3.8 + Math.random() * 3.0;
     }
 
-    // 7. 更新飞鱼飞行与吞食判定
-    const pelicanMouthX = 260;
-    const pelicanMouthY = 220 + this.bikeYOffset;
+    // 7. 【核心修复】飞鱼运动与吞食判定
+    // 嘴部实际中心坐标：(px=220 + 125, py=395 - 180 + bikeYOffset + beakOffset)
+    const mouthCenterX = 345;
+    const mouthCenterY = 225 + this.bikeYOffset + this.beakProgress * 25;
 
     for (let i = this.fishList.length - 1; i >= 0; i--) {
       const f = this.fishList[i];
-      f.x -= (this.speed * 50 + f.vx) * dt;
-      f.y += f.vy * dt;
-      f.vy += 220 * dt; // 重力微落
 
-      // 碰撞检测：飞入嘴部区域
-      const dist = Math.hypot(f.x - pelicanMouthX, f.y - pelicanMouthY);
-      if (dist < 46) {
-        if (this.beakProgress > 0.35) {
-          // 张嘴成功接住！
-          this.fishCount++;
+      // 水平运动
+      f.x -= (this.speed * 48 + f.vx) * dt;
+      // 垂直重力抛物线
+      f.y += f.vy * dt;
+      f.vy += f.gravity * dt;
+
+      // 距离嘴部中心
+      const dx = f.x - mouthCenterX;
+      const dy = f.y - mouthCenterY;
+      const dist = Math.hypot(dx, dy);
+
+      // 磁吸效应 (如果玩家正按住张嘴，嘴部产生海风吸力！)
+      if (this.beakProgress > 0.15 && f.x >= 240 && f.x <= 480 && Math.abs(dy) < 90) {
+        f.x -= 100 * dt;
+        f.y += (mouthCenterY - f.y) * 6.5 * dt;
+      }
+
+      // 【核心吞食判定范围】
+      if ((dist < 65) || (f.x >= 260 && f.x <= 390 && Math.abs(dy) < 55)) {
+        if (this.beakProgress > 0.15) {
+          // 张嘴状态：吃到鱼了！
+          const gain = f.type === 'golden' ? 2 : 1;
+          this.fishCount += gain;
           this.audio.catchFish();
-          this.addToast('+1 鲜鱼', '#294A3E', f.x, f.y - 20);
-          this.vibrate(20);
+          this.vibrate(25);
+          this.addSparkles(f.x, f.y, f.type === 'golden' ? '#FFD700' : '#4CA3D9');
+          this.addToast(gain === 2 ? '+2 金鱼！' : '+1 鲜鱼', '#294A3E', mouthCenterX, mouthCenterY - 30);
           this.fishList.splice(i, 1);
           continue;
         } else {
-          // 嘴闭着，被硬壳反弹！
-          f.vx = -120;
-          f.vy = -180;
-          this.addToast('没张嘴！', '#847F75', f.x, f.y - 20);
+          // 嘴闭着，鱼撞击上喙反弹！
+          if (!f.bounced && f.x <= 370) {
+            f.bounced = true;
+            f.vx = -120;
+            f.vy = -160;
+            this.addToast('没张嘴！', '#847F75', f.x, f.y - 20);
+          }
         }
       }
 
-      if (f.x < -80 || f.y > this.height + 50) {
+      if (f.x < -100 || f.y > this.height + 60) {
         this.fishList.splice(i, 1);
       }
     }
 
-    // 8. 更新颠簸碰撞与“颠洒”机制
+    // 8. 颠簸碾压与颠洒判定
     const bikeWheelX = 220;
     for (let i = this.bumpList.length - 1; i >= 0; i--) {
       const b = this.bumpList[i];
-      b.x -= this.speed * 60 * dt;
+      b.x -= this.speed * 65 * dt;
 
-      // 碾过颠簸
-      if (!b.hit && Math.abs(b.x - bikeWheelX) < 25) {
+      if (!b.hit && Math.abs(b.x - bikeWheelX) < 28) {
         b.hit = true;
-        this.bikeYVel = -160; // 剧烈弹跳
-        this.shakeIntensity = 8;
+        this.bikeYVel = this.isSprinting ? -220 : -160;
+        this.shakeIntensity = this.isSprinting ? 12 : 8;
         this.audio.bump();
 
-        // 核心玩法判定：此时是否正张着大嘴？
-        if (this.beakProgress > 0.35) {
-          // 嘴张开，鱼颠飞洒出！
+        // 核心判定：碾过时是否正张着嘴？
+        if (this.beakProgress > 0.25) {
           const lostAmount = Math.min(this.fishCount > 4 ? 2 : 1, this.fishCount);
           if (lostAmount > 0) {
             this.fishCount -= lostAmount;
             this.lostCount += lostAmount;
             this.audio.spillFish();
             this.vibrate(50);
-            this.triggerSpill(lostAmount, pelicanMouthX, pelicanMouthY);
-            this.addToast(`-${lostAmount} 颠洒了！`, '#DF714B', pelicanMouthX + 20, pelicanMouthY - 30);
+            this.triggerSpill(lostAmount, mouthCenterX - 20, mouthCenterY);
+            this.addToast(`-${lostAmount} 颠洒了！`, '#DF714B', mouthCenterX + 20, mouthCenterY - 40);
             if (this.hintBanner) {
               this.hintBanner.classList.add('alert-bump');
               setTimeout(() => this.hintBanner.classList.remove('alert-bump'), 600);
             }
           }
         } else {
-          // 嘴闭着，完美护鱼！
-          this.addToast('稳住！', '#294A3E', pelicanMouthX + 20, pelicanMouthY - 20);
+          this.addToast('稳住！', '#294A3E', mouthCenterX, mouthCenterY - 30);
           this.vibrate(10);
         }
       }
@@ -366,7 +491,18 @@ class PelicanGame {
       }
     }
 
-    // 9. 更新被颠飞的鱼粒子
+    // 9. 更新粒子
+    for (let i = this.particleList.length - 1; i >= 0; i--) {
+      const p = this.particleList[i];
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.alpha -= dt * 2;
+      if (p.alpha <= 0) {
+        this.particleList.splice(i, 1);
+      }
+    }
+
+    // 10. 更新颠飞的鱼粒子
     for (let i = this.spilledFishList.length - 1; i >= 0; i--) {
       const sp = this.spilledFishList[i];
       sp.x += sp.vx * dt;
@@ -378,32 +514,62 @@ class PelicanGame {
       }
     }
 
-    // 10. 更新飘字提示
+    // 11. 更新飘字提示
     for (let i = this.toastList.length - 1; i >= 0; i--) {
       const t = this.toastList[i];
       t.y += t.vy;
-      t.alpha -= dt * 1.5;
+      t.alpha -= dt * 1.6;
       if (t.alpha <= 0) {
         this.toastList.splice(i, 1);
       }
     }
   }
 
+  /**
+   * 【核心精修】生成保证飞向鹈鹕嘴部的飞鱼轨道
+   */
   spawnFish() {
-    const types = ['silver', 'golden', 'shrimp', 'squid'];
-    const type = types[Math.floor(Math.random() * types.length)];
+    const isLeap = Math.random() > 0.45;
+    const isGolden = Math.random() < 0.2; // 20% 几率金鱼
+    const type = isGolden ? 'golden' : (isLeap ? 'silver' : 'squid');
+
+    const spawnX = this.width + 50;
+    const targetX = 350;
+    const targetY = 220 + (Math.random() - 0.5) * 30; // 鹈鹕大嘴高度
+
+    let spawnY = 0;
+    let vx = 160 + Math.random() * 40;
+    let vy = 0;
+    let gravity = 0;
+
+    if (isLeap) {
+      // 1. 海面飞跃鱼：从下部海面跃起，优美弧线直奔嘴部！
+      spawnY = 320 + Math.random() * 50;
+      gravity = 140;
+      const speedX = this.speed * 48 + vx;
+      const t = (spawnX - targetX) / speedX;
+      vy = (targetY - spawnY - 0.5 * gravity * t * t) / t;
+    } else {
+      // 2. 迎风滑翔鱼：直接在嘴部高度水平滑行
+      spawnY = 210 + (Math.random() - 0.5) * 40;
+      gravity = 0;
+      vy = (Math.random() - 0.5) * 20;
+    }
+
     this.fishList.push({
-      x: this.width + 40,
-      y: 160 + Math.random() * 110,
-      vx: 40 + Math.random() * 60,
-      vy: -60 - Math.random() * 80,
-      type
+      x: spawnX,
+      y: spawnY,
+      vx,
+      vy,
+      gravity,
+      type,
+      bounced: false
     });
   }
 
   spawnBump() {
     this.bumpList.push({
-      x: this.width + 50,
+      x: this.width + 60,
       hit: false,
       type: Math.random() > 0.5 ? 'stone' : 'pothole'
     });
@@ -412,10 +578,10 @@ class PelicanGame {
   triggerSpill(count, x, y) {
     for (let i = 0; i < count; i++) {
       this.spilledFishList.push({
-        x: x + (Math.random() - 0.5) * 15,
-        y: y + (Math.random() - 0.5) * 15,
-        vx: 80 + Math.random() * 120,
-        vy: -220 - Math.random() * 100,
+        x: x + (Math.random() - 0.5) * 20,
+        y: y + (Math.random() - 0.5) * 20,
+        vx: 90 + Math.random() * 110,
+        vy: -230 - Math.random() * 90,
         rot: Math.random() * Math.PI,
         vRot: 8 + Math.random() * 8
       });
@@ -475,7 +641,6 @@ class PelicanGame {
     const h = this.height;
 
     ctx.save();
-    // 震屏位移
     if (this.shakeIntensity > 0) {
       const sx = (Math.random() - 0.5) * this.shakeIntensity;
       const sy = (Math.random() - 0.5) * this.shakeIntensity;
@@ -492,14 +657,14 @@ class PelicanGame {
   }
 
   // ════════════════════════════════════════════════════════════
-  // 1. 法式绘本风渲染 (The Slow Club Book Mode)
+  // 1. 法式绘本风渲染
   // ════════════════════════════════════════════════════════════
   renderBook(ctx, w, h) {
     // 天空
     ctx.fillStyle = this.isDarkMode ? '#172322' : '#CBE0DA';
     ctx.fillRect(0, 0, w, h);
 
-    // 远处温暖太阳 / 月亮
+    // 太阳 / 月亮
     ctx.fillStyle = this.isDarkMode ? '#F5EACF' : '#EAA958';
     ctx.beginPath();
     ctx.arc(580, 110, 48, 0, Math.PI * 2);
@@ -510,7 +675,7 @@ class PelicanGame {
     ctx.fillStyle = this.isDarkMode ? '#9BA698' : '#294A3E';
     ctx.fillRect(572, 168 + balloonOffset, 16, 14);
 
-    // 大海与远景灯塔
+    // 大海
     ctx.fillStyle = this.isDarkMode ? '#0F1C1B' : '#99BDB4';
     ctx.fillRect(0, h * 0.45, w, h * 0.25);
 
@@ -527,7 +692,7 @@ class PelicanGame {
     ctx.fillStyle = this.isDarkMode ? '#242C2A' : '#EDE8DC';
     ctx.fillRect(0, h * 0.68, w, h * 0.32);
 
-    // 公路深色分界线
+    // 分界线
     ctx.strokeStyle = this.isDarkMode ? '#3A4542' : '#DCD5C6';
     ctx.lineWidth = 4;
     ctx.beginPath();
@@ -535,7 +700,7 @@ class PelicanGame {
     ctx.lineTo(w, h * 0.7);
     ctx.stroke();
 
-    // 沿路小石子与草丛装饰 (视差流动)
+    // 沿路小石子与草丛
     ctx.fillStyle = this.isDarkMode ? '#384844' : '#98B68C';
     for (let i = 0; i < 8; i++) {
       const decoX = ((i * 140 - this.scrollX) % (w + 140) + (w + 140)) % (w + 140) - 40;
@@ -544,7 +709,20 @@ class PelicanGame {
       ctx.fill();
     }
 
-    // 渲染路面颠簸障碍物
+    // 渲染冲刺时的风速线
+    if (this.isSprinting) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      for (const st of this.windStreaks) {
+        ctx.beginPath();
+        ctx.moveTo(st.x, st.y);
+        ctx.lineTo(st.x + st.len, st.y);
+        ctx.stroke();
+      }
+    }
+
+    // 渲染颠簸物
     this.renderBumps(ctx);
 
     // 渲染飞鱼
@@ -552,6 +730,9 @@ class PelicanGame {
 
     // 渲染主角：骑复古单车的鹈鹕
     this.renderPelican(ctx, 220, 395 + this.bikeYOffset);
+
+    // 渲染吞食火花粒子
+    this.renderParticles(ctx);
 
     // 渲染颠飞的鱼粒子
     this.renderSpilledFish(ctx);
@@ -564,11 +745,10 @@ class PelicanGame {
   // 2. 8-Bit Game Boy 点阵像素风渲染
   // ════════════════════════════════════════════════════════════
   renderGb(ctx, w, h) {
-    // 4阶调色盘: #9BBC0F, #8BAC0F, #306230, #0F380F
     ctx.fillStyle = '#9BBC0F';
     ctx.fillRect(0, 0, w, h);
 
-    // 背景海平面
+    // 海平面
     ctx.fillStyle = '#8BAC0F';
     ctx.fillRect(0, h * 0.48, w, h * 0.22);
 
@@ -576,28 +756,30 @@ class PelicanGame {
     ctx.fillStyle = '#306230';
     ctx.fillRect(560, 90, 48, 48);
 
-    // 地面公路
+    // 地面
     ctx.fillStyle = '#8BAC0F';
     ctx.fillRect(0, h * 0.7, w, h * 0.3);
 
     ctx.fillStyle = '#0F380F';
     ctx.fillRect(0, h * 0.7, w, 4);
 
-    // 渲染颠簸物 (像素方块)
+    // 冲刺风线
+    if (this.isSprinting) {
+      ctx.fillStyle = '#306230';
+      for (const st of this.windStreaks) {
+        ctx.fillRect(st.x, st.y, st.len, 2);
+      }
+    }
+
     this.renderBumps(ctx, true);
-
-    // 渲染像素飞鱼
     this.renderFish(ctx, true);
-
-    // 渲染像素鹈鹕
     this.renderPelican(ctx, 220, 395 + this.bikeYOffset, true);
-
-    // 颠飞粒子与文字
+    this.renderParticles(ctx, true);
     this.renderSpilledFish(ctx, true);
     this.renderToasts(ctx, true);
   }
 
-  // 绘制鹈鹕与复古单车
+  // 绘制鹈鹕与单车
   renderPelican(ctx, px, py, isGb = false) {
     ctx.save();
     const cMain = isGb ? '#0F380F' : '#2A2723';
@@ -607,7 +789,7 @@ class PelicanGame {
     const cPouch = isGb ? '#0F380F' : '#E79B2F';
     const cCap = isGb ? '#0F380F' : '#294A3E';
 
-    // 1. 车轮 (前后两轮)
+    // 1. 车轮
     const wheelR = 48;
     const frontX = px + 95;
     const backX = px - 75;
@@ -620,7 +802,6 @@ class PelicanGame {
       ctx.arc(wx, wheelY, wheelR, 0, Math.PI * 2);
       ctx.stroke();
 
-      // 旋转辐条
       for (let i = 0; i < 8; i++) {
         const a = this.pedalAngle + (i * Math.PI) / 4;
         ctx.beginPath();
@@ -633,7 +814,7 @@ class PelicanGame {
     drawBikeWheel(backX);
     drawBikeWheel(frontX);
 
-    // 2. 经典砖红复古车架
+    // 2. 车架
     ctx.strokeStyle = cFrame;
     ctx.lineWidth = 7;
     ctx.lineCap = 'round';
@@ -677,12 +858,11 @@ class PelicanGame {
     ctx.lineTo(handleX + 22, handleY - 10);
     ctx.stroke();
 
-    // 3. 鹈鹕大白鹅身躯
+    // 3. 鹈鹕大白身躯
     ctx.fillStyle = cWhite;
     ctx.strokeStyle = cMain;
     ctx.lineWidth = 3.5;
 
-    // 身体椭圆
     ctx.beginPath();
     ctx.ellipse(px - 22, wheelY - 85, 60, 36, -0.15, 0, Math.PI * 2);
     ctx.fill();
@@ -697,7 +877,7 @@ class PelicanGame {
     ctx.fill();
     ctx.stroke();
 
-    // 优雅长颈
+    // 颈部
     ctx.beginPath();
     ctx.moveTo(px + 10, wheelY - 95);
     ctx.quadraticCurveTo(px + 18, wheelY - 155, px + 30, wheelY - 175);
@@ -721,12 +901,11 @@ class PelicanGame {
     ctx.arc(headX + 10, headY - 5, 4, 0, Math.PI * 2);
     ctx.fill();
 
-    // 4. 【核心灵魂】弹性大嘴囊 (Beak Pouch)
-    // 根据 this.beakProgress 实时动态张开下垂！
-    const openOffset = this.beakProgress * 65; // 张开幅度
-    const pouchDrop = this.beakProgress * 75; // 嘴囊下沉膨胀
+    // 4. 【核心大嘴囊】
+    const openOffset = this.beakProgress * 65;
+    const pouchDrop = this.beakProgress * 75;
 
-    // 上喙 (固定在水平略微昂起)
+    // 上喙
     ctx.fillStyle = cBeak;
     ctx.beginPath();
     ctx.moveTo(headX + 15, headY - 8);
@@ -740,23 +919,21 @@ class PelicanGame {
     ctx.fillStyle = cPouch;
     ctx.beginPath();
     ctx.moveTo(headX + 20, headY + 8);
-    // 当张嘴时，下喙向下张开
     ctx.quadraticCurveTo(
       headX + 75,
       headY + 12 + pouchDrop,
       headX + 140 - (1 - this.beakProgress) * 5,
       headY + openOffset
     );
-    if (this.beakProgress > 0.2) {
-      // 张开时显示内腔大口
+    if (this.beakProgress > 0.15) {
       ctx.lineTo(headX + 140, headY);
     }
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
 
-    // 如果嘴里有鱼，且张嘴时，画一条活蹦乱跳的鱼尾巴
-    if (this.fishCount > 0 && this.beakProgress > 0.3) {
+    // 嘴里的鱼尾巴
+    if (this.fishCount > 0 && this.beakProgress > 0.25) {
       ctx.fillStyle = isGb ? '#306230' : '#4CA3D9';
       ctx.beginPath();
       ctx.moveTo(headX + 90, headY + 8);
@@ -766,7 +943,7 @@ class PelicanGame {
       ctx.fill();
     }
 
-    // 5. 绿色复古骑行帽
+    // 5. 骑行帽
     ctx.fillStyle = cCap;
     ctx.beginPath();
     ctx.arc(headX - 2, headY - 14, 22, Math.PI, 0);
@@ -783,12 +960,11 @@ class PelicanGame {
     ctx.fill();
     ctx.stroke();
 
-    // 6. 迎风飞扬的长红围巾
+    // 6. 迎风长红围巾 (冲刺时摆动更剧烈)
     ctx.fillStyle = cFrame;
     ctx.strokeStyle = cMain;
     ctx.lineWidth = 3;
 
-    // 颈部围巾结
     ctx.beginPath();
     ctx.moveTo(headX - 6, headY + 20);
     ctx.lineTo(headX + 22, headY + 21);
@@ -798,8 +974,10 @@ class PelicanGame {
     ctx.fill();
     ctx.stroke();
 
-    // 飘扬的尾巾 (正弦波波动)
-    const wave = Math.sin(this.scrollX * 0.08) * 8;
+    const waveAmp = this.isSprinting ? 14 : 8;
+    const waveFreq = this.isSprinting ? 0.12 : 0.08;
+    const wave = Math.sin(this.scrollX * waveFreq) * waveAmp;
+
     ctx.beginPath();
     ctx.moveTo(headX - 10, headY + 26);
     ctx.quadraticCurveTo(headX - 55, headY + 8 + wave, headX - 110, headY + 16 + wave * 1.5);
@@ -809,7 +987,7 @@ class PelicanGame {
     ctx.fill();
     ctx.stroke();
 
-    // 7. 橘黄色大长腿 (踩着脚踏旋转)
+    // 7. 大长腿蹬脚踏
     ctx.strokeStyle = isGb ? '#306230' : '#E6A756';
     ctx.lineWidth = 6;
     const pedalX = crankX + Math.cos(this.pedalAngle) * 16;
@@ -831,7 +1009,7 @@ class PelicanGame {
     ctx.restore();
   }
 
-  // 渲染飞鱼实体
+  // 渲染飞鱼
   renderFish(ctx, isGb = false) {
     ctx.save();
     for (const f of this.fishList) {
@@ -840,37 +1018,43 @@ class PelicanGame {
 
       if (isGb) {
         ctx.fillStyle = '#0F380F';
-        ctx.fillRect(-12, -6, 24, 12);
-        ctx.fillRect(10, -4, 8, 8);
+        ctx.fillRect(-14, -7, 28, 14);
+        ctx.fillRect(12, -4, 8, 8);
       } else {
-        // 彩色绘本鱼
-        ctx.fillStyle = f.type === 'golden' ? '#E9A859' : '#4CA3D9';
-        ctx.strokeStyle = '#2A2723';
-        ctx.lineWidth = 2;
+        if (f.type === 'golden') {
+          ctx.fillStyle = '#FFD700';
+          ctx.strokeStyle = '#B8860B';
+        } else if (f.type === 'squid') {
+          ctx.fillStyle = '#E88B97';
+          ctx.strokeStyle = '#2A2723';
+        } else {
+          ctx.fillStyle = '#4CA3D9';
+          ctx.strokeStyle = '#2A2723';
+        }
+        ctx.lineWidth = 2.2;
 
-        // 鱼身
         ctx.beginPath();
-        ctx.ellipse(0, 0, 16, 9, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 18, 10, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
 
         // 鱼尾
         ctx.beginPath();
-        ctx.moveTo(14, 0);
-        ctx.lineTo(24, -8);
-        ctx.lineTo(24, 8);
+        ctx.moveTo(15, 0);
+        ctx.lineTo(26, -9);
+        ctx.lineTo(26, 9);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
 
-        // 鱼眼睛
+        // 鱼眼
         ctx.fillStyle = '#FFFFFF';
         ctx.beginPath();
-        ctx.arc(-8, -2, 3, 0, Math.PI * 2);
+        ctx.arc(-9, -2, 3.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#2A2723';
         ctx.beginPath();
-        ctx.arc(-8, -2, 1.5, 0, Math.PI * 2);
+        ctx.arc(-9, -2, 1.8, 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.restore();
@@ -878,15 +1062,13 @@ class PelicanGame {
     ctx.restore();
   }
 
-  // 渲染路面颠簸物
   renderBumps(ctx, isGb = false) {
     ctx.save();
     for (const b of this.bumpList) {
       if (isGb) {
         ctx.fillStyle = '#0F380F';
-        ctx.fillRect(b.x - 10, 400, 20, 10);
+        ctx.fillRect(b.x - 12, 400, 24, 10);
       } else {
-        // 石子堆或小坑洼
         ctx.fillStyle = '#9C9488';
         ctx.strokeStyle = '#2A2723';
         ctx.lineWidth = 2.5;
@@ -897,7 +1079,6 @@ class PelicanGame {
         ctx.fill();
         ctx.stroke();
 
-        // 预警小感叹号 (还在远方时)
         if (b.x > 320) {
           ctx.fillStyle = '#DF714B';
           ctx.font = 'bold 16px sans-serif';
@@ -908,7 +1089,18 @@ class PelicanGame {
     ctx.restore();
   }
 
-  // 渲染颠飞弹跳的鱼
+  renderParticles(ctx, isGb = false) {
+    ctx.save();
+    for (const p of this.particleList) {
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.fillStyle = isGb ? '#0F380F' : p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
   renderSpilledFish(ctx, isGb = false) {
     ctx.save();
     for (const sp of this.spilledFishList) {
@@ -916,18 +1108,17 @@ class PelicanGame {
       ctx.translate(sp.x, sp.y);
       ctx.rotate(sp.rot);
       ctx.fillStyle = isGb ? '#0F380F' : '#DF714B';
-      ctx.fillRect(-10, -5, 20, 10);
+      ctx.fillRect(-12, -6, 24, 12);
       ctx.restore();
     }
     ctx.restore();
   }
 
-  // 渲染浮动提示文字
   renderToasts(ctx, isGb = false) {
     ctx.save();
     for (const t of this.toastList) {
       ctx.globalAlpha = Math.max(0, t.alpha);
-      ctx.font = 'bold 20px sans-serif';
+      ctx.font = 'bold 22px sans-serif';
       ctx.fillStyle = isGb ? '#0F380F' : t.color;
       ctx.fillText(t.text, t.x, t.y);
     }
@@ -935,7 +1126,7 @@ class PelicanGame {
   }
 }
 
-// 页面加载自动实例化
+// 启动
 window.addEventListener('DOMContentLoaded', () => {
   window.game = new PelicanGame('pelican-canvas');
 });

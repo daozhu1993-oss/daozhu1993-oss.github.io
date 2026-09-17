@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ['叙事探险', '蒸汽快艇', '跑酷', '牌局'],
       desc: '八十天，两万英镑，一秒不容差池的环球狂澜。主线11关，误了班轮？重金包下蒸汽快艇破浪前行！',
       cover: 'assets/covers/fogg.jpg',
-      url: 'https://me.daozhuai.cn/foggs-bet/',
-      fallbackUrl: 'https://daozhu1993-oss.github.io/foggs-bet/',
+      url: 'https://daozhu1993-oss.github.io/foggs-bet/?v=96',
+      fallbackUrl: 'https://daozhu1993-oss.github.io/foggs-bet/?v=96',
       tip: '11关探险游乐场 · 单击 A 键开玩'
     },
     {

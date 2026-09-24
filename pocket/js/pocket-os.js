@@ -90,15 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'pelican',
       rom: 'ROM 07',
-      title: '鹈鹕骑单车 · 3D海岸追鱼',
-      source: 'Three.js 程序化3D · 实时海浪',
-      year: '2026 · 3D OCEAN RIDE',
-      tags: ['实时3D', '双骨骼IK', '布料物理', '自由驾驶'],
-      desc: '一只戴头盔围红围巾的白鹈鹕，骑着复古单车沿海岸线追鱼。黄昏星空、动态海浪、电影运镜与生成式音乐，全部实时渲染！',
+      title: '海风信使 · 3D单车漫游',
+      source: 'Three.js 程序化3D · 昼夜流转',
+      year: '2026 · ISLAND COURIER 3D',
+      tags: ['实时3D', '双骨骼IK', '布料物理', '自由漫游'],
+      desc: '一只头戴复古骑行盔、系暖阳围巾的白鹈鹕信使，踩着单车沿海岛海岸线漫游捕鱼。落日晚霞、动态海浪、电影运镜与生成音乐，尽享海风慢时光。',
       cover: 'assets/covers/pelican.jpg',
       url: 'games/pelican/index.html',
       fallbackUrl: 'games/pelican/index.html',
-      tip: '3D 海岸追鱼驾驶 · 单击 A 键开玩'
+      tip: '3D 海滨单车漫游 · 单击 A 键开玩'
     }
   ];
 

@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ['叙事探险', '蒸汽快艇', '跑酷', '牌局'],
       desc: '八十天，两万英镑，一秒不容差池的环球狂澜。主线11关，误了班轮？重金包下蒸汽快艇破浪前行！',
       cover: 'assets/covers/fogg.jpg',
-      url: 'https://daozhu1993-oss.github.io/foggs-bet/?v=96',
+      url: 'https://fogg.daozhuai.cn',
       fallbackUrl: 'https://daozhu1993-oss.github.io/foggs-bet/?v=96',
       tip: '11关探险游乐场 · 单击 A 键开玩'
     },
@@ -90,15 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'pelican',
       rom: 'ROM 07',
-      title: '别洒了，鹈鹕！· 海风送鲜',
-      source: 'The Slow Club · 治愈单车漫游',
-      year: '2026 · A MOUTHFUL OF FISH',
-      tags: ['单键心流', '绘本治愈', '海风骑行', '双模切换'],
-      desc: '海风不急，这一嘴要稳！按住张嘴接鱼，松开护嘴防颠。支持 8-Bit 掌机像素模式 与 法式慢调绘本全屏模式 自由切换。',
+      title: '鹈鹕骑单车 · 3D海岸追鱼',
+      source: 'Three.js 程序化3D · 实时海浪',
+      year: '2026 · 3D OCEAN RIDE',
+      tags: ['实时3D', '双骨骼IK', '布料物理', '自由驾驶'],
+      desc: '一只戴头盔围红围巾的白鹈鹕，骑着复古单车沿海岸线追鱼。黄昏星空、动态海浪、电影运镜与生成式音乐，全部实时渲染！',
       cover: 'assets/covers/pelican.jpg',
       url: 'games/pelican/index.html',
       fallbackUrl: 'games/pelican/index.html',
-      tip: '按住张嘴松开护鱼 · 单击 A 键开玩'
+      tip: '3D 海岸追鱼驾驶 · 单击 A 键开玩'
     }
   ];
 

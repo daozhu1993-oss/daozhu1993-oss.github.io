@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>岛主的AI思考 · 独立数字杂志 (The Daozhu Journal)</title>
-<meta name="description" content="从今天起，记录真实肉身穿透 AI 浪潮的 68 篇手记。独立数字杂志排版，一人公司的思考与实践。">
+<meta name="description" content="从今天起，记录真实肉身穿透 AI 浪潮的 68 篇手记。独立数字杂志，一人公司的思考与实践。">
 <meta property="og:title" content="岛主的AI思考 · 独立数字杂志 (The Daozhu Journal)">
-<meta property="og:description" content="从今天起，记录真实肉身穿透 AI 浪潮的 68 篇手记。独立数字杂志排版，一人公司的思考与实践。">
+<meta property="og:description" content="从今天起，记录真实肉身穿透 AI 浪潮的 68 篇手记。独立数字杂志，一人公司的思考与实践。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://daozhu1993-oss.github.io/ai-thinking/index.html">
 <meta property="og:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="岛主的AI思考 · 独立数字杂志">
-<meta name="twitter:description" content="从今天起，记录真实肉身穿透 AI 浪潮的 68 篇手记。独立数字杂志排版，一人公司的思考与实践。">
+<meta name="twitter:description" content="从今天起，记录真实肉身穿透 AI 浪潮的 68 篇手记。独立数字杂志，一人公司的思考与实践。">
 <meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
 
-<!-- Fonts: AIFA Style Google Fonts -->
+<!-- Google Fonts: Editorial High-Contrast Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- 51.la analytics -->
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
@@ -26,38 +26,33 @@
 
 <style>
 /* ═════════════════════════════════════════════════════════════════════
-   THE DAOZHU JOURNAL — AIFA.ONE 100% VISUAL REPLICATION STYLESHEET
+   THE DAOZHU JOURNAL — PURE EDITORIAL HIGH-END MAGAZINE ENGINE
    ═════════════════════════════════════════════════════════════════════ */
 :root {
   --paper: #fafaf7;
   --paper-raised: #f3f1ea;
-  --paper-subtle: #f8f6f0;
   --ink: #111418;
   --quiet: #6b7280;
-  --quiet-strong: #3f444e;
+  --quiet-strong: #4b5563;
   --gold: #b08d57;
   --gold-hover: #9c7844;
   --line: rgba(17, 20, 24, 0.08);
-  --line-strong: rgba(17, 20, 24, 0.18);
-  --navy: #0e2a47;
-  --card-shadow: 0 16px 40px rgba(17, 20, 24, 0.04);
+  --line-strong: rgba(17, 20, 24, 0.22);
   --serif: "Noto Serif SC", "Songti SC", STSong, "Source Han Serif SC", Georgia, serif;
   --sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", Menlo, Consolas, monospace;
 }
 
 [data-theme="dark"] {
-  --paper: #0c0e12;
-  --paper-raised: #14171d;
-  --paper-subtle: #181c22;
+  --paper: #0b0d10;
+  --paper-raised: #13171d;
   --ink: #f0eee9;
   --quiet: #8b929e;
-  --quiet-strong: #b5bac4;
+  --quiet-strong: #d1d5db;
   --gold: #c9a46a;
   --gold-hover: #dcba82;
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.2);
-  --card-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
 }
 
 *, *::before, *::after {
@@ -70,11 +65,12 @@ html, body {
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
-  min-height: 100vh;
+  height: 100vh;
+  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.3s ease, color 0.3s ease;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 a {
@@ -86,69 +82,78 @@ button {
   font-family: inherit;
 }
 
-/* ── 1. MASTHEAD (TOP BAR) ── */
+/* ── 1. MASTHEAD (NAVBAR) ── */
 .masthead {
-  height: 64px;
-  padding: 0 clamp(20px, 4vw, 56px);
-  display: flex;
-  justify-content: space-between;
+  height: 74px;
+  padding: 0 clamp(24px, 5vw, 80px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   border-bottom: 1px solid var(--line);
   background-color: var(--paper);
-  position: sticky;
-  top: 0;
+  position: fixed;
+  inset: 0 0 auto;
   z-index: 100;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .wordmark {
+  justify-self: start;
   display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  letter-spacing: -0.02em;
 }
 
 .wordmark-logo {
   font-family: var(--sans);
-  font-weight: 900;
-  font-size: 20px;
-  letter-spacing: 0.08em;
+  font-weight: 800;
+  font-size: 21px;
+  letter-spacing: 0.1em;
   color: var(--ink);
 }
 
-.wordmark-tag {
+.wordmark-badge {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-weight: 600;
+  border: 1px solid var(--gold);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.masthead-center {
   font-family: var(--mono);
   font-size: 11px;
-  color: var(--gold);
-  letter-spacing: 0.12em;
-  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--quiet);
   text-transform: uppercase;
 }
 
 .masthead-actions {
+  justify-self: end;
   display: flex;
   align-items: center;
-  gap: clamp(14px, 2.5vw, 28px);
+  gap: clamp(14px, 2.4vw, 32px);
 }
 
-.masthead-btn {
+.masthead-link {
   background: transparent;
   border: none;
   cursor: pointer;
   color: var(--ink);
-  font-size: 13px;
+  font-family: var(--mono);
+  font-size: 11.5px;
   font-weight: 500;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
   padding: 6px 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
 }
 
-.masthead-btn:hover {
+.masthead-link:hover {
   color: var(--gold);
 }
 
@@ -159,8 +164,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  background: transparent;
+  border: none;
   color: var(--quiet);
+  cursor: pointer;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 
@@ -170,8 +177,8 @@ button {
 }
 
 .theme-toggle svg {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
 }
 
 .sun-icon { display: block; }
@@ -179,65 +186,55 @@ button {
 [data-theme="dark"] .sun-icon { display: none; }
 [data-theme="dark"] .moon-icon { display: block; }
 
-.edition-badge {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--quiet);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.cta-all-articles {
+.cta-bookshelf {
   background: var(--gold);
   color: #ffffff !important;
-  font-size: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
   font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 4px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
   transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.cta-all-articles:hover {
+.cta-bookshelf:hover {
   background: var(--gold-hover);
   transform: translateY(-1px);
 }
 
-/* ── 2. HERO COVER SCREEN (THE AIFA 1:1 STAGE) ── */
+/* ── 2. HERO VIEWPORT (PURIFIED TO 100% REPLICATE AIFA.ONE) ── */
 .home-viewport {
-  min-height: calc(100vh - 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100vh;
+  padding-top: 74px;
+  display: grid;
+  place-items: center;
   position: relative;
-  padding: 40px clamp(20px, 5vw, 60px) 70px;
-  text-align: center;
+  overflow: hidden;
 }
 
 .daily-stage {
-  width: 100%;
-  max-width: 960px;
-  margin: auto 0;
+  width: min(100%, clamp(680px, 56vw, 980px));
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: stageFadeIn 0.5s ease-out;
-}
-
-@keyframes stageFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── PORTRAIT & DATE NAV ROW ── */
-.daily-portrait-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(16px, 3.5vw, 40px);
-  margin-bottom: 24px;
+  text-align: center;
+  padding: 0 24px;
   user-select: none;
+}
+
+/* ── PORTRAIT & DATE ROW ── */
+.daily-portrait-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(16px, 3.5vw, 42px);
+  width: min(100%, 540px);
+  margin-bottom: 30px;
 }
 
 .daily-adjacent {
@@ -246,55 +243,67 @@ button {
   cursor: pointer;
   color: var(--quiet);
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
   border-radius: 999px;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease;
+}
+
+.daily-adjacent:first-child {
+  justify-self: end;
+}
+
+.daily-adjacent:last-child {
+  justify-self: start;
 }
 
 .daily-adjacent:hover:not(:disabled) {
   color: var(--ink);
-  background-color: var(--line);
 }
 
 .daily-adjacent:disabled {
-  opacity: 0.25;
+  opacity: 0.2;
   cursor: not-allowed;
 }
 
-.arrow-glyph {
-  font-size: 16px;
+.adjacent-arrow {
+  font-size: 15px;
   line-height: 1;
 }
 
-.adjacent-label {
-  font-family: var(--sans);
-  font-size: 13.5px;
-  white-space: nowrap;
-}
-
-/* ── CIRCULAR AVATAR WITH GOLD RING ── */
+/* ── AVATAR CIRCLE WITH REFINED INNER HALO ── */
 .daily-avatar {
-  width: clamp(120px, 15vw, 150px);
-  height: clamp(120px, 15vw, 150px);
-  border-radius: 50%;
-  border: 1.5px solid var(--gold);
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  --avatar-inset: clamp(5px, 0.8vh, 7px);
+  width: clamp(130px, 15vh, 160px);
+  aspect-ratio: 1;
+  padding: var(--avatar-inset);
+  border: 1px solid var(--gold);
   background-color: var(--paper);
-  box-shadow: 0 8px 24px rgba(176, 141, 87, 0.15);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(176, 141, 87, 0.18);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
   cursor: pointer;
 }
 
 .daily-avatar:hover {
-  transform: scale(1.03);
-  box-shadow: 0 12px 32px rgba(176, 141, 87, 0.24);
+  transform: scale(1.035);
+  box-shadow: 0 14px 40px rgba(176, 141, 87, 0.28);
+}
+
+.daily-avatar:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 var(--avatar-inset) var(--paper);
+  z-index: 2;
 }
 
 .column-avatar {
@@ -303,44 +312,39 @@ button {
   border-radius: 50%;
   overflow: hidden;
   display: block;
-  background-color: #221c16;
+  background-color: #26201b;
+  position: relative;
+  z-index: 1;
 }
 
 .column-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 25%;
+  filter: contrast(1.1) brightness(0.95);
   display: block;
 }
 
-/* ── FOLIO & HEADLINE ── */
-.daily-folio {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  color: var(--gold);
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
+/* ── GRAND 2-LINE BALANCED TITLE (THE SOUL OF AIFA) ── */
 .daily-title {
   font-family: var(--serif);
   font-weight: 700;
-  font-size: clamp(32px, 4.4vw, 56px);
-  line-height: 1.25;
-  letter-spacing: -0.015em;
+  font-size: clamp(28px, 3.4vw, 48px);
+  line-height: 1.35;
+  letter-spacing: -0.02em;
   color: var(--ink);
-  max-width: 860px;
-  margin: 0 auto 18px;
-  text-rendering: optimizeLegibility;
+  text-align: center;
+  margin: 0 auto 22px;
+  max-width: 920px;
   text-wrap: balance;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .daily-title a {
   color: inherit;
-  display: inline-block;
   transition: color 0.2s ease;
 }
 
@@ -348,14 +352,14 @@ button {
   color: var(--gold);
 }
 
-/* ── BYLINE & VERIFICATION ── */
+/* ── BYLINE & GOLD CHECKMARK ── */
 .daily-authorline {
   margin-bottom: 6px;
 }
 
 .daily-author {
   font-family: var(--serif);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   color: var(--ink);
   letter-spacing: 0.02em;
@@ -365,8 +369,8 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin-bottom: 18px;
+  gap: 7px;
+  margin-bottom: 26px;
 }
 
 .daily-author-title {
@@ -389,98 +393,45 @@ button {
   height: 16px;
 }
 
-/* ── EXCERPT / QUOTE ── */
-.daily-excerpt {
-  font-family: var(--serif);
-  font-size: clamp(14px, 1.3vw, 16.5px);
-  line-height: 1.8;
-  color: var(--quiet-strong);
-  max-width: 680px;
-  margin: 0 auto 28px;
-  opacity: 0.95;
-  font-weight: 400;
-  transition: opacity 0.25s ease;
-}
-
-/* ── ACTION BUTTONS ── */
-.daily-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-
+/* ── THE SOLITARY HIGH-END BLACK BUTTON ── */
 .daily-read {
+  height: 52px;
+  min-height: 52px;
+  padding: 0 46px;
+  background-color: var(--ink);
+  color: var(--paper) !important;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  outline: 1px solid var(--ink);
+  outline-offset: -1px;
+  border: none;
+  border-radius: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  padding: 0 38px;
-  background-color: var(--ink);
-  color: var(--paper) !important;
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border-radius: 4px;
-  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 16px rgba(17, 20, 24, 0.12);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .daily-read:hover {
-  opacity: 0.92;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(17, 20, 24, 0.2);
+  filter: brightness(1.25);
+  transform: translateY(-1px);
 }
 
-.daily-modal-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 22px;
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--line-strong);
-  font-size: 12.5px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.daily-modal-btn:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-/* ── FOOTNOTE ── */
+/* ── FOOTNOTE (BOTTOM LEFT) ── */
 .daily-footnote {
   position: absolute;
-  bottom: 24px;
-  left: clamp(20px, 4vw, 56px);
-  font-size: 12px;
-  color: var(--quiet);
-  letter-spacing: 0.06em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footnote-mark {
-  font-size: 14px;
-}
-
-.daily-keyhint {
-  position: absolute;
-  bottom: 24px;
-  right: clamp(20px, 4vw, 56px);
+  bottom: 28px;
+  left: clamp(24px, 5vw, 80px);
   font-family: var(--mono);
   font-size: 11px;
+  letter-spacing: 0.12em;
   color: var(--quiet);
-  letter-spacing: 0.06em;
-  opacity: 0.6;
+  text-transform: uppercase;
 }
 
 /* ════ 3. MAGAZINE READER OVERLAY (1:1 FROM AIFA ARTICLE SCREENSHOT) ════ */
@@ -530,7 +481,6 @@ button {
   transform: rotate(90deg);
 }
 
-/* ── MAGAZINE BOOK CANVAS ── */
 .magazine-card {
   width: min(520px, 90vw);
   height: min(720px, 76vh);
@@ -552,14 +502,16 @@ button {
   z-index: 0;
   overflow: hidden;
 }
+
 .mag-bg-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
-  filter: contrast(1.05) brightness(0.85);
+  object-position: center 25%;
+  filter: contrast(1.1) brightness(0.9);
   display: block;
 }
+
 .mag-bg-overlay {
   position: absolute;
   inset: 0;
@@ -580,7 +532,7 @@ button {
 .mag-logo {
   font-family: var(--sans);
   font-weight: 900;
-  font-size: 32px;
+  font-size: 30px;
   letter-spacing: 0.1em;
   color: #ffffff;
   line-height: 1;
@@ -678,8 +630,9 @@ button {
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.75);
+  font-family: var(--mono);
   font-size: 12px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -713,8 +666,8 @@ button {
 }
 
 .bookshelf-nav {
-  height: 64px;
-  padding: 0 clamp(20px, 4vw, 56px);
+  height: 74px;
+  padding: 0 clamp(24px, 5vw, 80px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -729,10 +682,11 @@ button {
   background: transparent;
   border: 1px solid var(--line-strong);
   color: var(--ink);
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 16px;
-  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 8px 18px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -760,7 +714,7 @@ button {
   font-size: clamp(34px, 5vw, 56px);
   line-height: 1.25;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin-bottom: 16px;
 }
 
@@ -817,7 +771,7 @@ button {
   height: 44px;
   padding: 0 40px 0 16px;
   border: 1px solid var(--line-strong);
-  border-radius: 4px;
+  border-radius: 0;
   background: var(--paper);
   color: var(--ink);
   font-family: var(--sans);
@@ -828,7 +782,7 @@ button {
 
 .search-input:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.15);
+  box-shadow: 0 0 0 2px rgba(176, 141, 87, 0.2);
 }
 
 .search-clear-btn {
@@ -858,7 +812,7 @@ button {
   gap: 18px;
   padding: 20px 12px;
   border-bottom: 1px solid var(--line);
-  transition: background-color 0.15s ease, padding 0.15s ease;
+  transition: background-color 0.15s ease;
 }
 
 .archive-row:hover {
@@ -918,9 +872,10 @@ button {
   background: transparent;
   border: 1px solid var(--line);
   color: var(--ink);
-  font-size: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.15s ease;
 }
@@ -933,9 +888,10 @@ button {
 .arch-read-btn {
   background: var(--ink);
   color: var(--paper) !important;
-  font-size: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
   padding: 6px 14px;
-  border-radius: 4px;
+  border-radius: 0;
   font-weight: 600;
   transition: opacity 0.15s ease;
 }
@@ -946,7 +902,7 @@ button {
 
 /* ── RESPONSIVE MOBILE ── */
 @media (max-width: 768px) {
-  .edition-badge {
+  .masthead-center {
     display: none;
   }
   .archive-row {
@@ -963,16 +919,12 @@ button {
   .daily-portrait-row {
     gap: 12px;
   }
-  .adjacent-label {
+  .adjacent-text {
     display: none;
   }
   .daily-footnote {
-    position: static;
-    margin-top: 36px;
-    justify-content: center;
-  }
-  .daily-keyhint {
-    display: none;
+    left: 20px;
+    bottom: 20px;
   }
 }
 </style>
@@ -981,20 +933,22 @@ button {
 
 <!-- 1. MASTHEAD (NAVBAR) -->
 <header class="masthead">
-  <div class="masthead-left">
-    <a class="wordmark" href="../v2/index.html" title="返回岛主主页">
-      <span class="wordmark-logo">DAOZHU</span>
-      <span class="wordmark-tag">JOURNAL</span>
-    </a>
+  <div class="wordmark" onclick="location.reload()">
+    <span class="wordmark-logo">DAOZHU</span>
+    <span class="wordmark-badge">VOL. 01</span>
   </div>
+
+  <div class="masthead-center">
+    2026 EDITION · AI THINKING
+  </div>
+
   <div class="masthead-actions">
-    <button class="masthead-btn theme-toggle" id="themeToggle" type="button" aria-label="切换夜览" title="切换夜览 / 日览">
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换夜览" title="切换夜览 / 日览">
       <svg class="sun-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3.1" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 1v1.7M8 13.3V15M1 8h1.7M13.3 8H15M3.05 3.05l1.2 1.2M11.75 11.75l1.2 1.2M3.05 12.95l1.2-1.2M11.75 4.25l1.2-1.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg>
       <svg class="moon-icon" viewBox="0 0 16 16"><path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg>
     </button>
-    <span class="edition-badge">VOL. 01 · 2026 EDITION</span>
-    <button class="masthead-btn" id="openBookshelfTopBtn" type="button">书架</button>
-    <button class="masthead-btn cta-all-articles" id="openCatalogTopBtn" type="button">全部 68 篇</button>
+    <button class="masthead-link" id="openBookshelfTopBtn" type="button">书架</button>
+    <button class="cta-bookshelf" id="openCatalogTopBtn" type="button">目录 (68)</button>
   </div>
 </header>
 
@@ -1004,29 +958,26 @@ button {
     <!-- Date Nav & Circular Avatar -->
     <div class="daily-portrait-row">
       <button class="daily-adjacent daily-prev" id="prevHeroBtn" type="button" aria-label="上一篇">
-        <span class="arrow-glyph">←</span>
-        <span class="adjacent-label" id="prevBtnLabel">前一篇</span>
+        <span class="adjacent-arrow">←</span>
+        <span class="adjacent-text" id="prevBtnLabel">前一天</span>
       </button>
 
-      <div class="daily-avatar" id="heroAvatarTrigger" title="点击打开封面画册">
+      <div class="daily-avatar" id="heroAvatarTrigger" title="点击展开精装杂志画册">
         <span class="column-avatar">
           <img src="../img/strategy-advisor/avatar-option-a.jpg" alt="岛主" id="heroAvatarImg">
         </span>
       </div>
 
       <button class="daily-adjacent daily-next" id="nextHeroBtn" type="button" aria-label="下一篇">
-        <span class="adjacent-label" id="nextBtnLabel">下一篇</span>
-        <span class="arrow-glyph">→</span>
+        <span class="adjacent-text" id="nextBtnLabel">明天</span>
+        <span class="adjacent-arrow">→</span>
       </button>
     </div>
 
-    <!-- Folio Issue Code -->
-    <div class="daily-folio" id="heroFolio">NO. 068 · 2026-09-24</div>
-
-    <!-- Grand Balanced Serif Title -->
+    <!-- Grand Balanced Serif Title (No extra brackets, pure 2-line cadence) -->
     <h1 class="daily-title" id="heroTitle">
-      <a class="daily-title-link" id="heroTitleLink" href="digital-archipelago.html">
-        一人公司的「数字群岛」
+      <a id="heroTitleLink" href="digital-archipelago.html">
+        一人公司的数字群岛<br>为什么我不再做扁平的个人博客
       </a>
     </h1>
 
@@ -1036,36 +987,23 @@ button {
     </div>
     <div class="daily-author-titleline">
       <p class="daily-author-title" id="heroCategoryText">一人公司践行者 · 独立开发者 · ⑦ 人与工具</p>
-      <span class="aifa-verified-mark" title="岛主原创思考">
+      <span class="aifa-verified-mark" title="岛主原创手记">
         <svg viewBox="0 0 24 24"><path d="M12 1.7 14.6 4l3.4-.2.2 3.4 2.3 2.6-2.3 2.6-.2 3.4-3.4-.2-2.6 2.3-2.6-2.3-3.4.2-.2-3.4-2.3-2.6 2.3-2.6.2-3.4 3.4.2L12 1.7Z" fill="#b08d57"></path><path d="m8.2 10.2 2.3 2.3 5.2-5.1" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path></svg>
       </span>
     </div>
 
-    <!-- Editorial Lead Quote / Excerpt -->
-    <p class="daily-excerpt" id="heroExcerpt">
-      “单体博客用一种身份硬扛多维世界。把求职母港、思想私域、AI 流水线、交互实验场拆成互不打扰的小岛——0 服务器成本、国内免梯秒开，靠局部易碎换整体反脆弱。”
-    </p>
-
-    <!-- CTAs -->
-    <div class="daily-actions">
+    <!-- The Solitary Authoritative Black Button -->
+    <div>
       <a class="daily-read" id="heroReadLink" href="digital-archipelago.html">
         今日文章
       </a>
-      <button class="daily-modal-btn" id="openReaderModalBtn" type="button">
-        杂志画册
-      </button>
     </div>
   </section>
 
   <!-- Footnote -->
-  <div class="daily-footnote">
-    <span class="footnote-mark">🏝️</span>
-    <span>AI · 一人公司 · 思考</span>
-  </div>
-
-  <div class="daily-keyhint">
-    按键盘 ← / → 左右键翻阅
-  </div>
+  <span class="daily-footnote">
+    AI · 一人公司 · 思考手记
+  </span>
 </main>
 
 <!-- 3. MAGAZINE READER OVERLAY (1:1 FROM AIFA ARTICLE SCREENSHOT) -->
@@ -1073,7 +1011,10 @@ button {
   <button class="reader-close" id="readerCloseBtn" type="button" aria-label="关闭杂志">✕</button>
 
   <div class="magazine-card">
-    <div class="magazine-cover-bg"><img src="../img/strategy-advisor/avatar-option-a.jpg" alt="Cover" class="mag-bg-img"><div class="mag-bg-overlay"></div></div>
+    <div class="magazine-cover-bg">
+      <img src="../img/strategy-advisor/avatar-option-a.jpg" alt="Cover" class="mag-bg-img">
+      <div class="mag-bg-overlay"></div>
+    </div>
 
     <div class="mag-top-row">
       <div class="mag-logo">DAOZHU</div>
@@ -1084,7 +1025,7 @@ button {
     </div>
 
     <div class="mag-bottom-block">
-      <h2 class="mag-headline" id="magHeadline">一人公司的「数字群岛」</h2>
+      <h2 class="mag-headline" id="magHeadline">一人公司的数字群岛</h2>
       <p class="mag-summary" id="magSummary">
         单体博客用一种身份硬扛多维世界。把求职母港、思想私域、AI 流水线、交互实验场拆成互不打扰的小岛。
       </p>
@@ -1111,7 +1052,7 @@ button {
     </div>
     <div class="dock-divider"></div>
     <div class="dock-cluster">
-      <button class="dock-item" id="dockShareBtn" title="复制文章链接">⇡ 分享</button>
+      <button class="dock-item" id="dockShareBtn" title="复制文章链接">↑ 分享</button>
     </div>
   </div>
 </div>
@@ -1121,7 +1062,7 @@ button {
   <div class="bookshelf-nav">
     <div class="wordmark">
       <span class="wordmark-logo">DAOZHU</span>
-      <span class="wordmark-tag">BOOKSHELF</span>
+      <span class="wordmark-badge">BOOKSHELF</span>
     </div>
     <button class="bookshelf-back-btn" id="closeBookshelfBtn" type="button">✕ 返回杂志封面</button>
   </div>
@@ -1161,19 +1102,17 @@ button {
 
 <!-- EMBEDDED ARTICLES DATA -->
 <script>
-const ARTICLES = [{"id":"art-01","url":"ai-vibe-coding.html","num":"01","title":"你还在纠结要不要学 AI，有人已经用\"说人话\"给自己造了门生意","desc":"普通人最该学的不是 prompt，是 vibe coding——用自然语言让 AI 帮你把想法变成能跑的东西。","phaseTitle":"① 认知重启","phaseSub":"AI 到底改变了什么"},{"id":"art-02","url":"ai-six-old-businesses.html","num":"02","title":"AI 工具层，正在重做这六门老生意","desc":"皮肤、模板、插件、素材包、工作流、教程。平台跃迁时，这六类生意重新长出来一次。","phaseTitle":"① 认知重启","phaseSub":"AI 到底改变了什么"},{"id":"art-03","url":"ai-one-vs-team.html","num":"03","title":"AI 时代，一个人到底能不能干一个团队的活","desc":"一个人能干掉团队的\"执行\"，但干不了\"决策 + 关系\"。会判断的那个人，才是灵魂。","phaseTitle":"① 认知重启","phaseSub":"AI 到底改变了什么"},{"id":"art-04","url":"ai-judgment.html","num":"04","title":"AI 一天能产一千条内容，可你凭什么说哪条好？","desc":"当产能不再稀缺，\"知道什么才是好内容\"成了创作者真正的护城河。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品"},{"id":"art-05","url":"ai-taste-worth-more.html","num":"05","title":"AI 越强，人的品味越值钱","desc":"十秒出一张能发的图，人人都能产。工具越强，会挑的人越贵。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品"},{"id":"art-06","url":"ai-dont-outsource-judgment.html","num":"06","title":"别让 AI 替你做判断，它只是你脑子里的快进键","desc":"AI 是引擎，不是司机。判断权交出去，你就从导演变成了观众。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品"},{"id":"art-07","url":"ai-authored.html","num":"07","title":"用了 AI 还算你写的吗：判断在谁手里，就是谁写的","desc":"不是谁敲键盘，是谁定好坏、做取舍、为最后那一下负责。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品"},{"id":"art-08","url":"ai-apprentice.html","num":"08","title":"AI 是我的学徒，不是我的替身：这两者差在哪","desc":"学徒养你，替身废你。选哪个，决定三年后写作这事儿你还在不在场。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品"},{"id":"art-09","url":"ai-writing-delegation.html","num":"09","title":"写作里，哪些活能交给 AI，哪些一步都不能让","desc":"把「做」外包，你腾出精力；把「定」也外包，你腾出的是作者身份。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢"},{"id":"art-10","url":"ai-think-deeper.html","num":"10","title":"让 AI 替你思考是偷懒，让 AI 逼你想更透是本事","desc":"问「帮我写」，你交出思考；问「帮我驳」，你抓住思考。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢"},{"id":"art-11","url":"ai-slower-with-ai.html","num":"11","title":"为什么我用 AI 反而写得更慢了","desc":"以前的快是假的——建立在「不思考」上。慢在想，不在磨。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢"},{"id":"art-12","url":"ai-writers-moat.html","num":"12","title":"AI 时代，写作者真正的护城河是什么","desc":"不是「会写」，是「你是谁 + 你信什么 + 你能判」。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢"},{"id":"art-13","url":"ai-learn-not-waste.html","num":"13","title":"AI 时代怎么学才不白学","desc":"学「怎么用」不学「是什么」，学判断不学结论，学提问不学答案。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学"},{"id":"art-14","url":"ai-100-prompts-unused.html","num":"14","title":"为什么你收藏了 100 个 prompt，却一个都没用","desc":"收藏的那一刻你已经「学完了」。一条好 prompt 不如一个磨熟了的工作流。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学"},{"id":"art-15","url":"ai-think-you-understand.html","num":"15","title":"AI 让你以为自己懂了，其实只是离懂更近了一步","desc":"AI 给了你「懂的形状」，没给你「懂本身」。剩下那截路得自己走。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学"},{"id":"art-16","url":"ai-ask-good-question.html","num":"16","title":"AI 时代最该练的，是提一个好问题的能力","desc":"答案不值钱了，问题才值钱。把提问练好，等于给 AI 装了瞄准镜。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学"},{"id":"art-17","url":"ai-maoxuan-knowledge-base.html","num":"17","title":"有人把毛选做成知识库卖掉了：AI 时代最值钱的，是发现小需求的能力","desc":"AI 把「做」打平了，把「发现需求」抬高了。小需求，一人一周末就能交付。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品"},{"id":"art-18","url":"ai-price-to-zero.html","num":"18","title":"AI 让价格归零，那什么还能卖钱","desc":"价格归零的是标准化产出。省时间、信信任、稀缺体验——卖这三层。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品"},{"id":"art-19","url":"ai-time-after-delegating.html","num":"19","title":"把活拆给 AI 之后，你自己的时间到底去了哪","desc":"杠杆的意义不是更忙是更准。省下的时间别急着填满。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品"},{"id":"art-20","url":"ai-kpi-for-tireless-colleague.html","num":"20","title":"你怎么给一个不会累的同事定 KPI","desc":"管 AI 只要三件事：说清交付物、划清边界、定期验收。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品"},{"id":"art-21","url":"ai-trust-layer.html","num":"21","title":"别做 AI 工具，做 AI 替不了你的那层信任","desc":"工具会过时，信任会复利。别卷功能，卷那份人和人之间的长期默契。","phaseTitle":"⑥ 信任与未来","phaseSub":"什么是 AI 拿不走的"},{"id":"art-22","url":"ai-scarcity-when-everyone-has-ai.html","num":"22","title":"当所有人都有 AI，你的稀缺性到底从哪来","desc":"经历、品味、信任——这三样 AI 永远没有。别比产出，比来历。","phaseTitle":"⑥ 信任与未来","phaseSub":"什么是 AI 拿不走的"},{"id":"art-23","url":"ai-wont-take-your-job.html","num":"23","title":"AI 不会抢你饭碗，这话只对了一半","desc":"旧法子废了别慌，新本事长出来。饭碗不是被抢走的，是自己没跟上。","phaseTitle":"⑥ 信任与未来","phaseSub":"什么是 AI 拿不走的"},{"id":"art-24","url":"ai-good-student-danger.html","num":"24","title":"为什么「听话的好学生」反而最危险","desc":"学校教的 AI 全会，学校没教的才是你的命。别做那个永远满分的听话学生。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-25","url":"ai-search-engine-vs-exobrain.html","num":"25","title":"你把 AI 当搜索引擎，别人把 AI 当外脑","desc":"同一把刀，有人切葱有人解牛。差的不是刀，是你每次打开它时脑子里带着什么。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-26","url":"ai-novice-vs-expert.html","num":"26","title":"新手和老手用同一个 AI，差的不在 prompt","desc":"prompt 抄得来，十年踩坑长的行业直觉抄不来。先做一百遍再问 prompt。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-27","url":"ai-talk-to-real-people.html","num":"27","title":"为什么用 AI 越多，越该多跟真人说话","desc":"AI 是社交代糖——给你被陪伴的错觉，不给真实的连接。真比漂亮值钱。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-28","url":"ai-do-one-thing.html","num":"28","title":"当 AI 能做一切，「只做一件事」的人反而赢了","desc":"AI 是散装的万能。窄到极致就是宽——专一到 AI 够不着，护城河就有了。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-29","url":"ai-master-or-feeder.html","num":"29","title":"你是 AI 的主人，还是 AI 的「投喂工」","desc":"打开 AI 前先写清楚要解决什么问题。保留「先想想」的习惯就是保留主体性。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-30","url":"ai-learn-coding.html","num":"30","title":"AI 能写代码了，那学编程还有用吗","desc":"语法不值钱了，拆问题越来越值钱。学编程 = 学怎么把模糊需求拆成明确步骤。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-31","url":"ai-no-jack-of-all-trades.html","num":"31","title":"AI 时代最不需要的，是「什么都懂一点」的人","desc":"你简历有 20 个技能，ChatGPT 有两万个。砍到三个，磨成刀。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-32","url":"ai-shared-brain.html","num":"32","title":"我让三个 AI 共用一个大脑，效果比我想的还好","desc":"单 AI 会失忆、会偏科。让三个 AI 共用一份交接文档，你从「用 AI」变成「编排 AI」。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-33","url":"ai-before-coding-research.html","num":"33","title":"让 AI 写代码前，先逼它去 GitHub 抄作业","desc":"让 AI 一上来就写代码是「最高效的低效」。先逼它去 GitHub 调研：找真实验证的方案、研究别人踩过的坑、做技术取舍——方向确认后再写代码。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-34","url":"ai-micro-tools-flywheel.html","num":"34","title":"别憋大招了，好工具都是小需求逼出来的","desc":"一上来就做「大产品」容易烂尾。改用「需求→小工具→开源沉淀」飞轮：从真实小需求入手，做把小刀，大方沉淀出去。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-35","url":"ai-against-dangbague.html","num":"35","title":"反对党八股：AI 写的套话，毛选 80 年前就骂过了","desc":"AI 最擅长写包装精美的高级党八股。把毛选「反对党八股」翻译成给 AI 写作/自媒体去套话的 5 条军规：先射箭再找靶、短而准、说人话、敢下真观点、别开中药铺。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-36","url":"ai-five-star-notes.html","num":"36","title":"五星笔记法：把\"收藏即学会\"的幻觉，变成真能用的知识","desc":"收藏不是学习，是把焦虑存起来。用五个星级（摘录→转述→关联→提炼→行动）把知识从「看见」推到「用上」，并直接落进 PARA + 原子库。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-37","url":"ai-concentrate-force.html","num":"37","title":"集中优势兵力：创作者一次只打透一个内容支点","desc":"创作者最大的敌人是把手摊薄。把毛选「集中优势兵力」翻译成压强单点突破——一次只打透一个支点，先深后广。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-38","url":"ai-result-thinking.html","num":"38","title":"结果思维：先定义\"做成\"什么样，再倒推动作","desc":"很多人用一整天的「做了」掩盖「没做成」。先定义可验收结果、倒推最少动作、做完验收——把交付物说清，AI 才不交漂亮废话。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-39","url":"ai-product-stage.html","num":"39","title":"大家都在问 AI 能做什么，我只问一句：你的产品做到哪一步了","desc":"所有人问「AI 能做什么」，没人先问「产品到哪一步」。验证期 AI 做壳、增长期干重复活、交易期藏在结果后——它不负责找方向，只把卡住的那一步往前拱一点。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-40","url":"ai-poem-skill-meta.html","num":"40","title":"做完一个工具只算一半：用元技能把「能用」收拾成「好用」","desc":"做完工具只算一半，「能用」与「好用」差的一步叫呈现。用 向阳乔木 @vista8 的 qiaomu-meta-skill 把诗笺工具收拾成能逛的展厅——30 套样式分三组。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-41","url":"ai-deai-taste.html","num":"41","title":"去 AI 味不是润色，是「重新长一遍」","desc":"别再走「AI 写稿 → humanizer 修」的老路。AI 味长在骨架上不在肉上，修肉救不活。换成「人先给骨架，再让 AI 填血肉」，AI 味根本没机会长出来。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-42","url":"ai-one-man-team.html","num":"42","title":"一个人 = 一支内容团队：把流水线切成 5 个工位","desc":"别把 AI 当全能打字机。把内容切成选题/初稿/配图/排版/分发 5 个工位，每个交给最对的 AI，用「三 AI 共享大脑协议」串成流水线。你当总编，一个人就是一支团队。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-43","url":"ai-rewrite-faster.html","num":"43","title":"重写比写作快：用 MECE / RIDE 当手术刀","desc":"别从零写好。先倒一坨烂初稿，再用 MECE 切结构、RIDE 切说服力，重写成好稿。写作是双重负担，重写是单点雕刻——好稿是改出来的，不是一次写对的。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-44","url":"ai-mece-prompt.html","num":"44","title":"「帮我写篇文章」是个坏 prompt：你没给维度，AI 只能交正确的废话","desc":"把「帮我写篇文章」换成「按 MECE 拆成 3 个互斥维度再写」，AI 输出当场换物种。prompt 工程最便宜的一招，是动笔前先给 AI 一根轴。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-45","url":"ai-occam-prompt.html","num":"45","title":"奥卡姆剃刀与提示词：越短越准，还是越具体越准？","desc":"做个对照实验：同一任务三版 prompt，极简产出空洞、极繁产出拧巴、结构精准最准。奥卡姆剃刀削掉的是废话，不是真相——prompt 里只增必要之约束。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-46","url":"ai-first-principles-chain.html","num":"46","title":"赚钱的第一性原理是创造价值：一条拆到底的追问链","desc":"赚钱→创造价值→解决问题→识别真需求→实践反馈→快速迭代→验证模型→系统复制→杠杆思维。剥掉每一层伪目标，最底下的杠杆思维才是根。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-47","url":"ai-first-principles-question.html","num":"47","title":"别问 AI「怎么写」，问「这个问题的本质是什么」","desc":"「怎么写」的天花板是流程层，AI 还你通用 SOP；换成「本质是什么」，你先拆真因、AI 作回音壁，产出变成你的独家结构。问法的天花板，就是答案的天花板。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-48","url":"ai-persistent-war.html","num":"48","title":"别想一篇爆：创作者该打的是持久战","desc":"爆款是运气，积累是确定。把胜负从单篇挪到时间轴，用复利（认知/信任/作品资产）把运气变确定，用反脆弱抗单篇失败，用集中优势兵力积小胜为大胜。持久战不否定爆款，只是不把它当目标。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-49","url":"ai-seek-truth.html","num":"49","title":"实事求是：用真实素材，别编案例","desc":"AI 让你 3 秒编出一个「看起来很真」的案例，但编的经不起查、伤的是信任。论点从真实素材长出来，不为论证硬造例子——这跟 #34 微工具从真实小需求长出来，是同一句「从真实出发」。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-50","url":"ai-contradiction.html","num":"50","title":"矛盾论：一篇文只解决一个主要矛盾","desc":"复杂事物里必有一个主要矛盾，它规定着其他矛盾。写文章的天敌就是「同时想解决多个矛盾」——兵力摊薄，哪面墙都没破。用 5why 挖出读者真卡点，集中优势兵力打透它，反而更长销。和 #37 同脉。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-51","url":"ai-reader-topics.html","num":"51","title":"让读者成为你的选题来源","desc":"选题别靠拍脑袋。读者在评论、私信里早把想看什么写给你了——把高频问题往下挖一层，就是现成好选题；写完再扔回去，选题和信任一起复利。和 #44/#45 同脉。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-52","url":"ai-slow-is-fast.html","num":"52","title":"慢就是快","desc":"快慢不在速度，在东西落不落得住。快是把时间摊在五件事上，慢是让时间替你滚雪球。忍住不摊开，在一件事上做透它——和 #48 持久战、#50 矛盾论同脉。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-53","url":"ai-attention-currency.html","num":"53","title":"注意力是创作者唯一货币","desc":"创作者手里最值钱的不是粉丝不是工具，是注意力。AI 把产能炸开，也把注意力稀释得更狠——把注意力当货币数着花，压在一件事上才长得出作品。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-54","url":"ai-atomic-library.html","num":"54","title":"别追热点，追你的原子库","desc":"热点会凉，你为它熬的夜跟着一起凉。把看到的好东西拆成最小零件存进库，下次写直接从库里取，越攒越值钱。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-55","url":"ai-build-in-public.html","num":"55","title":"公开构建的坑与甜","desc":"build in public 的甜留给真做的人：早反馈、信任复利、意外联结；坑专坑那些只在台面上忙的人。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-56","url":"ai-automation-pipeline.html","num":"56","title":"我把\"今天写什么\"做成了流水线","desc":"内容生产最累的不是写，是判断写什么。让系统每天早上出候选、晚上收复盘，你只守动笔这一关。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-57","url":"ai-micro-tool-flywheel.html","num":"57","title":"我先给自己写了个排诗的小工具","desc":"微工具开源飞轮：从自己排诗的真实小需求出发，写个轻巧工具，开源放出，飞轮自己转起来。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-58","url":"ai-letter-to-10yr-self.html","num":"58","title":"如果能寄一封信回十年前","desc":"给十年前的自己写一封方法论信：关掉收藏夹建生产线、让系统替你想选题、从真实小需求做微工具、用第一性原理拆底层、让复利替你攒。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-59","url":"ai-craftsmanship-ai-era.html","num":"59","title":"AI 时代的匠人精神","desc":"工具把「做出来」变便宜了，却把「做好」变得更贵。AI 拆的是门槛不是标准，愿意为细节较真的人，反而成了稀缺品。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-60","url":"ai-publish-when-done.html","num":"60","title":"写完即发布，我把和 AI 协作里的确认环节砍掉了","desc":"大多数人用 AI 卡在每一步都要点头，效率被自己拖死。把边界和铁律定死，边界内全自动，碰边界之外就刹车。08-04 当天出 6 篇是反证。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-61","url":"ai-4f-review-method.html","num":"61","title":"4F 复盘法，你的复盘模板为什么永远填不满","desc":"原子库里 4F 复盘法躺着没外化，日志里待补全的空栏就是活证据。头号失效原因，是跳过感受直奔结论，模板填满了字却是空的。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-62","url":"ai-persistent-war-stalemate.html","num":"62","title":"论持久战 · 创作者的「相持阶段」","desc":"日更到第 30 天没数据想放弃，那不是失败，是必经的相持期。战略上持久、战术上速决，基本盘读者就是你的「民众」。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-63","url":"ai-no-investigation-no-right.html","num":"63","title":"反对本本主义 · 没有调查没有发言权","desc":"AI 让生成结论成本≈0，创作者最易犯本本主义。选题前先下场，三步拿到真素材（访谈/扒数据/真料喂 AI），才有资格说话。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-64","url":"ai-notion-serial-insert.html","num":"64","title":"Notion 长文批写入的串行纪律","desc":"并行往同页 insert 顺序不保（#61 错乱为证）。串行、每批≤110 中文字、省略 position 才 100% 保真，附字节上限红线。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-65","url":"ai-spoken-video-from-article.html","num":"65","title":"口播动态视频 · 把已发长文变成会动的口播","desc":"写了文章只会发图文，视频平台吃不到。文字是原子资产、视频是分发放大器，复用已发长文零边际成本。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-66","url":"ai-prompt-four-elements.html","num":"66","title":"提示词四要素 · 把口头需求翻译成机器能执行的指令","desc":"写好提示词=角色+任务+上下文+格式（P/T/C/F）。太长说不清、太短说不全，最成功的提示平均 21 字。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-67","url":"ai-interactive-book-game.html","num":"67","title":"把《阿Q正传》做成游戏 · 当一本书可以被「玩」","desc":"今天把鲁迅的《阿Q正传》做成了能玩的交互游戏。读者变玩家，AI 把做交互的代价从团队级压到个人级，但互动是入口不是替代，经典内核不能动。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"},{"id":"art-68","url":"digital-archipelago.html","num":"68","title":"一人公司的「数字群岛」· 为什么我不再做一个扁平的个人博客","desc":"单体博客用一种身份硬扛多维世界。把求职母港、思想私域、AI 流水线、交互实验场拆成互不打扰的小岛——0 服务器成本、国内免梯秒开，靠局部易碎换整体反脆弱。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则"}];
+const ARTICLES = [{"id":"art-01","url":"ai-vibe-coding.html","num":"01","title":"你还在纠结要不要学 AI，有人已经用\"说人话\"给自己造了门生意","desc":"普通人最该学的不是 prompt，是 vibe coding——用自然语言让 AI 帮你把想法变成能跑的东西。","phaseTitle":"① 认知重启","phaseSub":"AI 到底改变了什么","displayTitle":"你还在纠结要不要学 AI<br>有人已经用\"说人话\"给自己造了门生意"},{"id":"art-02","url":"ai-six-old-businesses.html","num":"02","title":"AI 工具层，正在重做这六门老生意","desc":"皮肤、模板、插件、素材包、工作流、教程。平台跃迁时，这六类生意重新长出来一次。","phaseTitle":"① 认知重启","phaseSub":"AI 到底改变了什么","displayTitle":"AI 工具层，正在重做这六门老生意"},{"id":"art-03","url":"ai-one-vs-team.html","num":"03","title":"AI 时代，一个人到底能不能干一个团队的活","desc":"一个人能干掉团队的\"执行\"，但干不了\"决策 + 关系\"。会判断的那个人，才是灵魂。","phaseTitle":"① 认知重启","phaseSub":"AI 到底改变了什么","displayTitle":"AI 时代<br>一个人到底能不能干一个团队的活"},{"id":"art-04","url":"ai-judgment.html","num":"04","title":"AI 一天能产一千条内容，可你凭什么说哪条好？","desc":"当产能不再稀缺，\"知道什么才是好内容\"成了创作者真正的护城河。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品","displayTitle":"AI 一天能产一千条内容<br>可你凭什么说哪条好？"},{"id":"art-05","url":"ai-taste-worth-more.html","num":"05","title":"AI 越强，人的品味越值钱","desc":"十秒出一张能发的图，人人都能产。工具越强，会挑的人越贵。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品","displayTitle":"AI 越强，人的品味越值钱"},{"id":"art-06","url":"ai-dont-outsource-judgment.html","num":"06","title":"别让 AI 替你做判断，它只是你脑子里的快进键","desc":"AI 是引擎，不是司机。判断权交出去，你就从导演变成了观众。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品","displayTitle":"别让 AI 替你做判断<br>它只是你脑子里的快进键"},{"id":"art-07","url":"ai-authored.html","num":"07","title":"用了 AI 还算你写的吗：判断在谁手里，就是谁写的","desc":"不是谁敲键盘，是谁定好坏、做取舍、为最后那一下负责。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品","displayTitle":"用了 AI 还算你写的吗<br>判断在谁手里，就是谁写的"},{"id":"art-08","url":"ai-apprentice.html","num":"08","title":"AI 是我的学徒，不是我的替身：这两者差在哪","desc":"学徒养你，替身废你。选哪个，决定三年后写作这事儿你还在不在场。","phaseTitle":"② 判断与品味","phaseSub":"你的脑子才是稀缺品","displayTitle":"AI 是我的学徒，不是我的替身<br>这两者差在哪"},{"id":"art-09","url":"ai-writing-delegation.html","num":"09","title":"写作里，哪些活能交给 AI，哪些一步都不能让","desc":"把「做」外包，你腾出精力；把「定」也外包，你腾出的是作者身份。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢","displayTitle":"写作里<br>哪些活能交给 AI，哪些一步都不能让"},{"id":"art-10","url":"ai-think-deeper.html","num":"10","title":"让 AI 替你思考是偷懒，让 AI 逼你想更透是本事","desc":"问「帮我写」，你交出思考；问「帮我驳」，你抓住思考。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢","displayTitle":"让 AI 替你思考是偷懒<br>让 AI 逼你想更透是本事"},{"id":"art-11","url":"ai-slower-with-ai.html","num":"11","title":"为什么我用 AI 反而写得更慢了","desc":"以前的快是假的——建立在「不思考」上。慢在想，不在磨。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢","displayTitle":"为什么我用 AI 反而写得更慢了"},{"id":"art-12","url":"ai-writers-moat.html","num":"12","title":"AI 时代，写作者真正的护城河是什么","desc":"不是「会写」，是「你是谁 + 你信什么 + 你能判」。","phaseTitle":"③ 写作实践","phaseSub":"手里有 AI，脑子不能丢","displayTitle":"AI 时代，写作者真正的护城河是什么"},{"id":"art-13","url":"ai-learn-not-waste.html","num":"13","title":"AI 时代怎么学才不白学","desc":"学「怎么用」不学「是什么」，学判断不学结论，学提问不学答案。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学","displayTitle":"AI 时代怎么学才不白学"},{"id":"art-14","url":"ai-100-prompts-unused.html","num":"14","title":"为什么你收藏了 100 个 prompt，却一个都没用","desc":"收藏的那一刻你已经「学完了」。一条好 prompt 不如一个磨熟了的工作流。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学","displayTitle":"为什么你收藏了 100 个 prompt<br>却一个都没用"},{"id":"art-15","url":"ai-think-you-understand.html","num":"15","title":"AI 让你以为自己懂了，其实只是离懂更近了一步","desc":"AI 给了你「懂的形状」，没给你「懂本身」。剩下那截路得自己走。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学","displayTitle":"AI 让你以为自己懂了<br>其实只是离懂更近了一步"},{"id":"art-16","url":"ai-ask-good-question.html","num":"16","title":"AI 时代最该练的，是提一个好问题的能力","desc":"答案不值钱了，问题才值钱。把提问练好，等于给 AI 装了瞄准镜。","phaseTitle":"④ 学习与知识","phaseSub":"信息免费了，怎么学才不白学","displayTitle":"AI 时代最该练的<br>是提一个好问题的能力"},{"id":"art-17","url":"ai-maoxuan-knowledge-base.html","num":"17","title":"有人把毛选做成知识库卖掉了：AI 时代最值钱的，是发现小需求的能力","desc":"AI 把「做」打平了，把「发现需求」抬高了。小需求，一人一周末就能交付。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品","displayTitle":"有人把毛选做成知识库卖掉了<br>AI 时代最值钱的，是发现小需求的能力"},{"id":"art-18","url":"ai-price-to-zero.html","num":"18","title":"AI 让价格归零，那什么还能卖钱","desc":"价格归零的是标准化产出。省时间、信信任、稀缺体验——卖这三层。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品","displayTitle":"AI 让价格归零，那什么还能卖钱"},{"id":"art-19","url":"ai-time-after-delegating.html","num":"19","title":"把活拆给 AI 之后，你自己的时间到底去了哪","desc":"杠杆的意义不是更忙是更准。省下的时间别急着填满。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品","displayTitle":"把活拆给 AI 之后<br>你自己的时间到底去了哪"},{"id":"art-20","url":"ai-kpi-for-tireless-colleague.html","num":"20","title":"你怎么给一个不会累的同事定 KPI","desc":"管 AI 只要三件事：说清交付物、划清边界、定期验收。","phaseTitle":"⑤ 价值创造","phaseSub":"发现需求，封装成产品","displayTitle":"你怎么给一个不会累的同事定 KPI"},{"id":"art-21","url":"ai-trust-layer.html","num":"21","title":"别做 AI 工具，做 AI 替不了你的那层信任","desc":"工具会过时，信任会复利。别卷功能，卷那份人和人之间的长期默契。","phaseTitle":"⑥ 信任与未来","phaseSub":"什么是 AI 拿不走的","displayTitle":"别做 AI 工具<br>做 AI 替不了你的那层信任"},{"id":"art-22","url":"ai-scarcity-when-everyone-has-ai.html","num":"22","title":"当所有人都有 AI，你的稀缺性到底从哪来","desc":"经历、品味、信任——这三样 AI 永远没有。别比产出，比来历。","phaseTitle":"⑥ 信任与未来","phaseSub":"什么是 AI 拿不走的","displayTitle":"当所有人都有 AI<br>你的稀缺性到底从哪来"},{"id":"art-23","url":"ai-wont-take-your-job.html","num":"23","title":"AI 不会抢你饭碗，这话只对了一半","desc":"旧法子废了别慌，新本事长出来。饭碗不是被抢走的，是自己没跟上。","phaseTitle":"⑥ 信任与未来","phaseSub":"什么是 AI 拿不走的","displayTitle":"AI 不会抢你饭碗，这话只对了一半"},{"id":"art-24","url":"ai-good-student-danger.html","num":"24","title":"为什么「听话的好学生」反而最危险","desc":"学校教的 AI 全会，学校没教的才是你的命。别做那个永远满分的听话学生。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"为什么听话的好学生反而最危险"},{"id":"art-25","url":"ai-search-engine-vs-exobrain.html","num":"25","title":"你把 AI 当搜索引擎，别人把 AI 当外脑","desc":"同一把刀，有人切葱有人解牛。差的不是刀，是你每次打开它时脑子里带着什么。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"你把 AI 当搜索引擎<br>别人把 AI 当外脑"},{"id":"art-26","url":"ai-novice-vs-expert.html","num":"26","title":"新手和老手用同一个 AI，差的不在 prompt","desc":"prompt 抄得来，十年踩坑长的行业直觉抄不来。先做一百遍再问 prompt。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"新手和老手用同一个 AI<br>差的不在 prompt"},{"id":"art-27","url":"ai-talk-to-real-people.html","num":"27","title":"为什么用 AI 越多，越该多跟真人说话","desc":"AI 是社交代糖——给你被陪伴的错觉，不给真实的连接。真比漂亮值钱。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"为什么用 AI 越多<br>越该多跟真人说话"},{"id":"art-28","url":"ai-do-one-thing.html","num":"28","title":"当 AI 能做一切，「只做一件事」的人反而赢了","desc":"AI 是散装的万能。窄到极致就是宽——专一到 AI 够不着，护城河就有了。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"当 AI 能做一切<br>只做一件事的人反而赢了"},{"id":"art-29","url":"ai-master-or-feeder.html","num":"29","title":"你是 AI 的主人，还是 AI 的「投喂工」","desc":"打开 AI 前先写清楚要解决什么问题。保留「先想想」的习惯就是保留主体性。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"你是 AI 的主人<br>还是 AI 的投喂工"},{"id":"art-30","url":"ai-learn-coding.html","num":"30","title":"AI 能写代码了，那学编程还有用吗","desc":"语法不值钱了，拆问题越来越值钱。学编程 = 学怎么把模糊需求拆成明确步骤。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"AI 能写代码了，那学编程还有用吗"},{"id":"art-31","url":"ai-no-jack-of-all-trades.html","num":"31","title":"AI 时代最不需要的，是「什么都懂一点」的人","desc":"你简历有 20 个技能，ChatGPT 有两万个。砍到三个，磨成刀。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"AI 时代最不需要的<br>是什么都懂一点的人"},{"id":"art-32","url":"ai-shared-brain.html","num":"32","title":"我让三个 AI 共用一个大脑，效果比我想的还好","desc":"单 AI 会失忆、会偏科。让三个 AI 共用一份交接文档，你从「用 AI」变成「编排 AI」。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"我让三个 AI 共用一个大脑<br>效果比我想的还好"},{"id":"art-33","url":"ai-before-coding-research.html","num":"33","title":"让 AI 写代码前，先逼它去 GitHub 抄作业","desc":"让 AI 一上来就写代码是「最高效的低效」。先逼它去 GitHub 调研：找真实验证的方案、研究别人踩过的坑、做技术取舍——方向确认后再写代码。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"让 AI 写代码前<br>先逼它去 GitHub 抄作业"},{"id":"art-34","url":"ai-micro-tools-flywheel.html","num":"34","title":"别憋大招了，好工具都是小需求逼出来的","desc":"一上来就做「大产品」容易烂尾。改用「需求→小工具→开源沉淀」飞轮：从真实小需求入手，做把小刀，大方沉淀出去。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"别憋大招了，好工具都是小需求逼出来的"},{"id":"art-35","url":"ai-against-dangbague.html","num":"35","title":"反对党八股：AI 写的套话，毛选 80 年前就骂过了","desc":"AI 最擅长写包装精美的高级党八股。把毛选「反对党八股」翻译成给 AI 写作/自媒体去套话的 5 条军规：先射箭再找靶、短而准、说人话、敢下真观点、别开中药铺。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"反对党八股<br>AI 写的套话，毛选 80 年前就骂过了"},{"id":"art-36","url":"ai-five-star-notes.html","num":"36","title":"五星笔记法：把\"收藏即学会\"的幻觉，变成真能用的知识","desc":"收藏不是学习，是把焦虑存起来。用五个星级（摘录→转述→关联→提炼→行动）把知识从「看见」推到「用上」，并直接落进 PARA + 原子库。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"五星笔记法<br>把\"收藏即学会\"的幻觉，变成真能用的知识"},{"id":"art-37","url":"ai-concentrate-force.html","num":"37","title":"集中优势兵力：创作者一次只打透一个内容支点","desc":"创作者最大的敌人是把手摊薄。把毛选「集中优势兵力」翻译成压强单点突破——一次只打透一个支点，先深后广。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"集中优势兵力<br>创作者一次只打透一个内容支点"},{"id":"art-38","url":"ai-result-thinking.html","num":"38","title":"结果思维：先定义\"做成\"什么样，再倒推动作","desc":"很多人用一整天的「做了」掩盖「没做成」。先定义可验收结果、倒推最少动作、做完验收——把交付物说清，AI 才不交漂亮废话。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"结果思维<br>先定义\"做成\"什么样，再倒推动作"},{"id":"art-39","url":"ai-product-stage.html","num":"39","title":"大家都在问 AI 能做什么，我只问一句：你的产品做到哪一步了","desc":"所有人问「AI 能做什么」，没人先问「产品到哪一步」。验证期 AI 做壳、增长期干重复活、交易期藏在结果后——它不负责找方向，只把卡住的那一步往前拱一点。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"大家都在问 AI 能做什么，我只问一句<br>你的产品做到哪一步了"},{"id":"art-40","url":"ai-poem-skill-meta.html","num":"40","title":"做完一个工具只算一半：用元技能把「能用」收拾成「好用」","desc":"做完工具只算一半，「能用」与「好用」差的一步叫呈现。用 向阳乔木 @vista8 的 qiaomu-meta-skill 把诗笺工具收拾成能逛的展厅——30 套样式分三组。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"做完一个工具只算一半<br>用元技能把能用收拾成好用"},{"id":"art-41","url":"ai-deai-taste.html","num":"41","title":"去 AI 味不是润色，是「重新长一遍」","desc":"别再走「AI 写稿 → humanizer 修」的老路。AI 味长在骨架上不在肉上，修肉救不活。换成「人先给骨架，再让 AI 填血肉」，AI 味根本没机会长出来。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"去 AI 味不是润色，是重新长一遍"},{"id":"art-42","url":"ai-one-man-team.html","num":"42","title":"一个人 = 一支内容团队：把流水线切成 5 个工位","desc":"别把 AI 当全能打字机。把内容切成选题/初稿/配图/排版/分发 5 个工位，每个交给最对的 AI，用「三 AI 共享大脑协议」串成流水线。你当总编，一个人就是一支团队。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"一个人 = 一支内容团队<br>把流水线切成 5 个工位"},{"id":"art-43","url":"ai-rewrite-faster.html","num":"43","title":"重写比写作快：用 MECE / RIDE 当手术刀","desc":"别从零写好。先倒一坨烂初稿，再用 MECE 切结构、RIDE 切说服力，重写成好稿。写作是双重负担，重写是单点雕刻——好稿是改出来的，不是一次写对的。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"重写比写作快<br>用 MECE / RIDE 当手术刀"},{"id":"art-44","url":"ai-mece-prompt.html","num":"44","title":"「帮我写篇文章」是个坏 prompt：你没给维度，AI 只能交正确的废话","desc":"把「帮我写篇文章」换成「按 MECE 拆成 3 个互斥维度再写」，AI 输出当场换物种。prompt 工程最便宜的一招，是动笔前先给 AI 一根轴。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"帮我写篇文章是个坏 prompt<br>你没给维度，AI 只能交正确的废话"},{"id":"art-45","url":"ai-occam-prompt.html","num":"45","title":"奥卡姆剃刀与提示词：越短越准，还是越具体越准？","desc":"做个对照实验：同一任务三版 prompt，极简产出空洞、极繁产出拧巴、结构精准最准。奥卡姆剃刀削掉的是废话，不是真相——prompt 里只增必要之约束。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"奥卡姆剃刀与提示词<br>越短越准，还是越具体越准？"},{"id":"art-46","url":"ai-first-principles-chain.html","num":"46","title":"赚钱的第一性原理是创造价值：一条拆到底的追问链","desc":"赚钱→创造价值→解决问题→识别真需求→实践反馈→快速迭代→验证模型→系统复制→杠杆思维。剥掉每一层伪目标，最底下的杠杆思维才是根。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"赚钱的第一性原理是创造价值<br>一条拆到底的追问链"},{"id":"art-47","url":"ai-first-principles-question.html","num":"47","title":"别问 AI「怎么写」，问「这个问题的本质是什么」","desc":"「怎么写」的天花板是流程层，AI 还你通用 SOP；换成「本质是什么」，你先拆真因、AI 作回音壁，产出变成你的独家结构。问法的天花板，就是答案的天花板。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"别问 AI怎么写<br>问这个问题的本质是什么"},{"id":"art-48","url":"ai-persistent-war.html","num":"48","title":"别想一篇爆：创作者该打的是持久战","desc":"爆款是运气，积累是确定。把胜负从单篇挪到时间轴，用复利（认知/信任/作品资产）把运气变确定，用反脆弱抗单篇失败，用集中优势兵力积小胜为大胜。持久战不否定爆款，只是不把它当目标。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"别想一篇爆<br>创作者该打的是持久战"},{"id":"art-49","url":"ai-seek-truth.html","num":"49","title":"实事求是：用真实素材，别编案例","desc":"AI 让你 3 秒编出一个「看起来很真」的案例，但编的经不起查、伤的是信任。论点从真实素材长出来，不为论证硬造例子——这跟 #34 微工具从真实小需求长出来，是同一句「从真实出发」。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"实事求是<br>用真实素材，别编案例"},{"id":"art-50","url":"ai-contradiction.html","num":"50","title":"矛盾论：一篇文只解决一个主要矛盾","desc":"复杂事物里必有一个主要矛盾，它规定着其他矛盾。写文章的天敌就是「同时想解决多个矛盾」——兵力摊薄，哪面墙都没破。用 5why 挖出读者真卡点，集中优势兵力打透它，反而更长销。和 #37 同脉。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"矛盾论：一篇文只解决一个主要矛盾"},{"id":"art-51","url":"ai-reader-topics.html","num":"51","title":"让读者成为你的选题来源","desc":"选题别靠拍脑袋。读者在评论、私信里早把想看什么写给你了——把高频问题往下挖一层，就是现成好选题；写完再扔回去，选题和信任一起复利。和 #44/#45 同脉。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"让读者成为你的选题来源"},{"id":"art-52","url":"ai-slow-is-fast.html","num":"52","title":"慢就是快","desc":"快慢不在速度，在东西落不落得住。快是把时间摊在五件事上，慢是让时间替你滚雪球。忍住不摊开，在一件事上做透它——和 #48 持久战、#50 矛盾论同脉。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"慢就是快"},{"id":"art-53","url":"ai-attention-currency.html","num":"53","title":"注意力是创作者唯一货币","desc":"创作者手里最值钱的不是粉丝不是工具，是注意力。AI 把产能炸开，也把注意力稀释得更狠——把注意力当货币数着花，压在一件事上才长得出作品。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"注意力是创作者唯一货币"},{"id":"art-54","url":"ai-atomic-library.html","num":"54","title":"别追热点，追你的原子库","desc":"热点会凉，你为它熬的夜跟着一起凉。把看到的好东西拆成最小零件存进库，下次写直接从库里取，越攒越值钱。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"别追热点，追你的原子库"},{"id":"art-55","url":"ai-build-in-public.html","num":"55","title":"公开构建的坑与甜","desc":"build in public 的甜留给真做的人：早反馈、信任复利、意外联结；坑专坑那些只在台面上忙的人。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"公开构建的坑与甜"},{"id":"art-56","url":"ai-automation-pipeline.html","num":"56","title":"我把\"今天写什么\"做成了流水线","desc":"内容生产最累的不是写，是判断写什么。让系统每天早上出候选、晚上收复盘，你只守动笔这一关。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"我把\"今天写什么\"做成了流水线"},{"id":"art-57","url":"ai-micro-tool-flywheel.html","num":"57","title":"我先给自己写了个排诗的小工具","desc":"微工具开源飞轮：从自己排诗的真实小需求出发，写个轻巧工具，开源放出，飞轮自己转起来。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"我先给自己写了个排诗的小工具"},{"id":"art-58","url":"ai-letter-to-10yr-self.html","num":"58","title":"如果能寄一封信回十年前","desc":"给十年前的自己写一封方法论信：关掉收藏夹建生产线、让系统替你想选题、从真实小需求做微工具、用第一性原理拆底层、让复利替你攒。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"如果能寄一封信回十年前"},{"id":"art-59","url":"ai-craftsmanship-ai-era.html","num":"59","title":"AI 时代的匠人精神","desc":"工具把「做出来」变便宜了，却把「做好」变得更贵。AI 拆的是门槛不是标准，愿意为细节较真的人，反而成了稀缺品。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"AI 时代的匠人精神"},{"id":"art-60","url":"ai-publish-when-done.html","num":"60","title":"写完即发布，我把和 AI 协作里的确认环节砍掉了","desc":"大多数人用 AI 卡在每一步都要点头，效率被自己拖死。把边界和铁律定死，边界内全自动，碰边界之外就刹车。08-04 当天出 6 篇是反证。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"写完即发布<br>我把和 AI 协作里的确认环节砍掉了"},{"id":"art-61","url":"ai-4f-review-method.html","num":"61","title":"4F 复盘法，你的复盘模板为什么永远填不满","desc":"原子库里 4F 复盘法躺着没外化，日志里待补全的空栏就是活证据。头号失效原因，是跳过感受直奔结论，模板填满了字却是空的。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"4F 复盘法<br>你的复盘模板为什么永远填不满"},{"id":"art-62","url":"ai-persistent-war-stalemate.html","num":"62","title":"论持久战 · 创作者的「相持阶段」","desc":"日更到第 30 天没数据想放弃，那不是失败，是必经的相持期。战略上持久、战术上速决，基本盘读者就是你的「民众」。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"论持久战<br>创作者的相持阶段"},{"id":"art-63","url":"ai-no-investigation-no-right.html","num":"63","title":"反对本本主义 · 没有调查没有发言权","desc":"AI 让生成结论成本≈0，创作者最易犯本本主义。选题前先下场，三步拿到真素材（访谈/扒数据/真料喂 AI），才有资格说话。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"反对本本主义<br>没有调查没有发言权"},{"id":"art-64","url":"ai-notion-serial-insert.html","num":"64","title":"Notion 长文批写入的串行纪律","desc":"并行往同页 insert 顺序不保（#61 错乱为证）。串行、每批≤110 中文字、省略 position 才 100% 保真，附字节上限红线。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"Notion 长文批写入的串行纪律"},{"id":"art-65","url":"ai-spoken-video-from-article.html","num":"65","title":"口播动态视频 · 把已发长文变成会动的口播","desc":"写了文章只会发图文，视频平台吃不到。文字是原子资产、视频是分发放大器，复用已发长文零边际成本。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"口播动态视频<br>把已发长文变成会动的口播"},{"id":"art-66","url":"ai-prompt-four-elements.html","num":"66","title":"提示词四要素 · 把口头需求翻译成机器能执行的指令","desc":"写好提示词=角色+任务+上下文+格式（P/T/C/F）。太长说不清、太短说不全，最成功的提示平均 21 字。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"提示词四要素<br>把口头需求翻译成机器能执行的指令"},{"id":"art-67","url":"ai-interactive-book-game.html","num":"67","title":"把《阿Q正传》做成游戏 · 当一本书可以被「玩」","desc":"今天把鲁迅的《阿Q正传》做成了能玩的交互游戏。读者变玩家，AI 把做交互的代价从团队级压到个人级，但互动是入口不是替代，经典内核不能动。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"把《阿Q正传》做成游戏<br>当一本书可以被玩"},{"id":"art-68","url":"digital-archipelago.html","num":"68","title":"一人公司的「数字群岛」· 为什么我不再做一个扁平的个人博客","desc":"单体博客用一种身份硬扛多维世界。把求职母港、思想私域、AI 流水线、交互实验场拆成互不打扰的小岛——0 服务器成本、国内免梯秒开，靠局部易碎换整体反脆弱。","phaseTitle":"⑦ 人与工具","phaseSub":"AI 时代的新生存法则","displayTitle":"一人公司的数字群岛<br>为什么我不再做一个扁平的个人博客"}];
 
 // Application State
-let currentIndex = ARTICLES.length - 1; // Default to #68 (the newest article)
+let currentIndex = ARTICLES.length - 1; // Default to #68 (newest)
 let currentFilterPhase = 'all';
 let currentSearchQuery = '';
 
 // DOM Elements
-const heroFolio = document.getElementById('heroFolio');
 const heroTitle = document.getElementById('heroTitle');
 const heroTitleLink = document.getElementById('heroTitleLink');
 const heroCategoryText = document.getElementById('heroCategoryText');
-const heroExcerpt = document.getElementById('heroExcerpt');
 const heroReadLink = document.getElementById('heroReadLink');
 const prevHeroBtn = document.getElementById('prevHeroBtn');
 const nextHeroBtn = document.getElementById('nextHeroBtn');
@@ -1200,7 +1139,6 @@ const bookshelfModal = document.getElementById('bookshelfModal');
 const closeBookshelfBtn = document.getElementById('closeBookshelfBtn');
 const openBookshelfTopBtn = document.getElementById('openBookshelfTopBtn');
 const openCatalogTopBtn = document.getElementById('openCatalogTopBtn');
-const openReaderModalBtn = document.getElementById('openReaderModalBtn');
 const heroAvatarTrigger = document.getElementById('heroAvatarTrigger');
 const shelfSearchInput = document.getElementById('shelfSearchInput');
 const searchClearBtn = document.getElementById('searchClearBtn');
@@ -1240,49 +1178,49 @@ function renderHero(index, animate = true) {
 
   if (animate) {
     heroTitle.style.opacity = '0';
-    heroExcerpt.style.opacity = '0';
+    heroTitle.style.transform = 'translateY(6px)';
   }
 
   setTimeout(() => {
-    heroFolio.textContent = `NO. ${art.num.padStart(2, '0')} · ${dateStr}`;
-    heroTitleLink.textContent = art.title;
+    heroTitleLink.innerHTML = art.displayTitle;
     heroTitleLink.href = art.url;
     heroCategoryText.textContent = `一人公司践行者 · 独立开发者 · ${art.phaseTitle}`;
-    heroExcerpt.textContent = `“${art.desc}”`;
     heroReadLink.href = art.url;
 
-    // Prev / Next button states
+    // Prev / Next button labels
     if (index > 0) {
       prevHeroBtn.disabled = false;
       const prevArt = ARTICLES[index - 1];
-      prevBtnLabel.textContent = `#${prevArt.num} ${prevArt.title.slice(0, 10)}…`;
+      const prevDate = getChronologicalDate(prevArt.num).slice(5).replace('-', '月') + '日';
+      prevBtnLabel.textContent = prevDate;
     } else {
       prevHeroBtn.disabled = true;
-      prevBtnLabel.textContent = '已是第一篇';
+      prevBtnLabel.textContent = '起点';
     }
 
     if (index < ARTICLES.length - 1) {
       nextHeroBtn.disabled = false;
       const nextArt = ARTICLES[index + 1];
-      nextBtnLabel.textContent = `#${nextArt.num} ${nextArt.title.slice(0, 10)}…`;
+      const nextDate = getChronologicalDate(nextArt.num).slice(5).replace('-', '月') + '日';
+      nextBtnLabel.textContent = nextDate;
     } else {
       nextHeroBtn.disabled = true;
-      nextBtnLabel.textContent = '已是最新篇';
+      nextBtnLabel.textContent = '最新';
     }
 
     // Also sync reader overlay
     magIssueNumber.textContent = `No. ${art.num.padStart(3, '0')}`;
     magIssueDate.textContent = dateStr;
-    magHeadline.textContent = art.title;
+    magHeadline.innerHTML = art.displayTitle;
     magSummary.textContent = art.desc;
     magOpenLink.href = art.url;
     dockReadBtn.href = art.url;
 
     if (animate) {
       heroTitle.style.opacity = '1';
-      heroExcerpt.style.opacity = '1';
+      heroTitle.style.transform = 'translateY(0)';
     }
-  }, animate ? 150 : 0);
+  }, animate ? 140 : 0);
 }
 
 // Open / Close Reader Modal
@@ -1318,10 +1256,7 @@ function closeBookshelf() {
 // Render Bookshelf List
 function renderBookshelfList() {
   archiveListContainer.innerHTML = '';
-  
   const query = currentSearchQuery.trim().toLowerCase();
-  
-  // Articles in descending order (#68 down to #01) for convenient browsing
   const sortedArticles = [...ARTICLES].reverse();
 
   let matchCount = 0;
@@ -1340,9 +1275,7 @@ function renderBookshelfList() {
     matchCount++;
     const row = document.createElement('div');
     row.className = 'archive-row';
-    row.id = art.id; // Preserve id="art-XX"
-
-    const dateStr = getChronologicalDate(art.num);
+    row.id = art.id;
 
     row.innerHTML = `
       <div class="arch-num">#${art.num}</div>
@@ -1387,7 +1320,7 @@ dockNextBtn.addEventListener('click', () => {
   if (currentIndex < ARTICLES.length - 1) renderHero(currentIndex + 1);
 });
 
-// Keyboard Arrows Navigation
+// Keyboard Arrows
 window.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
   if (e.key === 'ArrowLeft') {
@@ -1400,8 +1333,6 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// Modals Trigger
-openReaderModalBtn.addEventListener('click', openReaderModal);
 heroAvatarTrigger.addEventListener('click', openReaderModal);
 readerCloseBtn.addEventListener('click', closeReaderModal);
 dockBookshelfTrigger.addEventListener('click', openBookshelf);
@@ -1474,7 +1405,7 @@ archiveListContainer.addEventListener('click', (e) => {
   }
 });
 
-// Check URL Hash (e.g. #art-35)
+// Check URL Hash
 function checkUrlHash() {
   const hash = window.location.hash;
   if (hash && hash.startsWith('#art-')) {
@@ -1484,7 +1415,6 @@ function checkUrlHash() {
       return;
     }
   }
-  // Default to newest article (#68)
   renderHero(ARTICLES.length - 1, false);
 }
 

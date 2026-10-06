@@ -19,7 +19,7 @@
 <meta name="twitter:image" content="https://daozhu1993-oss.github.io/ai-thinking/img/og-cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 
 <!-- 51.la analytics -->
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
@@ -83,23 +83,53 @@
   .related-models a:hover{opacity:.78;}
   .related-models .rm-tag{display:inline-block;font-size:.66rem;letter-spacing:.12em;color:var(--accent);border:1px solid rgba(154,106,50,.45);border-radius:20px;padding:.1rem .55rem;margin-right:.55rem;vertical-align:middle;}
 </style>
+<link rel="stylesheet" href="magazine-reader.css">
 </head>
 <body>
 
-<header class="site-header">
-  <nav>
-    <a class="back" href="index.html" data-ai-back="1">
+
+<div class="reader-progress-bar" id="readerProgressBar"></div>
+<header class="magazine-nav">
+  <div class="nav-container">
+    <a class="nav-back" href="index.html" title="返回杂志封面">
       <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      目录
+      <span>DAOZHU JOURNAL</span>
     </a>
-    <a class="brand" href="../v2/index.html#content">岛主的AI思考</a>
-  </nav>
+    <div class="nav-article-title" id="navArticleTitle">实事求是：用真实素材，别编案例</div>
+    <div class="nav-actions">
+      <button class="nav-btn" id="fontSmallerBtn" title="缩小字号">A-</button>
+      <button class="nav-btn" id="fontLargerBtn" title="放大字号">A+</button>
+      <button class="nav-btn theme-toggle" id="themeToggleBtn" title="切换夜览">
+        <svg class="sun-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3.1" fill="none" stroke="currentColor" stroke-width="1.3"></circle><path d="M8 1v1.7M8 13.3V15M1 8h1.7M13.3 8H15M3.05 3.05l1.2 1.2M11.75 11.75l1.2 1.2M3.05 12.95l1.2-1.2M11.75 4.25l1.2-1.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg>
+        <svg class="moon-icon" viewBox="0 0 16 16"><path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg>
+      </button>
+      <a class="nav-btn nav-index-link" href="index.html" title="书架目录">书架</a>
+    </div>
+  </div>
 </header>
+
 
 <main>
       <article>
-      <div class="meta-bar"><span class="tag">实事求是</span><span class="tag">真实素材</span><span class="tag">方法论</span><span>2026</span></div>
+      
+<div class="editorial-masthead-kicker">THE DAOZHU JOURNAL · ESSAY #49 · ⑦ 人与工具</div>
 <h1>实事求是：用真实素材，别编案例</h1>
+<div class="editorial-dek">
+  “AI 让你 3 秒编出一个「看起来很真」的案例，但编的经不起查、伤的是信任。论点从真实素材长出来，不为论证硬造例子——这跟 #34 微工具从真实小需求长出来，是同一句「从真实出发」。”
+</div>
+<div class="editorial-colophon-bar">
+  <div class="colophon-author">
+    <div class="colophon-avatar"><img src="../img/strategy-advisor/avatar-option-a.jpg" alt="岛主"></div>
+    <div>
+      <div class="colophon-name">岛主 (Daozhu)</div>
+      <div class="colophon-role">一人公司践行者 · 独立创作者</div>
+    </div>
+  </div>
+  <div class="colophon-stats">
+    约 2,805 字 · 研读约 8 分钟 · 2026-08-09 出刊
+  </div>
+</div>
+
 <p>AI 时代写东西，有个诱惑特别大：它能在三秒内，给你编出一个「看起来特别真」的案例。</p>
 <p>带细节、带对话、带数字——读起来挑不出毛病，甚至比你自己经历过的还真。于是越来越多文章，案例栏里一排排的「据我朋友」「某次调研显示」「有个创业者」，全是 AI 顺手递来的。</p>
 <p>可读者不是傻子。真事和编的，质感不一样。编的经不起第二眼，更经不起内行一查。</p>
@@ -198,16 +228,22 @@
 </ul>
 </section>
 
-      <div class="article-nav">
-        <a href="ai-persistent-war.html">
-          <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          上篇 · 别想一篇爆：持久战
-        </a>
-        <a href="index.html">
-          目录
-          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </a>
-      </div>
+      
+<div class="article-colophon-stamp">
+  <div class="stamp-mark">❖ THE DAOZHU JOURNAL ❖</div>
+  <div class="stamp-text">以一人公司视角，记录肉身穿透 AI 浪潮的深度思考与实践手记</div>
+</div>
+<div class="article-nav">
+  <a class="article-nav-card" href="ai-persistent-war.html">
+    <span class="nav-card-label">← 上一篇 · #48</span>
+    <span class="nav-card-title">别想一篇爆：创作者该打的是持久战</span>
+  </a>
+  <a class="article-nav-card" href="ai-contradiction.html" style="text-align:right;">
+    <span class="nav-card-label">下一篇 · #50 →</span>
+    <span class="nav-card-title">矛盾论：一篇文只解决一个主要矛盾</span>
+  </a>
+</div>
+
       </article>
       <blockquote style="text-align:center;border:none;color:var(--faint);font-style:normal;margin-top:48px;">岛主的 AI 思考 · 第 49 篇</blockquote>
 </main>
@@ -215,5 +251,6 @@
 <footer class="footer">岛主的 AI 思考 · 用真实素材写作，不编造案例</footer>
 
   <script src="../assets/share/share-widget.js"></script>
+<script src="magazine-reader.js"></script>
 </body>
 </html>

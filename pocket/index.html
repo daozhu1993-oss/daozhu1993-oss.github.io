@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DAOZHU POCKET · 岛主口袋掌机</title>
-  <meta name="description" content="复古掌机风格的岛主互动主页与游戏匣子，内置阿Q未庄、聊斋促织、Fogg赌约、蘑菇卡丁车、GB俄罗斯方块、山海灵感图鉴与《别洒了鹈鹕》等7款经典卡带及 8-Bit 像素彩蛋。">
+  <title>DAOZHU POCKET · 岛主口袋掌机 | 3D 拟真游戏匣子</title>
+  <meta name="description" content="Awwwards / FWA 级拟真 3D 掌机体验。内置阿Q未庄、聊斋促织、Fogg赌约、蘑菇卡丁车、GB俄罗斯方块、山海灵感图鉴与海风信使7款经典卡带，支持实体卡带插拔、多套经典外壳与点阵屏幕色调切换、原生芯片音乐合成及物理手柄控制。">
   
   <meta property="og:title" content="DAOZHU POCKET · 岛主口袋掌机">
   <meta property="og:description" content="把读过的书，做成能走进去的地方。用故事思维驱动用户价值。">
@@ -26,17 +26,77 @@
     }
   </script>
 </head>
-<body>
+<body class="shell-classic palette-dmg powered-on">
 
-  <!-- 顶部操作工具条 -->
+  <!-- 全局空间氛围背景层 (Atmospheric Studio Glow) -->
+  <div class="studio-ambient" aria-hidden="true">
+    <div class="ambient-glow top-left"></div>
+    <div class="ambient-glow bottom-right"></div>
+    <div class="ambient-dust-grid"></div>
+  </div>
+
+  <!-- 顶部设计感工具条 -->
   <header class="top-toolbar">
-    <div class="toolbar-title">DAOZHU POCKET · PF-001</div>
+    <div class="toolbar-brand">
+      <span class="toolbar-logo">👾</span>
+      <div class="toolbar-brand-text">
+        <span class="toolbar-title">DAOZHU POCKET</span>
+        <span class="toolbar-ver">PF-001 · SOTD EDITION</span>
+      </div>
+    </div>
+
+    <!-- 快捷调校胶囊 (外壳与调色板快速预览) -->
+    <div class="toolbar-capsules">
+      <!-- 外壳限定版快速选择 -->
+      <div class="capsule-group shell-capsules" title="机身外壳材质">
+        <button class="capsule-chip active" data-shell="classic" title="经典灰白 (DMG-01)">Classic</button>
+        <button class="capsule-chip" data-shell="atomic-purple" title="原子紫半透明 (Atomic Purple)">Atomic</button>
+        <button class="capsule-chip" data-shell="stealth" title="曜石哑光黑 (Stealth Black)">Stealth</button>
+        <button class="capsule-chip" data-shell="gold" title="24K 香槟拉丝金 (Gold Master)">Gold</button>
+        <button class="capsule-chip" data-shell="teal" title="加州海湾青 (GBC Teal)">Teal</button>
+      </div>
+
+      <!-- 点阵液晶调色板快速选择 -->
+      <div class="capsule-group palette-capsules" title="屏幕点阵显示色域">
+        <button class="palette-chip active" data-palette="dmg" title="DMG 1989 经典绿调">
+          <span class="swatch" style="background:#8bac0f;"></span>
+        </button>
+        <button class="palette-chip" data-palette="pocket" title="Pocket 1996 高反差银黑">
+          <span class="swatch" style="background:#d0d0d0;"></span>
+        </button>
+        <button class="palette-chip" data-palette="light" title="Light 1998 荧光青夜光背光">
+          <span class="swatch" style="background:#5ce1e6;"></span>
+        </button>
+        <button class="palette-chip" data-palette="color" title="Color 1998 鲜明多色彩">
+          <span class="swatch" style="background:linear-gradient(135deg, #ff4d6d, #4cc9f0);"></span>
+        </button>
+        <button class="palette-chip" data-palette="virtual" title="Virtual 1995 赛博霓虹红">
+          <span class="swatch" style="background:#ff2a4d;"></span>
+        </button>
+        <button class="palette-chip" data-palette="island" title="Island 岛主落日琥珀金">
+          <span class="swatch" style="background:#f4a261;"></span>
+        </button>
+      </div>
+    </div>
+
     <div class="toolbar-actions">
-      <a class="tool-btn" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener" title="小红书主页">
+      <!-- 8-Bit BGM 氛围乐开关 -->
+      <button class="tool-btn icon-only" id="btn-toggle-bgm" title="切换 8-Bit 海岛生成式氛围音乐 (M键)">
+        <span class="btn-ico">🎵</span>
+        <span class="btn-txt">BGM</span>
+      </button>
+
+      <!-- 手柄连接指示灯 -->
+      <div class="gamepad-badge" id="gamepad-status-badge" title="支持物理手柄 (Xbox / PS / Switch / 8BitDo)">
+        <span class="gp-icon">🎮</span>
+        <span class="gp-label">PAD</span>
+      </div>
+
+      <a class="tool-btn xhs-tool-btn" href="https://xhslink.cn/o/6qUqpAyzrP3" target="_blank" rel="noopener" title="小红书主页 @岛主">
         <span>📕</span> 小红书
       </a>
-      <button class="tool-btn" id="btn-export-poster" title="生成并下载小红书同款高清竖屏海报">
-        <span>📸</span> 导出小红书海报
+      <button class="tool-btn" id="btn-export-poster" title="生成并下载小红书同款超清竖屏海报 (START)">
+        <span>📸</span> 导出海报
       </button>
       <a class="tool-btn" href="https://me.daozhuai.cn/v2/index.html" target="_blank" rel="noopener">
         <span>🏝️</span> 回到岛上
@@ -45,142 +105,295 @@
   </header>
 
   <!-- ══════════════════════════════════════════════════════════
-       GAME BOY 掌机主体外壳 (DMG-01 Console)
+       主工作区 (3D Creative Stage with Cartridge Vault)
        ══════════════════════════════════════════════════════════ -->
-  <main class="gameboy-console" id="gameboy-console">
+  <div class="pocket-workspace">
     
-    <!-- 屏幕外边框 (深灰紫镜面区) -->
-    <div class="screen-bezel">
-      <div class="bezel-top">
-        <div class="bezel-line red"></div>
-        <div class="bezel-title">DOT MATRIX WITH STEREO SOUND</div>
-        <div class="bezel-line blue"></div>
+    <!-- 左侧：实体卡带典藏架 (Cartridge Vault) -->
+    <aside class="cartridge-vault-sidebar" id="cartridge-vault">
+      <div class="vault-header">
+        <div class="vault-title-row">
+          <span class="vault-tag">ROM VAULT</span>
+          <span class="vault-count">7 CARTRIDGES</span>
+        </div>
+        <div class="vault-hint">点击卡带实体 · 拔插推入掌机卡槽</div>
       </div>
 
-      <div class="screen-main-row">
-        <!-- 电池状态指示灯 -->
-        <div class="battery-indicator">
-          <div class="led on" id="battery-led"></div>
-          <div class="led-label">BATTERY</div>
+      <div class="cartridge-shelf" id="cartridge-shelf">
+        <!-- 7张实体卡带由 pocket-os.js 动态渲染 -->
+      </div>
+    </aside>
+
+    <!-- 中央：3D 悬浮掌机拟真机台 (3D Console Stage) -->
+    <div class="console-stage" id="console-stage">
+      
+      <!-- 掌机顶部卡带卡槽插拔槽位 (Top Slot & Inserted Cartridge) -->
+      <div class="console-top-edge">
+        <!-- 真实滑动的 POWER 开关 -->
+        <div class="power-switch-assembly">
+          <div class="power-track">
+            <button class="power-slider" id="power-slider" aria-label="Power Switch" title="电源开关：点击拨动开机/关机"></button>
+          </div>
+          <div class="power-labels">
+            <span>OFF</span>
+            <span>ON</span>
+          </div>
         </div>
 
-        <!-- LCD 经典点阵绿屏 -->
-        <div class="lcd-screen" id="lcd-screen">
-          <div class="screen-header">
-            <div class="header-left">
-              <span>PLAYER 01 · 岛主</span>
+        <!-- 顶部卡带物理卡槽 (Visible Cartridge Bay) -->
+        <div class="cartridge-bay" id="console-cartridge-bay" title="顶部卡带插槽：点击可弹出当前卡带">
+          <div class="bay-lip"></div>
+          <!-- 当前插入的实体卡带上半部 -->
+          <div class="inserted-cartridge" id="inserted-cartridge">
+            <div class="cart-inserted-grip">
+              <div class="grip-line"></div>
+              <div class="grip-line"></div>
+              <div class="grip-line"></div>
             </div>
-            <div class="header-right">
-              <span class="hearts">♥♥♥</span>
-              <span class="sound-toggle" id="sound-status" title="切换音效">🔊</span>
+            <div class="cart-inserted-title" id="inserted-cart-title">ROM 01 · WEIZHUANG</div>
+            <div class="cart-eject-btn" id="btn-eject-cart" title="弹出卡带">⏏</div>
+          </div>
+        </div>
+
+        <!-- 外部扩展链接槽标 (EXT. CONNECTOR) -->
+        <div class="ext-connector" title="EXT. CONNECTOR (扩展连线插口)">
+          <div class="ext-port"></div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════════════════════════
+           GAME BOY 掌机主体外壳 (DMG-01 3D Console Body)
+           ══════════════════════════════════════════════════════════ -->
+      <main class="gameboy-console" id="gameboy-console">
+        
+        <!-- 3D 动态流光镜面反射遮罩 (Specular Sheen Overlay) -->
+        <div class="specular-glare" id="specular-glare" aria-hidden="true"></div>
+
+        <!-- 屏幕外边框 (深灰紫镜面区) -->
+        <div class="screen-bezel">
+          <div class="bezel-top">
+            <div class="bezel-line red"></div>
+            <div class="bezel-title">DOT MATRIX WITH STEREO SOUND</div>
+            <div class="bezel-line blue"></div>
+          </div>
+
+          <div class="screen-main-row">
+            <!-- 电池状态指示灯 (LED with Light Bleed) -->
+            <div class="battery-indicator">
+              <div class="led-light-bleed"></div>
+              <div class="led on" id="battery-led"></div>
+              <div class="led-label">BATTERY</div>
+            </div>
+
+            <!-- LCD 经典点阵液晶屏幕 (Dot-Matrix Screen) -->
+            <div class="lcd-screen" id="lcd-screen">
+              
+              <!-- 经典开机下落启动动画层 (Nintendo DMG Boot Sequence Overlay) -->
+              <div class="boot-sequence-overlay" id="boot-overlay">
+                <div class="boot-logo-wrapper">
+                  <div class="boot-pixel-logo">DAOZHU</div>
+                  <div class="boot-trademark">®</div>
+                </div>
+              </div>
+
+              <!-- 关机失电黑屏遮罩 (Power Off Overlay) -->
+              <div class="power-off-overlay" id="power-off-overlay"></div>
+
+              <!-- 屏幕顶部状态栏 -->
+              <div class="screen-header">
+                <div class="header-left">
+                  <span class="player-tag">P1 · 岛主</span>
+                  <span class="gamepad-icon-header" id="screen-gamepad-icon" hidden title="手柄已连接">🎮</span>
+                </div>
+                <div class="header-center">
+                  <!-- 音乐跳动点阵频谱仪 -->
+                  <div class="music-visualizer" id="music-visualizer" aria-hidden="true">
+                    <span class="viz-bar"></span>
+                    <span class="viz-bar"></span>
+                    <span class="viz-bar"></span>
+                    <span class="viz-bar"></span>
+                  </div>
+                </div>
+                <div class="header-right">
+                  <span class="hearts" id="screen-hearts" title="岛主生命值">♥♥♥</span>
+                  <span class="sound-toggle" id="sound-status" title="切换音效 (M)">🔊</span>
+                </div>
+              </div>
+
+              <!-- 动态视图挂载区 -->
+              <div class="screen-body" id="screen-content">
+                <!-- 由 pocket-os.js 动态渲染当前视图 -->
+              </div>
+
+              <!-- 底部即时指引提示 -->
+              <div class="screen-footer" id="bottom-hint">
+                方向键选择 · A 确认 · SELECT 游戏库
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 掌机品牌 LOGO 凹印 -->
+        <div class="console-middle">
+          <div class="brand-section">
+            <div class="brand-title">DAOZHU POCKET</div>
+            <div class="brand-sub">口 袋 掌 机</div>
+            <div class="brand-serial" id="brand-serial-tag">PF-001 · DESIGNED FOR STORYTELLERS</div>
+          </div>
+
+          <!-- 掌机限定版金色金属铭牌 (Gold / Special Edition Badge) -->
+          <div class="special-edition-badge" id="special-badge">
+            <span>SOTD 2026</span>
+          </div>
+        </div>
+
+        <!-- 实体操控按键区 -->
+        <div class="controls-container">
+          <!-- 1. 十字方向键 (D-Pad) -->
+          <div class="dpad-wrapper">
+            <div class="dpad">
+              <div class="dpad-cross horizontal"></div>
+              <div class="dpad-cross vertical"></div>
+              <div class="dpad-center"></div>
+              
+              <div class="dpad-btn up" id="dpad-up" data-key="UP" role="button" aria-label="Up">▲</div>
+              <div class="dpad-btn down" id="dpad-down" data-key="DOWN" role="button" aria-label="Down">▼</div>
+              <div class="dpad-btn left" id="dpad-left" data-key="LEFT" role="button" aria-label="Left">◀</div>
+              <div class="dpad-btn right" id="dpad-right" data-key="RIGHT" role="button" aria-label="Right">▶</div>
             </div>
           </div>
 
-          <!-- 动态视图挂载区 -->
-          <div class="screen-body" id="screen-content">
-            <!-- 由 pocket-os.js 动态渲染当前视图 -->
-          </div>
-
-          <!-- 底部即时指引提示 -->
-          <div class="screen-footer" id="bottom-hint">
-            方向键选择 · A 确认 · SELECT 游戏库
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 掌机品牌 LOGO 凹印 -->
-    <div class="console-middle">
-      <div class="brand-section">
-        <div class="brand-title">DAOZHU POCKET</div>
-        <div class="brand-sub">口 袋 掌 机</div>
-        <div class="brand-serial">PF-001 · DESIGNED FOR STORYTELLERS</div>
-      </div>
-    </div>
-
-    <!-- 实体操控按键区 -->
-    <div class="controls-container">
-      <!-- 1. 十字方向键 (D-Pad) -->
-      <div class="dpad-wrapper">
-        <div class="dpad">
-          <div class="dpad-cross horizontal"></div>
-          <div class="dpad-cross vertical"></div>
-          <div class="dpad-center"></div>
-          
-          <div class="dpad-btn up" id="dpad-up">▲</div>
-          <div class="dpad-btn down" id="dpad-down">▼</div>
-          <div class="dpad-btn left" id="dpad-left">◀</div>
-          <div class="dpad-btn right" id="dpad-right">▶</div>
-        </div>
-      </div>
-
-      <!-- 2. A / B 经典圆形倾斜按键 -->
-      <div class="action-buttons-wrapper">
-        <div class="action-tilted-tray">
-          <div class="action-btn-item">
-            <button class="btn-round" id="btn-b" aria-label="Button B"></button>
-            <span class="btn-letter">B</span>
-          </div>
-          <div class="action-btn-item">
-            <button class="btn-round" id="btn-a" aria-label="Button A"></button>
-            <span class="btn-letter">A</span>
+          <!-- 2. A / B 经典圆形倾斜按键 -->
+          <div class="action-buttons-wrapper">
+            <div class="action-tilted-tray">
+              <div class="action-btn-item">
+                <button class="btn-round" id="btn-b" data-key="B" aria-label="Button B"></button>
+                <span class="btn-letter">B</span>
+              </div>
+              <div class="action-btn-item">
+                <button class="btn-round" id="btn-a" data-key="A" aria-label="Button A"></button>
+                <span class="btn-letter">A</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- 底部功能键与扬声器槽 -->
+        <div class="console-bottom-row">
+          <div class="meta-info">
+            <span class="phone-jack" title="3.5mm 立体声耳机孔">🎧 PHONES</span>
+          </div>
+
+          <!-- SELECT / START 橡胶键 -->
+          <div class="select-start-wrapper">
+            <div class="pill-item">
+              <button class="btn-pill" id="btn-select" data-key="SELECT" aria-label="Select"></button>
+              <span class="pill-label">SELECT</span>
+            </div>
+            <div class="pill-item">
+              <button class="btn-pill" id="btn-start" data-key="START" aria-label="Start"></button>
+              <span class="pill-label">START</span>
+            </div>
+          </div>
+
+          <!-- 倾斜出音槽 (Acoustic Speaker Grille) -->
+          <div class="speaker-grille" title="立体声声学出音网孔">
+            <div class="speaker-slit"></div>
+            <div class="speaker-slit"></div>
+            <div class="speaker-slit"></div>
+            <div class="speaker-slit"></div>
+            <div class="speaker-slit"></div>
+            <div class="speaker-slit"></div>
+          </div>
+        </div>
+      </main>
+
+      <!-- 右侧机身物理旋钮组合 (Physical Hardware Dials on the Right Edge) -->
+      <div class="side-controls-assembly">
+        <!-- 对比度调节滚轮 (CONTRAST Thumbwheel) -->
+        <div class="thumbwheel-unit" id="unit-contrast" title="CONTRAST 屏幕对比度微调滚轮">
+          <span class="thumbwheel-tag">CONTRAST</span>
+          <div class="knurled-wheel" id="wheel-contrast">
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+          </div>
+        </div>
+
+        <!-- 音量调节滚轮 (VOLUME Thumbwheel) -->
+        <div class="thumbwheel-unit" id="unit-volume" title="VOLUME 硬件音量旋钮">
+          <span class="thumbwheel-tag">VOLUME</span>
+          <div class="knurled-wheel" id="wheel-volume">
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+            <div class="wheel-ridge"></div>
+          </div>
+        </div>
       </div>
+
     </div>
 
-    <!-- 底部功能键与扬声器槽 -->
-    <div class="console-bottom-row">
-      <div class="meta-info">
-        <span>🎧 PHONES</span>
-      </div>
-
-      <!-- SELECT / START 橡胶键 -->
-      <div class="select-start-wrapper">
-        <div class="pill-item">
-          <button class="btn-pill" id="btn-select" aria-label="Select"></button>
-          <span class="pill-label">SELECT</span>
-        </div>
-        <div class="pill-item">
-          <button class="btn-pill" id="btn-start" aria-label="Start"></button>
-          <span class="pill-label">START</span>
+    <!-- 右侧：工坊与彩蛋面板 (Studio Controls & Easter Egg Guide) -->
+    <aside class="studio-info-sidebar">
+      <div class="studio-card">
+        <div class="card-title">✦ 硬件工坊指南</div>
+        <div class="card-specs">
+          <div class="spec-row"><span>型号</span><b>PF-001 / 2026</b></div>
+          <div class="spec-row"><span>架构</span><b>Web Audio + Canvas 8-Bit</b></div>
+          <div class="spec-row"><span>卡带库</span><b>7 经典独立 ROMs</b></div>
+          <div class="spec-row"><span>控制器</span><b>键盘 / 触控 / Gamepad</b></div>
         </div>
       </div>
 
-      <!-- 倾斜出音槽 -->
-      <div class="speaker-grille">
-        <div class="speaker-slit"></div>
-        <div class="speaker-slit"></div>
-        <div class="speaker-slit"></div>
-        <div class="speaker-slit"></div>
-        <div class="speaker-slit"></div>
-        <div class="speaker-slit"></div>
+      <!-- 快捷操作指引卡 -->
+      <div class="studio-card">
+        <div class="card-title">🎮 控制器键位映射</div>
+        <ul class="hint-list">
+          <li><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>W</kbd><kbd>S</kbd><kbd>A</kbd><kbd>D</kbd> 掌机十字键</li>
+          <li><kbd>J</kbd> / <kbd>Space</kbd> / <kbd>Enter</kbd> <b>A 键</b>（确认 / 插入开玩）</li>
+          <li><kbd>K</kbd> / <kbd>Esc</kbd> <b>B 键</b>（取消 / 返回）</li>
+          <li><kbd>Shift</kbd> <b>SELECT 键</b>（快速呼出卡带库）</li>
+          <li><kbd>Enter</kbd> <b>START 键</b>（一键生成小红书海报）</li>
+          <li><kbd>M</kbd> 8-Bit 海岛生成式背景乐开关</li>
+        </ul>
       </div>
-    </div>
-  </main>
 
-  <!-- 键盘按键映射指引 (PC端显示) -->
-  <footer class="keyboard-hints">
-    <span><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> / <kbd>W</kbd><kbd>S</kbd> 方向移动</span>
-    <span><kbd>A</kbd> / <kbd>Space</kbd> / <kbd>Enter</kbd> 确认开玩 (A键)</span>
-    <span><kbd>B</kbd> / <kbd>Esc</kbd> 返回上一级 (B键)</span>
-    <span><kbd>Shift</kbd> 快速呼出游戏库 (SELECT)</span>
-    <span><kbd>M</kbd> 静音</span>
-  </footer>
+      <!-- 科乐美秘技彩蛋提示卡 -->
+      <div class="studio-card konami-card">
+        <div class="card-title">✨ 封存彩蛋 (SECRET)</div>
+        <p class="konami-desc">键盘键入传奇秘技：<br>
+          <span class="konami-code-badge"><kbd>↑</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><kbd>←</kbd><kbd>→</kbd><kbd>B</kbd><kbd>A</kbd></span>
+        </p>
+        <div class="konami-tip">解锁 24K 黄金限量版机身与开发者祝贺！</div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- 移动端底栏快捷卡带抽屉触发器 -->
+  <div class="mobile-shelf-bar">
+    <button class="mobile-shelf-toggle" id="btn-mobile-shelf">
+      <span>📼 展开实体卡带架 (7)</span>
+    </button>
+  </div>
 
   <!-- 游戏启动与嵌入模态窗口 (Game Launcher Modal) -->
   <div class="game-modal" id="game-launcher-modal">
     <div class="modal-container">
       <div class="modal-header">
         <div class="modal-header-info">
-          <span class="modal-cart-tag">CARTRIDGE</span>
+          <span class="modal-cart-tag" id="modal-cart-rom">ROM 01</span>
           <span class="modal-game-title" id="modal-game-title">游戏加载中</span>
         </div>
         <div class="modal-actions">
-          <button class="modal-btn primary" id="modal-fullscreen-btn">
+          <button class="modal-btn primary" id="modal-fullscreen-btn" title="在新标签页独立全屏运行">
             <span>⛶</span> 全屏独立打开
           </button>
-          <button class="modal-btn" id="modal-close-btn">
+          <button class="modal-btn" id="modal-close-btn" title="退出卡带并返回掌机主界面 (B键)">
             <span>✕</span> 退出卡带 (B)
           </button>
         </div>

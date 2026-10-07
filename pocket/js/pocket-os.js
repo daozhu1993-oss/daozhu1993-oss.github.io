@@ -1,17 +1,18 @@
 /**
- * DAOZHU POCKET (岛主口袋掌机) - DAOZHU OS 1.0
- * 驱动掌机屏幕渲染、视图切换、按键映射与卡带加载
+ * DAOZHU POCKET (岛主口袋掌机) - DAOZHU OS 2.0 (AWWWARDS / SOTD EDITION)
+ * 驱动 3D 拟态视差、物理电源开关、实体卡带插拔卡槽、六大调色板与五大外壳系统、
+ * Web Gamepad 手柄接入、科乐美秘技引擎及 8-Bit 像素操作系统
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 判断是否为本地开发环境 (支持本地卡丁车服务端口 7788)
   const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-  // 核心数据：岛主 4 大核心卡带 (全部使用 daozhuai.cn 专属国内免翻墙高速域名)
+  // 核心数据：岛主 7 大核心卡带
   const CARTRIDGES = [
     {
       id: 'aq',
       rom: 'ROM 01',
+      code: 'DMG-AQ-CHN',
       title: '阿Q正传 · 未庄',
       source: '鲁迅《阿Q正传》',
       year: '1918 · WEIZHUANG',
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'cuzhi',
       rom: 'ROM 02',
+      code: 'DMG-CRK-CHN',
       title: '促织 · 斗蟋蟀',
       source: '蒲松龄《聊斋志异》',
       year: '宣德 · THE CRICKET',
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'fogg',
       rom: 'ROM 03',
+      code: 'DMG-80D-CHN',
       title: 'Fogg 的赌约',
       source: '凡尔纳《八十天环游地球》',
       year: '1872 · 80 DAYS',
@@ -51,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'kart',
       rom: 'ROM 04',
+      code: 'DMG-KRT-CHN',
       title: '蘑菇卡丁车 · 赛道冒险',
       source: 'Three.js 3D 竞速 · 岛主出品',
       year: '2026 · TURBO SPEED',
@@ -64,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'tetris',
       rom: 'ROM 05',
+      code: 'DMG-TET-CHN',
       title: 'GB 俄罗斯方块 1989',
       source: '任天堂 Game Boy 封神之作',
       year: '1989 · TETRIS',
@@ -77,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'shanhai',
       rom: 'ROM 06',
+      code: 'DMG-SHH-CHN',
       title: '山海灵感图鉴',
       source: '《山海经》× 宝可梦 8-Bit 复刻',
       year: '1996 · POKÉDEX',
@@ -90,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'pelican',
       rom: 'ROM 07',
+      code: 'DMG-PLC-CHN',
       title: '海风信使 · 3D单车漫游',
       source: 'Three.js 程序化3D · 昼夜流转',
       year: '2026 · ISLAND COURIER 3D',
@@ -108,22 +115,36 @@ document.addEventListener('DOMContentLoaded', () => {
     menuIndex: 0,
     gameIndex: 0,
     worksIndex: 0,
-    minigameInstance: null
+    minigameInstance: null,
+    isPoweredOn: true,
+    shell: 'classic',
+    palette: 'dmg',
+    contrast: 1.0,
+    isBooting: false
   };
 
   // DOM 节点引用
   const screenContent = document.getElementById('screen-content');
   const soundIcon = document.getElementById('sound-status');
-  const batteryLed = document.getElementById('battery-led');
   const bottomHint = document.getElementById('bottom-hint');
+  const powerSlider = document.getElementById('power-slider');
+  const bootOverlay = document.getElementById('boot-overlay');
+  const consoleStage = document.getElementById('console-stage');
+  const specularGlare = document.getElementById('specular-glare');
+  const insertedCartTitle = document.getElementById('inserted-cart-title');
+  const insertedCartridge = document.getElementById('inserted-cartridge');
+  const cartridgeShelf = document.getElementById('cartridge-shelf');
+  const btnToggleBgm = document.getElementById('btn-toggle-bgm');
+  const gamepadStatusBadge = document.getElementById('gamepad-status-badge');
+  const screenGamepadIcon = document.getElementById('screen-gamepad-icon');
 
-  function vibrate(ms = 12) {
+  function vibrate(ms = 14) {
     if (navigator.vibrate) {
       try { navigator.vibrate(ms); } catch (e) {}
     }
   }
 
-  // 埋点监测辅助函数 (51.la 自定义事件，国内免翻墙极速上报)
+  // 51.la 埋点辅助
   function trackPocketEvent(eventName, eventData = {}) {
     try {
       if (window.LA && typeof window.LA.track === 'function') {
@@ -133,7 +154,278 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.trackPocketEvent = trackPocketEvent;
 
-  // 关闭弹窗辅助函数
+  // ─────────────────────────────────────────────────────────────
+  // 1. 3D 拟态视差悬浮与流光引擎 (3D Interactive Tilt & Glare)
+  // ─────────────────────────────────────────────────────────────
+  let targetRotateX = 0;
+  let targetRotateY = 0;
+  let currentRotateX = 0;
+  let currentRotateY = 0;
+
+  function init3DTilt() {
+    if (!consoleStage) return;
+
+    window.addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 860) return; // 移动端保持平稳
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+
+      targetRotateY = dx * 10; // 左右倾斜 ±10度
+      targetRotateX = -dy * 10; // 上下倾斜 ±10度
+
+      // 动态高光光斑位置
+      if (specularGlare) {
+        const px = (e.clientX / window.innerWidth) * 100;
+        const py = (e.clientY / window.innerHeight) * 100;
+        specularGlare.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.35) 0%, transparent 60%)`;
+      }
+    });
+
+    // 手机陀螺仪支持 (Device Orientation)
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', (e) => {
+        if (e.gamma !== null && e.beta !== null) {
+          targetRotateY = Math.max(-12, Math.min(12, e.gamma * 0.4));
+          targetRotateX = Math.max(-12, Math.min(12, (e.beta - 45) * 0.4));
+        }
+      });
+    }
+
+    function renderTiltLoop() {
+      currentRotateX += (targetRotateX - currentRotateX) * 0.1;
+      currentRotateY += (targetRotateY - currentRotateY) * 0.1;
+      consoleStage.style.transform = `rotateX(${currentRotateX.toFixed(2)}deg) rotateY(${currentRotateY.toFixed(2)}deg)`;
+      requestAnimationFrame(renderTiltLoop);
+    }
+    renderTiltLoop();
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 2. 硬件电源开关与经典 DMG 开机动画 (Power Switch & Boot Flow)
+  // ─────────────────────────────────────────────────────────────
+  function triggerBootSequence() {
+    if (state.isBooting) return;
+    state.isBooting = true;
+    bootOverlay.classList.add('active');
+    bootOverlay.classList.remove('animating');
+
+    // 播放经典封神开机音
+    if (window.retroAudio) {
+      window.retroAudio.boot();
+    }
+
+    requestAnimationFrame(() => {
+      bootOverlay.classList.add('animating');
+    });
+
+    setTimeout(() => {
+      bootOverlay.classList.remove('active');
+      bootOverlay.classList.remove('animating');
+      state.isBooting = false;
+      renderCurrentView();
+    }, 1400);
+  }
+
+  function setPower(isOn, playSound = true) {
+    state.isPoweredOn = isOn;
+    document.body.classList.toggle('powered-on', isOn);
+    if (playSound && window.retroAudio) {
+      window.retroAudio.powerSwitch(isOn);
+    }
+    if (isOn) {
+      triggerBootSequence();
+    } else {
+      if (window.retroAudio) window.retroAudio.stopBgm();
+      document.body.classList.remove('bgm-active');
+    }
+  }
+
+  if (powerSlider) {
+    powerSlider.addEventListener('click', () => {
+      setPower(!state.isPoweredOn, true);
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 3. 实体卡带典藏架渲染与插拔交互 (Cartridge Vault & Ejection)
+  // ─────────────────────────────────────────────────────────────
+  function updateInsertedCartridgeUI() {
+    const currentCart = CARTRIDGES[state.gameIndex];
+    if (insertedCartTitle && currentCart) {
+      insertedCartTitle.textContent = `${currentCart.rom} · ${currentCart.code}`;
+    }
+    // 更新侧边栏高亮
+    document.querySelectorAll('.phys-cartridge').forEach((el, idx) => {
+      el.classList.toggle('active-inserted', idx === state.gameIndex);
+    });
+  }
+
+  function renderCartridgeShelf() {
+    if (!cartridgeShelf) return;
+    cartridgeShelf.innerHTML = CARTRIDGES.map((cart, idx) => `
+      <div class="phys-cartridge ${idx === state.gameIndex ? 'active-inserted' : ''}" data-idx="${idx}" title="点击取出并推入掌机卡槽">
+        <div class="cart-thumb">
+          <img src="${cart.cover}" alt="${cart.title}" onerror="this.src='assets/covers/aq.jpg'">
+        </div>
+        <div class="cart-meta">
+          <div class="cart-rom-tag">${cart.rom} · ${cart.code}</div>
+          <div class="cart-name">${cart.title}</div>
+          <div class="cart-subtext">${cart.year}</div>
+        </div>
+      </div>
+    `).join('');
+
+    // 绑定点击推入卡槽事件
+    cartridgeShelf.querySelectorAll('.phys-cartridge').forEach((el) => {
+      el.addEventListener('click', () => {
+        const idx = parseInt(el.dataset.idx, 10);
+        insertCartridge(idx);
+      });
+    });
+  }
+
+  function insertCartridge(idx) {
+    if (state.gameIndex === idx && state.currentView === 'GAMES') {
+      launchGame(CARTRIDGES[idx]);
+      return;
+    }
+
+    state.gameIndex = idx;
+    if (window.retroAudio) window.retroAudio.cartridge();
+    vibrate(25);
+
+    // 卡带卡槽机械下潜跳动动效
+    if (insertedCartridge) {
+      insertedCartridge.classList.add('ejecting');
+      setTimeout(() => {
+        updateInsertedCartridgeUI();
+        insertedCartridge.classList.remove('ejecting');
+      }, 180);
+    }
+
+    // 切换至 GAMES 视图
+    renderGames();
+  }
+
+  // 弹出当前卡带
+  const btnEject = document.getElementById('btn-eject-cart');
+  if (btnEject) {
+    btnEject.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.retroAudio) window.retroAudio.cartridgeEject();
+      vibrate(20);
+      if (insertedCartridge) {
+        insertedCartridge.classList.add('ejecting');
+        setTimeout(() => {
+          insertedCartridge.classList.remove('ejecting');
+        }, 300);
+      }
+      renderHome();
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 4. 外壳皮肤与调色板切换系统 (Shell & Palette Engine)
+  // ─────────────────────────────────────────────────────────────
+  function setShell(shellName) {
+    state.shell = shellName;
+    document.body.classList.remove('shell-classic', 'shell-atomic-purple', 'shell-stealth', 'shell-gold', 'shell-teal');
+    document.body.classList.add(`shell-${shellName}`);
+    try { localStorage.setItem('daozhu_pocket_shell', shellName); } catch (e) {}
+
+    document.querySelectorAll('.capsule-chip[data-shell]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.shell === shellName);
+    });
+
+    if (window.retroAudio) window.retroAudio.dialTick();
+  }
+
+  function setPalette(paletteName) {
+    state.palette = paletteName;
+    document.body.classList.remove('palette-dmg', 'palette-pocket', 'palette-light', 'palette-color', 'palette-virtual', 'palette-island');
+    document.body.classList.add(`palette-${paletteName}`);
+    try { localStorage.setItem('daozhu_pocket_palette', paletteName); } catch (e) {}
+
+    document.querySelectorAll('.palette-chip[data-palette]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.palette === paletteName);
+    });
+
+    if (window.retroAudio) window.retroAudio.dialTick();
+  }
+
+  // 绑定外壳按钮
+  document.querySelectorAll('[data-shell]').forEach(btn => {
+    btn.addEventListener('click', () => setShell(btn.dataset.shell));
+  });
+
+  // 绑定调色板按钮
+  document.querySelectorAll('[data-palette]').forEach(btn => {
+    btn.addEventListener('click', () => setPalette(btn.dataset.palette));
+  });
+
+  // 恢复保存的外壳与调色板
+  try {
+    const savedShell = localStorage.getItem('daozhu_pocket_shell');
+    if (savedShell) setShell(savedShell);
+    const savedPalette = localStorage.getItem('daozhu_pocket_palette');
+    if (savedPalette) setPalette(savedPalette);
+  } catch (e) {}
+
+  // ─────────────────────────────────────────────────────────────
+  // 5. 侧边物理滚轮交互 (CONTRAST & VOLUME Knurled Wheels)
+  // ─────────────────────────────────────────────────────────────
+  const wheelContrast = document.getElementById('wheel-contrast');
+  const wheelVolume = document.getElementById('wheel-volume');
+
+  if (wheelContrast) {
+    wheelContrast.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.05 : -0.05;
+      state.contrast = Math.max(0.6, Math.min(1.5, state.contrast + delta));
+      document.documentElement.style.setProperty('--lcd-contrast', state.contrast);
+      if (window.retroAudio) window.retroAudio.dialTick();
+    });
+    wheelContrast.addEventListener('click', () => {
+      state.contrast = state.contrast >= 1.4 ? 0.8 : state.contrast + 0.15;
+      document.documentElement.style.setProperty('--lcd-contrast', state.contrast);
+      if (window.retroAudio) window.retroAudio.dialTick();
+    });
+  }
+
+  if (wheelVolume) {
+    wheelVolume.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY < 0 ? 0.05 : -0.05;
+      if (window.retroAudio) {
+        const v = window.retroAudio.setVolume(window.retroAudio.volume + delta);
+        window.retroAudio.dialTick();
+        if (soundIcon) soundIcon.textContent = v > 0.05 ? '🔊' : '🔇';
+      }
+    });
+    wheelVolume.addEventListener('click', () => {
+      if (window.retroAudio) {
+        const muted = window.retroAudio.toggleMute();
+        if (soundIcon) soundIcon.textContent = muted ? '🔇' : '🔊';
+      }
+    });
+  }
+
+  // 8-Bit BGM 切换
+  if (btnToggleBgm) {
+    btnToggleBgm.addEventListener('click', () => {
+      if (window.retroAudio) {
+        const isPlaying = window.retroAudio.toggleBgm();
+        btnToggleBgm.classList.toggle('active', isPlaying);
+        document.body.classList.toggle('bgm-active', isPlaying);
+      }
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 6. 游戏启动与弹窗 (Game Launch Modal)
+  // ─────────────────────────────────────────────────────────────
   function closeModal() {
     const modal = document.getElementById('game-launcher-modal');
     if (modal) {
@@ -144,13 +436,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 启动游戏逻辑
   function launchGame(cart) {
     if (!cart) cart = CARTRIDGES[state.gameIndex];
     if (window.retroAudio) window.retroAudio.cartridge();
     vibrate(30);
 
-    // 上报开始玩游戏事件
     trackPocketEvent('play_game', {
       rom: cart.rom,
       title: cart.title,
@@ -159,24 +449,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = document.getElementById('game-launcher-modal');
     const modalTitle = document.getElementById('modal-game-title');
+    const modalRom = document.getElementById('modal-cart-rom');
     const modalIframe = document.getElementById('modal-game-iframe');
 
     if (modal && modalIframe) {
-      modalTitle.textContent = `${cart.rom}: ${cart.title}`;
+      if (modalRom) modalRom.textContent = cart.rom;
+      if (modalTitle) modalTitle.textContent = cart.title;
       modalIframe.src = cart.url;
       modal.classList.add('active');
     }
   }
 
-  // 1. 渲染函数：主菜单
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+
+  const modalFullscreenBtn = document.getElementById('modal-fullscreen-btn');
+  if (modalFullscreenBtn) {
+    modalFullscreenBtn.addEventListener('click', () => {
+      const cart = CARTRIDGES[state.gameIndex];
+      if (cart && cart.url) window.open(cart.url, '_blank');
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 7. 视图渲染引擎 (View Renderers)
+  // ─────────────────────────────────────────────────────────────
+  function renderCurrentView() {
+    switch (state.currentView) {
+      case 'HOME': renderHome(); break;
+      case 'GAMES': renderGames(); break;
+      case 'ABOUT': renderAbout(); break;
+      case 'WORKS': renderWorks(); break;
+      case 'MINIGAME': renderMinigame(); break;
+      case 'CONTACT': renderContact(); break;
+      default: renderHome(); break;
+    }
+  }
+
+  // 1. HOME 视图
   function renderHome() {
     state.currentView = 'HOME';
     const menuItems = [
-      { id: 'games', label: '游戏匣子', code: '01', sub: '7款经典游戏卡带' },
-      { id: 'minigame', label: '掌机彩蛋', code: '02', sub: '8-Bit 促织跳跳乐' },
+      { id: 'games', label: '游戏匣子', code: '01', sub: '7款经典卡带' },
+      { id: 'minigame', label: '促织跳跳乐', code: '02', sub: '8-Bit 原生掌机小游戏' },
       { id: 'about', label: '关于岛主', code: '03', sub: '故事驱动器与理念' },
-      { id: 'works', label: '作品示例', code: '04', sub: '灵感库/绘本/工具' },
-      { id: 'contact', label: '联络名片', code: '05', sub: '微信/小红书/日报' }
+      { id: 'works', label: '代表作品', code: '04', sub: '灵感库/绘本/工具' },
+      { id: 'contact', label: '扫码联络', code: '05', sub: '微信/小红书/海岛' }
     ];
 
     let itemsHtml = menuItems.map((item, idx) => `
@@ -212,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    bottomHint.textContent = '方向键选择 · 按 A 键进入 · SELECT 游戏库';
+    bottomHint.textContent = '十字键选择 · 按 A 进入 · SELECT 换卡带';
   }
 
   window.pocketNav = (idx) => {
@@ -220,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
     handleInput('A', true);
   };
 
-  // 2. 渲染函数：卡带列表 (GAMES)
+  // 2. GAMES 视图
   function renderGames() {
     state.currentView = 'GAMES';
     const currentCart = CARTRIDGES[state.gameIndex];
@@ -268,13 +586,12 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
+    updateInsertedCartridgeUI();
     bottomHint.textContent = '左右切卡带 · 按 A 立即开玩 · 按 B 返回';
   }
 
   window.selectCart = (idx) => {
-    state.gameIndex = idx;
-    if (window.retroAudio) window.retroAudio.cursor();
-    renderGames();
+    insertCartridge(idx);
   };
 
   window.launchCurrentGame = () => {
@@ -289,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 3. 渲染函数：关于岛主 (ABOUT)
+  // 3. ABOUT 视图
   function renderAbout() {
     state.currentView = 'ABOUT';
     screenContent.innerHTML = `
@@ -319,7 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bottomHint.textContent = '上下滑动阅读 · B 键返回主菜单';
   }
 
-  // 4. 渲染函数：代表作品 (WORKS)
+  // 4. WORKS 视图
   function renderWorks() {
     state.currentView = 'WORKS';
     const works = [
@@ -371,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bottomHint.textContent = '点击卡片直接查看 · B 键返回主菜单';
   }
 
-  // 5. 渲染函数：内置 8-Bit 像素游戏 (MINIGAME)
+  // 5. MINIGAME 视图 (促织跳跳乐)
   function renderMinigame() {
     state.currentView = 'MINIGAME';
     trackPocketEvent('play_cricket_minigame', { title: '促织跳跳乐' });
@@ -392,7 +709,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. 渲染函数：联络名片 (CONTACT)
+  // 6. CONTACT 视图
   function renderContact() {
     state.currentView = 'CONTACT';
     screenContent.innerHTML = `
@@ -416,11 +733,18 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `;
-    bottomHint.textContent = '扫码添加 · 按 A 键直达小红书 · B 键返回';
+    bottomHint.textContent = '扫码添加 · 按 A 直达小红书 · B 返回';
   }
 
-  // 掌机按键操作总分发
+  // ─────────────────────────────────────────────────────────────
+  // 8. 掌机按键总分发与触感声学 (Input Dispatcher)
+  // ─────────────────────────────────────────────────────────────
   function handleInput(action, isDown = true) {
+    if (!state.isPoweredOn && action !== 'POWER') {
+      if (isDown && window.retroAudio) window.retroAudio.mechanicalClick(0.06);
+      return;
+    }
+
     if (!isDown) {
       if (state.currentView === 'MINIGAME' && state.minigameInstance) {
         state.minigameInstance.handleButtonUp(action);
@@ -432,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.retroAudio.resume();
     }
 
-    // 模态弹窗打开状态下的按键拦截
+    // 模态弹窗拦截
     const modal = document.getElementById('game-launcher-modal');
     if (modal && modal.classList.contains('active')) {
       if (action === 'B') {
@@ -446,7 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 小游戏运行状态拦截
+    // 小游戏拦截
     if (state.currentView === 'MINIGAME' && state.minigameInstance) {
       if (action === 'B') {
         state.minigameInstance.stop();
@@ -459,31 +783,32 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 全局功能键
+    // 全局快捷键
     if (action === 'SELECT') {
-      if (window.retroAudio) window.retroAudio.cursor();
+      if (window.retroAudio) window.retroAudio.pillButton();
       renderGames();
       return;
     }
 
     if (action === 'START') {
+      if (window.retroAudio) window.retroAudio.pillButton();
       const posterBtn = document.getElementById('btn-export-poster');
       if (posterBtn) posterBtn.click();
       return;
     }
 
-    // HOME 视图按键
+    // HOME 视图
     if (state.currentView === 'HOME') {
       if (action === 'UP') {
         state.menuIndex = (state.menuIndex - 1 + 5) % 5;
-        if (window.retroAudio) window.retroAudio.cursor();
+        if (window.retroAudio) window.retroAudio.dpad();
         renderHome();
       } else if (action === 'DOWN') {
         state.menuIndex = (state.menuIndex + 1) % 5;
-        if (window.retroAudio) window.retroAudio.cursor();
+        if (window.retroAudio) window.retroAudio.dpad();
         renderHome();
       } else if (action === 'A') {
-        if (window.retroAudio) window.retroAudio.confirm();
+        if (window.retroAudio) window.retroAudio.actionA();
         switch (state.menuIndex) {
           case 0: renderGames(); break;
           case 1: renderMinigame(); break;
@@ -495,50 +820,50 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // GAMES 视图按键
+    // GAMES 视图
     if (state.currentView === 'GAMES') {
       if (action === 'LEFT') {
-        state.gameIndex = (state.gameIndex - 1 + CARTRIDGES.length) % CARTRIDGES.length;
-        if (window.retroAudio) window.retroAudio.cursor();
-        renderGames();
+        const nextIdx = (state.gameIndex - 1 + CARTRIDGES.length) % CARTRIDGES.length;
+        if (window.retroAudio) window.retroAudio.dpad();
+        insertCartridge(nextIdx);
       } else if (action === 'RIGHT') {
-        state.gameIndex = (state.gameIndex + 1) % CARTRIDGES.length;
-        if (window.retroAudio) window.retroAudio.cursor();
-        renderGames();
+        const nextIdx = (state.gameIndex + 1) % CARTRIDGES.length;
+        if (window.retroAudio) window.retroAudio.dpad();
+        insertCartridge(nextIdx);
       } else if (action === 'A') {
-        // 直接开玩游戏！
+        if (window.retroAudio) window.retroAudio.actionA();
         launchGame(CARTRIDGES[state.gameIndex]);
       } else if (action === 'B') {
-        if (window.retroAudio) window.retroAudio.cancel();
+        if (window.retroAudio) window.retroAudio.actionB();
         renderHome();
       }
       return;
     }
 
-    // CONTACT 视图按键：A 键直达小红书
+    // CONTACT 视图
     if (state.currentView === 'CONTACT') {
       if (action === 'A') {
-        if (window.retroAudio) window.retroAudio.confirm();
+        if (window.retroAudio) window.retroAudio.actionA();
         trackPocketEvent('click_xiaohongshu', { pos: 'gamepad_a_button' });
         window.open('https://xhslink.cn/o/6qUqpAyzrP3', '_blank');
         return;
       }
       if (action === 'B') {
-        if (window.retroAudio) window.retroAudio.cancel();
+        if (window.retroAudio) window.retroAudio.actionB();
         renderHome();
         return;
       }
       return;
     }
 
-    // 其余子视图 B 键统一返回
+    // 通用子视图 B 返回
     if (action === 'B') {
-      if (window.retroAudio) window.retroAudio.cancel();
+      if (window.retroAudio) window.retroAudio.actionB();
       renderHome();
     }
   }
 
-  // 绑定实体按键
+  // 实体按键交互绑定
   const bindButton = (selector, action) => {
     const el = document.querySelector(selector);
     if (!el) return;
@@ -559,6 +884,7 @@ document.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('mousedown', start);
     el.addEventListener('mouseup', end);
     el.addEventListener('mouseleave', end);
+
     el.addEventListener('touchstart', start, { passive: false });
     el.addEventListener('touchend', end, { passive: false });
     el.addEventListener('touchcancel', end, { passive: false });
@@ -573,79 +899,203 @@ document.addEventListener('DOMContentLoaded', () => {
   bindButton('#btn-select', 'SELECT');
   bindButton('#btn-start', 'START');
 
-  // ════════════════════════════════════════════════════════════
-  // 键盘映射优化：彻底解决“按 A 键无法打开游戏”
-  // 键盘 A 键和 B 键直接映射为掌机 A 确认 / B 返回！
-  // ════════════════════════════════════════════════════════════
-  window.addEventListener('keydown', (e) => {
-    if (e.repeat) return;
-    const key = e.key;
+  // ─────────────────────────────────────────────────────────────
+  // 9. 物理手柄集成 (Web Gamepad API Integration)
+  // ─────────────────────────────────────────────────────────────
+  let connectedGamepads = 0;
+  let lastGamepadButtonState = {};
 
-    // 方向导航：方向键 ArrowUp / ArrowDown / ArrowLeft / ArrowRight，以及 W / S
-    if (key === 'ArrowUp' || key === 'w' || key === 'W') {
-      handleInput('UP', true);
-    } else if (key === 'ArrowDown' || key === 's' || key === 'S') {
-      handleInput('DOWN', true);
-    } else if (key === 'ArrowLeft') {
-      handleInput('LEFT', true);
-    } else if (key === 'ArrowRight' || key === 'd' || key === 'D') {
-      handleInput('RIGHT', true);
-    } 
-    // 【核心修复】字母 A 直接对应掌机 A 确认键！空格、回车、K、Z 也作为备用 A 键
-    else if (key === 'a' || key === 'A' || key === ' ' || key === 'Enter' || key === 'k' || key === 'K' || key === 'z' || key === 'Z') {
-      handleInput('A', true);
-    } 
-    // 【核心修复】字母 B 直接对应掌机 B 返回键！Esc、Backspace、J、X 也作为备用 B 键
-    else if (key === 'b' || key === 'B' || key === 'Escape' || key === 'Backspace' || key === 'j' || key === 'J' || key === 'x' || key === 'X') {
-      handleInput('B', true);
-    } 
-    else if (key === 'Shift' || key === 'Tab') {
-      handleInput('SELECT', true);
-    } 
-    else if (key === 'm' || key === 'M') {
-      const isMuted = window.retroAudio.toggleMute();
-      soundIcon.textContent = isMuted ? '🔇' : '🔊';
+  window.addEventListener('gamepadconnected', (e) => {
+    connectedGamepads++;
+    if (gamepadStatusBadge) gamepadStatusBadge.classList.add('connected');
+    if (screenGamepadIcon) screenGamepadIcon.hidden = false;
+    if (window.retroAudio) window.retroAudio.confirm();
+  });
+
+  window.addEventListener('gamepaddisconnected', (e) => {
+    connectedGamepads = Math.max(0, connectedGamepads - 1);
+    if (connectedGamepads === 0) {
+      if (gamepadStatusBadge) gamepadStatusBadge.classList.remove('connected');
+      if (screenGamepadIcon) screenGamepadIcon.hidden = true;
+    }
+  });
+
+  function pollGamepad() {
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+    for (let i = 0; i < gamepads.length; i++) {
+      const gp = gamepads[i];
+      if (!gp) continue;
+
+      const checkBtn = (btnIndex, action) => {
+        const isPressed = gp.buttons[btnIndex] && gp.buttons[btnIndex].pressed;
+        const key = `${gp.index}_${btnIndex}`;
+        if (isPressed && !lastGamepadButtonState[key]) {
+          handleInput(action, true);
+          if (gp.vibrationActuator && gp.vibrationActuator.playEffect) {
+            gp.vibrationActuator.playEffect('dual-rumble', {
+              startDelay: 0,
+              duration: 35,
+              weakMagnitude: 0.6,
+              strongMagnitude: 0.4
+            }).catch(() => {});
+          }
+        } else if (!isPressed && lastGamepadButtonState[key]) {
+          handleInput(action, false);
+        }
+        lastGamepadButtonState[key] = isPressed;
+      };
+
+      // 标准手柄按键映射
+      checkBtn(12, 'UP');    // Dpad Up
+      checkBtn(13, 'DOWN');  // Dpad Down
+      checkBtn(14, 'LEFT');  // Dpad Left
+      checkBtn(15, 'RIGHT'); // Dpad Right
+      checkBtn(0, 'A');      // A / Cross
+      checkBtn(1, 'B');      // B / Circle
+      checkBtn(8, 'SELECT'); // Select / Share
+      checkBtn(9, 'START');  // Start / Options
+
+      // 左摇杆死区轴映射
+      const axisX = gp.axes[0];
+      const axisY = gp.axes[1];
+      const axisKeyX = `${gp.index}_axisX`;
+      const axisKeyY = `${gp.index}_axisY`;
+
+      if (axisX < -0.5 && !lastGamepadButtonState[axisKeyX]) {
+        handleInput('LEFT', true);
+        lastGamepadButtonState[axisKeyX] = 'LEFT';
+      } else if (axisX > 0.5 && !lastGamepadButtonState[axisKeyX]) {
+        handleInput('RIGHT', true);
+        lastGamepadButtonState[axisKeyX] = 'RIGHT';
+      } else if (Math.abs(axisX) < 0.2 && lastGamepadButtonState[axisKeyX]) {
+        lastGamepadButtonState[axisKeyX] = null;
+      }
+
+      if (axisY < -0.5 && !lastGamepadButtonState[axisKeyY]) {
+        handleInput('UP', true);
+        lastGamepadButtonState[axisKeyY] = 'UP';
+      } else if (axisY > 0.5 && !lastGamepadButtonState[axisKeyY]) {
+        handleInput('DOWN', true);
+        lastGamepadButtonState[axisKeyY] = 'DOWN';
+      } else if (Math.abs(axisY) < 0.2 && lastGamepadButtonState[axisKeyY]) {
+        lastGamepadButtonState[axisKeyY] = null;
+      }
+    }
+    requestAnimationFrame(pollGamepad);
+  }
+  pollGamepad();
+
+  // ─────────────────────────────────────────────────────────────
+  // 10. 科乐美秘技引擎 (Konami Code Easter Egg)
+  // ─────────────────────────────────────────────────────────────
+  const KONAMI_CODE = ['UP', 'UP', 'DOWN', 'DOWN', 'LEFT', 'RIGHT', 'LEFT', 'RIGHT', 'B', 'A'];
+  let konamiProgress = 0;
+
+  function checkKonamiCode(action) {
+    if (action === KONAMI_CODE[konamiProgress]) {
+      konamiProgress++;
+      if (konamiProgress === KONAMI_CODE.length) {
+        triggerKonamiReward();
+        konamiProgress = 0;
+      }
+    } else {
+      konamiProgress = action === KONAMI_CODE[0] ? 1 : 0;
+    }
+  }
+
+  function triggerKonamiReward() {
+    if (window.retroAudio) {
+      window.retroAudio.secretUnlock();
+    }
+    vibrate([50, 50, 100, 50, 150]);
+    // 切换至 24K 黄金限量版机身与金色调色板
+    setShell('gold');
+    setPalette('island');
+
+    bottomHint.textContent = '★ 24K 黄金限量版掌机已解锁！★';
+    setTimeout(() => {
+      renderCurrentView();
+    }, 2500);
+  }
+
+  // 键盘全局按键监听
+  window.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    let action = null;
+    switch (e.code) {
+      case 'ArrowUp':
+      case 'KeyW':
+        action = 'UP'; break;
+      case 'ArrowDown':
+      case 'KeyS':
+        action = 'DOWN'; break;
+      case 'ArrowLeft':
+      case 'KeyA':
+        action = 'LEFT'; break;
+      case 'ArrowRight':
+      case 'KeyD':
+        action = 'RIGHT'; break;
+      case 'KeyJ':
+      case 'Space':
+      case 'Enter':
+        action = 'A'; break;
+      case 'KeyK':
+      case 'Escape':
+      case 'Backspace':
+        action = 'B'; break;
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        action = 'SELECT'; break;
+      case 'KeyM':
+        if (btnToggleBgm) btnToggleBgm.click();
+        return;
+    }
+
+    if (action) {
+      e.preventDefault();
+      checkKonamiCode(action);
+      handleInput(action, true);
     }
   });
 
   window.addEventListener('keyup', (e) => {
-    const key = e.key;
-    if (key === 'ArrowUp' || key === 'w' || key === 'W') handleInput('UP', false);
-    else if (key === 'ArrowDown' || key === 's' || key === 'S') handleInput('DOWN', false);
-    else if (key === 'ArrowLeft') handleInput('LEFT', false);
-    else if (key === 'ArrowRight' || key === 'd' || key === 'D') handleInput('RIGHT', false);
-    else if (key === 'a' || key === 'A' || key === ' ' || key === 'Enter' || key === 'k' || key === 'K' || key === 'z' || key === 'Z') handleInput('A', false);
-    else if (key === 'b' || key === 'B' || key === 'Escape' || key === 'Backspace' || key === 'j' || key === 'J' || key === 'x' || key === 'X') handleInput('B', false);
-  });
-
-  // 音频切换按钮
-  soundIcon.addEventListener('click', () => {
-    const isMuted = window.retroAudio.toggleMute();
-    soundIcon.textContent = isMuted ? '🔇' : '🔊';
-  });
-
-  // 弹窗关闭与全屏
-  document.getElementById('modal-close-btn').addEventListener('click', closeModal);
-  document.getElementById('modal-fullscreen-btn').addEventListener('click', () => {
-    const cart = CARTRIDGES[state.gameIndex];
-    if (cart && cart.url) {
-      window.open(cart.url, '_blank');
+    let action = null;
+    switch (e.code) {
+      case 'ArrowUp': case 'KeyW': action = 'UP'; break;
+      case 'ArrowDown': case 'KeyS': action = 'DOWN'; break;
+      case 'ArrowLeft': case 'KeyA': action = 'LEFT'; break;
+      case 'ArrowRight': case 'KeyD': action = 'RIGHT'; break;
+      case 'KeyJ': case 'Space': case 'Enter': action = 'A'; break;
+      case 'KeyK': case 'Escape': case 'Backspace': action = 'B'; break;
     }
+    if (action) handleInput(action, false);
   });
 
-  // 首次交互开机
-  let hasBooted = false;
-  const triggerBoot = () => {
-    if (!hasBooted) {
-      hasBooted = true;
-      if (window.retroAudio) window.retroAudio.boot();
-      batteryLed.classList.add('on');
-    }
-  };
-  window.addEventListener('click', triggerBoot, { once: true });
-  window.addEventListener('touchstart', triggerBoot, { once: true });
-  window.addEventListener('keydown', triggerBoot, { once: true });
+  // 音效图标点击切换静音
+  if (soundIcon) {
+    soundIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.retroAudio) {
+        const muted = window.retroAudio.toggleMute();
+        soundIcon.textContent = muted ? '🔇' : '🔊';
+      }
+    });
+  }
 
-  // 启动初始渲染
+  // 移动端卡带抽屉开关
+  const btnMobileShelf = document.getElementById('btn-mobile-shelf');
+  if (btnMobileShelf) {
+    btnMobileShelf.addEventListener('click', () => {
+      renderGames();
+    });
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // 11. 初始化系统启动
+  // ─────────────────────────────────────────────────────────────
+  init3DTilt();
+  renderCartridgeShelf();
+  updateInsertedCartridgeUI();
   renderHome();
 });

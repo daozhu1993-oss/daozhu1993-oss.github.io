@@ -1,224 +1,307 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>故事别传 · 天庭档案 · 岛主</title>
-  <meta name="description" content="神话新编系列：保留神话人物外壳，借古讽今。天庭档案墙——每一卷都是一桩被系统碾轧的旧案。">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>《神话》· 中华神话重构系列文学杂志</title>
+  <meta name="description" content="中华神话重构系列：大白话打底，短句断得狠；叙述者冷、克制、却有体温、敢下判断。30期深度文学电子杂志全集。" />
+
+  <!-- Fonts & Core Stylesheets -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    @import url('../design-system/components.css');
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg: #14110d;
-      --bg-2: #1c1813;
-      --paper: #211c16;
-      --paper-hi: #2a241c;
-      --ink: #e9e0cf;
-      --ink-soft: #b6a88f;
-      --ink-dim: #7c7059;
-      --line: #38301f;
-      --stamp: #b8422f;
-      --gold: #c69a54;
-      --ease: cubic-bezier(0.23, 1, 0.32, 1);
-      --mono: 'Fragment Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-      --serif: 'Noto Serif SC', 'Songti SC', serif;
-      --sh-bg: rgba(20, 17, 13, .92);
-      --sh-fg: var(--ink);
-      --sh-line: var(--line);
-      --sh-accent: var(--gold);
-      --mid: var(--ink-soft);
-    }
-    body {
-      background:
-        radial-gradient(140% 90% at 50% -10%, #201a12 0%, var(--bg) 60%),
-        var(--bg);
-      color: var(--ink);
-      font-family: var(--mono);
-      font-size: 14px; line-height: 1.6;
-      padding: 48px 24px 110px;
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-    }
-    body::before {
-      /* faint file-grid texture */
-      content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .5;
-      background-image:
-        linear-gradient(rgba(198,154,84,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(198,154,84,.03) 1px, transparent 1px);
-      background-size: 44px 44px;
-    }
-    .wrap { max-width: 940px; margin: 0 auto; position: relative; }
-    a { color: inherit; }
-    .back { font-size: 12px; color: var(--ink-dim); text-decoration: none; letter-spacing: .04em; }
-    .back:hover { color: var(--gold); }
-
-    .masthead {
-      margin: 34px 0 40px; padding-bottom: 26px;
-      border-bottom: 1px solid var(--line); position: relative;
-    }
-    .dept { font-size: 11px; letter-spacing: .42em; color: var(--gold); text-transform: uppercase; }
-    h1 {
-      font-family: var(--serif); font-weight: 700; font-size: 34px;
-      letter-spacing: .04em; margin: 14px 0 12px; color: var(--ink);
-    }
-    .lead { font-size: 13px; color: var(--ink-soft); line-height: 1.85; max-width: 60ch; }
-    .seal {
-      position: absolute; top: 4px; right: 0;
-      width: 92px; height: 92px; border-radius: 50%;
-      border: 2px solid var(--stamp); color: var(--stamp);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      transform: rotate(-11deg); opacity: .82; text-align: center;
-      font-family: var(--serif); letter-spacing: .1em;
-    }
-    .seal .t { font-size: 15px; font-weight: 700; line-height: 1.35; }
-    .seal .s { font-size: 8px; letter-spacing: .28em; margin-top: 4px; font-family: var(--mono); }
-    @media (max-width: 560px){ .seal{ display:none; } }
-
-    .stat-row { display: flex; gap: 26px; flex-wrap: wrap; margin: 22px 0 34px; font-size: 11px; color: var(--ink-dim); letter-spacing: .06em; }
-    .stat-row b { color: var(--gold); font-weight: 400; }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 16px; }
-    .file {
-      position: relative; background: linear-gradient(180deg, var(--paper-hi), var(--paper));
-      border: 1px solid var(--line); border-radius: 4px;
-      padding: 20px 20px 18px; overflow: hidden;
-      transition: border-color 260ms var(--ease), box-shadow 260ms var(--ease), transform 260ms var(--ease);
-    }
-    .file::before {
-      /* tab on top-left like a folder */
-      content: ''; position: absolute; top: 0; left: 22px; width: 58px; height: 4px;
-      background: var(--gold); opacity: .55; border-radius: 0 0 3px 3px;
-    }
-    .file:hover {
-      border-color: var(--gold); transform: translateY(-4px);
-      box-shadow: 0 22px 44px rgba(0,0,0,.5);
-    }
-    .file.clickable { cursor: pointer; }
-    .file.clickable:hover { background: linear-gradient(180deg, var(--paper-hi), #fff6e6); }
-    .file:hover .file-stamp { opacity: .95; transform: rotate(-8deg) scale(1); }
-
-    .file-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-    .file-no { font-size: 10.5px; color: var(--ink-dim); letter-spacing: .12em; }
-    .file-status { font-size: 10px; color: var(--gold); letter-spacing: .1em; white-space: nowrap; }
-    .file-name {
-      font-family: var(--serif); font-size: 22px; font-weight: 600;
-      margin: 14px 0 4px; color: var(--ink); letter-spacing: .04em;
-    }
-    .file-charge { font-size: 12px; color: var(--ink-soft); line-height: 1.7; min-height: 40px; }
-    .file-note {
-      margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line);
-      font-size: 11.5px; color: var(--ink-dim); line-height: 1.7; font-style: italic;
-    }
-    .file-note::before { content: '批注 · '; color: var(--gold); font-style: normal; opacity: .8; }
-    .read-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 12px; font-size: 11px; letter-spacing: .06em;
-      color: var(--gold); text-decoration: none; opacity: .85;
-      transition: opacity 220ms var(--ease), transform 220ms var(--ease);
-    }
-    .read-link:hover { opacity: 1; transform: translateX(3px); }
-    .read-link.disabled {
-      color: var(--ink-dim); cursor: default; pointer-events: none;
-    }
-    .read-link.disabled:hover { transform: none; }
-    .file-stamp {
-      position: absolute; right: 12px; bottom: 12px;
-      font-family: var(--serif); font-size: 11px; font-weight: 700;
-      color: var(--stamp); border: 1.5px solid var(--stamp); border-radius: 4px;
-      padding: 3px 7px; letter-spacing: .14em; opacity: .5;
-      transform: rotate(-8deg) scale(.94); transition: opacity 260ms var(--ease), transform 260ms var(--ease);
-    }
-
-    .footer-note { margin-top: 42px; font-size: 11px; color: var(--ink-dim); letter-spacing: .05em; text-align: center; line-height: 1.9; }
-  </style>
-<!-- 51.la analytics -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>if(window.LA){LA.init({id:"3QaupAPD4GlB9Cqe",ck:"3QaupAPD4GlB9Cqe"});}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/aifa-core.css" />
+  <link rel="stylesheet" href="css/magazine.css" />
+  <link rel="stylesheet" href="css/reader.css" />
 </head>
 <body>
-  <header class="site-header">
-    <nav>
-      <a class="sh-back" href="../v2/index.html">
-        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        返回岛上
-      </a>
-      <a class="sh-brand" href="../v2/index.html">岛主</a>
-    </nav>
-  </header>
-  <div class="wrap">
-    <div class="masthead">
-      <div class="dept">天庭 · 神仙人事与遗留事务档案处</div>
-      <h1>故事别传</h1>
-      <p class="lead">保留神话人物的外壳，借古讽今，用现代精神填充。每一卷都是一桩旧案——主角被系统、家庭、记忆或自己造的东西碾轧，即使加害者，也照样付出代价。</p>
-      <div class="seal"><div class="t">天庭<br>存档</div><div class="s">CLASSIFIED</div></div>
-    </div>
 
-    <div class="stat-row">
-      <span>在册卷宗 <b>16</b></span>
-      <span>状态 <b>连载 · 陆续解密</b></span>
-      <span>密级 <b>借古讽今</b></span>
-      <span>序 <b>「神仙也会失业，只是没人敢说。」</b></span>
-    </div>
+  <!-- Xuan Paper Grain Texture Overlay (全站宣纸肌理) -->
+  <div class="paper-grain" aria-hidden="true"></div>
 
-    <div class="grid" id="grid"></div>
-
-    <div class="footer-note">— 卷宗持续归档中 · 后续每解密一桩，这里就多一卷 —</div>
+  <!-- Magnetic Custom Cursor (Awwwards 专属磁性光标) -->
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <div id="cursor-ring" class="cursor-ring">
+    <span id="cursor-text" class="cursor-text"></span>
   </div>
 
-  <script>
-    // 天庭档案：每一卷一桩神话新编旧案
-    const files = [
-      { no: '天字第 01 号', name: '精卫',   status: '服役中',   charge: '填海工程无限期延长，疑似把对世界的恨，转成了对自己的罚。',    note: '填海的人，究竟是在填海，还是在填自己。',   stamp: '未结案', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805340&idx=1&sn=48e6edf7aebbecc870019d8d4a930c7b&chksm=8c2a55c5bb5ddcd35fcdd7ce95f4331db02dd07838aed098b4d7cb51cd92539e425330e755fe' },
-      { no: '天字第 02 号', name: '共工',   status: '已追责',   charge: '一次愤怒撞倒不周山，赔进去的是整片天，与所有人的余生。',      note: '愤怒很短，代价很长。',                     stamp: '重案', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805330&idx=1&sn=db6100194bdd8029841faac904247f63&chksm=8c2a55cbbb5ddcdd08decea188aa8207f86ac7e11f04da03817286f987c545f2efcd8243fdc8' },
-      { no: '天字第 03 号', name: '后羿',   status: '考核中',   charge: '射日 KPI 超额达成，但那九箭里有几分是真心，无人可证。',      note: '做样子，还是当真——他自己也忘了。',         stamp: '存疑', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805384&idx=1&sn=02ccc53f0e7ebf98575b08a4eb344faf&chksm=8c2a5511bb5ddc070b620b9d121847ae330896c2ca5d067a80a09061c36edbfbed55b3a8f766' },
-      { no: '天字第 04 号', name: '刑天',   status: '遗留',     charge: '失首仍舞干戚，只剩执念的空壳，子女申请监护未获批复。',        note: '当父亲只剩一具执念，子女该如何与他共存。', stamp: '待处理', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805371&idx=1&sn=916f0fd6fc35d87c926b3fd30411c3df&chksm=8c2a55e2bb5ddcf4341345b9260b1ed0af27c385c8c6b1b926eb2e535b3338f91816c5fbdda2' },
-      { no: '天字第 05 号', name: '愚公',   status: '世袭中',   charge: '移山工程以孝道之名，绑定子子孙孙，三代人被写进合同。',        note: '孝道一旦变成绳套，感动的只有旁观者。',     stamp: '连坐', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805528&idx=1&sn=e2b570678a2315b04b1271c707f3e11a&chksm=8c2a5481bb5ddd97fb29c6db0ebbcef24201b30feadd8ae4b67786ad6fdcfaea90251ccf7cde#rd' },
-      { no: '天字第 06 号', name: '庄周',   status: '存疑',     charge: '分不清蝶与我，创作者被自己虚构出的东西反向吞并。',            note: '写故事的人，最后成了别人故事里的一页。',   stamp: '悬案', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805366&idx=1&sn=c4f432029524f9a93e4efb4214d20004&chksm=8c2a55efbb5ddcf9b6fba48134b85f6700c7709a884b32f07f32692ec6cfe57f3d92933a68aa' },
-      { no: '天字第 07 号', name: '妲己',   status: '已问责',   charge: '以毕生最好的手艺，替一个必将崩塌的盛世造了假。',              note: '手艺没有错，错的是她把它交给了谁。',       stamp: '已定罪', wechatUrl: '' },
-      { no: '天字第 08 号', name: '夸父',   status: '已结案',   charge: '追日途中渴死道旁，抵达前也没人问过他到底要追什么。',          note: '追日的人，追的从来不是日。',               stamp: '殉职', wechatUrl: '' },
-      { no: '天字第 09 号', name: '仓颉',   status: '复核中',   charge: '造字有功，泽被万世；但同一批字，也砌成了困住人的牢笼。',      note: '给了人说话的字，也给了人闭嘴的令。',       stamp: '功过并存', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805431&idx=1&sn=ca109149830aa8c36f88d162b2775aa9&chksm=8c2a552ebb5ddc386ad564837f59e132b6b1dc8e9aa11afb678753e6331bc88c3cf3de5eb7a7' },
-      { no: '天字第 10 号', name: '白素贞', status: '未决',     charge: '断桥重逢之后的余生管辖权，塔内塔外各执一词。',                note: '断桥之后的故事，才是真正难写的那部分。',   stamp: '管辖争议', wechatUrl: '' },
-      { no: '天字第 11 号', name: '点睛画师', status: '权属纠纷', charge: '点睛之后龙腾空而去，作品归属画师、买家还是龙本身，无定论。',  note: '点睛之后，龙到底是谁的。',                 stamp: '产权待定', wechatUrl: '' },
-      { no: '天字第 12 号', name: '女娲',   status: '善后中',   charge: '补天工程验收合格后，人间遗留裂缝的维护全记在她账上，且无人记得她为此耗去了半身神力。', note: '天补好了，人心里的洞，轮到谁来补。', stamp: '终身负责', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805393&idx=1&sn=28c0926892d00b2196abfb3576b369f6&chksm=8c2a5508bb5ddc1e97e6a99443ecfb4ae9f75c949391a9b301c62e926717773e8ba928c8d64e' },
-      { no: '天字第 13 号', name: '钟馗',   status: '家务缠身', charge: '斩鬼天师被指派兼职替妹操办婚嫁，白天捉恶鬼，夜里备妆奁，职场与家庭的双重 KPI 压垮猛汉。', note: '能镇住千万恶鬼，却镇不住一场人间婚礼。', stamp: '分身乏术', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805400&idx=1&sn=b88cbacd0ca28c0aa869a21ec7df4d4a&chksm=8c2a5501bb5ddc17259ea80319c402439c1e36f3ccd4013e24db7eb40ea6e19cf53fea57e8af' },
-      { no: '天字第 14 号', name: '孟姜女', status: '已平反', charge: '哭倒长城的舆情事件，以泪为武器击穿了体制的墙，却没能把冻死在徭役里的人哭回来。', note: '墙倒了，人没回来。', stamp: '遗恨', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805467&idx=1&sn=8474c45167a254a866ba1968a5f27de8&chksm=8c2a5542bb5ddc545085de25e6524ab8e82e9a9bb2e7184df2ad5ef33fdbda981999e87425f7#rd' },
-      { no: '天字第 15 号', name: '八仙过海', status: '流传中', charge: '八名无编制人员组团渡海，不买船票、不靠官渡，各凭神通横渡，被视作非正规就业的典型样本。', note: '没有船票的人，各有各的渡海法子。', stamp: '各显神通', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805551&idx=1&sn=8e75fbbc4adb25527a6322cd97b8cda3&chksm=8c2a54b6bb5ddda0a10059e298c5722c1e3011e353736a9cca9649d0ee1482356d51f8bb5f56#rd' },
-      { no: '天字第 16 号', name: '牛郎织女', status: '羁縻中', charge: '以一年一度鹊桥相会为恩典，把一道永不合拢的伤口，写成了忠贞的范本。', note: '她早有翅膀，却年年自己飞回当年困住她的怀抱。', stamp: '年刑', wechatUrl: 'https://mp.weixin.qq.com/s?__biz=MzIxOTE5OTczNA==&mid=2650805626&idx=1&sn=8c76537282363f5c3b667d35c51dc25a&chksm=8c2a54e3bb5dddf50b0003deeee8adba89e0f7e4f46c45183ae4a5d6dc9a2866b8314fb9f951#rd' }
-    ];
+  <!-- ======================================================================
+       MASTHEAD (报头)
+       ====================================================================== -->
+  <header class="masthead">
+    <div class="wordmark-wrap">
+      <a href="#" class="wordmark" onclick="location.hash=''; return false;">
+        <span class="wordmark-seal">神</span>
+        <span>神话 · MYTHOS</span>
+      </a>
+      <span class="wordmark-sub">中华神话重构系列 · 每日一期，署名负责</span>
+    </div>
 
-    const grid = document.getElementById('grid');
-    files.forEach(f => {
-      const el = document.createElement('div');
-      el.className = 'file';
-      const link = f.wechatUrl
-        ? '<a class="read-link" href="' + f.wechatUrl + '" target="_blank" rel="noopener">阅读原文 ↗</a>'
-        : '<span class="read-link disabled">公众号原文待更新</span>';
-      el.innerHTML =
-        '<div class="file-head"><span class="file-no">' + f.no + '</span><span class="file-status">状态 · ' + f.status + '</span></div>' +
-        '<div class="file-name">' + f.name + '</div>' +
-        '<div class="file-charge">' + f.charge + '</div>' +
-        '<div class="file-note">' + f.note + '</div>' +
-        link +
-        '<div class="file-stamp">' + f.stamp + '</div>';
-      if (f.wechatUrl) {
-        el.classList.add('clickable');
-        el.title = '点击阅读《' + f.name + '》原文';
-        el.addEventListener('click', function(e){
-          if (e.target.closest && e.target.closest('a')) return;
-          window.open(f.wechatUrl, '_blank', 'noopener,noreferrer');
-        });
-      }
-      grid.appendChild(el);
-    });
-  </script>
-  <script>
-    document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href="../v2/index.html#content"]');
-      if (a) { try { sessionStorage.setItem('daoFromSub', '1'); } catch (_) {} }
-    });
-  </script>
+    <div class="masthead-actions">
+      <!-- Theme Switcher -->
+      <button id="masthead-theme-btn" class="theme-toggle-btn" type="button" title="切换夜间/日间模式" aria-label="切换夜间/日间模式">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.3">
+          <circle cx="8" cy="8" r="3.1"></circle>
+          <path d="M8 1v1.7M8 13.3V15M1 8h1.7M13.3 8H15M3.05 3.05l1.2 1.2M11.75 11.75l1.2 1.2M3.05 12.95l1.2-1.2M11.75 4.25l1.2-1.2" stroke-linecap="round"></path>
+        </svg>
+      </button>
+
+      <!-- Bookshelf Link -->
+      <button id="masthead-bookshelf-btn" class="masthead-btn" type="button">
+        <span>典藏书架</span>
+        <span id="bookshelf-count-badge" class="bookshelf-badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       HERO COVER STAGE (今日主推期刊滑块 · Awwwards 级典藏展台)
+       ====================================================================== -->
+  <section class="hero-stage">
+    <!-- Ambient Backdrop Art with smooth Ken Burns drift -->
+    <div id="hero-bg-art" class="hero-bg-art"></div>
+    <div class="hero-bg-overlay"></div>
+
+    <div class="hero-stage-inner">
+      <!-- Left Column: Editorial Typography & Actions -->
+      <div class="hero-text-col">
+        <div class="hero-nav-row">
+          <button id="hero-prev-btn" class="hero-nav-btn" type="button" aria-label="上一期">
+            <span>←</span> <span>上期</span>
+          </button>
+          <div class="hero-seal-center">
+            <span>卷</span>
+          </div>
+          <button id="hero-next-btn" class="hero-nav-btn" type="button" aria-label="下一期">
+            <span>下期</span> <span>→</span>
+          </button>
+        </div>
+
+        <div id="hero-issue-badge" class="hero-meta-pill">No. 001 · 卷二 · 反叛与神罚</div>
+        <h1 id="hero-title" class="hero-title">共工怒触不周山</h1>
+        <p id="hero-subtitle" class="hero-subtitle">天柱折，地维绝。那个不肯认输的人，把头撞向了不周山。</p>
+
+        <div class="hero-author-row">
+          <div id="hero-author-name" class="hero-author-name">
+            GX <span class="verified-mark">✓</span>
+          </div>
+          <div id="hero-origin-tag" class="hero-author-desc">
+            《山海经·大荒西经》·《淮南子》
+          </div>
+        </div>
+
+        <div class="hero-cta-group">
+          <button id="hero-read-btn" class="hero-cta-btn" type="button">
+            <span>翻开本期 · 开始阅读</span>
+            <span>→</span>
+          </button>
+          <div class="hero-stats-row">
+            <span id="hero-read-time">25 分钟读完</span>
+            <span>·</span>
+            <span id="hero-word-count">8,792 字</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Tactile Magazine Cover Showcase -->
+      <div class="hero-visual-col">
+        <div id="hero-cover-card" class="hero-cover-card" title="点击直接翻阅本期杂志">
+          <div class="hero-cover-card-inner">
+            <img id="hero-cover-img" class="hero-cover-img" src="assets/illustrations/illust_01.png" alt="本期封面" />
+            <div class="hero-cover-ribbon">
+              <span class="ribbon-seal">神</span>
+              <span id="hero-cover-caption">中华神话重构系列 · 特刊</span>
+            </div>
+            <div class="hero-cover-overlay">
+              <span class="hero-cover-hover-prompt">翻开阅读 <span>↗</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       SECTIONS BAR & LIVE SEARCH (卷册筛选与实时检索)
+       ====================================================================== -->
+  <section class="section-bar">
+    <div id="category-tabs" class="category-tabs">
+      <button class="tab-btn active" data-category="all">全部卷册 (30期)</button>
+      <button class="tab-btn" data-category="卷一 · 创世与洪荒">卷一 · 创世与洪荒</button>
+      <button class="tab-btn" data-category="卷二 · 反叛与神罚">卷二 · 反叛与神罚</button>
+      <button class="tab-btn" data-category="卷三 · 人间与执念">卷三 · 人间与执念</button>
+      <button class="tab-btn" data-category="卷四 · 志怪与幽冥">卷四 · 志怪与幽冥</button>
+      <button class="tab-btn" data-category="卷五 · 幻化与器物">卷五 · 幻化与器物</button>
+    </div>
+
+    <div class="search-box">
+      <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="9" r="6"></circle>
+        <path d="M13.5 13.5l4 4"></path>
+      </svg>
+      <input id="search-input" type="search" placeholder="检索神话人物、篇名或金句..." aria-label="检索神话小说" />
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       ISSUE ARCHIVE GRID (期刊卡片报纸网格)
+       ====================================================================== -->
+  <main class="archive-container">
+    <div id="issues-grid" class="issues-grid">
+      <!-- Injected by JavaScript -->
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       MAGAZINE FOOTER (尾注与版权)
+       ====================================================================== -->
+  <footer class="magazine-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">《神话》· MYTHOS RETOLD</div>
+      <p class="footer-desc">
+        中华神话改编系列 · 30 期独立电子文学杂志。<br>
+        “大白话打底，短句断得狠；叙述者冷、克制、却有体温、敢下判断；情绪全化进身体和器物，绝不抒情空转。”
+      </p>
+      <div class="footer-credits">
+        全书总字数：14.3 万字 · 原典考据涵盖《山海经》《庄子》《楚辞》《聊斋志异》《淮南子》
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       BOOKSHELF MODAL (藏书阁/书架)
+       ====================================================================== -->
+  <div id="bookshelf-modal" class="bookshelf-modal">
+    <div class="bookshelf-header">
+      <div class="bookshelf-title-wrap">
+        <h2>藏书阁 · 我的书架</h2>
+        <p>把值得反复重读的篇章，长久留在这里。自动记录阅读进度。</p>
+      </div>
+      <button id="bookshelf-close-btn" class="bookshelf-close-btn" type="button" aria-label="关闭书架">
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 5l10 10M15 5L5 15"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div style="max-width: var(--content-max); margin: 0 auto;">
+      <!-- Recent Reading Progress -->
+      <h3 class="bookshelf-section-title">
+        <span>最近阅读足迹</span>
+      </h3>
+      <div id="bookshelf-recent-grid" class="issues-grid" style="margin-bottom: 48px;">
+        <!-- Injected by JavaScript -->
+      </div>
+
+      <!-- Bookmarked Issues -->
+      <h3 class="bookshelf-section-title">
+        <span>典藏篇目</span>
+      </h3>
+      <div id="bookshelf-bookmarks-grid" class="issues-grid">
+        <!-- Injected by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       AUTHENTIC FULL-BLEED IMMERSIVE MAGAZINE READER
+       画面排满 · 全画幅沉浸视界
+       ====================================================================== -->
+  <div id="reader-container" class="reader-container">
+    <!-- Top Reading Progress Indicator -->
+    <div id="reader-progress-bar" class="reader-progress-bar"></div>
+
+    <!-- Top-left Corner Close Button -->
+    <button id="reader-close-btn" class="reader-top-close-btn" type="button" title="退出杂志阅读 (Esc)" aria-label="关闭">
+      <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 5l10 10M15 5L5 15"></path>
+      </svg>
+    </button>
+
+    <!-- Full-Bleed Reader Stage -->
+    <div class="reader-stage-wrap">
+      <div id="reader-page-slide" class="reader-page-slide">
+        <!-- Dynamically Injected Full-Bleed Page -->
+      </div>
+    </div>
+
+    <!-- Floating Edge Navigation Chevrons -->
+    <button id="reader-edge-prev" class="reader-edge-nav prev" type="button" title="上一页 (←)" aria-label="上一页">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </button>
+    <button id="reader-edge-next" class="reader-edge-nav next" type="button" title="下一页 (→)" aria-label="下一页">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </button>
+
+    <!-- Bottom Floating Double-Pill Glass Controls -->
+    <div class="reader-floating-bar">
+      <!-- Left Pill: Font Zoom, Night Mode, TOC, Prev/Next -->
+      <div class="glass-pill">
+        <button id="btn-font-dec" class="pill-btn" type="button" title="缩小字号">A-</button>
+        <button id="btn-font-inc" class="pill-btn" type="button" title="放大字号">A+</button>
+        <button id="btn-reader-theme" class="pill-btn" type="button" title="切换日夜模式 (D)">
+          <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M13.5 9.5a5.5 5.5 0 1 1-7-7 6.5 6.5 0 0 0 7 7z"></path>
+          </svg>
+        </button>
+        <button id="btn-toc-toggle" class="pill-btn" type="button" title="展开目录 (T)">
+          <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 6h12M4 10h12M4 14h12"></path>
+          </svg>
+        </button>
+        <div class="pill-divider"></div>
+        <button id="btn-page-prev" class="pill-btn" type="button" title="上一页 (←)">〈</button>
+        <button id="btn-spread-info" class="pill-btn" type="button" title="当前页码">1 / 12</button>
+        <button id="btn-page-next" class="pill-btn" type="button" title="下一页 (→)">〉</button>
+      </div>
+
+      <!-- Right Pill: Share, Bookmark, Sound, Fullscreen -->
+      <div class="glass-pill">
+        <button id="btn-reader-share" class="pill-btn" type="button" title="分享 / 复制本期链接">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 3v10M6 7l4-4 4 4M4 14v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2"></path>
+          </svg>
+        </button>
+        <button id="btn-reader-bookmark" class="pill-btn" type="button" title="收藏至书架">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </button>
+        <button id="btn-sound-toggle" class="pill-btn" type="button" title="真实翻页声音效 (开启/静音)">
+          🔊
+        </button>
+        <button id="btn-fullscreen-toggle" class="pill-btn" type="button" title="全屏沉浸阅读">
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- TOC Drawer (目录抽屉) -->
+    <div id="reader-toc-drawer" class="reader-toc-drawer">
+      <div class="toc-header">
+        <h3>全书篇章目录</h3>
+        <button id="toc-close-btn" class="toc-close-btn" type="button" aria-label="关闭目录">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 5l10 10M15 5L5 15"></path>
+          </svg>
+        </button>
+      </div>
+      <ul id="toc-items-list" class="toc-list">
+        <!-- Injected by JavaScript -->
+      </ul>
+    </div>
+    <div id="toc-overlay" class="toc-overlay"></div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

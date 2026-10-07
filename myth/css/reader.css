@@ -1,0 +1,1010 @@
+/* ==========================================================================
+   AIFA DIGITAL MAGAZINE - FULL-BLEED IMMERSIVE MAGAZINE READER
+   画面排满整屏 · 全画幅沉浸视觉 · 每一篇配备对应专属神话大画幅原画
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   FULLSCREEN WORKSPACE (满幅画卷)
+   -------------------------------------------------------------------------- */
+.reader-container {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background-color: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  user-select: text;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.reader-container.active {
+  display: flex;
+}
+
+/* 顶栏悬浮关闭按钮 */
+.reader-top-close-btn {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 600;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  background: rgba(17, 20, 24, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.2s var(--ease);
+}
+.reader-top-close-btn:hover {
+  background: rgba(17, 20, 24, 0.8);
+  transform: scale(1.08);
+}
+[data-theme-page="light"] .reader-top-close-btn {
+  color: var(--ink);
+  background: var(--reader-glass-fill);
+  border-color: var(--reader-glass-edge);
+}
+
+/* --------------------------------------------------------------------------
+   FULL-BLEED CANVAS & SLIDE STAGE (满屏杂志展台)
+   -------------------------------------------------------------------------- */
+.reader-stage-wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.reader-page-slide {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 1;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+  will-change: transform, opacity;
+}
+
+/* 翻页动画转场类 */
+.reader-page-slide.slide-in-right {
+  animation: slideInRight 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.reader-page-slide.slide-in-left {
+  animation: slideInLeft 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(60px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-60px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   PAGE 1: FULL-BLEED MAGAZINE COVER (全画幅杂志封面)
+   -------------------------------------------------------------------------- */
+.magazine-full-cover {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px clamp(24px, 5vw, 72px) 96px;
+  overflow: hidden;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* 全画幅背景大图与慢镜头推近 (Ken Burns) */
+.cover-bg-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  animation: coverDrift 24s ease-out forwards;
+}
+
+@keyframes coverDrift {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+/* 封面艺术暗影滤镜（保证在任何明暗大图下文字均极度清晰高雅） */
+.magazine-full-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 16, 20, 0.48) 0%,
+    rgba(14, 16, 20, 0.2) 35%,
+    rgba(14, 16, 20, 0.65) 65%,
+    rgba(10, 11, 14, 0.94) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cover-masthead-row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  padding-bottom: 16px;
+}
+
+.cover-brand-tag {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cover-brand-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--zhu);
+  color: #fff;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cover-issue-badge {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #f4d08a;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.cover-hero-stack {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin-top: auto;
+}
+
+.cover-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: #f4d08a;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.cover-headline {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6.2vw, 84px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  margin-bottom: 18px;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+.cover-deck {
+  font-family: var(--serif);
+  font-size: clamp(16px, 2.2vw, 24px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  font-style: italic;
+  max-width: 800px;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.cover-byline-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 16px;
+}
+
+.cover-byline-author {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 封面直通阅读按钮 */
+.cover-read-cta-wrap {
+  margin-top: 28px;
+}
+.cover-read-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 32px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.cover-read-cta-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+.cover-read-cta-btn .cta-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--zhu);
+  color: #fff;
+  font-size: 12px;
+  transition: transform 0.2s var(--ease);
+}
+.cover-read-cta-btn:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   PAGE 2: FULL-BLEED INSCRIPTION (原典题记页)
+   -------------------------------------------------------------------------- */
+.magazine-inscription-page {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px clamp(24px, 8vw, 140px) 96px;
+  box-sizing: border-box;
+  background: var(--paper-raised);
+  text-align: center;
+}
+
+.inscription-card-inner {
+  max-width: 860px;
+  position: relative;
+}
+
+.inscription-seal-large {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--zhu);
+  background: var(--paper);
+  box-shadow: 0 6px 20px rgba(176, 141, 87, 0.18);
+}
+
+.inscription-source-tag {
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--gold-ink);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+[data-aifa-night="on"] .inscription-source-tag {
+  color: var(--gold-night);
+}
+
+.inscription-giant-quote {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3.2vw, 42px);
+  font-weight: 700;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 32px;
+  letter-spacing: 0.04em;
+  position: relative;
+}
+.inscription-giant-quote::before {
+  content: "“";
+  font-size: 72px;
+  color: var(--gold);
+  line-height: 0;
+  vertical-align: -24px;
+  margin-right: 8px;
+}
+.inscription-giant-quote::after {
+  content: "”";
+  font-size: 72px;
+  color: var(--gold);
+  line-height: 0;
+  vertical-align: -24px;
+  margin-left: 8px;
+}
+
+.inscription-colophon-note {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: var(--quiet-strong);
+  line-height: 1.8;
+}
+
+/* 作者阐述 / 创作者手记卡片 */
+.inscription-manifesto-box {
+  margin: 28px auto 0;
+  max-width: 680px;
+  padding: 20px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--ink-secondary);
+  text-align: left;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+.inscription-manifesto-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--zhu);
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+
+/* 题记页直通正文按钮 */
+.inscription-start-btn {
+  margin-top: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 32px;
+  border-radius: 26px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.inscription-start-btn:hover {
+  transform: translateY(-2px);
+  background: var(--zhu);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(188, 59, 44, 0.35);
+}
+[data-aifa-night="on"] .inscription-start-btn {
+  background: var(--gold-night);
+  color: #121110;
+}
+
+/* --------------------------------------------------------------------------
+   PAGE 3+: EDITORIAL CONTENT PAGES (满幅杂志正文页 · 配图排满)
+   -------------------------------------------------------------------------- */
+.magazine-editorial-page {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px clamp(24px, 6vw, 100px) 120px;
+  background-color: var(--paper);
+  box-sizing: border-box;
+}
+
+.editorial-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 12px;
+  margin-bottom: 32px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--quiet-strong);
+}
+
+.editorial-inner-wrap {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
+}
+
+/* 章节精美题头标 */
+.chapter-lead-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.chapter-kicker {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--zhu);
+  background: rgba(188, 59, 44, 0.08);
+  padding: 4px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(188, 59, 44, 0.22);
+}
+[data-aifa-night="on"] .chapter-kicker {
+  background: rgba(230, 90, 75, 0.15);
+  border-color: rgba(230, 90, 75, 0.35);
+  color: #fca5a5;
+}
+
+/* 杂志大幅震撼插画 (Hero Inline Illustration) */
+.editorial-art-frame {
+  width: 100%;
+  margin-bottom: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--line);
+  background: var(--paper-raised);
+}
+.editorial-art-img {
+  width: 100%;
+  max-height: min(44vh, 440px);
+  object-fit: cover;
+  display: block;
+}
+.editorial-art-caption {
+  padding: 12px 18px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--quiet-strong);
+  background: var(--paper-raised);
+  border-top: 1px solid var(--line-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.editorial-art-caption::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 14px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+/* 杂志高亮金句引文卡片 (Magazine Pull Quote) */
+.magazine-pull-quote {
+  margin: 32px 0 40px;
+  padding: 24px 32px;
+  background: var(--paper-raised);
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+.pull-quote-mark {
+  font-family: var(--serif);
+  font-size: 38px;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+  margin-bottom: 4px;
+}
+.pull-quote-text {
+  font-family: var(--serif);
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.75;
+  color: var(--ink);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   CHINESE LITERARY EDITORIAL TYPOGRAPHY (典范中文文学正文排版)
+   严格顶格自上而下顺序流 · 绝无跨列跳读 · 两字规范缩进 · 黄金阅读字宽
+   -------------------------------------------------------------------------- */
+.editorial-inner-wrap {
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.editorial-reading-flow {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.editorial-body-prose {
+  display: block;
+  width: 100%;
+}
+
+.editorial-para {
+  font-family: var(--serif);
+  font-size: var(--reader-font-size, 19px);
+  line-height: 1.98;
+  color: var(--ink);
+  margin-bottom: 24px;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  word-break: break-all;
+  text-indent: 2em;
+  letter-spacing: 0.025em;
+}
+
+.editorial-para.chapter-lead-para {
+  font-size: calc(var(--reader-font-size, 19px) * 1.05);
+  line-height: 2.02;
+  color: var(--ink);
+}
+
+/* 章节末尾翻幕导航导引卡 */
+.chapter-nav-guide {
+  margin: 48px 0 28px;
+  padding: 22px 28px;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--zhu);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+.chapter-nav-guide:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  border-left-color: var(--zhu);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  background: var(--paper);
+}
+[data-aifa-night="on"] .chapter-nav-guide:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.nav-guide-sub {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--quiet-strong);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.nav-guide-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-guide-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 14px;
+  transition: transform 0.2s var(--ease);
+}
+.chapter-nav-guide:hover .nav-guide-arrow {
+  transform: translateX(4px);
+  background: var(--zhu);
+  color: #fff;
+}
+
+.editorial-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  margin-top: 40px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--quiet);
+}
+
+/* --------------------------------------------------------------------------
+   FINAL PAGE: COLOPHON (卷终刊记与下期预告)
+   -------------------------------------------------------------------------- */
+.magazine-colophon-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px clamp(24px, 6vw, 80px) 96px;
+  background: var(--paper-raised);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.colophon-card {
+  max-width: 600px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 40px clamp(24px, 5vw, 48px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+}
+[data-aifa-night="on"] .colophon-card {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.colophon-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: var(--zhu);
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(178, 58, 43, 0.35);
+}
+
+.colophon-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.colophon-meta-list {
+  text-align: left;
+  margin: 24px 0;
+  padding: 18px 24px;
+  background: var(--paper-raised);
+  border-radius: 6px;
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 2;
+  color: var(--ink-secondary);
+}
+
+.colophon-next-issue-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 36px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 30px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  transition: all 0.2s var(--ease);
+  cursor: pointer;
+}
+[data-aifa-night="on"] .colophon-next-issue-btn {
+  background: var(--gold-night);
+  color: #121110;
+}
+.colophon-next-issue-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   DUAL-PILL FLOATING CONTROLS (底部双胶囊毛玻璃控制岛)
+   -------------------------------------------------------------------------- */
+.reader-floating-bar {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 520;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.glass-pill {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 6px;
+  background: var(--reader-glass-fill);
+  border: 1px solid var(--reader-glass-edge);
+  box-shadow: var(--reader-glass-shadow);
+  border-radius: 21px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: all 0.2s var(--ease);
+}
+
+.pill-btn {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: all 0.15s var(--ease);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.pill-btn:hover {
+  background: var(--reader-glass-fill-hover);
+  color: var(--gold-ink);
+  transform: scale(1.05);
+}
+[data-aifa-night="on"] .pill-btn:hover {
+  color: var(--gold-night);
+}
+.pill-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pill-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+  margin: 0 2px;
+}
+
+/* --------------------------------------------------------------------------
+   TOC MODAL / DRAWER (目录抽屉)
+   -------------------------------------------------------------------------- */
+.reader-toc-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(380px, 85vw);
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 750;
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+.reader-toc-drawer.open {
+  transform: translateX(0);
+}
+
+.toc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.toc-header h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.toc-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--quiet);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.toc-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  list-style: none;
+}
+.toc-item {
+  padding: 12px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--ink);
+  transition: all 0.2s var(--ease);
+}
+.toc-item:hover {
+  background: var(--paper-raised);
+  color: var(--gold-ink);
+}
+.toc-item.active {
+  background: var(--paper-raised);
+  font-weight: 700;
+  color: var(--zhu);
+}
+.toc-item-page {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--quiet);
+}
+
+.toc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 740;
+  display: none;
+}
+.toc-overlay.open {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   EDGE NAVIGATION CHEVRONS (左右边缘翻页悬浮感应区)
+   -------------------------------------------------------------------------- */
+.reader-edge-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 515;
+  width: 44px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--reader-glass-fill);
+  border: 1px solid var(--reader-glass-edge);
+  box-shadow: var(--reader-glass-shadow);
+  border-radius: 8px;
+  color: var(--ink);
+  cursor: pointer;
+  opacity: 0.35;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.25s var(--ease);
+  user-select: none;
+  border: 1px solid rgba(120, 120, 120, 0.2);
+}
+.reader-edge-nav:hover {
+  opacity: 0.95;
+  background: var(--reader-glass-fill-hover);
+  color: var(--gold-ink);
+  transform: translateY(-50%) scale(1.06);
+}
+[data-aifa-night="on"] .reader-edge-nav:hover {
+  color: var(--gold-night);
+}
+.reader-edge-nav.prev {
+  left: 18px;
+}
+.reader-edge-nav.next {
+  right: 18px;
+}
+.reader-edge-nav:disabled {
+  opacity: 0.08 !important;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE (移动端小屏自适应)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .magazine-full-cover {
+    padding: 24px 20px 84px;
+  }
+  .magazine-editorial-page {
+    padding: 28px 18px 96px;
+  }
+  .editorial-reading-flow {
+    max-width: 100%;
+  }
+  .editorial-para {
+    font-size: 17px;
+    line-height: 1.92;
+    margin-bottom: 20px;
+  }
+  .reader-edge-nav {
+    display: none;
+  }
+  .reader-floating-bar {
+    bottom: 12px;
+    gap: 6px;
+  }
+  .glass-pill {
+    height: 36px;
+    padding: 0 4px;
+  }
+  .pill-btn {
+    min-width: 28px;
+    height: 28px;
+    font-size: 12px;
+    padding: 0 5px;
+  }
+}

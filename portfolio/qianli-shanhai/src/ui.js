@@ -12,6 +12,8 @@ export class UIManager {
     this.onModeChange = options.onModeChange || (() => {});
     this.onJumpSection = options.onJumpSection || (() => {});
     this.onAwakenAction = options.onAwakenAction || (() => {});
+    this.onZoom = options.onZoom || (() => {});
+    this.onEnter3DFromModal = options.onEnter3DFromModal || (() => {});
 
     this.currentMode = 'scroll'; // 'scroll' | '3d'
     this.awakenedCount = 0;
@@ -29,7 +31,7 @@ export class UIManager {
           <span class="hud-logo-seal">千里</span>
           <div class="hud-title-group">
             <h1 class="hud-title">千里江山 · 山海入画</h1>
-            <span class="hud-sub">游目十二米青绿长卷 · 步入山河唤醒六方神兽</span>
+            <span class="hud-sub">游目十二米北宋故宫真迹长卷 · 寻访唤醒六方山海神兽</span>
           </div>
         </div>
 
@@ -40,6 +42,12 @@ export class UIManager {
           </div>
           <button class="hud-btn hud-btn-mode" id="btn-mode-toggle" style="display:none;">
             <span class="btn-icon">卷</span> 出画还卷 (ESC)
+          </button>
+          <button class="hud-btn hud-btn-zoom" id="btn-zoom-in" title="放大细品真迹">
+            <span class="btn-icon">＋</span> 放大
+          </button>
+          <button class="hud-btn hud-btn-zoom" id="btn-zoom-out" title="缩小鸟瞰全景">
+            <span class="btn-icon">－</span> 缩小
           </button>
           <button class="hud-btn" id="btn-audio" title="静音/播放">
             <span class="btn-icon">琴</span> <span id="audio-text">乐起</span>
@@ -99,8 +107,8 @@ export class UIManager {
           <div class="beast-mutation-badge" id="modal-mutation"></div>
 
           <div class="beast-card-footer">
-            <button class="card-btn card-btn-roam" id="modal-btn-roam">继续画中漫步</button>
-            <button class="card-btn card-btn-return" id="modal-btn-return">出画还卷 (看全貌)</button>
+            <button class="card-btn card-btn-roam" id="modal-btn-enter-3d">推门入画 · 3D漫步</button>
+            <button class="card-btn card-btn-return" id="modal-btn-stay-scroll">留连长卷 · 游目千峰</button>
           </div>
         </div>
       </div>
@@ -128,9 +136,9 @@ export class UIManager {
           <h2>《千里江山 · 山海入画》题记</h2>
           <p>北宋政和三年，十八岁的王希孟作《千里江山图》，随即悄然隐没于岁月深处。后世盛赞其青绿重彩，却少有人知，他将《山海经》里那些古老灵兽封入万峰绝壁之间。</p>
           <div class="guide-steps">
-            <div class="step-item"><b>一 · 游目长卷</b>：横向卷动十二米青绿山河，探寻隐于松涧云崖处的金色异象。</div>
-            <div class="step-item"><b>二 · 推门入画</b>：点击异象无缝坠入三维青绿仙境，漫步于长桥、飞瀑与孤松之下。</div>
-            <div class="step-item"><b>三 · 唤醒神灵</b>：靠近神兽按 E 键将其唤醒，使山川泛金，解锁山海原本与哲学札记。</div>
+            <div class="step-item"><b>一 · 游目长卷</b>：横向卷动十二米故宫真迹青绿山河，探寻隐于松涧云崖处的神兽金印。</div>
+            <div class="step-item"><b>二 · 寻访唤醒</b>：点击神兽御印将其唤醒，使山川泛金，解锁山海原本与岛主哲学札记。</div>
+            <div class="step-item"><b>三 · 推门入画</b>：可一键无缝坠入三维青绿仙境，漫步于长桥、飞瀑与孤松之下。</div>
             <div class="step-item"><b>四 · 全璧长卷</b>：集齐六大神兽，天地共鸣，赐盖御览玺印并生成专属典藏长卷。</div>
           </div>
           <button class="card-btn card-btn-return" id="btn-close-guide" style="margin-top:20px;">展卷入画</button>
@@ -166,6 +174,16 @@ export class UIManager {
   }
 
   _bindEvents() {
+    // 缩放控制
+    document.getElementById('btn-zoom-in').addEventListener('click', () => {
+      this.onZoom(0.25);
+      audio.playScrollWhoosh();
+    });
+    document.getElementById('btn-zoom-out').addEventListener('click', () => {
+      this.onZoom(-0.25);
+      audio.playScrollWhoosh();
+    });
+
     // 静音切换
     document.getElementById('btn-audio').addEventListener('click', () => {
       const muted = audio.toggleMute();
@@ -189,13 +207,14 @@ export class UIManager {
     });
 
     // 诗笺弹窗按钮
-    document.getElementById('modal-btn-roam').addEventListener('click', () => {
+    document.getElementById('modal-btn-enter-3d').addEventListener('click', () => {
       document.getElementById('beast-modal').style.display = 'none';
+      if (this.activeBeast) {
+        this.onEnter3DFromModal(this.activeBeast.id);
+      }
     });
-    document.getElementById('modal-btn-return').addEventListener('click', () => {
+    document.getElementById('modal-btn-stay-scroll').addEventListener('click', () => {
       document.getElementById('beast-modal').style.display = 'none';
-      this.setMode('scroll');
-      this.onModeChange('scroll');
     });
 
     // 移动端唤醒按钮

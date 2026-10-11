@@ -83,6 +83,10 @@
         onEnter3D: (beastId) => {
           switchTo3DMode(beastId);
         },
+        onSelectBeast: (beast) => {
+          scrollViewer.setAwakened(beast.id);
+          if (ui) ui.showBeastAwakened(beast);
+        },
         onProgressChange: (progress) => {
           if (ui) ui.updateScrollThumb(progress);
         }
@@ -96,6 +100,12 @@
           } else {
             switchTo3DMode(currentActiveBeastId);
           }
+        },
+        onZoom: (delta) => {
+          scrollViewer.zoomBy(delta);
+        },
+        onEnter3DFromModal: (beastId) => {
+          switchTo3DMode(beastId);
         },
         onJumpSection: (progress, beastId) => {
           scrollViewer.scrollToProgress(progress, true);

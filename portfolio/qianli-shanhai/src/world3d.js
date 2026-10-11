@@ -38,9 +38,13 @@ export class World3D {
 
     this.waterMesh = null;
     this.goldAuraMesh = null;
+    this.paintingBackdrop = null;
+    this.textureLoader = new THREE.TextureLoader();
+    this.cachedTextures = {};
     this.clock = new THREE.Clock();
 
     this._initScene();
+    this._buildPaintingBackdrop();
     this._buildTerrain();
     this._buildArchitecture();
     this._buildPinesAndNature();
@@ -52,28 +56,28 @@ export class World3D {
   _initScene() {
     this.scene = new THREE.Scene();
     // 宋代古绢微黄色温雾障
-    this.scene.background = new THREE.Color(0xE8DEC7);
-    this.scene.fog = new THREE.FogExp2(0xE8DEC7, 0.0095);
+    this.scene.background = new THREE.Color(0xEADEC5);
+    this.scene.fog = new THREE.FogExp2(0xEADEC5, 0.0075);
 
     this.camera = new THREE.PerspectiveCamera(
       60,
       this.container.clientWidth / this.container.clientHeight,
       0.1,
-      1000
+      1200
     );
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = 1.2;
     this.container.appendChild(this.renderer.domElement);
 
     // 光照系统：晨曦金光与青绿漫射
-    const hemiLight = new THREE.HemisphereLight(0xFDF8EB, 0x1F473E, 0.85);
+    const hemiLight = new THREE.HemisphereLight(0xFDF8EB, 0x1F473E, 0.95);
     this.scene.add(hemiLight);
 
-    const sunLight = new THREE.DirectionalLight(0xFFE5A3, 1.4);
+    const sunLight = new THREE.DirectionalLight(0xFFE5A3, 1.5);
     sunLight.position.set(60, 100, 40);
     this.scene.add(sunLight);
     this.sunLight = sunLight;
@@ -86,6 +90,41 @@ export class World3D {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);
     });
+  }
+
+  // 建造基于北宋《千里江山图》真迹的宏伟环形青绿画屏与远山大境
+  _buildPaintingBackdrop() {
+    const backdropGeo = new THREE.CylinderGeometry(220, 220, 130, 48, 1, true, Math.PI * 0.75, Math.PI * 0.5);
+    
+    // 默认加载卷二（悬泉主峰真迹段落）
+    const tex = this.textureLoader.load('assets/painting/section_2.jpg');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    this.cachedTextures[2] = tex;
+
+    const backdropMat = new THREE.MeshBasicMaterial({
+      map: tex,
+      side: THREE.BackSide,
+      transparent: true,
+      opacity: 0.96
+    });
+
+    this.paintingBackdrop = new THREE.Mesh(backdropGeo, backdropMat);
+    this.paintingBackdrop.position.set(0, 45, 0);
+    this.scene.add(this.paintingBackdrop);
+
+    // 辅助次景画屏（中景层叠山势）
+    const midGeo = new THREE.PlaneGeometry(160, 65);
+    const midTex = this.textureLoader.load('assets/painting/section_4.jpg');
+    midTex.colorSpace = THREE.SRGBColorSpace;
+    const midMat = new THREE.MeshBasicMaterial({
+      map: midTex,
+      transparent: true,
+      opacity: 0.85,
+      side: THREE.DoubleSide
+    });
+    this.midMountainMesh = new THREE.Mesh(midGeo, midMat);
+    this.midMountainMesh.position.set(-20, 25, -45);
+    this.scene.add(this.midMountainMesh);
   }
 
   // 生成层峦叠嶂的宋代青绿山石地形
@@ -247,6 +286,18 @@ export class World3D {
 
     this.activeBeastData = beast;
     this.currentBeast = this.beastManager.beastObjects[beastId];
+
+    // 动态切换对应真迹画作段落作为环形大景画屏
+    if (this.paintingBackdrop && beast.sectionIndex !== undefined) {
+      const secId = Math.min(5, Math.max(0, beast.sectionIndex));
+      if (!this.cachedTextures[secId]) {
+        const tex = this.textureLoader.load(`assets/painting/section_${secId}.jpg`);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        this.cachedTextures[secId] = tex;
+      }
+      this.paintingBackdrop.material.map = this.cachedTextures[secId];
+      this.paintingBackdrop.material.needsUpdate = true;
+    }
 
     // 玩家传送到神兽前方的合适位置
     const targetPos = new THREE.Vector3(

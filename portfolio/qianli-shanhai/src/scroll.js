@@ -1,6 +1,7 @@
 /**
- * 《千里江山 · 山海入画》长卷游目引擎 (Panoramic Scroll Engine)
- * 纯 Canvas 2D 实时绘制宋代青绿山水移步换景长卷，支持视差层叠、印章定位与微动异象
+ * 《千里江山 · 山海入画》真迹长卷游目引擎 (Authentic Handscroll Panoramic Engine)
+ * 采用故宫博物院藏北宋王希孟《千里江山图》真迹高清数字全卷（22,486 × 900 像素，分段无缝多级渲染）
+ * 融合《山海经》六方祥瑞古灵真迹寻踪、宋代朱砂御印烙印、金碧微光、惯性拖拽、缩放游历与全景鸟瞰小地图
  */
 
 import { BEASTS, SCENIC_SECTIONS } from './beasts.js';
@@ -15,29 +16,58 @@ export class ScrollViewer {
     this.ctx = this.canvas.getContext('2d');
 
     this.onEnter3D = options.onEnter3D || (() => {});
+    this.onSelectBeast = options.onSelectBeast || (() => {});
     this.onProgressChange = options.onProgressChange || (() => {});
 
-    // 长卷尺寸 (虚拟画布跨度)
-    this.virtualWidth = 8400;
-    this.virtualHeight = 1200;
+    // 真迹长卷真实比例与分段定义
+    this.sections = [
+      { id: 0, width: 1321, height: 900, startX: 0, src: 'assets/painting/section_0.jpg', thumb: 'assets/painting/thumb_0.jpg' },
+      { id: 1, width: 4244, height: 900, startX: 1321, src: 'assets/painting/section_1.jpg', thumb: 'assets/painting/thumb_1.jpg' },
+      { id: 2, width: 4301, height: 900, startX: 5565, src: 'assets/painting/section_2.jpg', thumb: 'assets/painting/thumb_2.jpg' },
+      { id: 3, width: 4216, height: 900, startX: 9866, src: 'assets/painting/section_3.jpg', thumb: 'assets/painting/thumb_3.jpg' },
+      { id: 4, width: 4216, height: 900, startX: 14082, src: 'assets/painting/section_4.jpg', thumb: 'assets/painting/thumb_4.jpg' },
+      { id: 5, width: 4188, height: 900, startX: 18298, src: 'assets/painting/section_5.jpg', thumb: 'assets/painting/thumb_5.jpg' }
+    ];
 
-    // 视口与滚动状态
+    this.virtualWidth = 22486;
+    this.virtualHeight = 900;
+
+    // 图片加载缓存
+    this.sectionImages = new Map();
+    this.thumbImages = new Map();
+    this.loadedSectionsCount = 0;
+
+    // 视口、平移与缩放
     this.scrollX = 0;
     this.targetScrollX = 0;
+    this.scrollY = 0;
+    this.zoom = 1.0;
+    this.targetZoom = 1.0;
+    this.minZoom = 0.75;
+    this.maxZoom = 2.2;
+
+    // 交互手势与惯性物理
     this.isDragging = false;
     this.startX = 0;
+    this.startY = 0;
     this.startScrollX = 0;
     this.velocity = 0;
     this.lastX = 0;
 
-    // 异象悬停检测
+    // 异象悬停与交互动画
     this.hoveredBeast = null;
     this.animTime = 0;
+    this.waterRipples = [];
+    this.goldSparks = [];
 
     // 唤醒状态映射
     this.awakenedMap = {};
     BEASTS.forEach(b => { this.awakenedMap[b.id] = false; });
 
+    // 初始化小鸟与游禽
+    this.birds = this._initBirds();
+
+    this._preloadImages();
     this._initEvents();
     this._resize();
     window.addEventListener('resize', () => this._resize());
@@ -46,6 +76,21 @@ export class ScrollViewer {
 
   setAwakened(beastId) {
     this.awakenedMap[beastId] = true;
+    const beast = BEASTS.find(b => b.id === beastId);
+    if (beast) {
+      // 触发金粉印章爆破粒子
+      for (let i = 0; i < 45; i++) {
+        this.goldSparks.push({
+          x: beast.virtualX + (Math.random() - 0.5) * 80,
+          y: beast.virtualY + (Math.random() - 0.5) * 80,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6 - 2,
+          life: 1.0,
+          color: Math.random() > 0.3 ? beast.goldColor : beast.themeColor,
+          size: 2 + Math.random() * 4
+        });
+      }
+    }
   }
 
   getAwakenedCount() {
@@ -53,7 +98,8 @@ export class ScrollViewer {
   }
 
   scrollToProgress(p, smooth = true) {
-    const maxScroll = Math.max(0, this.virtualWidth - this.width);
+    const scale = this._getRenderScale();
+    const maxScroll = Math.max(0, this.virtualWidth * scale - this.width);
     const target = p * maxScroll;
     if (smooth) {
       this.targetScrollX = target;
@@ -61,6 +107,49 @@ export class ScrollViewer {
       this.targetScrollX = target;
       this.scrollX = target;
     }
+  }
+
+  zoomBy(delta) {
+    this.targetZoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.targetZoom + delta));
+  }
+
+  _getRenderScale() {
+    return (this.height / this.virtualHeight) * this.zoom;
+  }
+
+  _preloadImages() {
+    // 1. 优先瞬间加载全部 6 段低清缩略图（总共仅 ~150KB），首屏 0ms 闪现真迹全貌
+    this.sections.forEach(sec => {
+      const thumb = new Image();
+      thumb.src = sec.thumb;
+      thumb.onload = () => {
+        this.thumbImages.set(sec.id, thumb);
+      };
+    });
+
+    // 2. 依次加载 900px 高清真迹段落
+    this.sections.forEach(sec => {
+      const img = new Image();
+      img.src = sec.src;
+      img.onload = () => {
+        this.sectionImages.set(sec.id, img);
+        this.loadedSectionsCount++;
+      };
+    });
+  }
+
+  _initBirds() {
+    const birds = [];
+    for (let i = 0; i < 7; i++) {
+      birds.push({
+        x: 1800 + i * 2800 + Math.random() * 600,
+        y: 120 + Math.random() * 220,
+        speed: 0.8 + Math.random() * 0.7,
+        size: 3 + Math.random() * 3,
+        wingPhase: Math.random() * Math.PI * 2
+      });
+    }
+    return birds;
   }
 
   _resize() {
@@ -71,88 +160,128 @@ export class ScrollViewer {
   }
 
   _initEvents() {
-    // 鼠标滚轮横向推进
+    // 滚轮横向巡游 & 双指缩放
     this.container.addEventListener('wheel', (e) => {
       e.preventDefault();
       audio.ensureContext();
-      const delta = (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY) * 1.5;
-      this.targetScrollX = Math.max(0, Math.min(this.virtualWidth - this.width, this.targetScrollX + delta));
-      if (Math.abs(delta) > 30 && Math.random() < 0.08) {
-        audio.playScrollWhoosh();
+
+      if (e.ctrlKey || e.metaKey) {
+        // 滚轮缩放
+        const zoomDelta = -e.deltaY * 0.002;
+        this.zoomBy(zoomDelta);
+      } else {
+        // 横向游卷
+        const delta = (Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY) * 1.8;
+        const scale = this._getRenderScale();
+        const maxScroll = Math.max(0, this.virtualWidth * scale - this.width);
+        this.targetScrollX = Math.max(0, Math.min(maxScroll, this.targetScrollX + delta));
+        if (Math.abs(delta) > 30 && Math.random() < 0.06) {
+          audio.playScrollWhoosh();
+        }
       }
     }, { passive: false });
 
-    // 鼠标/触控拖拽
-    const onStart = (clientX) => {
+    // 拖拽推进
+    const onStart = (clientX, clientY) => {
       audio.ensureContext();
       this.isDragging = true;
       this.startX = clientX;
+      this.startY = clientY;
       this.lastX = clientX;
       this.startScrollX = this.targetScrollX;
       this.velocity = 0;
     };
 
-    const onMove = (clientX) => {
-      // 鼠标悬停异象探测
-      this._checkHover(clientX);
+    const onMove = (clientX, clientY) => {
+      this._checkHover(clientX, clientY);
       if (!this.isDragging) return;
       const dx = clientX - this.startX;
       this.velocity = clientX - this.lastX;
       this.lastX = clientX;
-      const maxScroll = Math.max(0, this.virtualWidth - this.width);
+      const scale = this._getRenderScale();
+      const maxScroll = Math.max(0, this.virtualWidth * scale - this.width);
       this.targetScrollX = Math.max(0, Math.min(maxScroll, this.startScrollX - dx));
     };
 
     const onEnd = () => {
       if (!this.isDragging) return;
       this.isDragging = false;
-      // 惯性滑行
-      this.targetScrollX = Math.max(0, Math.min(
-        Math.max(0, this.virtualWidth - this.width),
-        this.targetScrollX - this.velocity * 12
-      ));
+      const scale = this._getRenderScale();
+      const maxScroll = Math.max(0, this.virtualWidth * scale - this.width);
+      this.targetScrollX = Math.max(0, Math.min(maxScroll, this.targetScrollX - this.velocity * 10));
     };
 
-    this.container.addEventListener('mousedown', (e) => onStart(e.clientX));
-    window.addEventListener('mousemove', (e) => onMove(e.clientX));
+    this.container.addEventListener('mousedown', (e) => onStart(e.clientX, e.clientY));
+    window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY));
     window.addEventListener('mouseup', onEnd);
 
-    this.container.addEventListener('touchstart', (e) => onStart(e.touches[0].clientX), { passive: true });
-    window.addEventListener('touchmove', (e) => onMove(e.touches[0].clientX), { passive: true });
+    this.container.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        onStart(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1) {
+        onMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
     window.addEventListener('touchend', onEnd);
 
-    // 点击异象标记直接入画
+    // 点击神兽寻访与入画
     this.container.addEventListener('click', (e) => {
       const rect = this.canvas.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
+
+      // 1. 检查是否点击了底部全景鸟瞰小地图
+      if (this._handleMinimapClick(mouseX, mouseY)) {
+        return;
+      }
+
+      // 2. 检查是否点击了神兽印鉴标记
       const clickedBeast = this._hitTestBeast(mouseX, mouseY);
       if (clickedBeast) {
-        audio.playEnterPaintingSound();
-        this.onEnter3D(clickedBeast.id);
+        audio.playBeastChime();
+        this.onSelectBeast(clickedBeast);
       }
     });
   }
 
-  _checkHover(screenX) {
-    const rect = this.canvas.getBoundingClientRect();
-    const mouseY = (window.event ? window.event.clientY : this.height / 2) - rect.top;
-    const beast = this._hitTestBeast(screenX, mouseY);
+  _handleMinimapClick(x, y) {
+    const mmW = Math.min(this.width * 0.72, 720);
+    const mmH = 34;
+    const mmX = (this.width - mmW) / 2;
+    const mmY = this.height - mmH - 18;
+
+    if (x >= mmX && x <= mmX + mmW && y >= mmY && y <= mmY + mmH) {
+      const progress = (x - mmX) / mmW;
+      this.scrollToProgress(progress, true);
+      audio.playScrollWhoosh();
+      return true;
+    }
+    return false;
+  }
+
+  _checkHover(screenX, screenY) {
+    const beast = this._hitTestBeast(screenX, screenY);
     if (beast !== this.hoveredBeast) {
       this.hoveredBeast = beast;
       this.container.style.cursor = beast ? 'pointer' : (this.isDragging ? 'grabbing' : 'grab');
+      if (beast) {
+        audio.playWaterDrop();
+      }
     }
   }
 
   _hitTestBeast(screenX, screenY) {
-    const scale = this.height / this.virtualHeight;
+    const scale = this._getRenderScale();
     for (const beast of BEASTS) {
-      const vx = beast.scrollProgress * this.virtualWidth;
-      const vy = this.virtualHeight * 0.48;
-      const sx = (vx - this.scrollX) * scale + (this.width - this.virtualWidth * scale) * 0;
-      const sy = vy * scale;
-      const dist = Math.hypot(screenX - (vx - this.scrollX), screenY - sy);
-      if (dist < 55) {
+      const sx = beast.virtualX * scale - this.scrollX;
+      const sy = beast.virtualY * scale;
+      const dist = Math.hypot(screenX - sx, screenY - sy);
+      if (dist < 46) {
         return beast;
       }
     }
@@ -162,9 +291,14 @@ export class ScrollViewer {
   _renderLoop() {
     this.animTime += 0.016;
 
-    // 平滑缓动插值
-    this.scrollX += (this.targetScrollX - this.scrollX) * 0.085;
-    const maxScroll = Math.max(1, this.virtualWidth - this.width);
+    // 缩放平滑过渡
+    this.zoom += (this.targetZoom - this.zoom) * 0.08;
+
+    // 滚动平滑插值
+    this.scrollX += (this.targetScrollX - this.scrollX) * 0.09;
+
+    const scale = this._getRenderScale();
+    const maxScroll = Math.max(1, this.virtualWidth * scale - this.width);
     const progress = Math.max(0, Math.min(1, this.scrollX / maxScroll));
     this.onProgressChange(progress);
 
@@ -179,299 +313,373 @@ export class ScrollViewer {
 
     ctx.clearRect(0, 0, w, h);
 
-    // 1. 宋代古绢底色 (温润微黄古绢底，含自然矿物微纹)
-    const silkGradient = ctx.createLinearGradient(0, 0, 0, h);
-    silkGradient.addColorStop(0, '#EFE4CD');
-    silkGradient.addColorStop(0.5, '#E9DEC2');
-    silkGradient.addColorStop(1, '#DFD0AE');
-    ctx.fillStyle = silkGradient;
+    // 1. 宋代古绢基底（模拟千年前宫廷生绢温润质感）
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+    bgGrad.addColorStop(0, '#E8DCBF');
+    bgGrad.addColorStop(0.5, '#DECFA7');
+    bgGrad.addColorStop(1, '#D2C194');
+    ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, w, h);
 
-    // 绢纹质感微颗粒
-    ctx.fillStyle = 'rgba(120, 95, 60, 0.035)';
-    for (let y = 0; y < h; y += 4) {
-      ctx.fillRect(0, y, w, 1);
-    }
+    const scale = this._getRenderScale();
 
-    const scale = h / this.virtualHeight;
-    const currentVirtualX = this.scrollX;
+    // 2. 渲染北宋王希孟《千里江山图》真迹段落（6段无缝拼接，视口裁剪优化）
+    this._drawPaintingSections(ctx, scale);
 
-    // 2. 远景群峰 (淡墨、烟岚、极远石青淡彩)
-    this._drawMountainLayer(ctx, currentVirtualX * 0.35, h * 0.52, '#9BA8A4', '#B6C4BF', 0.25, 420);
+    // 3. 动态水波与微光金雾（宋画留白处的仙灵流动）
+    this._drawAtmosphereEffects(ctx, scale);
 
-    // 3. 中景千峰 (青绿重彩主峰，王希孟石青石绿层峦叠嶂)
-    this._drawMountainLayer(ctx, currentVirtualX * 0.65, h * 0.68, '#266766', '#1F5352', 0.65, 580);
+    // 4. 远天飞鸟与灵禽掠空
+    this._drawBirds(ctx, scale);
 
-    // 4. 水系与长河浩渺 (江波琉璃，泥金水纹)
-    this._drawRiverWater(ctx, currentVirtualX, h);
+    // 5. 渲染真迹上的《山海经》六方祥瑞古灵与朱砂御印
+    this._drawBeastAnchors(ctx, scale);
 
-    // 5. 近景险石、古松、长桥、水榭、飞瀑
-    this._drawForegroundDetails(ctx, currentVirtualX, h);
+    // 6. 绘制长卷装裱玉轴、云锦边饰与宋院印章
+    this._drawScrollMounting(ctx, w, h);
 
-    // 6. 绘制神兽异象灵光点与宋代朱砂印章
-    this._drawBeastAnomalies(ctx, currentVirtualX, h);
-
-    // 7. 画面两端宋画装裱长卷边框与题跋引首
-    this._drawScrollBorders(ctx, w, h);
+    // 7. 绘制底部全景千里江山图鸟瞰微缩导航条 (Minimap)
+    this._drawMinimap(ctx, w, h);
   }
 
-  // 绘制层峦叠嶂山脉
-  _drawMountainLayer(ctx, offsetX, baseY, color1, color2, alpha, peakHeight) {
+  _drawPaintingSections(ctx, scale) {
+    const viewLeft = this.scrollX;
+    const viewRight = this.scrollX + this.width;
+
     ctx.save();
-    ctx.globalAlpha = alpha;
-    ctx.beginPath();
-    ctx.moveTo(-100, this.height);
+    // 开启高品质图片平滑插值
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
 
-    const step = 80;
-    const count = Math.ceil(this.width / step) + 4;
-    const startIdx = Math.floor(offsetX / step);
+    for (const sec of this.sections) {
+      const secScreenX = sec.startX * scale - this.scrollX;
+      const secScreenWidth = sec.width * scale;
+      const secScreenHeight = sec.height * scale;
 
-    for (let i = -2; i <= count; i++) {
-      const worldX = (startIdx + i) * step;
-      const screenX = worldX - offsetX;
-      // 叠加多重正弦波构建中国画峰峦起伏
-      const n1 = Math.sin(worldX * 0.0018) * peakHeight;
-      const n2 = Math.sin(worldX * 0.0054 + 1.2) * (peakHeight * 0.45);
-      const n3 = Math.cos(worldX * 0.012) * (peakHeight * 0.2);
-      const py = baseY - Math.abs(n1 + n2 + n3);
+      // 仅渲染进入视口范围内的画作段落（留出 100px 缓冲）
+      if (secScreenX + secScreenWidth < -100 || secScreenX > this.width + 100) {
+        continue;
+      }
 
-      if (i === -2) ctx.lineTo(screenX, py);
-      else ctx.lineTo(screenX, py);
+      const fullImg = this.sectionImages.get(sec.id);
+      const thumbImg = this.thumbImages.get(sec.id);
+
+      if (fullImg && fullImg.complete && fullImg.naturalWidth > 0) {
+        ctx.drawImage(fullImg, secScreenX, 0, secScreenWidth, secScreenHeight);
+      } else if (thumbImg && thumbImg.complete && thumbImg.naturalWidth > 0) {
+        // 若高清段落尚未加载完毕，先使用低清缩略图无缝过渡
+        ctx.drawImage(thumbImg, secScreenX, 0, secScreenWidth, secScreenHeight);
+      } else {
+        // 底层预留宋绢微色
+        ctx.fillStyle = '#D9CA9F';
+        ctx.fillRect(secScreenX, 0, secScreenWidth, secScreenHeight);
+      }
     }
-
-    ctx.lineTo(this.width + 100, this.height);
-    ctx.closePath();
-
-    const grad = ctx.createLinearGradient(0, baseY - peakHeight, 0, this.height);
-    grad.addColorStop(0, color1);
-    grad.addColorStop(0.7, color2);
-    grad.addColorStop(1, '#D8C7A5');
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    // 斧劈皴金线勾勒
-    ctx.strokeStyle = 'rgba(238, 204, 114, 0.4)';
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
 
     ctx.restore();
   }
 
-  // 绘制长河烟波
-  _drawRiverWater(ctx, offsetX, h) {
-    const waterY = h * 0.65;
+  _drawAtmosphereEffects(ctx, scale) {
     ctx.save();
-    const waterGrad = ctx.createLinearGradient(0, waterY, 0, h);
-    waterGrad.addColorStop(0, 'rgba(164, 196, 188, 0.4)');
-    waterGrad.addColorStop(0.5, 'rgba(102, 148, 142, 0.55)');
-    waterGrad.addColorStop(1, 'rgba(216, 199, 165, 0.8)');
-    ctx.fillStyle = waterGrad;
-    ctx.fillRect(0, waterY, this.width, h - waterY);
 
-    // 泥金细密水纹涟漪
-    ctx.strokeStyle = 'rgba(238, 208, 126, 0.22)';
-    ctx.lineWidth = 1;
-    const waveCount = 12;
-    for (let i = 0; i < waveCount; i++) {
-      const wy = waterY + (i + 1) * ((h - waterY) / waveCount);
-      ctx.beginPath();
-      for (let x = 0; x < this.width; x += 30) {
-        const offsetWave = Math.sin((x + offsetX + i * 45) * 0.02 + this.animTime * 1.5) * 2.5;
-        if (x === 0) ctx.moveTo(x, wy + offsetWave);
-        else ctx.lineTo(x, wy + offsetWave);
+    // 1. 浮动的矿物金粉微光 (Gold Dust)
+    for (let i = this.goldSparks.length - 1; i >= 0; i--) {
+      const p = this.goldSparks[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.05;
+      p.life -= 0.012;
+
+      if (p.life <= 0) {
+        this.goldSparks.splice(i, 1);
+        continue;
       }
+
+      const sx = p.x * scale - this.scrollX;
+      const sy = p.y * scale;
+
+      if (sx >= -20 && sx <= this.width + 20) {
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life * 0.85;
+        ctx.beginPath();
+        ctx.arc(sx, sy, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // 2. 悬停祥瑞时的金纹水波涟漪
+    if (this.hoveredBeast) {
+      const bx = this.hoveredBeast.virtualX * scale - this.scrollX;
+      const by = this.hoveredBeast.virtualY * scale;
+      const radius = 28 + (Math.sin(this.animTime * 3.5) + 1) * 14;
+
+      ctx.strokeStyle = this.hoveredBeast.goldColor;
+      ctx.lineWidth = 1.8;
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      ctx.arc(bx, by, radius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.strokeStyle = this.hoveredBeast.themeColor;
+      ctx.lineWidth = 1.2;
+      ctx.globalAlpha = 0.35;
+      ctx.beginPath();
+      ctx.arc(bx, by, radius * 1.35, 0, Math.PI * 2);
       ctx.stroke();
     }
+
     ctx.restore();
   }
 
-  // 绘制近景长桥、松林、楼台
-  _drawForegroundDetails(ctx, offsetX, h) {
+  _drawBirds(ctx, scale) {
     ctx.save();
-    // 漫卷沿途根据 progress 绘制特色名胜地标
-    SCENIC_SECTIONS.forEach(sec => {
-      const secCenterWorldX = ((sec.range[0] + sec.range[1]) / 2) * this.virtualWidth;
-      const screenX = secCenterWorldX - offsetX;
-      if (screenX > -300 && screenX < this.width + 300) {
-        this._drawScenicArchitecture(ctx, screenX, h * 0.72, sec.id);
+    ctx.strokeStyle = 'rgba(40, 35, 25, 0.45)';
+    ctx.lineWidth = 1.2;
+
+    this.birds.forEach(b => {
+      b.x += b.speed;
+      if (b.x > this.virtualWidth + 200) {
+        b.x = -100;
+      }
+
+      const sx = b.x * scale - this.scrollX;
+      const sy = b.y * scale + Math.sin(this.animTime * 2 + b.wingPhase) * 6;
+
+      if (sx >= -40 && sx <= this.width + 40) {
+        const wingY = Math.sin(this.animTime * 6 + b.wingPhase) * (b.size * 0.8);
+        ctx.beginPath();
+        ctx.moveTo(sx - b.size, sy + wingY);
+        ctx.quadraticCurveTo(sx, sy, sx + b.size, sy + wingY);
+        ctx.stroke();
       }
     });
+
     ctx.restore();
   }
 
-  // 绘制特定桥榭
-  _drawScenicArchitecture(ctx, x, y, secId) {
+  _drawBeastAnchors(ctx, scale) {
     ctx.save();
-    ctx.fillStyle = '#6D5B45';
-    ctx.strokeStyle = '#382D20';
-    ctx.lineWidth = 1.5;
 
-    if (secId === 0) {
-      // 桃溪小桥与孤舟
-      ctx.fillRect(x - 40, y - 8, 80, 5);
-      ctx.beginPath();
-      ctx.arc(x, y - 8, 16, Math.PI, 0);
-      ctx.stroke();
-    } else if (secId === 1) {
-      // 绝壁飞瀑
-      const grad = ctx.createLinearGradient(x - 10, y - 180, x + 10, y);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.75)');
-      grad.addColorStop(1, 'rgba(117, 185, 190, 0.3)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(x - 6, y - 160, 12, 160);
-    } else if (secId === 2) {
-      // 农家柴扉与层层梯田
-      ctx.strokeStyle = '#A38D64';
-      ctx.strokeRect(x - 25, y - 30, 50, 24);
-    } else if (secId === 3) {
-      // 关隘石桥与长亭
-      ctx.fillRect(x - 50, y - 14, 100, 7);
-      ctx.fillRect(x - 15, y - 38, 30, 24);
-    } else if (secId === 4) {
-      // 孤刹悬云塔影
-      ctx.beginPath();
-      ctx.moveTo(x, y - 120);
-      ctx.lineTo(x + 14, y - 50);
-      ctx.lineTo(x - 14, y - 50);
-      ctx.closePath();
-      ctx.fillStyle = '#45382B';
-      ctx.fill();
-    } else if (secId === 5) {
-      // 水心百尺重檐高阁
-      ctx.fillRect(x - 35, y - 55, 70, 48);
-      ctx.beginPath();
-      ctx.moveTo(x - 45, y - 55);
-      ctx.lineTo(x, y - 75);
-      ctx.lineTo(x + 45, y - 55);
-      ctx.closePath();
-      ctx.fillStyle = '#874C37';
-      ctx.fill();
-    }
-    ctx.restore();
-  }
-
-  // 绘制神兽异象灵符与古玺印章
-  _drawBeastAnomalies(ctx, offsetX, h) {
     BEASTS.forEach(beast => {
-      const worldX = beast.scrollProgress * this.virtualWidth;
-      const screenX = worldX - offsetX;
-      const screenY = h * 0.48;
+      const sx = beast.virtualX * scale - this.scrollX;
+      const sy = beast.virtualY * scale;
 
-      if (screenX < -150 || screenX > this.width + 150) return;
+      // 仅渲染视口周围
+      if (sx < -120 || sx > this.width + 120) return;
 
       const isAwakened = this.awakenedMap[beast.id];
       const isHovered = this.hoveredBeast === beast;
 
+      // 1. 底层金碧灵气光晕
+      const pulse = Math.sin(this.animTime * 2.5 + beast.sectionIndex) * 0.25 + 0.75;
+      const auraGrad = ctx.createRadialGradient(sx, sy, 4, sx, sy, isHovered ? 48 : 34);
+      auraGrad.addColorStop(0, isAwakened ? 'rgba(244, 208, 104, 0.85)' : 'rgba(217, 74, 56, 0.7)');
+      auraGrad.addColorStop(0.6, isAwakened ? 'rgba(217, 163, 80, 0.35)' : 'rgba(244, 208, 104, 0.25)');
+      auraGrad.addColorStop(1, 'rgba(235, 215, 170, 0)');
+
+      ctx.fillStyle = auraGrad;
+      ctx.beginPath();
+      ctx.arc(sx, sy, isHovered ? 48 : 34, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 2. 传统北宋朱砂方印 / 椭圆御印章
       ctx.save();
-      ctx.translate(screenX, screenY);
+      ctx.translate(sx, sy);
 
-      if (isAwakened) {
-        // 已唤醒：盖上宋代朱砂朱文大印 + 袅袅金烟
-        this._drawCinnabarSeal(ctx, beast.sealText, isHovered);
+      // 印章尺寸
+      const sealSize = isHovered ? 42 : 36;
+      ctx.shadowColor = isAwakened ? 'rgba(244, 208, 104, 0.8)' : 'rgba(180, 40, 20, 0.6)';
+      ctx.shadowBlur = isHovered ? 14 : 8;
 
-        // 持续升腾的金光微尘
-        ctx.fillStyle = 'rgba(244, 208, 104, 0.45)';
-        for (let i = 0; i < 5; i++) {
-          const pY = -35 - (this.animTime * 25 + i * 18) % 60;
-          const pX = Math.sin(this.animTime * 2 + i) * 14;
-          ctx.beginPath();
-          ctx.arc(pX, pY, 1.8, 0, Math.PI * 2);
-          ctx.fill();
-        }
+      // 朱砂印泥底色
+      ctx.fillStyle = isAwakened ? '#9C2518' : '#B83220';
+      ctx.strokeStyle = isAwakened ? '#FFDF78' : '#FCE8BD';
+      ctx.lineWidth = isAwakened ? 2.0 : 1.5;
+
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(-sealSize / 2, -sealSize / 2, sealSize, sealSize, 5);
       } else {
-        // 未唤醒：宋代灵兽待醒金符印记（呼吸微光，明确可点击入画）
-        const pulse = Math.sin(this.animTime * 2.2) * 0.08 + 1.0;
-        const size = (isHovered ? 40 : 34) * pulse;
+        ctx.rect(-sealSize / 2, -sealSize / 2, sealSize, sealSize);
+      }
+      ctx.fill();
+      ctx.stroke();
 
-        // 柔和泥金外晕
-        const auraGrad = ctx.createRadialGradient(0, 0, 8, 0, 0, size * 1.6);
-        auraGrad.addColorStop(0, 'rgba(255, 235, 148, 0.75)');
-        auraGrad.addColorStop(0.6, 'rgba(218, 165, 32, 0.25)');
-        auraGrad.addColorStop(1, 'rgba(218, 165, 32, 0)');
-        ctx.fillStyle = auraGrad;
+      // 印文内双线框
+      ctx.strokeStyle = isAwakened ? 'rgba(255, 223, 120, 0.75)' : 'rgba(252, 232, 189, 0.6)';
+      ctx.lineWidth = 0.8;
+      ctx.strokeRect(-sealSize / 2 + 3, -sealSize / 2 + 3, sealSize - 6, sealSize - 6);
+
+      // 印中文本（白文 / 朱文篆意）
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#FFF8EB';
+      ctx.font = `bold ${isHovered ? 13 : 12}px "STSong", "Songti SC", "SimSun", serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(beast.name, 0, 0);
+
+      ctx.restore();
+
+      // 3. 伴随印章的悬浮令签小标
+      ctx.save();
+      const badgeY = sy + (sealSize / 2) + 14;
+      const text = isAwakened ? `【${beast.sealText}】` : `【寻访 · ${beast.name}】`;
+
+      ctx.font = '11px "STSong", "Songti SC", "SimSun", serif';
+      const tw = ctx.measureText(text).width;
+
+      ctx.fillStyle = 'rgba(28, 22, 16, 0.82)';
+      ctx.strokeStyle = isAwakened ? '#F4D068' : 'rgba(244, 208, 104, 0.5)';
+      ctx.lineWidth = 1;
+
+      if (ctx.roundRect) {
         ctx.beginPath();
-        ctx.arc(0, 0, size * 1.6, 0, Math.PI * 2);
-        ctx.fill();
-
-        // 典雅泥金菱形古玺
-        ctx.save();
-        ctx.rotate(Math.PI / 4);
-        ctx.fillStyle = isHovered ? '#B23A22' : '#9E2A1E';
-        ctx.fillRect(-size / 2, -size / 2, size, size);
-        ctx.strokeStyle = '#F4D068';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(-size / 2, -size / 2, size, size);
-        ctx.restore();
-
-        // 印面中心字样（入画）
-        ctx.font = 'bold 12px "Noto Serif SC", serif';
-        ctx.fillStyle = '#FFF8EB';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('入画', 0, 0);
-
-        // 下方名牌胶囊
-        const pillW = isHovered ? 130 : 96;
-        ctx.fillStyle = 'rgba(239, 228, 205, 0.95)';
-        ctx.strokeStyle = '#876D46';
-        ctx.lineWidth = 1;
-        if (typeof ctx.roundRect === 'function') {
-          ctx.roundRect(-pillW / 2, 28, pillW, 22, 11);
-        } else {
-          ctx.rect(-pillW / 2, 28, pillW, 22);
-        }
+        ctx.roundRect(sx - tw / 2 - 8, badgeY - 9, tw + 16, 18, 3);
         ctx.fill();
         ctx.stroke();
+      } else {
+        ctx.fillRect(sx - tw / 2 - 8, badgeY - 9, tw + 16, 18);
+        ctx.strokeRect(sx - tw / 2 - 8, badgeY - 9, tw + 16, 18);
+      }
 
-        ctx.font = 'bold 11px "Noto Serif SC", serif';
-        ctx.fillStyle = isHovered ? '#A8261C' : '#3D3222';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(isHovered ? `点击入画 · 寻访${beast.name}` : `寻访 · ${beast.name}`, 0, 39);
+      ctx.fillStyle = isAwakened ? '#FFDF78' : '#FAF3DF';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, sx, badgeY);
+
+      // 若悬停，在上方显示文学线索小签
+      if (isHovered) {
+        const hintY = sy - (sealSize / 2) - 18;
+        const hintText = beast.hint;
+        ctx.font = '12px "STSong", "Songti SC", "SimSun", serif';
+        const hw = ctx.measureText(hintText).width;
+
+        ctx.fillStyle = 'rgba(23, 30, 28, 0.92)';
+        ctx.strokeStyle = '#E8C547';
+        ctx.lineWidth = 1.2;
+
+        if (ctx.roundRect) {
+          ctx.beginPath();
+          ctx.roundRect(sx - hw / 2 - 10, hintY - 11, hw + 20, 22, 4);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.fillRect(sx - hw / 2 - 10, hintY - 11, hw + 20, 22);
+        }
+
+        ctx.fillStyle = '#FFECA8';
+        ctx.fillText(hintText, sx, hintY);
       }
 
       ctx.restore();
     });
-  }
-
-  // 绘制宋代朱砂印章
-  _drawCinnabarSeal(ctx, text, isHovered) {
-    const size = isHovered ? 42 : 36;
-    ctx.save();
-    // 朱砂红微泛印泥厚重感
-    ctx.fillStyle = 'rgba(168, 38, 28, 0.9)';
-    ctx.strokeStyle = 'rgba(138, 25, 18, 0.95)';
-    ctx.lineWidth = 2;
-    ctx.fillRect(-size / 2, -size / 2, size, size);
-    ctx.strokeRect(-size / 2, -size / 2, size, size);
-
-    // 印文（仿九叠篆四字排布）
-    ctx.font = `bold ${size * 0.32}px "Noto Serif SC", serif`;
-    ctx.fillStyle = '#FFF5E6';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    const c1 = text[0] || '神';
-    const c2 = text[1] || '兽';
-    const c3 = text[2] || '之';
-    const c4 = text[3] || '印';
-
-    ctx.fillText(c1, -size * 0.22, -size * 0.22);
-    ctx.fillText(c2, size * 0.22, -size * 0.22);
-    ctx.fillText(c3, -size * 0.22, size * 0.22);
-    ctx.fillText(c4, size * 0.22, size * 0.22);
 
     ctx.restore();
   }
 
-  // 卷轴两端红木轴杆与锦缎包边
-  _drawScrollBorders(ctx, w, h) {
-    // 卷轴上下泥金绢边
-    ctx.fillStyle = '#876D46';
-    ctx.fillRect(0, 0, w, 6);
-    ctx.fillRect(0, h - 6, w, 6);
+  _drawScrollMounting(ctx, w, h) {
+    ctx.save();
 
-    ctx.fillStyle = 'rgba(238, 204, 114, 0.5)';
-    ctx.fillRect(0, 6, w, 2);
-    ctx.fillRect(0, h - 8, w, 2);
+    // 1. 顶部天头与底部地脚宋代暗金花绫装裱纹
+    const borderH = 8;
+    const borderGrad = ctx.createLinearGradient(0, 0, 0, borderH);
+    borderGrad.addColorStop(0, '#5C4426');
+    borderGrad.addColorStop(0.5, '#A88448');
+    borderGrad.addColorStop(1, '#6E502B');
+
+    // 顶边天头
+    ctx.fillStyle = borderGrad;
+    ctx.fillRect(0, 0, w, borderH);
+
+    // 底边地脚
+    ctx.fillRect(0, h - borderH, w, borderH);
+
+    // 细金线压边
+    ctx.fillStyle = '#E5C070';
+    ctx.fillRect(0, borderH, w, 1.5);
+    ctx.fillRect(0, h - borderH - 1.5, w, 1.5);
+
+    ctx.restore();
+  }
+
+  _drawMinimap(ctx, w, h) {
+    const mmW = Math.min(w * 0.72, 720);
+    const mmH = 34;
+    const mmX = (w - mmW) / 2;
+    const mmY = h - mmH - 18;
+
+    ctx.save();
+
+    // 1. 小地图古锦底框
+    ctx.fillStyle = 'rgba(22, 20, 16, 0.88)';
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.65)';
+    ctx.lineWidth = 1.5;
+
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(mmX - 2, mmY - 2, mmW + 4, mmH + 4, 6);
+      ctx.fill();
+      ctx.stroke();
+    } else {
+      ctx.fillRect(mmX - 2, mmY - 2, mmW + 4, mmH + 4);
+      ctx.strokeRect(mmX - 2, mmY - 2, mmW + 4, mmH + 4);
+    }
+
+    // 2. 绘制连续微缩真迹画作条
+    const scaleX = mmW / this.virtualWidth;
+    for (const sec of this.sections) {
+      const sx = mmX + sec.startX * scaleX;
+      const sw = sec.width * scaleX;
+      const thumb = this.thumbImages.get(sec.id) || this.sectionImages.get(sec.id);
+
+      if (thumb && thumb.complete && thumb.naturalWidth > 0) {
+        ctx.drawImage(thumb, sx, mmY, sw, mmH);
+      } else {
+        ctx.fillStyle = '#3A4D45';
+        ctx.fillRect(sx, mmY, sw, mmH);
+      }
+    }
+
+    // 3. 标记六方神兽在微缩图上的御印圆点
+    BEASTS.forEach(b => {
+      const bx = mmX + b.virtualX * scaleX;
+      const isAwakened = this.awakenedMap[b.id];
+
+      ctx.fillStyle = isAwakened ? '#FFE27A' : '#D9453B';
+      ctx.beginPath();
+      ctx.arc(bx, mmY + mmH / 2, isAwakened ? 5.0 : 3.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // 4. 绘制当前可视区域滑块框 (Gold Viewport Window)
+    const scale = this._getRenderScale();
+    const vpW = Math.max(24, (w / (this.virtualWidth * scale)) * mmW);
+    const vpX = mmX + (this.scrollX / (this.virtualWidth * scale)) * mmW;
+
+    ctx.strokeStyle = '#FFE072';
+    ctx.lineWidth = 2;
+    ctx.fillStyle = 'rgba(255, 224, 114, 0.22)';
+
+    if (ctx.roundRect) {
+      ctx.beginPath();
+      ctx.roundRect(Math.max(mmX, Math.min(mmX + mmW - vpW, vpX)), mmY - 1, vpW, mmH + 2, 4);
+      ctx.fill();
+      ctx.stroke();
+    } else {
+      ctx.fillRect(Math.max(mmX, Math.min(mmX + mmW - vpW, vpX)), mmY - 1, vpW, mmH + 2);
+      ctx.strokeRect(Math.max(mmX, Math.min(mmX + mmW - vpW, vpX)), mmY - 1, vpW, mmH + 2);
+    }
+
+    // 5. 提示语
+    ctx.fillStyle = 'rgba(245, 230, 200, 0.75)';
+    ctx.font = '10px "STSong", "Songti SC", "SimSun", serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('千里江山全景鸟瞰 · 点击移步换景', mmX + 8, mmY - 6);
+
+    ctx.restore();
   }
 }

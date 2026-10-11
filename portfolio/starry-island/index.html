@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>星月孤岛 · 梵高的 11 次凝望</title>
+  <meta name="description" content="漫步走进梵高的画作《星月夜》，在沉睡的小镇与麦田里寻找并点燃十一颗散落的星核。">
+  <meta name="theme-color" content="#0b1a45">
+  <link rel="stylesheet" href="./src/style.css">
+  
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.min.js",
+      "three/addons/utils/BufferGeometryUtils.js": "./vendor/BufferGeometryUtils.js"
+    }
+  }
+  </script>
+
+  <script>
+    window.addEventListener('error', function(e) {
+      console.error('[Global Error]', e);
+      var errEl = document.getElementById('sn-preload');
+      if (errEl) {
+        errEl.innerHTML = '<div style="max-width:500px;line-height:1.8;color:#f78888;text-align:center;">' +
+          '<strong>画卷调色中遇到状况</strong><br><span style="font-size:14px;color:#fff;">' + (e.message || '脚本加载异常') + '</span>' +
+          '<br><button onclick="location.reload()" style="margin-top:16px;padding:8px 22px;border-radius:20px;background:#f2c230;color:#0b1a45;border:none;cursor:pointer;font-weight:600;">刷新画卷</button></div>';
+      }
+    });
+    window.SN_BUILD = {
+      target: "web",
+      version: "1.0.0",
+      levels: ["starry-night"],
+      soon: false,
+      split: { levels: {} }
+    };
+    window.SN_AUDIO = {};
+  </script>
+</head>
+<body style="margin:0;padding:0;background:#0b1a45;overflow:hidden;">
+  <div id="app"></div>
+  <div id="sn-preload" style="position:fixed;inset:0;display:grid;place-items:center;color:#f6e27a;font:18px serif;letter-spacing:.08em;background:#0b1a45;z-index:9999;">
+    正在调和梵高的颜料与夜空的星辉&hellip;
+  </div>
+
+  <!-- 关卡与世界模块 -->
+  <script type="module" data-level="starry-night" src="./src/level-starry-night.js"></script>
+  <script type="module" data-module="landscape" src="./src/10-landscape.js"></script>
+  <script type="module" data-module="sky" src="./src/20-sky.js"></script>
+  <script type="module" data-module="town" src="./src/30-town.js"></script>
+
+  <!-- 核心玩法：星核搜寻与诗意联动（替代原版找猫） -->
+  <script type="module" data-module="stars" src="./src/40-stars.js"></script>
+
+  <!-- 油画后处理着色器与音效 -->
+  <script type="module" data-module="post" src="./src/50-post.js"></script>
+  <script type="module" data-module="audio" src="./src/58-audio.js"></script>
+
+  <!-- 岛主专属诗意 UI 与藏书票 -->
+  <script type="module" data-module="ui" src="./src/60-ui.js"></script>
+
+  <!-- 引擎核心 -->
+  <script type="module" data-module="core" src="./src/00-core.js"></script>
+</body>
+</html>

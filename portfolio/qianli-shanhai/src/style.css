@@ -5,8 +5,6 @@
    色彩基调：古绢、石青、石绿、赭石、朱砂、泥金
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
-
 :root {
   --silk-bg: #EFE4CD;
   --silk-dark: #DFD0AE;
@@ -310,6 +308,21 @@ html, body {
   color: var(--ink-black);
   font-weight: 600;
   text-shadow: 0 1px 3px rgba(239, 228, 205, 0.9);
+}
+
+.scroll-guidance-pill {
+  margin: 14px auto 0;
+  width: fit-content;
+  background: rgba(239, 228, 205, 0.92);
+  border: 1px solid var(--silk-border);
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-black);
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 14px rgba(70, 50, 20, 0.12);
+  text-align: center;
 }
 
 /* =========================================================

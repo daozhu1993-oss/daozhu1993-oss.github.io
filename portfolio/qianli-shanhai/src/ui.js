@@ -58,6 +58,7 @@ export class UIManager {
         <div class="scroll-nav-seals" id="nav-seals">
           <!-- 动态渲染六段分卷与神兽印章节点 -->
         </div>
+        <div class="scroll-guidance-pill">左右拖拽或滚轮游目十二米画卷 · 点击【入画】金印推门入画</div>
       </nav>
 
       <!-- 3D 漫步操作指引与准星 (3D Mode 专属) -->

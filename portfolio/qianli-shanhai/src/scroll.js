@@ -379,46 +379,51 @@ export class ScrollViewer {
           ctx.fill();
         }
       } else {
-        // 未唤醒：神兽隐灵异象（金色呼吸光晕、八卦八角阵纹）
-        const pulse = Math.sin(this.animTime * 2.8) * 0.2 + 0.8;
-        const radius = (isHovered ? 36 : 28) * pulse;
+        // 未唤醒：宋代灵兽待醒金符印记（呼吸微光，明确可点击入画）
+        const pulse = Math.sin(this.animTime * 2.2) * 0.08 + 1.0;
+        const size = (isHovered ? 40 : 34) * pulse;
 
-        // 泥金灵气光晕
-        const auraGrad = ctx.createRadialGradient(0, 0, 4, 0, 0, radius);
-        auraGrad.addColorStop(0, 'rgba(255, 230, 138, 0.85)');
-        auraGrad.addColorStop(0.5, 'rgba(212, 175, 55, 0.4)');
-        auraGrad.addColorStop(1, 'rgba(212, 175, 55, 0)');
+        // 柔和泥金外晕
+        const auraGrad = ctx.createRadialGradient(0, 0, 8, 0, 0, size * 1.6);
+        auraGrad.addColorStop(0, 'rgba(255, 235, 148, 0.75)');
+        auraGrad.addColorStop(0.6, 'rgba(218, 165, 32, 0.25)');
+        auraGrad.addColorStop(1, 'rgba(218, 165, 32, 0)');
         ctx.fillStyle = auraGrad;
         ctx.beginPath();
-        ctx.arc(0, 0, radius, 0, Math.PI * 2);
+        ctx.arc(0, 0, size * 1.6, 0, Math.PI * 2);
         ctx.fill();
 
-        // 旋转太极与星芒角
+        // 典雅泥金菱形古玺
         ctx.save();
-        ctx.rotate(this.animTime * 0.6);
-        ctx.strokeStyle = 'rgba(244, 208, 104, 0.75)';
-        ctx.lineWidth = 1.4;
-        ctx.strokeRect(-12, -12, 24, 24);
+        ctx.rotate(Math.PI / 4);
+        ctx.fillStyle = isHovered ? '#B23A22' : '#9E2A1E';
+        ctx.fillRect(-size / 2, -size / 2, size, size);
+        ctx.strokeStyle = '#F4D068';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-size / 2, -size / 2, size, size);
         ctx.restore();
 
-        // 中心光核
-        ctx.fillStyle = '#FFF8DB';
-        ctx.beginPath();
-        ctx.arc(0, 0, 5, 0, Math.PI * 2);
-        ctx.fill();
-
-        // 异象名牌标签
-        ctx.font = '12px "Noto Serif SC", serif';
-        ctx.fillStyle = '#483C2A';
+        // 印面中心字样（入画）
+        ctx.font = 'bold 12px "Noto Serif SC", serif';
+        ctx.fillStyle = '#FFF8EB';
         ctx.textAlign = 'center';
-        ctx.fillText(beast.name, 0, 36);
+        ctx.textBaseline = 'middle';
+        ctx.fillText('入画', 0, 0);
 
-        if (isHovered) {
-          // 悬停时展现诗意提示
-          ctx.font = 'bold 13px "Noto Serif SC", serif';
-          ctx.fillStyle = '#A32929';
-          ctx.fillText(`【点击入画寻访 · ${beast.name}】`, 0, -42);
-        }
+        // 下方名牌胶囊
+        const pillW = isHovered ? 130 : 96;
+        ctx.fillStyle = 'rgba(239, 228, 205, 0.95)';
+        ctx.strokeStyle = '#876D46';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.roundRect(-pillW / 2, 28, pillW, 22, 11);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = 'bold 11px "Noto Serif SC", serif';
+        ctx.fillStyle = isHovered ? '#A8261C' : '#3D3222';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(isHovered ? `点击入画 · 寻访${beast.name}` : `寻访 · ${beast.name}`, 0, 39);
       }
 
       ctx.restore();

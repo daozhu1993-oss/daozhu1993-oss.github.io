@@ -39,19 +39,24 @@
       const world3DViewport = document.getElementById('viewport-3d');
 
       let currentActiveBeastId = 'fuzhu';
+      let world3D = null;
 
-      // 1. 初始化 3D 引擎
-      const world3D = new World3D(world3DViewport, {
-        onAwakenBeast: (beastData) => {
-          scrollViewer.setAwakened(beastData.id);
-          ui.showBeastAwakened(beastData);
-        },
-        onExitToScroll: () => {
-          switchToScrollMode();
+      function ensureWorld3D() {
+        if (!world3D) {
+          world3D = new World3D(world3DViewport, {
+            onAwakenBeast: (beastData) => {
+              scrollViewer.setAwakened(beastData.id);
+              ui.showBeastAwakened(beastData);
+            },
+            onExitToScroll: () => {
+              switchToScrollMode();
+            }
+          });
         }
-      });
+        return world3D;
+      }
 
-      // 2. 初始化长卷引擎
+      // 1. 优先极速启动长卷游目引擎 (0 阻塞毫秒级展现)
       const scrollViewer = new ScrollViewer(scrollViewport, {
         onEnter3D: (beastId) => {
           switchTo3DMode(beastId);
@@ -61,7 +66,7 @@
         }
       });
 
-      // 3. 初始化 UI 管理器
+      // 2. 初始化 UI 管理器
       const ui = new UIManager(appEl, {
         onModeChange: (targetMode) => {
           if (targetMode === 'scroll') {
@@ -74,9 +79,16 @@
           scrollViewer.scrollToProgress(progress, true);
         },
         onAwakenAction: () => {
-          world3D.tryAwakenNearBeast();
+          if (world3D) world3D.tryAwakenNearBeast();
         }
       });
+
+      // 空闲时静默预热 3D 渲染器，不占用初次开卷主线程
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => ensureWorld3D(), { timeout: 2500 });
+      } else {
+        setTimeout(() => ensureWorld3D(), 1200);
+      }
 
       // 切换至 3D 画中世界
       function switchTo3DMode(beastId) {
@@ -86,7 +98,8 @@
         scrollViewport.style.display = 'none';
         world3DViewport.style.display = 'block';
 
-        world3D.enterBeastWorld(beast.id);
+        const w3d = ensureWorld3D();
+        w3d.enterBeastWorld(beast.id);
         ui.setMode('3d', `${beast.scenicSpot} · 寻访 ${beast.name}`);
         audio.playEnterPaintingSound();
       }

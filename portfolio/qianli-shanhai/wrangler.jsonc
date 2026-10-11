@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "daozhu-shanhai",
+  "compatibility_date": "2026-09-08",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  },
+  "routes": [
+    {
+      "pattern": "shanhai.daozhuai.cn",
+      "custom_domain": true
+    },
+    {
+      "pattern": "qianli.daozhuai.cn",
+      "custom_domain": true
+    }
+  ]
+}

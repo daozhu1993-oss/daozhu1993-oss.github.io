@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <title>千里江山 · 山海入画</title>
+  <meta name="description" content="游目十二米北宋青绿长卷，推门步入山河胜境，唤醒沉睡于千峰翠微间的六方山海神兽。">
+  <meta name="theme-color" content="#EFE4CD">
+  <link rel="stylesheet" href="./src/style.css">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.min.js",
+      "three/addons/utils/BufferGeometryUtils.js": "./vendor/BufferGeometryUtils.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <!-- 长卷游目视口 (Layer 1) -->
+    <div id="viewport-scroll"></div>
+
+    <!-- 3D 画中漫步视口 (Layer 2) -->
+    <div id="viewport-3d"></div>
+  </div>
+
+  <script type="module">
+    import { BEASTS } from './src/beasts.js';
+    import { audio } from './src/audio.js';
+    import { ScrollViewer } from './src/scroll.js';
+    import { World3D } from './src/world3d.js';
+    import { UIManager } from './src/ui.js';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const appEl = document.getElementById('app');
+      const scrollViewport = document.getElementById('viewport-scroll');
+      const world3DViewport = document.getElementById('viewport-3d');
+
+      let currentActiveBeastId = 'fuzhu';
+
+      // 1. 初始化 3D 引擎
+      const world3D = new World3D(world3DViewport, {
+        onAwakenBeast: (beastData) => {
+          scrollViewer.setAwakened(beastData.id);
+          ui.showBeastAwakened(beastData);
+        },
+        onExitToScroll: () => {
+          switchToScrollMode();
+        }
+      });
+
+      // 2. 初始化长卷引擎
+      const scrollViewer = new ScrollViewer(scrollViewport, {
+        onEnter3D: (beastId) => {
+          switchTo3DMode(beastId);
+        },
+        onProgressChange: (progress) => {
+          ui.updateScrollThumb(progress);
+        }
+      });
+
+      // 3. 初始化 UI 管理器
+      const ui = new UIManager(appEl, {
+        onModeChange: (targetMode) => {
+          if (targetMode === 'scroll') {
+            switchToScrollMode();
+          } else {
+            switchTo3DMode(currentActiveBeastId);
+          }
+        },
+        onJumpSection: (progress, beastId) => {
+          scrollViewer.scrollToProgress(progress, true);
+        },
+        onAwakenAction: () => {
+          world3D.tryAwakenNearBeast();
+        }
+      });
+
+      // 切换至 3D 画中世界
+      function switchTo3DMode(beastId) {
+        currentActiveBeastId = beastId;
+        const beast = BEASTS.find(b => b.id === beastId) || BEASTS[0];
+
+        scrollViewport.style.display = 'none';
+        world3DViewport.style.display = 'block';
+
+        world3D.enterBeastWorld(beast.id);
+        ui.setMode('3d', `${beast.scenicSpot} · 寻访 ${beast.name}`);
+        audio.playEnterPaintingSound();
+      }
+
+      // 切换回长卷游目
+      function switchToScrollMode() {
+        world3DViewport.style.display = 'none';
+        scrollViewport.style.display = 'block';
+
+        ui.setMode('scroll');
+        audio.playReturnToScrollSound();
+
+        const beast = BEASTS.find(b => b.id === currentActiveBeastId);
+        if (beast) {
+          scrollViewer.scrollToProgress(beast.scrollProgress, true);
+        }
+      }
+
+      // 首次交互自动唤起古琴背景乐
+      document.body.addEventListener('click', () => {
+        audio.ensureContext();
+      }, { once: true });
+    });
+  </script>
+</body>
+</html>

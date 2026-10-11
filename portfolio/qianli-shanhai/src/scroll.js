@@ -415,8 +415,11 @@ export class ScrollViewer {
         ctx.fillStyle = 'rgba(239, 228, 205, 0.95)';
         ctx.strokeStyle = '#876D46';
         ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.roundRect(-pillW / 2, 28, pillW, 22, 11);
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(-pillW / 2, 28, pillW, 22, 11);
+        } else {
+          ctx.rect(-pillW / 2, 28, pillW, 22);
+        }
         ctx.fill();
         ctx.stroke();
 

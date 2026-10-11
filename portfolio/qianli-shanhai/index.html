@@ -16,6 +16,22 @@
     }
   }
   </script>
+
+  <script>
+    // 全局错误守卫：若遇异常立即在页面显著提示，绝不出现空白静默
+    window.addEventListener('error', function(e) {
+      console.error('[Global Error]', e);
+      var errEl = document.getElementById('err-fallback');
+      if (errEl) {
+        errEl.style.display = 'grid';
+        errEl.innerHTML = '<div style="background:#FDF9EE;padding:24px 32px;border:2px solid #876D46;border-radius:12px;max-width:500px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.15);">' +
+          '<h3 style="color:#A8261C;margin-bottom:12px;font-size:18px;">画卷展卷遇阻</h3>' +
+          '<p style="font-size:13px;color:#555;line-height:1.6;margin-bottom:16px;">' + (e.message || '脚本解析异常') + '</p>' +
+          '<button onclick="location.reload()" style="padding:8px 24px;border-radius:999px;background:#A8261C;color:#fff;border:none;cursor:pointer;font-weight:600;">重新展卷</button>' +
+          '</div>';
+      }
+    });
+  </script>
 </head>
 <body>
   <div id="app">
@@ -24,7 +40,12 @@
 
     <!-- 3D 画中漫步视口 (Layer 2) -->
     <div id="viewport-3d"></div>
+
+    <!-- UI 交互层 (Layer 3) -->
+    <div id="ui-layer"></div>
   </div>
+
+  <div id="err-fallback" style="display:none;position:fixed;inset:0;place-items:center;z-index:99999;background:rgba(239,228,205,0.92);"></div>
 
   <script type="module">
     import { BEASTS } from './src/beasts.js';
@@ -34,19 +55,20 @@
     import { UIManager } from './src/ui.js';
 
     window.addEventListener('DOMContentLoaded', () => {
-      const appEl = document.getElementById('app');
       const scrollViewport = document.getElementById('viewport-scroll');
       const world3DViewport = document.getElementById('viewport-3d');
+      const uiLayer = document.getElementById('ui-layer');
 
       let currentActiveBeastId = 'fuzhu';
       let world3D = null;
+      let ui = null;
 
       function ensureWorld3D() {
         if (!world3D) {
           world3D = new World3D(world3DViewport, {
             onAwakenBeast: (beastData) => {
               scrollViewer.setAwakened(beastData.id);
-              ui.showBeastAwakened(beastData);
+              if (ui) ui.showBeastAwakened(beastData);
             },
             onExitToScroll: () => {
               switchToScrollMode();
@@ -62,12 +84,12 @@
           switchTo3DMode(beastId);
         },
         onProgressChange: (progress) => {
-          ui.updateScrollThumb(progress);
+          if (ui) ui.updateScrollThumb(progress);
         }
       });
 
-      // 2. 初始化 UI 管理器
-      const ui = new UIManager(appEl, {
+      // 2. 初始化 UI 管理器并挂载至独立 UI 层
+      ui = new UIManager(uiLayer, {
         onModeChange: (targetMode) => {
           if (targetMode === 'scroll') {
             switchToScrollMode();

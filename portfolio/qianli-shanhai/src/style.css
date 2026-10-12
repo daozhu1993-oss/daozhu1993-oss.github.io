@@ -55,6 +55,20 @@ html, body {
   display: block;
 }
 
+/* 北宋宣和古绢经纬织纹与典藏晕映覆层 (Silk Weave & Vignette Atmosphere) */
+#viewport-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at center, transparent 48%, rgba(38, 28, 16, 0.22) 100%),
+    repeating-linear-gradient(0deg, rgba(90, 70, 40, 0.018) 0px, rgba(90, 70, 40, 0.018) 1px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg, rgba(90, 70, 40, 0.018) 0px, rgba(90, 70, 40, 0.018) 1px, transparent 1px, transparent 3px);
+  mix-blend-mode: multiply;
+  z-index: 12;
+}
+
 /* UI 交互顶层 */
 #ui-layer {
   position: absolute;

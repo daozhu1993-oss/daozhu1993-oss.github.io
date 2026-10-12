@@ -18,18 +18,9 @@
   </script>
 
   <script>
-    // 全局错误守卫
+    // 安全日志监听，避免静默阻塞页面
     window.addEventListener('error', function(e) {
-      console.error('[Global Error]', e);
-      var errEl = document.getElementById('err-fallback');
-      if (errEl) {
-        errEl.style.display = 'grid';
-        errEl.innerHTML = '<div style="background:#FDF9EE;padding:24px 32px;border:2px solid #876D46;border-radius:12px;max-width:500px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,0.15);">' +
-          '<h3 style="color:#A8261C;margin-bottom:12px;font-size:18px;">画境遇阻</h3>' +
-          '<p style="font-size:13px;color:#555;line-height:1.6;margin-bottom:16px;">' + (e.message || '脚本解析异常') + '</p>' +
-          '<button onclick="location.reload()" style="padding:8px 24px;border-radius:999px;background:#A8261C;color:#fff;border:none;cursor:pointer;font-weight:600;">重新入画</button>' +
-          '</div>';
-      }
+      console.warn('[Qianli Log]', e.message, e.filename, e.lineno);
     });
   </script>
 </head>
@@ -41,8 +32,6 @@
     <!-- UI 交互层 -->
     <div id="ui-layer"></div>
   </div>
-
-  <div id="err-fallback" style="display:none;position:fixed;inset:0;place-items:center;z-index:99999;background:rgba(239,228,205,0.92);"></div>
 
   <script type="module">
     import { BEASTS } from './src/beasts.js';

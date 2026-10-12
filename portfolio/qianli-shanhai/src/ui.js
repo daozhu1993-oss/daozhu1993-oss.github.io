@@ -23,6 +23,8 @@ export class UIManager {
     this.awakenedCount = 0;
     this.activeBeast = null;
     this.isScrollDrawerOpen = false;
+    this.awakenedMap = {};
+    BEASTS.forEach(b => { this.awakenedMap[b.id] = false; });
 
     this._buildDOM();
     this._bindEvents();
@@ -392,7 +394,7 @@ export class UIManager {
     container.innerHTML = '';
 
     BEASTS.forEach(b => {
-      const isAwakened = b.id in this.awakenedMap && this.awakenedMap[b.id];
+      const isAwakened = Boolean(this.awakenedMap && this.awakenedMap[b.id]);
       const item = document.createElement('button');
       item.className = `drawer-seal-btn ${isAwakened ? 'is-awakened' : ''}`;
       item.innerHTML = `
@@ -415,6 +417,7 @@ export class UIManager {
   // 展现神兽唤醒札记弹窗
   showBeastAwakened(beastData) {
     this.activeBeast = beastData;
+    this.awakenedMap[beastData.id] = true;
     this.awakenedCount = Math.min(6, this.awakenedCount + 1);
     document.getElementById('awakened-num').textContent = this.awakenedCount;
 

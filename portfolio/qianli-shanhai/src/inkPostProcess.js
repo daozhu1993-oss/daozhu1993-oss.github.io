@@ -2,18 +2,10 @@
  * 《千里江山 · 借笔还魂》北宋工笔青绿水墨非真实感渲染管线
  * (Northern Song Blue-and-Green Ink Wash & Gongbi NPR Post-Processing Pipeline)
  * 
- * 核心技术原理（参考 GitHub 顶级开源 NPR 水墨项目与 OmarShehata WebGL Outlines）：
- * 1. 【工笔铁线淡墨勾勒 (Laplacian & Sobel Edge Detection)】：
- *    - 实时读取高精度深度缓冲（Depth Texture）与场景色彩缓冲（Color Texture）。
- *    - 基于反深度（Inverse Depth）计算 8 邻域拉普拉斯算子，精准提取山体绝壁、水榭飞檐、木拱虹桥与神兽轮廓。
- *    - 赋予中国画特有的“淡墨 / 焦墨铁线描”边缘，彻底消灭计算机 3D 粗糙几何体的塑料积木感。
- * 2. 【三矾九染阶梯矿物分染 (Cel / Toon Shading & Mineral Banding)】：
- *    - 剔除西方连续 PBR 光照的塑料高光，色调离散化为北宋名画原迹的阶梯色阶。
- *    - 阴影区沉降为蓝铜矿【深石青与绝顶玄青】，受光面转化为孔雀石【石绿与青碧】，高光区呈现矿物【泥金与温润赭石】。
- * 3. 【宣和古绢经纬织纹与微观纸理 (Imperial Silk Weave & Wash Grain)】：
- *    - 在屏幕空间渲染微观交错经纬织物肌理，使全屏 3D 犹如直接在真迹九百年古绢上流动呼吸。
- * 4. 【宋画三远法烟岚深远沉降 (Atmospheric Silk Mist)】：
- *    - 随深度梯度自然融入暖黄宣和绢底色（#EADDC1），实现“远山如黛、平远空濛”的东方意境。
+ * 核心设计准则：
+ * 1. 彻底根除死黑：注入温润石青与孔雀石绿阴影辉光，保证背光面通透如玉。
+ * 2. 纤巧淡墨铁线描：基于反深度拉普拉斯算子，自动屏蔽天空背景，勾勒精致山脊飞檐轮廓。
+ * 3. 宣和古绢神韵：高光处展现泥金温润光泽，微量绢帛经纬经纬交织纸理，远景自然融入宣和晨岚。
  */
 
 import * as THREE from 'three';
@@ -28,7 +20,6 @@ export class InkPostPipeline {
 
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    // 1. 创建全分辨率场景离屏渲染靶 (带 DepthTexture)
     const targetW = Math.floor(this.width * this.dpr);
     const targetH = Math.floor(this.height * this.dpr);
 
@@ -45,13 +36,11 @@ export class InkPostPipeline {
     this.renderTarget.depthTexture.format = THREE.DepthFormat;
     this.renderTarget.depthTexture.type = THREE.UnsignedIntType;
 
-    // 2. 正交相机与全屏渲染 Quad
     this.postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     this.postScene = new THREE.Scene();
 
     const quadGeo = new THREE.PlaneGeometry(2, 2);
 
-    // 3. 北宋工笔青绿水墨主着色器
     this.inkMaterial = new THREE.ShaderMaterial({
       vertexShader: /* glsl */`
         varying vec2 vUv;
@@ -72,12 +61,10 @@ export class InkPostPipeline {
 
         varying vec2 vUv;
 
-        // 灰度计算
         float luma(vec3 c) {
           return dot(c, vec3(0.299, 0.587, 0.114));
         }
 
-        // 线性反深度（越近越大，便于边缘拉普拉斯计算）
         float invZ(vec2 uv) {
           float d = texture2D(tDepth, uv).r;
           return (uFar - d * (uFar - uNear)) / (uNear * uFar);
@@ -85,10 +72,14 @@ export class InkPostPipeline {
 
         void main() {
           vec2 uv = vUv;
-          vec2 o = 1.35 / uResolution;
+          vec2 o = 1.0 / uResolution;
 
-          // 1. 采样中心与邻域深度，执行 8 邻域拉普拉斯边缘检测 (Laplacian Edge Detection)
           float w0 = invZ(uv);
+
+          // 天空背景识别 (w0 极小，对应 d 接近 1.0，绝不给天空画黑边)
+          float isSky = step(w0, 0.0016);
+
+          // 8 邻域反深度采样
           float n0 = invZ(uv + vec2(o.x, 0.0));
           float n1 = invZ(uv - vec2(o.x, 0.0));
           float n2 = invZ(uv + vec2(0.0, o.y));
@@ -98,58 +89,59 @@ export class InkPostPipeline {
           float n6 = invZ(uv + vec2(o.x, -o.y));
           float n7 = invZ(uv - vec2(o.x, -o.y));
 
-          float lap = (n0 + n1 + n2 + n3 + n4 + n5 + n6 + n7 - 8.0 * w0) / (w0 * 2.0);
-          float depthEdge = smoothstep(0.035, 0.18, abs(lap));
+          // 归一化拉普拉斯边缘算子
+          float lap = (n0 + n1 + n2 + n3 + n4 + n5 + n6 + n7 - 8.0 * w0) / (max(w0, 0.0025) * 2.0);
+          float depthEdge = smoothstep(0.08, 0.32, abs(lap)) * (1.0 - isSky);
 
-          // 2. 采样颜色邻域，计算色彩色差边缘 (Color Sobel Edges)
+          // 颜色差异算子
           vec3 cCenter = texture2D(tScene, uv).rgb;
           vec3 cRight  = texture2D(tScene, uv + vec2(o.x, 0.0)).rgb;
           vec3 cTop    = texture2D(tScene, uv + vec2(0.0, o.y)).rgb;
           float colorDiff = length(cCenter - cRight) + length(cCenter - cTop);
-          float colorEdge = smoothstep(0.16, 0.42, colorDiff);
+          float colorEdge = smoothstep(0.25, 0.60, colorDiff);
 
-          // 3. 综合工笔墨线强度并随远景烟岚平滑淡化
+          // 工笔纤秀铁线描（随距离平滑衰减，远景虚化融入空濛）
           float dist = 1.0 / max(w0, 1e-4);
-          float edgeFade = 1.0 - smoothstep(100.0, 520.0, dist);
-          float inkLine = clamp(depthEdge * 1.25 + colorEdge * 0.75, 0.0, 1.0) * uInkStrength * edgeFade;
+          float edgeFade = 1.0 - smoothstep(80.0, 450.0, dist);
+          float inkLine = clamp(depthEdge * 0.85 + colorEdge * 0.45, 0.0, 1.0) * uInkStrength * edgeFade;
 
-          // 中国画传统【焦墨/深黛】色值 (#1C1814)
-          vec3 inkColor = vec3(0.11, 0.09, 0.08);
+          // 北宋温润松烟墨色（微暖古墨，绝非死冷黑）
+          vec3 inkColor = vec3(0.18, 0.15, 0.12);
 
-          // 4. 三矾九染阶梯色阶 (Cel-Shading & Mineral Palette Grading)
+          // 三矾九染矿物调色
           float lum = luma(cCenter);
           vec3 graded = cCenter;
 
-          // 暗部沉淀：蓝铜矿【深石青与绝顶玄青】(#0F3348)
-          float shadowMask = 1.0 - smoothstep(0.08, 0.38, lum);
-          graded = mix(graded, graded * vec3(0.72, 0.88, 1.18), shadowMask * 0.52);
+          // 暗部翡翠与石青保底辉光：杜绝任何死黑与泥泞
+          vec3 shadowGlow = vec3(0.08, 0.18, 0.20);
+          graded = max(graded, shadowGlow * (1.0 - smoothstep(0.02, 0.35, lum)));
 
-          // 中间调生发：孔雀石【重彩石绿与青碧微澜】(#1E735D)
-          float midMask = smoothstep(0.25, 0.65, lum) * (1.0 - smoothstep(0.65, 0.88, lum));
-          graded = mix(graded, graded * vec3(0.88, 1.15, 0.94), midMask * 0.32);
+          // 适度提亮暗部 Gamma 曲线，凸显山石肌理
+          graded = pow(max(graded, vec3(0.0)), vec3(0.88));
 
-          // 受光与高光：赭石与泥金【金碧辉映】(#DDB258)
-          float lightMask = smoothstep(0.68, 0.96, lum);
-          graded = mix(graded, graded * vec3(1.18, 1.06, 0.82), lightMask * 0.42);
+          // 提纯北宋青绿重彩的矿物鲜活度
+          graded = mix(vec3(luma(graded)), graded, 1.15);
 
-          // 5. 北宋宣和古绢经纬织纹与微观纸理 (Imperial Silk Weave Texture)
+          // 高光泛出温润泥金光泽
+          float lightMask = smoothstep(0.68, 0.98, lum);
+          graded = mix(graded, graded * vec3(1.12, 1.06, 0.90), lightMask * 0.28);
+
+          // 微量宣和九百年古绢经纬织物肌理
           vec2 screenPos = gl_FragCoord.xy;
-          float weaveX = sin(screenPos.x * 1.57) * 0.5 + 0.5;
-          float weaveY = sin(screenPos.y * 1.57) * 0.5 + 0.5;
-          float silkGrain = (weaveX * 0.5 + weaveY * 0.5 - 0.5) * uPaperGrain;
-          graded += silkGrain * vec3(0.92, 0.86, 0.75);
+          float weave = (sin(screenPos.x * 1.57) * 0.5 + 0.5) * (sin(screenPos.y * 1.57) * 0.5 + 0.5);
+          graded += (weave - 0.5) * uPaperGrain * vec3(0.9, 0.85, 0.75);
 
-          // 6. 融合工笔淡墨线 (墨破色，色凝墨)
-          vec3 finalColor = mix(graded, inkColor, inkLine * 0.88);
+          // 融合工笔墨线
+          vec3 finalColor = mix(graded, inkColor, inkLine * 0.60);
 
-          // 7. 远景融入北宋古绢烟岚雾气 (#EADDC1)
-          vec3 silkHaze = vec3(0.92, 0.87, 0.76);
-          float hazeFactor = smoothstep(140.0, 680.0, dist);
-          finalColor = mix(finalColor, silkHaze, hazeFactor * 0.78);
+          // 远岫融入宣和绢黄晨岚 (#F6EEDB)
+          vec3 silkHaze = vec3(0.96, 0.93, 0.85);
+          float hazeFactor = smoothstep(140.0, 620.0, dist);
+          finalColor = mix(finalColor, silkHaze, hazeFactor * 0.70);
 
-          // 8. 轻度古典暗角微晕 (Vignette)
+          // 微妙镜头暗角聚焦
           vec2 centerCoord = uv - vec2(0.5);
-          float vignette = 1.0 - dot(centerCoord, centerCoord) * 0.38;
+          float vignette = 1.0 - dot(centerCoord, centerCoord) * 0.18;
           finalColor *= clamp(vignette, 0.0, 1.0);
 
           gl_FragColor = vec4(finalColor, 1.0);
@@ -162,8 +154,8 @@ export class InkPostPipeline {
         uNear: { value: this.camera.near },
         uFar: { value: this.camera.far },
         uTime: { value: 0.0 },
-        uInkStrength: { value: 1.15 },
-        uPaperGrain: { value: 0.045 }
+        uInkStrength: { value: 0.80 },
+        uPaperGrain: { value: 0.022 }
       },
       depthTest: false,
       depthWrite: false
@@ -184,18 +176,16 @@ export class InkPostPipeline {
   }
 
   render(time) {
-    // 1. 将三维场景以全精度渲染进离屏靶 (Color + Depth)
     this.renderer.setRenderTarget(this.renderTarget);
     this.renderer.render(this.scene, this.camera);
 
-    // 2. 切回屏幕，运行北宋工笔青绿水墨后处理着色器
     this.renderer.setRenderTarget(null);
     this.inkMaterial.uniforms.uTime.value = time;
     this.renderer.render(this.postScene, this.postCamera);
   }
 
   dispose() {
-    this.renderTarget.dispose();
-    this.inkMaterial.dispose();
+    if (this.renderTarget) this.renderTarget.dispose();
+    if (this.inkMaterial) this.inkMaterial.dispose();
   }
 }

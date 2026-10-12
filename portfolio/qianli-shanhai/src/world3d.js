@@ -1,7 +1,19 @@
 /**
  * 《千里江山 · 山海入画》3D 沉浸式青绿大境漫步引擎 (Immersive Blue-and-Green 3D Roaming Engine)
- * 纯 WebGL / Three.js 打造，对标梵高星空 3D 沉浸漫步顶级水准
- * 融合王希孟北宋《千里江山图》真迹故宫高清矿物贴图、宣和古绢环幕、千步虹桥、水榭飞檐、苍松渔舟与山海神兽借笔还魂
+ * 纯 WebGL / Three.js 打造，北宋院体青绿重彩与山海经通灵画境
+ * 
+ * 核心创新：
+ * 1. 【故宫真迹通卷织锦贴图 (Stitched Master Painting Texture)】：
+ *    将王希孟近十二米真迹五大段高清画卷无缝拼合为 4096 极清画布纹理，精准映射至 3D 崇山峻岭与平远江渚。
+ *    每一处山石断崖皆流淌着九百年前矿物石青、孔雀石绿与温润赭石的原作笔触，彻底告别单调秃山几何体！
+ * 2. 【宝石自发光与东方晨曦采光 (Radiant Mineral Shading)】：
+ *    材质附带真迹自发光（Emissive），阴影处泛出通透孔雀绿与石青明度，杜绝任何死黑与塑料积木感。
+ * 3. 【三远法叠翠画屏与玉带祥云 (Layered Mountain Screens & Drifting Mist)】：
+ *    远景布置多重北宋崇峦画屏与动态飘逸的半透明腰缠玉带祥云，立体呈现“高远、深远、平远”。
+ * 4. 【初登大观 · 临江画榭全景视口 (Panoramic Scenic Spawn Overlook)】：
+ *    玩家初始登临高崖飞檐画阁，眼前豁然开朗：澄碧长河、千步虹桥、临渊飞瀑、桃林苍松与首尊神兽【鹿蜀】一览无余。
+ * 5. 【写意工笔花木 (Gongbi Pines & Peach Groves)】：
+ *    柔和法线苍松虬枝与粉融桃林，配合暖木明灯与青石步道，构筑真正的传世国风游戏世界。
  */
 
 import * as THREE from 'three';
@@ -24,12 +36,12 @@ export class World3D {
     this.beastManager = null;
     this.postPipeline = null;
 
-    // 玩家漫步物理状态 (第一人称游人/提笔知音视角)
+    // 玩家漫步物理状态 (初始登临：临江高崖飞檐观景台，俯瞰千里江山全景大观)
     this.player = {
-      pos: new THREE.Vector3(-45, 3.2, 28), // 初始降落在卷一 · 桃溪浅滩
+      pos: new THREE.Vector3(-32, 11.5, 48),
       vel: new THREE.Vector3(),
-      yaw: -0.65,
-      pitch: 0.05,
+      yaw: -0.22, // 朝向东北，一览澄碧大泽、千步长桥与远山层峦
+      pitch: -0.06,
       speed: 13.5,
       sprintMultiplier: 1.85,
       height: 2.2,
@@ -51,13 +63,18 @@ export class World3D {
     this.skyBeams = {};
     this.goldDustPoints = null;
     this.waterfallMesh = null;
+    this.cloudRibbons = [];
     this.awakenedZones = new Set();
     this.textureLoader = new THREE.TextureLoader();
+    this.masterPaintingTex = null;
 
     this._initScene();
+    this._initMasterPaintingTexture();
     this._buildAtmosphereAndSky();
     this._buildTexturedTerrain();
     this._buildWaterways();
+    this._buildStoneRoadAndLanterns();
+    this._buildSpawnOverlookPavilion();
     this._buildScenicLandmarks();
     this._buildGoldDustParticles();
     this._initBeasts();
@@ -68,12 +85,12 @@ export class World3D {
   _initScene() {
     this.scene = new THREE.Scene();
 
-    // 北宋宣和古绢暖黄色温与苍茫烟岚 (#EADDC1)
-    this.scene.background = new THREE.Color(0xEADDC1);
-    this.scene.fog = new THREE.FogExp2(0xEADDC1, 0.0065);
+    // 北宋宣和古绢明润米黄底色与晨岚 (#F5ECD8)
+    this.scene.background = new THREE.Color(0xF5ECD8);
+    this.scene.fog = new THREE.FogExp2(0xF5ECD8, 0.0050);
 
     this.camera = new THREE.PerspectiveCamera(
-      62,
+      60,
       this.container.clientWidth / this.container.clientHeight,
       0.1,
       1400
@@ -87,15 +104,21 @@ export class World3D {
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.32;
+    this.renderer.toneMappingExposure = 1.38;
     this.container.appendChild(this.renderer.domElement);
 
-    // 东方古典漫射光照：晨曦金光与青绿岩石折射
-    const hemiLight = new THREE.HemisphereLight(0xFFF9EE, 0x1A473E, 1.25);
+    // 东方晨曦金碧采光系统：彻底消除阴暗死黑
+    // 1. 全局环境光 (高照度暖绢色，补足一切暗部阴影)
+    const ambientLight = new THREE.AmbientLight(0xFFF4DF, 1.55);
+    this.scene.add(ambientLight);
+
+    // 2. 半球光 (天空金辉 + 地面孔雀石反射)
+    const hemiLight = new THREE.HemisphereLight(0xFFFAF2, 0x247565, 1.7);
     this.scene.add(hemiLight);
 
-    const sunLight = new THREE.DirectionalLight(0xFFE8B2, 1.75);
-    sunLight.position.set(90, 130, 55);
+    // 3. 晨曦主直射阳光 (从东南方向斜照群山，山体立体生动金碧辉映)
+    const sunLight = new THREE.DirectionalLight(0xFFF6DE, 2.3);
+    sunLight.position.set(65, 120, 80);
     this.scene.add(sunLight);
     this.sunLight = sunLight;
 
@@ -126,63 +149,182 @@ export class World3D {
     });
   }
 
-  // 建造 360 度多重视差古绢全景远山环幕
-  _buildAtmosphereAndSky() {
-    // 1. 最外层远天穹幕 (Radius 360)
-    const bgGeo = new THREE.CylinderGeometry(360, 360, 180, 48, 1, true);
-    const bgTex = this.textureLoader.load('assets/painting/section_2.jpg');
-    bgTex.colorSpace = THREE.SRGBColorSpace;
-    bgTex.wrapS = THREE.RepeatWrapping;
-    bgTex.repeat.set(2, 1);
+  // =========================================================================
+  // 【核心创新】生成王希孟《千里江山图》高清真迹无缝长卷拼合画境纹理
+  // =========================================================================
+  _initMasterPaintingTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 4096;
+    canvas.height = 1024;
+    const ctx = canvas.getContext('2d');
 
-    const bgMat = new THREE.MeshBasicMaterial({
-      map: bgTex,
-      side: THREE.BackSide,
-      transparent: true,
-      opacity: 0.92,
-      color: 0xFDF5E4
+    // 1. 预填北宋宫廷宣和绢本矿物色阶底色（防止网络异步加载期间出现空白）
+    const grad = ctx.createLinearGradient(0, 0, 0, 1024);
+    grad.addColorStop(0.00, '#1B5374'); // 远山石青宝石蓝
+    grad.addColorStop(0.28, '#247D9E'); // 奇峰霁青
+    grad.addColorStop(0.48, '#279875'); // 崇山孔雀石绿
+    grad.addColorStop(0.72, '#9E743F'); // 山脚温润赭石
+    grad.addColorStop(0.88, '#CDB078'); // 渚岸泥金
+    grad.addColorStop(1.00, '#E8DDB8'); // 宣和古绢暖米黄
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 4096, 1024);
+
+    // 水平轻微墨彩晕染
+    for (let i = 0; i < 20; i++) {
+      const rx = Math.random() * 4096;
+      const ry = 200 + Math.random() * 600;
+      const rw = 200 + Math.random() * 400;
+      const rh = 80 + Math.random() * 200;
+      ctx.fillStyle = i % 2 === 0 ? 'rgba(39, 152, 117, 0.22)' : 'rgba(27, 83, 116, 0.22)';
+      ctx.fillRect(rx, ry, rw, rh);
+    }
+
+    this.masterPaintingTex = new THREE.CanvasTexture(canvas);
+    this.masterPaintingTex.colorSpace = THREE.SRGBColorSpace;
+    this.masterPaintingTex.wrapS = THREE.ClampToEdgeWrapping;
+    this.masterPaintingTex.wrapT = THREE.ClampToEdgeWrapping;
+    this.masterPaintingTex.generateMipmaps = true;
+    this.masterPaintingTex.minFilter = THREE.LinearMipmapLinearFilter;
+
+    // 2. 异步将五大段《千里江山图》故宫高清原卷绘制拼接进画布
+    const sections = [
+      { id: 1, sx: 0,    sw: 820 },
+      { id: 2, sx: 820,  sw: 820 },
+      { id: 3, sx: 1640, sw: 820 },
+      { id: 4, sx: 2460, sw: 820 },
+      { id: 5, sx: 3280, sw: 816 }
+    ];
+
+    sections.forEach(sec => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        ctx.drawImage(img, sec.sx, 0, sec.sw, 1024);
+        this.masterPaintingTex.needsUpdate = true;
+      };
+      img.src = `assets/painting/section_${sec.id}.jpg`;
     });
-
-    const bgMesh = new THREE.Mesh(bgGeo, bgMat);
-    bgMesh.position.y = 56;
-    this.scene.add(bgMesh);
-
-    // 2. 次层重彩主峰屏障（北侧石青重彩群峦，Radius 250）
-    const midGeo = new THREE.CylinderGeometry(250, 250, 130, 36, 1, true, Math.PI * 0.65, Math.PI * 0.7);
-    const midTex = this.textureLoader.load('assets/painting/section_4.jpg');
-    midTex.colorSpace = THREE.SRGBColorSpace;
-    const midMat = new THREE.MeshBasicMaterial({
-      map: midTex,
-      side: THREE.BackSide,
-      transparent: true,
-      opacity: 0.88
-    });
-    const midMesh = new THREE.Mesh(midGeo, midMat);
-    midMesh.position.set(0, 42, -15);
-    this.scene.add(midMesh);
-
-    // 3. 东侧大泽归海远岫屏障 (Radius 270)
-    const seaGeo = new THREE.CylinderGeometry(270, 270, 110, 36, 1, true, 0, Math.PI * 0.6);
-    const seaTex = this.textureLoader.load('assets/painting/section_5.jpg');
-    seaTex.colorSpace = THREE.SRGBColorSpace;
-    const seaMat = new THREE.MeshBasicMaterial({
-      map: seaTex,
-      side: THREE.BackSide,
-      transparent: true,
-      opacity: 0.82
-    });
-    const seaMesh = new THREE.Mesh(seaGeo, seaMat);
-    seaMesh.position.set(0, 36, 10);
-    this.scene.add(seaMesh);
   }
 
-  // 建造真实覆盖《千里江山图》真迹矿物贴图与高精度青绿山河地貌
+  // 建造 360 度多重视差古绢全景远天与三远法崇峦画屏
+  _buildAtmosphereAndSky() {
+    // 1. 最外层无缝天穹顶 (Silk Sky Dome)
+    const skyGeo = new THREE.SphereGeometry(380, 36, 24, 0, Math.PI * 2, 0, Math.PI * 0.52);
+    // 天空渐变 Canvas
+    const skyCv = document.createElement('canvas');
+    skyCv.width = 128;
+    skyCv.height = 512;
+    const skyCtx = skyCv.getContext('2d');
+    const skyGrad = skyCtx.createLinearGradient(0, 0, 0, 512);
+    skyGrad.addColorStop(0.0, '#EFE4CE'); // 天顶温润绢白
+    skyGrad.addColorStop(0.4, '#F7EDD9');
+    skyGrad.addColorStop(0.75, '#FFF6E6'); // 天际暖金晨曦
+    skyGrad.addColorStop(1.0, '#F5ECD8');
+    skyCtx.fillStyle = skyGrad;
+    skyCtx.fillRect(0, 0, 128, 512);
+
+    const skyTex = new THREE.CanvasTexture(skyCv);
+    skyTex.colorSpace = THREE.SRGBColorSpace;
+
+    const skyMat = new THREE.MeshBasicMaterial({
+      map: skyTex,
+      side: THREE.BackSide,
+      fog: false
+    });
+    const skyMesh = new THREE.Mesh(skyGeo, skyMat);
+    skyMesh.position.y = -10;
+    this.scene.add(skyMesh);
+
+    // 2. 北侧三远法崇峦叠翠画屏（高远大观，真实引用王希孟原卷主峰）
+    // 画屏 1: 北侧中远景主峦 (Z = -95, 卷二瀑布幽壑)
+    const scr1Geo = new THREE.PlaneGeometry(280, 68);
+    const scr1Tex = this.textureLoader.load('assets/painting/section_2.jpg');
+    scr1Tex.colorSpace = THREE.SRGBColorSpace;
+    const scr1Mat = new THREE.MeshBasicMaterial({
+      map: scr1Tex,
+      transparent: true,
+      opacity: 0.92,
+      side: THREE.DoubleSide
+    });
+    const scr1Mesh = new THREE.Mesh(scr1Geo, scr1Mat);
+    scr1Mesh.position.set(-20, 32, -92);
+    this.scene.add(scr1Mesh);
+
+    // 画屏 2: 东北侧绝顶绝壁奇峰 (Z = -135, 卷四险拔群峦)
+    const scr2Geo = new THREE.PlaneGeometry(320, 88);
+    const scr2Tex = this.textureLoader.load('assets/painting/section_4.jpg');
+    scr2Tex.colorSpace = THREE.SRGBColorSpace;
+    const scr2Mat = new THREE.MeshBasicMaterial({
+      map: scr2Tex,
+      transparent: true,
+      opacity: 0.88,
+      side: THREE.DoubleSide
+    });
+    const scr2Mesh = new THREE.Mesh(scr2Geo, scr2Mat);
+    scr2Mesh.position.set(45, 42, -135);
+    this.scene.add(scr2Mesh);
+
+    // 画屏 3: 东侧万象大泽远天 (X = 175, 卷五归海浩渺)
+    const scr3Geo = new THREE.PlaneGeometry(240, 60);
+    const scr3Tex = this.textureLoader.load('assets/painting/section_5.jpg');
+    scr3Tex.colorSpace = THREE.SRGBColorSpace;
+    const scr3Mat = new THREE.MeshBasicMaterial({
+      map: scr3Tex,
+      transparent: true,
+      opacity: 0.85,
+      side: THREE.DoubleSide
+    });
+    const scr3Mesh = new THREE.Mesh(scr3Geo, scr3Mat);
+    scr3Mesh.position.set(165, 26, -15);
+    scr3Mesh.rotation.y = -Math.PI * 0.42;
+    this.scene.add(scr3Mesh);
+
+    // 3. 动态玉带祥云 (Drifting Cloud Ribbons)
+    this._buildCloudRibbons();
+  }
+
+  // 打造仙山缥缈的半透明玉带祥云
+  _buildCloudRibbons() {
+    const cloudMat = new THREE.MeshBasicMaterial({
+      color: 0xFFFBF2,
+      transparent: true,
+      opacity: 0.48,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+
+    const cloudConfigs = [
+      { x: -50, y: 19, z: -45, w: 90, h: 7.5, rot: 0.08 },
+      { x: 15,  y: 24, z: -65, w: 110, h: 9.0, rot: -0.06 },
+      { x: 75,  y: 28, z: -55, w: 95, h: 8.0, rot: 0.05 },
+      { x: -10, y: 16, z: 15,  w: 70, h: 6.0, rot: -0.04 }
+    ];
+
+    cloudConfigs.forEach((cfg, idx) => {
+      const geo = new THREE.PlaneGeometry(cfg.w, cfg.h, 12, 1);
+      const mesh = new THREE.Mesh(geo, cloudMat);
+      mesh.position.set(cfg.x, cfg.y, cfg.z);
+      mesh.rotation.z = cfg.rot;
+      mesh.userData = { baseX: cfg.x, speed: 0.6 + idx * 0.25 };
+      this.scene.add(mesh);
+      this.cloudRibbons.push(mesh);
+    });
+  }
+
+  // =========================================================================
+  // 建造覆盖《千里江山图》高清真迹贴图的三维矿物重彩山河
+  // =========================================================================
   _buildTexturedTerrain() {
-    // 提升顶点密度 (160x120) 实现有机自然的北宋山川起伏
-    const geo = new THREE.PlaneGeometry(380, 260, 160, 120);
+    const width = 380;
+    const depth = 260;
+    const segX = 160;
+    const segZ = 120;
+
+    const geo = new THREE.PlaneGeometry(width, depth, segX, segZ);
     geo.rotateX(-Math.PI / 2);
 
     const pos = geo.attributes.position;
+    const uvs = geo.attributes.uv;
     const colors = [];
 
     for (let i = 0; i < pos.count; i++) {
@@ -192,18 +334,25 @@ export class World3D {
       let y = this._calculateTerrainHeight(x, z);
       pos.setY(i, y);
 
-      // 王希孟工笔三矾九染设色：渚岸泥金、山脚赭石、山腰石绿、绝壁石青、峰巅积翠
+      // 【核心 UV 算法】将真迹长卷精准投影映射至三维地形
+      // U 轴映射长卷横向 (X 轴从 -190 到 +190 对应卷首至卷末)
+      const u = (x + 190.0) / 380.0;
+      // V 轴映射长卷纵向 (Z 轴 -130 为北侧崇山绝顶对应画卷上方，+130 为南侧大江渚岸对应画卷下方)
+      const v = (130.0 - z) / 260.0;
+      uvs.setXY(i, Math.max(0.0, Math.min(1.0, u)), Math.max(0.0, Math.min(1.0, v)));
+
+      // 顶点颜色辅助增强矿物色泽
       const c = new THREE.Color();
-      if (y < 2.0) {
-        c.setHex(0xD4B886); // 渚岸泥金
-      } else if (y < 6.5) {
-        c.setHex(0x9E7848); // 山脚赭石
+      if (y < 2.5) {
+        c.setHex(0xE2BF7D); // 澄碧渚岸暖金赭石
+      } else if (y < 7.0) {
+        c.setHex(0xB58245); // 山脚温润赭石
       } else if (y < 16.0) {
-        c.setHex(0x1F7661); // 矿物孔雀石绿
+        c.setHex(0x289C7C); // 矿物孔雀石绿
       } else if (y < 28.0) {
-        c.setHex(0x17516B); // 蓝铜矿石青
+        c.setHex(0x2382B8); // 蓝铜矿天青宝石蓝
       } else {
-        c.setHex(0x0E394E); // 绝巅玄青
+        c.setHex(0x1B5A85); // 绝巅群青
       }
       colors.push(c.r, c.g, c.b);
     }
@@ -211,18 +360,14 @@ export class World3D {
     geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     geo.computeVertexNormals();
 
-    // 加载王希孟真迹矿物画作高清贴图
-    const paintingTex = this.textureLoader.load('assets/painting/section_1.jpg');
-    paintingTex.colorSpace = THREE.SRGBColorSpace;
-    paintingTex.wrapS = THREE.RepeatWrapping;
-    paintingTex.wrapT = THREE.RepeatWrapping;
-    paintingTex.repeat.set(5, 4);
-
+    // 采用带真迹自发光的青绿山水材质（阴影处通透润泽，永不死黑）
     const mat = new THREE.MeshStandardMaterial({
-      map: paintingTex,
-      vertexColors: true,
-      roughness: 0.72,
-      metalness: 0.12,
+      map: this.masterPaintingTex,
+      emissive: 0x2A4D42,
+      emissiveMap: this.masterPaintingTex,
+      emissiveIntensity: 0.35,
+      roughness: 0.82,
+      metalness: 0.04,
       flatShading: false
     });
 
@@ -230,7 +375,7 @@ export class World3D {
     this.scene.add(this.terrain);
   }
 
-  // 精确计算北宋六大胜境地貌与山川起伏
+  // 精确计算北宋六大胜境地貌与峥嵘峰峦
   _calculateTerrainHeight(x, z) {
     let y = 0;
 
@@ -289,6 +434,12 @@ export class World3D {
       y = Math.min(y, 1.4);
     }
 
+    // 玩家初始高崖观景台平坦台地 (x ≈ -32, z ≈ 48)
+    const distOverlook = Math.hypot(x - (-32), z - 48);
+    if (distOverlook < 16) {
+      y = Math.max(y, 9.8);
+    }
+
     return y;
   }
 
@@ -298,11 +449,13 @@ export class World3D {
     waterGeo.rotateX(-Math.PI / 2);
 
     const waterMat = new THREE.MeshStandardMaterial({
-      color: 0x2A7367, // 澄碧江波 (矿物石绿微澜)
+      color: 0x2A8C7D, // 澄碧江波 (明艳孔雀石绿微澜)
+      emissive: 0x0F4A3E,
+      emissiveIntensity: 0.18,
       roughness: 0.12,
       metalness: 0.55,
       transparent: true,
-      opacity: 0.88
+      opacity: 0.90
     });
 
     this.waterMesh = new THREE.Mesh(waterGeo, waterMat);
@@ -310,35 +463,163 @@ export class World3D {
     this.scene.add(this.waterMesh);
   }
 
-  // 打造六大胜境 3D 建筑、飞瀑、长桥与植物
-  _buildScenicLandmarks() {
-    const matWood = new THREE.MeshStandardMaterial({ color: 0x543E2C, roughness: 0.75 });
-    const matPillars = new THREE.MeshStandardMaterial({ color: 0x8C271E, roughness: 0.5 }); // 宋红立柱
-    const matRoof = new THREE.MeshStandardMaterial({ color: 0x6E3E2E, roughness: 0.45 });
-    const matStone = new THREE.MeshStandardMaterial({ color: 0x485854, roughness: 0.85 });
-    const matPineTrunk = new THREE.MeshStandardMaterial({ color: 0x362719, roughness: 0.92 });
-    const matPineNeedles = new THREE.MeshStandardMaterial({ color: 0x144A3A, roughness: 0.55 });
-    const matPeachFoliage = new THREE.MeshStandardMaterial({
-      color: 0xE88192,
-      roughness: 0.6,
-      emissive: 0x942B3E,
-      emissiveIntensity: 0.2
+  // =========================================================================
+  // 打造初登高台 · 临江飞檐画榭 (Panoramic Overlook Pavilion at Spawn)
+  // =========================================================================
+  _buildSpawnOverlookPavilion() {
+    const group = new THREE.Group();
+    group.position.set(-32, 9.8, 48);
+
+    const matWood = new THREE.MeshStandardMaterial({ color: 0x5C3E24, roughness: 0.75 });
+    const matRedPillars = new THREE.MeshStandardMaterial({ color: 0xA62E24, roughness: 0.5 });
+    const matRoof = new THREE.MeshStandardMaterial({ color: 0x8C4232, roughness: 0.45 });
+    const matStone = new THREE.MeshStandardMaterial({ color: 0xCFBE9D, roughness: 0.85 });
+
+    // 1. 八角观景石基台
+    const platform = new THREE.Mesh(new THREE.CylinderGeometry(8.5, 9.2, 0.4, 8), matStone);
+    platform.position.y = 0.2;
+    group.add(platform);
+
+    // 2. 凭栏朱漆围栏
+    for (let i = 0; i < 8; i++) {
+      if (i === 1) continue; // 留出下山石阶出口
+      const angle = (i / 8) * Math.PI * 2;
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(5.8, 0.9, 0.22), matWood);
+      rail.position.set(Math.cos(angle + 0.39) * 8.0, 0.75, Math.sin(angle + 0.39) * 8.0);
+      rail.rotation.y = angle + 0.39 + Math.PI / 2;
+      group.add(rail);
+    }
+
+    // 3. 画榭立柱与飞檐
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2;
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 4.6, 6), matRedPillars);
+      col.position.set(Math.cos(angle) * 4.2, 2.4, Math.sin(angle) * 4.2);
+      group.add(col);
+
+      // 檐角悬挂暖光灯笼
+      const lantern = this._buildTrailLantern(col.position.x * 1.15, 3.8, col.position.z * 1.15);
+      group.add(lantern);
+    }
+
+    // 4. 双层飞檐攒尖顶
+    const roof1 = new THREE.Mesh(new THREE.ConeGeometry(6.6, 1.8, 6), matRoof);
+    roof1.position.y = 5.2;
+    group.add(roof1);
+
+    const roof2 = new THREE.Mesh(new THREE.ConeGeometry(4.8, 1.6, 6), matRoof);
+    roof2.position.y = 6.4;
+    group.add(roof2);
+
+    const finial = new THREE.Mesh(
+      new THREE.SphereGeometry(0.35, 8, 8),
+      new THREE.MeshStandardMaterial({ color: 0xF5CF4E, metalness: 0.9, roughness: 0.2 })
+    );
+    finial.position.y = 7.4;
+    group.add(finial);
+
+    // 5. 观景台两侧掩映两株繁盛粉桃
+    const peach1 = this._buildPeachBlossomTree();
+    peach1.position.set(-9.5, 0, -2);
+    group.add(peach1);
+
+    const peach2 = this._buildPeachBlossomTree();
+    peach2.position.set(9.0, 0, 3);
+    group.add(peach2);
+
+    this.scene.add(group);
+  }
+
+  // 建造青石古道与引路明灯 (Walkable Scenic Pathway with Lanterns)
+  _buildStoneRoadAndLanterns() {
+    const roadPoints = [
+      new THREE.Vector3(-32, 9.8, 48),  // 起点高崖画阁
+      new THREE.Vector3(-36, 6.4, 40),  // 盘山步道
+      new THREE.Vector3(-42, 3.4, 34),  // 临溪桃林
+      new THREE.Vector3(-45, 1.8, 28),  // 桃溪浅滩 (鹿蜀)
+      new THREE.Vector3(-30, 2.0, 20),  // 沿岸碎石径
+      new THREE.Vector3(-18, 3.4, 8),   // 通往深涧小径
+      new THREE.Vector3(0, 2.5, 16),    // 中洲渚岸
+      new THREE.Vector3(12, 2.6, 42),   // 麦陇农庄 (当康)
+      new THREE.Vector3(26, 4.2, 10),   // 关隘石桥引桥
+      new THREE.Vector3(38, 8.8, -15),  // 千步虹桥 (驳)
+      new THREE.Vector3(55, 6.2, 2),    // 盘山石阶
+      new THREE.Vector3(72, 3.5, -4),   // 大泽栈桥
+      new THREE.Vector3(88, 5.0, -8)    // 水心画阁 (白泽)
+    ];
+
+    const matStonePath = new THREE.MeshStandardMaterial({
+      color: 0xDAC8A6,
+      roughness: 0.85
     });
+
+    // 沿途铺设古道石板
+    for (let i = 0; i < roadPoints.length - 1; i++) {
+      const p1 = roadPoints[i];
+      const p2 = roadPoints[i + 1];
+      const dist = p1.distanceTo(p2);
+      const steps = Math.ceil(dist / 2.2);
+
+      for (let s = 0; s <= steps; s++) {
+        const t = s / steps;
+        const pos = new THREE.Vector3().lerpVectors(p1, p2, t);
+        const slab = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.15, 1.6), matStonePath);
+        slab.position.copy(pos);
+        slab.position.y += 0.08;
+        slab.rotation.y = Math.atan2(p2.x - p1.x, p2.z - p1.z);
+        this.scene.add(slab);
+
+        // 每隔两步立一盏木质温暖引路明灯
+        if (s % 3 === 0 && (i % 2 === 0)) {
+          const l = this._buildTrailLantern(pos.x + 1.6, pos.y, pos.z);
+          this.scene.add(l);
+        }
+      }
+    }
+  }
+
+  // 打造写意引路木灯笼
+  _buildTrailLantern(x, y, z) {
+    const post = new THREE.Group();
+    post.position.set(x, y, z);
+
+    const woodMat = new THREE.MeshStandardMaterial({ color: 0x4A3319, roughness: 0.8 });
+    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 2.2, 6), woodMat);
+    pole.position.y = 1.1;
+    post.add(pole);
+
+    // 暖黄纸质灯笼
+    const lanternMat = new THREE.MeshStandardMaterial({
+      color: 0xFFE082,
+      emissive: 0xFFA000,
+      emissiveIntensity: 0.65,
+      roughness: 0.3
+    });
+    const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.24, 8, 8), lanternMat);
+    lantern.scale.set(1.0, 1.3, 1.0);
+    lantern.position.set(0.3, 2.0, 0);
+    post.add(lantern);
+
+    const light = new THREE.PointLight(0xFFD56B, 1.3, 9);
+    light.position.set(0.3, 2.0, 0);
+    post.add(light);
+
+    return post;
+  }
+
+  // 打造六大胜境 3D 建筑、飞瀑、长桥与生机草木
+  _buildScenicLandmarks() {
+    const matWood = new THREE.MeshStandardMaterial({ color: 0x6E4A28, roughness: 0.75 });
+    const matPillars = new THREE.MeshStandardMaterial({ color: 0xA62B20, roughness: 0.5 }); // 宋红立柱
+    const matRoof = new THREE.MeshStandardMaterial({ color: 0x8C4A34, roughness: 0.45 });
+    const matStone = new THREE.MeshStandardMaterial({ color: 0x5C6D68, roughness: 0.85 });
 
     // 1. 【胜境一 · 桃溪浅滩】(x: -45, z: 28)
     const peachGroup = new THREE.Group();
     peachGroup.position.set(-45, 1.2, 28);
-    for (let i = 0; i < 9; i++) {
-      const tree = new THREE.Group();
-      tree.position.set((Math.random() - 0.5) * 24, 0, (Math.random() - 0.5) * 20);
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.24, 3.2, 6), matPineTrunk);
-      trunk.position.y = 1.6;
-      trunk.rotation.z = (Math.random() - 0.5) * 0.35;
-      tree.add(trunk);
-      const canopy = new THREE.Mesh(new THREE.DodecahedronGeometry(1.6, 1), matPeachFoliage);
-      canopy.position.y = 3.5;
-      canopy.scale.set(1.4, 0.9, 1.2);
-      tree.add(canopy);
+    for (let i = 0; i < 10; i++) {
+      const tree = this._buildPeachBlossomTree();
+      tree.position.set((Math.random() - 0.5) * 26, 0, (Math.random() - 0.5) * 22);
       peachGroup.add(tree);
     }
     const boat = this._buildFishingBoat(matWood);
@@ -366,7 +647,7 @@ export class World3D {
     this.waterfallMesh = fallMesh;
 
     for (let i = 0; i < 6; i++) {
-      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(2.2 + Math.random() * 2.8, 1), matStone);
+      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(2.4 + Math.random() * 2.8, 1), matStone);
       rock.position.set((Math.random() - 0.5) * 18, 2.2, (Math.random() - 0.5) * 12);
       fallsGroup.add(rock);
     }
@@ -384,23 +665,20 @@ export class World3D {
     const bridgeGroup = new THREE.Group();
     bridgeGroup.position.set(38, 2.5, -15);
 
-    // 飞跨深涧的朱红木拱
     const bridgeArch = new THREE.Mesh(
       new THREE.TorusGeometry(13.0, 1.1, 8, 28, Math.PI * 0.65),
-      new THREE.MeshStandardMaterial({ color: 0x8A2A20, roughness: 0.55 })
+      new THREE.MeshStandardMaterial({ color: 0x9B2C22, roughness: 0.55 })
     );
     bridgeArch.rotation.z = Math.PI * 0.175;
     bridgeArch.position.y = -2.2;
     bridgeGroup.add(bridgeArch);
 
-    // 桥面与桥栏
     const deck = new THREE.Mesh(new THREE.BoxGeometry(24, 0.45, 3.6), matWood);
     deck.position.set(0, 4.3, 0);
     deck.rotation.z = 0.04;
     bridgeGroup.add(deck);
 
-    // 桥头守桥古松
-    const pine = this._buildSongPineTree(matPineTrunk, matPineNeedles);
+    const pine = this._buildSongPineTree();
     pine.position.set(-12, 3.2, 3.5);
     bridgeGroup.add(pine);
     this.scene.add(bridgeGroup);
@@ -423,13 +701,13 @@ export class World3D {
     grandGroup.add(dock);
     this.scene.add(grandGroup);
 
-    // 漫山遍野散布北宋经典苍松虬枝 (45 棵古松遍布千岩万壑)
-    for (let i = 0; i < 45; i++) {
+    // 漫山遍野散布北宋经典苍松 (50 棵古松遍布千岩万壑)
+    for (let i = 0; i < 50; i++) {
       const px = (Math.random() - 0.5) * 320;
       const pz = (Math.random() - 0.5) * 220;
       const py = this._calculateTerrainHeight(px, pz);
       if (py > 2.2 && py < 30.0) {
-        const p = this._buildSongPineTree(matPineTrunk, matPineNeedles);
+        const p = this._buildSongPineTree();
         p.position.set(px, py, pz);
         this.scene.add(p);
       }
@@ -446,16 +724,15 @@ export class World3D {
 
     const canopy = new THREE.Mesh(
       new THREE.CylinderGeometry(0.85, 0.85, 2.1, 10, 1, false, 0, Math.PI),
-      new THREE.MeshStandardMaterial({ color: 0x6E563B, roughness: 0.85 })
+      new THREE.MeshStandardMaterial({ color: 0x8A6C4A, roughness: 0.85 })
     );
     canopy.rotation.z = Math.PI / 2;
     canopy.position.set(0, 0.45, 0);
     boat.add(canopy);
 
-    // 船头夜钓暖灯
     const lantern = new THREE.Mesh(
-      new THREE.SphereGeometry(0.14, 8, 8),
-      new THREE.MeshBasicMaterial({ color: 0xFFE082 })
+      new THREE.SphereGeometry(0.16, 8, 8),
+      new THREE.MeshBasicMaterial({ color: 0xFFD56B })
     );
     lantern.position.set(2.4, 0.5, 0);
     boat.add(lantern);
@@ -475,33 +752,74 @@ export class World3D {
     return cottage;
   }
 
-  // 打造北宋名画同款苍松虬枝 (Layered Fan-Shaped Needle Discs)
-  _buildSongPineTree(matTrunk, matNeedles) {
+  // 打造写意工笔苍松虬枝 (北宋画谱经典造型 · 柔和法线绝无黑斑)
+  _buildSongPineTree() {
     const pine = new THREE.Group();
-    // 弯曲苍劲的树干
-    const trunk1 = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.38, 2.8, 6), matTrunk);
+    const matTrunk = new THREE.MeshStandardMaterial({ color: 0x4E351F, roughness: 0.92 });
+    const matNeedles = new THREE.MeshStandardMaterial({
+      color: 0x2CB588, // 鲜活孔雀石绿
+      emissive: 0x145A3E,
+      emissiveIntensity: 0.28,
+      roughness: 0.52
+    });
+
+    // 虬曲苍劲主干
+    const trunk1 = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.42, 2.8, 8), matTrunk);
     trunk1.position.y = 1.4;
-    trunk1.rotation.z = (Math.random() - 0.5) * 0.25;
+    trunk1.rotation.z = (Math.random() - 0.5) * 0.22;
     pine.add(trunk1);
 
-    const trunk2 = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.24, 2.6, 6), matTrunk);
+    const trunk2 = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.24, 2.6, 8), matTrunk);
     trunk2.position.set(0.25, 3.6, 0);
     trunk2.rotation.z = -0.3 + (Math.random() - 0.5) * 0.2;
     pine.add(trunk2);
 
-    // 三层宋画扁平扇形松针簇
+    // 采用平滑半球冠盖层叠（圆润柔和，NPR 墨线仅勾勒外轮廓）
     const layers = [
-      { y: 3.2, r: 2.2 },
-      { y: 4.4, r: 1.8 },
-      { y: 5.4, r: 1.3 }
+      { y: 3.2, r: 2.1, scale: [1.3, 0.48, 1.2] },
+      { y: 4.4, r: 1.7, scale: [1.2, 0.45, 1.1] },
+      { y: 5.4, r: 1.3, scale: [1.1, 0.42, 1.0] }
     ];
+
     layers.forEach(l => {
-      const disc = new THREE.Mesh(new THREE.CylinderGeometry(l.r * 0.6, l.r, 0.45, 8), matNeedles);
-      disc.position.set(0.3 + (Math.random() - 0.5) * 0.3, l.y, (Math.random() - 0.5) * 0.3);
-      disc.scale.set(1.1, 0.8, 1.0);
-      pine.add(disc);
+      const cluster = new THREE.Mesh(new THREE.SphereGeometry(l.r, 10, 8), matNeedles);
+      cluster.scale.set(l.scale[0], l.scale[1], l.scale[2]);
+      cluster.position.set(0.3 + (Math.random() - 0.5) * 0.3, l.y, (Math.random() - 0.5) * 0.3);
+      pine.add(cluster);
     });
+
     return pine;
+  }
+
+  // 打造十里繁花写意桃树
+  _buildPeachBlossomTree() {
+    const tree = new THREE.Group();
+    const matTrunk = new THREE.MeshStandardMaterial({ color: 0x583A24, roughness: 0.88 });
+    const matPeachFoliage = new THREE.MeshStandardMaterial({
+      color: 0xFFA5B8, // 娇嫩花青粉桃
+      emissive: 0xDB4D6D,
+      emissiveIntensity: 0.32,
+      roughness: 0.45
+    });
+
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.26, 3.2, 8), matTrunk);
+    trunk.position.y = 1.6;
+    trunk.rotation.z = (Math.random() - 0.5) * 0.32;
+    tree.add(trunk);
+
+    // 4 团柔软云朵状桃花冠盖
+    for (let c = 0; c < 4; c++) {
+      const canopy = new THREE.Mesh(new THREE.SphereGeometry(1.2 + Math.random() * 0.4, 8, 8), matPeachFoliage);
+      canopy.position.set(
+        (Math.random() - 0.5) * 1.5,
+        3.2 + Math.random() * 0.8,
+        (Math.random() - 0.5) * 1.5
+      );
+      canopy.scale.set(1.2, 0.8, 1.1);
+      tree.add(canopy);
+    }
+
+    return tree;
   }
 
   // 打造飞檐六角亭
@@ -513,12 +831,10 @@ export class World3D {
       col.position.set(Math.cos(angle) * 2.5, 1.9, Math.sin(angle) * 2.5);
       pav.add(col);
     }
-    // 翘角飞檐大顶
     const roof = new THREE.Mesh(new THREE.ConeGeometry(4.2, 2.2, 6), matRoof);
     roof.position.y = 4.6;
     pav.add(roof);
 
-    // 顶端金宝珠
     const finial = new THREE.Mesh(
       new THREE.SphereGeometry(0.3, 8, 8),
       new THREE.MeshStandardMaterial({ color: 0xF3C93E, metalness: 0.9 })
@@ -542,7 +858,7 @@ export class World3D {
 
   // 生成空气中漂浮的石青石绿矿物金粉微粒
   _buildGoldDustParticles() {
-    const particleCount = 320;
+    const particleCount = 360;
     const geo = new THREE.BufferGeometry();
     const pos = [];
 
@@ -560,7 +876,8 @@ export class World3D {
       size: 0.75,
       transparent: true,
       opacity: 0.7,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
     });
 
     this.goldDustPoints = new THREE.Points(geo, mat);
@@ -575,19 +892,21 @@ export class World3D {
     });
   }
 
-  // 建造冲天金光信标柱 (Sky Beacons)
+  // 建造空灵冲天金光信标柱 (Soft Ethereal Sky Beacons)
   _createSkyBeam(beast) {
-    const beamGeo = new THREE.CylinderGeometry(0.35, 1.4, 95, 16, 1, true);
+    const beamGeo = new THREE.CylinderGeometry(0.8, 3.2, 140, 16, 1, true);
     const beamMat = new THREE.MeshBasicMaterial({
       color: new THREE.Color(beast.goldColor),
       transparent: true,
-      opacity: 0.38,
+      opacity: 0.18,
       side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending
+      blending: THREE.AdditiveBlending,
+      depthWrite: false, // 绝不写入深度，防止墨线边缘产生黑框
+      depthTest: true
     });
 
     const beam = new THREE.Mesh(beamGeo, beamMat);
-    beam.position.set(beast.coordinates.x, beast.coordinates.y + 47.5, beast.coordinates.z);
+    beam.position.set(beast.coordinates.x, beast.coordinates.y + 70, beast.coordinates.z);
     this.scene.add(beam);
     this.skyBeams[beast.id] = beam;
   }
@@ -669,7 +988,7 @@ export class World3D {
       this.awakenedZones.add(beast.id);
 
       if (this.skyBeams[beast.id]) {
-        this.skyBeams[beast.id].material.opacity = 0.08;
+        this.skyBeams[beast.id].material.opacity = 0.05;
       }
 
       this.beastManager.triggerAwaken(beast.id);
@@ -684,19 +1003,19 @@ export class World3D {
     audio.playAwakeningChoral(beast.sectionIndex);
 
     if (this.waterMesh) {
-      this.waterMesh.material.color.setHex(0x3B8F80);
+      this.waterMesh.material.color.setHex(0x3B9E8C);
       this.waterMesh.material.emissive = new THREE.Color(beast.goldColor);
       this.waterMesh.material.emissiveIntensity = 0.35;
     }
 
-    this.scene.fog.color.setHex(0xF6ECD9);
-    this.sunLight.intensity = 2.2;
+    this.scene.fog.color.setHex(0xF8EEDC);
+    this.sunLight.intensity = 2.4;
 
     setTimeout(() => {
       if (this.waterMesh) {
         this.waterMesh.material.emissiveIntensity = 0.05;
       }
-      this.sunLight.intensity = 1.75;
+      this.sunLight.intensity = 2.2;
     }, 4000);
   }
 
@@ -816,6 +1135,17 @@ export class World3D {
       this.waterfallMesh.material.opacity = 0.82 + Math.sin(time * 8.0) * 0.14;
     }
 
+    // 动态玉带祥云漂移
+    if (this.cloudRibbons && this.cloudRibbons.length > 0) {
+      this.cloudRibbons.forEach((cloud, idx) => {
+        cloud.position.x += cloud.userData.speed * dt;
+        if (cloud.position.x > 180) {
+          cloud.position.x = -180;
+        }
+        cloud.position.y += Math.sin(time * 0.8 + idx) * 0.005;
+      });
+    }
+
     if (this.goldDustPoints) {
       const pos = this.goldDustPoints.geometry.attributes.position;
       for (let i = 1; i < pos.count; i += 3) {
@@ -828,8 +1158,8 @@ export class World3D {
 
     Object.entries(this.skyBeams).forEach(([id, beam]) => {
       if (!this.awakenedZones.has(id)) {
-        beam.rotation.y += 0.012;
-        beam.scale.x = 1.0 + Math.sin(time * 2.5) * 0.15;
+        beam.rotation.y += 0.008;
+        beam.scale.x = 1.0 + Math.sin(time * 2.0) * 0.12;
         beam.scale.z = beam.scale.x;
       }
     });

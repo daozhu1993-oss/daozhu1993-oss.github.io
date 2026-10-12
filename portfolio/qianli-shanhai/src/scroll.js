@@ -152,6 +152,10 @@ export class ScrollViewer {
     return birds;
   }
 
+  resize() {
+    this._resize();
+  }
+
   _resize() {
     this.width = this.container.clientWidth || window.innerWidth;
     this.height = this.container.clientHeight || window.innerHeight;

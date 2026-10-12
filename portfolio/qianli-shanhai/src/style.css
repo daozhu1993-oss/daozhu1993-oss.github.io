@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* =========================================================
-   《千里江山 · 山海入画》宋代青绿美学样式系统
+   《千里江山 · 借笔还魂》宋代青绿美学样式系统
    色彩基调：古绢、石青、石绿、赭石、朱砂、泥金
    ========================================================= */
 
@@ -13,12 +13,12 @@
   --mineral-green: #1D6A5D;
   --mineral-ochre: #A66B49;
   --cinnabar-red: #A8261C;
-  --cinnabar-border: #7F1A13;
+  --cinnabar-dark: #7F1A13;
   --gold-leaf: #F4D068;
-  --gold-glow: rgba(244, 208, 104, 0.45);
+  --gold-glow: rgba(244, 208, 104, 0.55);
   --ink-black: #26221D;
   --ink-muted: #5C5144;
-  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", SimSun, serif;
 }
 
 * {
@@ -45,39 +45,178 @@ html, body {
   overflow: hidden;
 }
 
-/* 视口容器 */
-#viewport-scroll, #viewport-3d {
+/* 3D 画中世界为主舞台 */
+#viewport-3d {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-#viewport-scroll {
-  cursor: grab;
   z-index: 10;
   display: block;
 }
 
-#viewport-scroll:active {
-  cursor: grabbing;
-}
-
-#viewport-3d {
-  z-index: 20;
-  display: none;
-}
-
+/* UI 交互顶层 */
 #ui-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 100;
+  z-index: 50;
+}
+
+#ui-layer > * {
+  pointer-events: auto;
 }
 
 /* =========================================================
-   顶栏古典 HUD (Header)
+   1. 开屏序幕仪式：【借笔还魂 · 展卷入画】 (Prologue)
    ========================================================= */
+.sh-prologue-mask {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(32, 26, 20, 0.88) 0%, rgba(18, 14, 10, 0.96) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sh-prologue-mask.prologue-fade-out {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.prologue-scroll-card {
+  position: relative;
+  max-width: 680px;
+  width: 100%;
+  background: #FDF7EA;
+  border-radius: 14px;
+  padding: 44px 52px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(244, 208, 104, 0.35);
+  border: 2px solid var(--silk-border);
+  text-align: center;
+}
+
+.prologue-border {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(135, 109, 70, 0.35);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.prologue-header {
+  margin-bottom: 24px;
+}
+
+.prologue-seal {
+  display: inline-block;
+  background: var(--cinnabar-red);
+  color: #FFF6E8;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--gold-leaf);
+  margin-bottom: 12px;
+  letter-spacing: 0.15em;
+  box-shadow: 0 0 14px rgba(168, 38, 28, 0.5);
+}
+
+.prologue-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--ink-black);
+  letter-spacing: 0.15em;
+  margin-bottom: 6px;
+  background: linear-gradient(180deg, #1A1612 0%, #4D3D2B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.prologue-sub {
+  font-size: 14px;
+  color: #7A664E;
+  letter-spacing: 0.08em;
+}
+
+.prologue-body {
+  text-align: justify;
+  margin-bottom: 32px;
+  padding: 0 8px;
+}
+
+.prologue-p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #383025;
+  margin-bottom: 14px;
+  text-indent: 2em;
+  letter-spacing: 0.04em;
+}
+
+.prologue-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.prologue-start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #B82C22 0%, #8C1C14 100%);
+  color: #FFF8EB;
+  border: 2px solid var(--gold-leaf);
+  padding: 14px 42px;
+  border-radius: 999px;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(184, 44, 34, 0.45), 0 0 18px var(--gold-glow);
+  transition: all 0.25s ease;
+}
+
+.prologue-start-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 36px rgba(184, 44, 34, 0.6), 0 0 26px var(--gold-glow);
+  background: linear-gradient(135deg, #CF3328 0%, #9C1F16 100%);
+}
+
+.btn-seal-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--gold-leaf);
+  color: var(--ink-black);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.prologue-tip {
+  font-size: 12px;
+  color: #8C7860;
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================
+   2. 3D 漫步 HUD (Header & Compass)
+   ========================================================= */
+.sh-hud-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .sh-hud-top {
   position: absolute;
   top: 18px;
@@ -86,6 +225,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   z-index: 100;
   pointer-events: none;
 }
@@ -97,14 +237,14 @@ html, body {
 .hud-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   background: rgba(239, 228, 205, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 8px 18px 8px 10px;
+  padding: 6px 16px 6px 8px;
   border-radius: 999px;
   border: 1px solid var(--silk-border);
-  box-shadow: 0 4px 18px rgba(70, 50, 20, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
 }
 
 .hud-logo-seal {
@@ -112,13 +252,13 @@ html, body {
   height: 34px;
   background: var(--cinnabar-red);
   color: #FFF6E8;
+  font-size: 14px;
+  font-weight: 900;
   display: grid;
   place-items: center;
-  font-size: 15px;
-  font-weight: 900;
   border-radius: 6px;
-  border: 1px solid var(--cinnabar-border);
-  box-shadow: 0 2px 6px rgba(168, 38, 28, 0.4);
+  border: 1px solid var(--gold-leaf);
+  box-shadow: 0 0 10px rgba(168, 38, 28, 0.6);
 }
 
 .hud-title-group {
@@ -127,8 +267,8 @@ html, body {
 }
 
 .hud-title {
-  font-size: 17px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   color: var(--ink-black);
   letter-spacing: 0.08em;
 }
@@ -139,10 +279,74 @@ html, body {
   letter-spacing: 0.04em;
 }
 
+/* 山海司南罗盘方位条 */
+.hud-compass-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(26, 22, 17, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 208, 104, 0.4);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  min-width: 260px;
+  max-width: 360px;
+  flex: 1;
+}
+
+.compass-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-leaf);
+  letter-spacing: 0.1em;
+  border-right: 1px solid rgba(244, 208, 104, 0.3);
+  padding-right: 8px;
+}
+
+.compass-track {
+  position: relative;
+  width: 100%;
+  height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.compass-beast-mark {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(239, 228, 205, 0.9);
+  border: 1px solid var(--silk-border);
+  padding: 2px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-black);
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: left 0.1s linear;
+}
+
+.compass-beast-mark.is-awakened {
+  background: var(--cinnabar-red);
+  color: #FFF;
+  border-color: var(--gold-leaf);
+  box-shadow: 0 0 10px rgba(244, 208, 104, 0.6);
+}
+
+.compass-beast-mark .mark-dist {
+  font-size: 9px;
+  opacity: 0.85;
+}
+
 .hud-status-group {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .hud-seal-badge {
@@ -207,14 +411,14 @@ html, body {
   transform: translateY(-1px);
 }
 
-.hud-btn-mode {
-  background: var(--cinnabar-red);
-  color: #FFF6E8;
-  border-color: var(--cinnabar-border);
+.hud-btn-gold {
+  background: linear-gradient(135deg, #C79C44 0%, #A3792E 100%);
+  color: #FFF9ED;
+  border-color: var(--gold-leaf);
 }
 
-.hud-btn-mode:hover {
-  background: #C43226;
+.hud-btn-gold:hover {
+  background: linear-gradient(135deg, #D9AD52 0%, #B88A35 100%);
   color: #FFF;
 }
 
@@ -222,7 +426,7 @@ html, body {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.12);
   display: grid;
   place-items: center;
   font-size: 11px;
@@ -230,229 +434,205 @@ html, body {
 }
 
 /* =========================================================
-   长卷底部进度导览轨 (Bottom Nav)
+   3. 准星与接近提笔提示 (Reticle & Beast Prompt)
    ========================================================= */
-.sh-scroll-nav {
-  position: absolute;
-  bottom: 24px;
-  left: 36px;
-  right: 36px;
-  z-index: 100;
-  pointer-events: none;
-}
-
-.scroll-nav-track {
-  position: relative;
-  width: 100%;
-  height: 6px;
-  background: rgba(135, 109, 70, 0.25);
-  border-radius: 3px;
-  margin-bottom: 12px;
-  border: 1px solid rgba(238, 204, 114, 0.3);
-}
-
-.scroll-nav-thumb {
-  position: absolute;
-  top: -4px;
-  left: 0;
-  width: 32px;
-  height: 14px;
-  background: var(--cinnabar-red);
-  border: 1px solid #FFE9AD;
-  border-radius: 7px;
-  transform: translateX(-50%);
-  box-shadow: 0 0 10px rgba(168, 38, 28, 0.6);
-  transition: left 0.1s linear;
-}
-
-.scroll-nav-seals {
-  position: relative;
-  width: 100%;
-  height: 38px;
-}
-
-.nav-seal-node {
-  position: absolute;
-  top: 0;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  pointer-events: auto;
-  transition: transform 0.2s ease;
-}
-
-.nav-seal-node:hover {
-  transform: translateX(-50%) translateY(-3px);
-}
-
-.nav-seal-box {
-  width: 24px;
-  height: 24px;
-  background: rgba(239, 228, 205, 0.85);
-  border: 1px solid var(--silk-border);
-  color: var(--ink-black);
-  border-radius: 4px;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.25s ease;
-}
-
-.nav-seal-node.is-awakened .nav-seal-box {
-  background: var(--cinnabar-red);
-  color: #FFF6E8;
-  border-color: var(--gold-leaf);
-  box-shadow: 0 0 12px rgba(244, 208, 104, 0.65);
-}
-
-.nav-seal-label {
-  font-size: 11px;
-  color: var(--ink-black);
-  font-weight: 600;
-  text-shadow: 0 1px 3px rgba(239, 228, 205, 0.9);
-}
-
-.scroll-guidance-pill {
-  margin: 14px auto 0;
-  width: fit-content;
-  background: rgba(239, 228, 205, 0.92);
-  border: 1px solid var(--silk-border);
-  padding: 6px 18px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink-black);
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 14px rgba(70, 50, 20, 0.12);
-  text-align: center;
-}
-
-/* =========================================================
-   3D 漫步 HUD (3D Mode)
-   ========================================================= */
-.sh-3d-hud {
+.sh-reticle-wrap {
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
   pointer-events: none;
-  z-index: 50;
 }
 
-.hud-scenic-title {
-  position: absolute;
-  top: 86px;
-  left: 32px;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--mineral-cyan);
-  text-shadow: 0 2px 8px rgba(239, 228, 205, 0.8);
-  letter-spacing: 0.12em;
+.center-crosshair {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(244, 208, 104, 0.8);
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(244, 208, 104, 0.5);
 }
 
-.reticle-hint {
+.beast-approach-prompt {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 58%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(38, 34, 29, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 8px 18px;
+  gap: 12px;
+  background: rgba(24, 20, 16, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 24px;
   border-radius: 999px;
-  color: #FFF5E6;
-  border: 1px solid var(--gold-leaf);
-  box-shadow: 0 0 24px var(--gold-glow);
-  opacity: 0.9;
+  border: 1.5px solid var(--gold-leaf);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px var(--gold-glow);
+  cursor: pointer;
+  pointer-events: auto;
+  animation: promptFloat 2.2s infinite ease-in-out;
 }
 
-.hint-key {
-  width: 24px;
-  height: 24px;
-  background: var(--gold-leaf);
-  color: var(--ink-black);
-  font-weight: 900;
-  border-radius: 4px;
+@keyframes promptFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.prompt-seal-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.prompt-seal-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--cinnabar-red);
+  color: #FFF;
+  border: 1px solid var(--gold-leaf);
+  border-radius: 6px;
   display: grid;
   place-items: center;
   font-size: 13px;
+  font-weight: 900;
+  box-shadow: 0 0 10px rgba(168, 38, 28, 0.6);
 }
 
-.hint-text {
-  font-size: 13px;
-  font-weight: 600;
+.prompt-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.prompt-action {
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFF8EB;
+  letter-spacing: 0.08em;
+}
+
+.prompt-name {
+  font-size: 12px;
+  color: var(--gold-leaf);
   letter-spacing: 0.05em;
 }
 
-.hud-controls-tip {
+/* 底部操作说明药丸 */
+.sh-controls-dock {
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.dock-pill {
   background: rgba(239, 228, 205, 0.9);
-  padding: 8px 22px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 8px 24px;
   border-radius: 999px;
   border: 1px solid var(--silk-border);
   font-size: 12px;
   color: var(--ink-black);
   letter-spacing: 0.05em;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+}
+
+.key-tag {
+  font-weight: 800;
+  color: var(--cinnabar-red);
+}
+
+/* 移动端控件 */
+.sh-mobile-controls {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.virtual-joystick {
+  position: absolute;
+  bottom: 36px;
+  left: 36px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(239, 228, 205, 0.4);
+  border: 2px solid rgba(135, 109, 70, 0.6);
+  pointer-events: auto;
+  display: grid;
+  place-items: center;
+}
+
+.joystick-knob {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--cinnabar-red);
+  border: 2px solid var(--gold-leaf);
+  box-shadow: 0 0 12px rgba(168, 38, 28, 0.6);
 }
 
 .mobile-action-btn {
-  display: none;
   position: absolute;
-  bottom: 80px;
-  right: 28px;
-  padding: 14px 28px;
+  bottom: 36px;
+  right: 36px;
+  padding: 16px 28px;
   background: var(--cinnabar-red);
   color: #FFF;
   border: 2px solid var(--gold-leaf);
   border-radius: 999px;
   font-family: var(--font-serif);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   pointer-events: auto;
-  box-shadow: 0 4px 20px rgba(168, 38, 28, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(168, 38, 28, 0.6);
+}
+
+.mobile-action-btn .m-icon {
+  width: 22px;
+  height: 22px;
+  background: var(--gold-leaf);
+  color: var(--ink-black);
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
 }
 
 /* =========================================================
-   弹窗系统 (Modals)
+   4. 神兽唤醒诗笺卡片 (Beast Modal)
    ========================================================= */
 .sh-modal-mask {
   position: fixed;
   inset: 0;
-  background: rgba(26, 22, 17, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(22, 18, 14, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: grid;
   place-items: center;
   z-index: 999;
   padding: 20px;
 }
 
-/* 神兽诗笺卡片 */
 .beast-card {
   position: relative;
-  max-width: 580px;
+  max-width: 600px;
   width: 100%;
-  background: #FDF9EE;
+  background: #FDF8EC;
   border-radius: 12px;
-  padding: 36px 38px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  padding: 38px 42px;
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.45);
   border: 2px solid var(--silk-border);
 }
 
 .beast-card-border {
   position: absolute;
-  inset: 8px;
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  inset: 6px;
+  border: 1px solid rgba(135, 109, 70, 0.35);
   border-radius: 8px;
   pointer-events: none;
 }
@@ -460,10 +640,8 @@ html, body {
 .beast-card-header {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   margin-bottom: 22px;
-  border-bottom: 1px solid rgba(135, 109, 70, 0.2);
-  padding-bottom: 16px;
 }
 
 .beast-seal-stamp {
@@ -471,134 +649,269 @@ html, body {
   height: 58px;
   background: var(--cinnabar-red);
   color: #FFF8EB;
-  border: 2px solid var(--cinnabar-border);
+  border: 2px solid var(--gold-leaf);
+  border-radius: 8px;
   display: grid;
   place-items: center;
   font-size: 15px;
   font-weight: 900;
-  line-height: 1.2;
-  text-align: center;
-  box-shadow: 0 4px 14px rgba(168, 38, 28, 0.4);
+  writing-mode: vertical-rl;
+  letter-spacing: 0.12em;
+  box-shadow: 0 0 16px rgba(168, 38, 28, 0.6);
 }
 
 .beast-name-wrap {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .beast-name {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 900;
   color: var(--ink-black);
   letter-spacing: 0.1em;
 }
 
 .beast-title {
-  font-size: 14px;
-  color: var(--mineral-green);
-  font-weight: 600;
+  font-size: 13px;
+  color: var(--cinnabar-red);
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 .beast-quote-box {
-  background: rgba(239, 228, 205, 0.45);
-  border-left: 3px solid var(--cinnabar-red);
-  padding: 14px 18px;
+  background: rgba(239, 228, 205, 0.5);
+  border-left: 3px solid var(--silk-border);
+  padding: 12px 18px;
+  border-radius: 0 8px 8px 0;
   margin-bottom: 18px;
-  border-radius: 0 6px 6px 0;
 }
 
 .quote-source {
-  font-size: 12px;
-  color: var(--cinnabar-red);
+  font-size: 11px;
   font-weight: 700;
-  margin-bottom: 6px;
+  color: var(--mineral-cyan);
+  margin-bottom: 4px;
+  letter-spacing: 0.06em;
 }
 
 .quote-text {
-  font-size: 14px;
-  line-height: 1.85;
+  font-size: 13px;
+  line-height: 1.7;
   color: var(--ink-black);
+  font-style: italic;
 }
 
 .beast-reflection-box {
+  background: #FFFBF2;
+  border: 1px solid rgba(244, 208, 104, 0.6);
+  padding: 16px 20px;
+  border-radius: 8px;
   margin-bottom: 18px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
 }
 
 .reflection-label {
   font-size: 12px;
-  color: var(--silk-border);
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--cinnabar-red);
   margin-bottom: 6px;
+  letter-spacing: 0.08em;
 }
 
 .reflection-text {
   font-size: 14px;
-  line-height: 1.9;
-  color: #4A4033;
+  line-height: 1.8;
+  color: #383025;
+  text-align: justify;
 }
 
 .beast-mutation-badge {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--mineral-green);
-  background: rgba(29, 106, 93, 0.08);
-  padding: 8px 14px;
-  border-radius: 6px;
   margin-bottom: 24px;
+  padding: 6px 12px;
+  background: rgba(29, 106, 93, 0.08);
+  border-radius: 6px;
 }
 
 .beast-card-footer {
   display: flex;
+  gap: 14px;
   justify-content: flex-end;
-  gap: 12px;
 }
 
 .card-btn {
-  padding: 10px 22px;
+  padding: 10px 24px;
   border-radius: 999px;
   font-family: var(--font-serif);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .card-btn-roam {
-  background: rgba(239, 228, 205, 0.7);
-  border: 1px solid var(--silk-border);
-  color: var(--ink-black);
+  background: var(--cinnabar-red);
+  color: #FFF;
+  border: 1px solid var(--gold-leaf);
+  box-shadow: 0 4px 16px rgba(168, 38, 28, 0.4);
 }
 
 .card-btn-roam:hover {
-  background: #FFF;
+  background: #C43226;
 }
 
 .card-btn-return {
-  background: var(--cinnabar-red);
-  border: 1px solid var(--cinnabar-border);
-  color: #FFF6E8;
+  background: transparent;
+  color: var(--ink-black);
+  border: 1px solid var(--silk-border);
 }
 
 .card-btn-return:hover {
-  background: #B82C22;
+  background: rgba(239, 228, 205, 0.8);
+  border-color: var(--gold-leaf);
 }
 
-/* 终局御览长卷弹窗 */
+/* =========================================================
+   5. 十二米真迹长卷全景抽屉 (Scroll Drawer)
+   ========================================================= */
+.sh-scroll-drawer {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 14, 10, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-header {
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(244, 208, 104, 0.3);
+  background: rgba(28, 22, 16, 0.95);
+}
+
+.drawer-title-group h3 {
+  font-size: 18px;
+  color: #FFF6E8;
+  letter-spacing: 0.1em;
+}
+
+.drawer-sub {
+  font-size: 12px;
+  color: var(--gold-leaf);
+  opacity: 0.85;
+}
+
+.drawer-close-btn {
+  background: var(--cinnabar-red);
+  color: #FFF;
+  border: 1px solid var(--gold-leaf);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.drawer-canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #EFE4CD;
+}
+
+.drawer-footer {
+  padding: 12px 24px;
+  background: rgba(24, 20, 15, 0.95);
+  border-top: 1px solid rgba(244, 208, 104, 0.2);
+}
+
+.drawer-seals-list {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.drawer-seal-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 228, 205, 0.12);
+  border: 1px solid rgba(244, 208, 104, 0.3);
+  padding: 6px 14px;
+  border-radius: 8px;
+  color: #FFF5E6;
+  font-family: var(--font-serif);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.drawer-seal-btn:hover {
+  background: rgba(239, 228, 205, 0.25);
+  border-color: var(--gold-leaf);
+}
+
+.drawer-seal-btn.is-awakened {
+  border-color: var(--gold-leaf);
+  background: rgba(168, 38, 28, 0.35);
+}
+
+.d-seal-char {
+  width: 24px;
+  height: 24px;
+  background: var(--cinnabar-red);
+  color: #FFF;
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.d-seal-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.d-seal-info b {
+  font-size: 12px;
+}
+
+.d-seal-state {
+  font-size: 10px;
+  color: var(--gold-leaf);
+  opacity: 0.8;
+}
+
+/* =========================================================
+   6. 终局藏书票与题记卡片
+   ========================================================= */
 .cert-modal-box {
   max-width: 960px;
   width: 100%;
-  background: #FDF9EE;
+  background: #FDF7EA;
+  border: 2px solid var(--silk-border);
   border-radius: 12px;
   padding: 32px;
-  border: 2px solid var(--silk-border);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   text-align: center;
 }
 
 .cert-modal-header h3 {
   font-size: 26px;
-  font-weight: 900;
   color: var(--ink-black);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .cert-sub {
@@ -607,11 +920,11 @@ html, body {
 }
 
 .cert-canvas-wrap {
-  margin: 22px 0;
-  overflow: hidden;
-  border-radius: 8px;
+  margin: 20px 0;
   border: 1px solid var(--silk-border);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 #cert-canvas {
@@ -626,27 +939,27 @@ html, body {
   gap: 16px;
 }
 
-/* 题记指引弹窗 */
 .guide-box {
-  max-width: 580px;
+  max-width: 600px;
+  width: 100%;
   background: #FDF9EE;
-  border-radius: 12px;
-  padding: 34px 38px;
   border: 2px solid var(--silk-border);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-  text-align: center;
+  border-radius: 12px;
+  padding: 36px 40px;
 }
 
 .guide-box h2 {
-  font-size: 22px;
-  margin-bottom: 14px;
+  font-size: 24px;
+  color: var(--ink-black);
+  margin-bottom: 16px;
+  letter-spacing: 0.08em;
 }
 
 .guide-box p {
   font-size: 14px;
-  line-height: 1.85;
-  color: #4A4033;
-  margin-bottom: 20px;
+  line-height: 1.8;
+  color: #383025;
+  margin-bottom: 14px;
   text-align: justify;
 }
 
@@ -654,46 +967,33 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  text-align: left;
+  margin-top: 18px;
 }
 
 .step-item {
-  font-size: 13.5px;
-  line-height: 1.7;
-  color: var(--ink-black);
-  background: rgba(239, 228, 205, 0.5);
-  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #423628;
+  background: rgba(239, 228, 205, 0.6);
+  padding: 8px 14px;
   border-radius: 6px;
-  border-left: 2px solid var(--cinnabar-red);
+  border-left: 3px solid var(--cinnabar-red);
 }
 
-/* 移动端媒体查询适配 */
 @media (max-width: 768px) {
-  .sh-hud-top {
-    left: 12px;
-    right: 12px;
-    top: 12px;
-  }
-  .hud-sub {
-    display: none;
-  }
-  .hud-seal-badge {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-  .sh-scroll-nav {
-    left: 14px;
-    right: 14px;
-    bottom: 16px;
-  }
-  .mobile-action-btn {
+  .sh-mobile-controls {
     display: block;
   }
-  .reticle-hint {
+  .hud-compass-bar {
     display: none;
   }
-  .hud-controls-tip {
-    font-size: 11px;
-    padding: 6px 14px;
+  .sh-controls-dock {
+    display: none;
+  }
+  .prologue-scroll-card {
+    padding: 28px 22px;
+  }
+  .prologue-title {
+    font-size: 24px;
   }
 }

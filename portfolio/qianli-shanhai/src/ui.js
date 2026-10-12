@@ -1,23 +1,28 @@
 /**
- * 《千里江山 · 山海入画》界面交互与典藏长卷生成器 (UI & Ex-Libris Certificate)
- * 支持：双模 HUD 切换、神兽诗笺弹窗、宋代印章震鸣动效、全璧御览长卷 Canvas 导出
+ * 《千里江山 · 山海入画》界面交互与典藏长卷生成器 (UI & Handscroll Ex-Libris Engine)
+ * 纯代码实现：
+ * 1. 【借笔还魂】序幕入画仪式 (Prologue Intro)
+ * 2. 3D 漫步 HUD、山海司南罗盘 (Compass) 与神兽接近提笔交互
+ * 3. 移动端虚拟摇杆与触控按键
+ * 4. 【十八岁少年借笔还魂札记】诗笺弹窗
+ * 5. 十二米真迹长卷全景画轴抽屉与神行传送 (Teleport)
+ * 6. 终局大成藏书票 Canvas 生成器
  */
 
-import { BEASTS, SCENIC_SECTIONS } from './beasts.js';
+import { BEASTS, SCENIC_SECTIONS, STORY_PROLOGUE } from './beasts.js';
 import { audio } from './audio.js';
 
 export class UIManager {
   constructor(appEl, options = {}) {
     this.appEl = appEl;
-    this.onModeChange = options.onModeChange || (() => {});
-    this.onJumpSection = options.onJumpSection || (() => {});
     this.onAwakenAction = options.onAwakenAction || (() => {});
-    this.onZoom = options.onZoom || (() => {});
-    this.onEnter3DFromModal = options.onEnter3DFromModal || (() => {});
+    this.onTeleport = options.onTeleport || (() => {});
+    this.onToggleScroll = options.onToggleScroll || (() => {});
+    this.onVirtualMove = options.onVirtualMove || (() => {});
 
-    this.currentMode = 'scroll'; // 'scroll' | '3d'
     this.awakenedCount = 0;
     this.activeBeast = null;
+    this.isScrollDrawerOpen = false;
 
     this._buildDOM();
     this._bindEvents();
@@ -25,64 +30,108 @@ export class UIManager {
 
   _buildDOM() {
     this.appEl.innerHTML = `
-      <!-- 顶栏古典 HUD -->
-      <header class="sh-hud-top">
-        <div class="hud-brand">
-          <span class="hud-logo-seal">千里</span>
-          <div class="hud-title-group">
-            <h1 class="hud-title">千里江山 · 山海入画</h1>
-            <span class="hud-sub">游目十二米北宋故宫真迹长卷 · 寻访唤醒六方山海神兽</span>
+      <!-- ================= 1. 开屏序幕：【借笔还魂 · 展卷入画】 ================= -->
+      <div class="sh-prologue-mask" id="prologue-mask">
+        <div class="prologue-scroll-card">
+          <div class="prologue-border"></div>
+          <div class="prologue-header">
+            <span class="prologue-seal">借笔还魂</span>
+            <h2 class="prologue-title">${STORY_PROLOGUE.title}</h2>
+            <span class="prologue-sub">${STORY_PROLOGUE.subheading}</span>
+          </div>
+
+          <div class="prologue-body">
+            ${STORY_PROLOGUE.paragraphs.map(p => `<p class="prologue-p">${p}</p>`).join('')}
+          </div>
+
+          <div class="prologue-footer">
+            <button class="prologue-start-btn" id="btn-start-game">
+              <span class="btn-seal-icon">印</span> ${STORY_PROLOGUE.callToAction}
+            </button>
+            <span class="prologue-tip">点击展卷 · 佩戴耳机聆听古琴声景更佳</span>
           </div>
         </div>
-
-        <div class="hud-status-group">
-          <div class="hud-seal-badge" id="hud-badge">
-            <span class="badge-dot"></span>
-            已唤醒山海神兽 <b id="awakened-num">0</b> / 6
-          </div>
-          <button class="hud-btn hud-btn-mode" id="btn-mode-toggle" style="display:none;">
-            <span class="btn-icon">卷</span> 出画还卷 (ESC)
-          </button>
-          <button class="hud-btn hud-btn-zoom" id="btn-zoom-in" title="放大细品真迹">
-            <span class="btn-icon">＋</span> 放大
-          </button>
-          <button class="hud-btn hud-btn-zoom" id="btn-zoom-out" title="缩小鸟瞰全景">
-            <span class="btn-icon">－</span> 缩小
-          </button>
-          <button class="hud-btn" id="btn-audio" title="静音/播放">
-            <span class="btn-icon">琴</span> <span id="audio-text">乐起</span>
-          </button>
-          <button class="hud-btn" id="btn-guide" title="游历指引">
-            <span class="btn-icon">鉴</span> 题记
-          </button>
-        </div>
-      </header>
-
-      <!-- 游目长卷底部进度导览轨 (Scroll Mode 专属) -->
-      <nav class="sh-scroll-nav" id="scroll-nav">
-        <div class="scroll-nav-track" id="nav-track">
-          <div class="scroll-nav-thumb" id="nav-thumb"></div>
-        </div>
-        <div class="scroll-nav-seals" id="nav-seals">
-          <!-- 动态渲染六段分卷与神兽印章节点 -->
-        </div>
-        <div class="scroll-guidance-pill">左右拖拽或滚轮游目十二米画卷 · 点击【入画】金印推门入画</div>
-      </nav>
-
-      <!-- 3D 漫步操作指引与准星 (3D Mode 专属) -->
-      <div class="sh-3d-hud" id="hud-3d" style="display:none;">
-        <div class="reticle-hint" id="reticle-hint">
-          <div class="hint-key">E</div>
-          <span class="hint-text">唤醒近旁神兽</span>
-        </div>
-        <div class="hud-scenic-title" id="scenic-title">卷一 · 桃溪浅滩</div>
-        <div class="hud-controls-tip">
-          <span>WASD / 方向键 移步</span> · <span>鼠标拖拽 游目四顾</span> · <span>ESC 出画还卷</span>
-        </div>
-        <button class="mobile-action-btn" id="mobile-e-btn">唤醒神兽 (E)</button>
       </div>
 
-      <!-- 神兽唤醒诗笺弹窗 -->
+      <!-- ================= 2. 3D 画中漫步主界面 HUD ================= -->
+      <div class="sh-hud-layer" id="main-hud">
+        <!-- 顶栏古典 HUD -->
+        <header class="sh-hud-top">
+          <div class="hud-brand">
+            <span class="hud-logo-seal">希孟</span>
+            <div class="hud-title-group">
+              <h1 class="hud-title">千里江山 · 借笔还魂</h1>
+              <span class="hud-sub">漫步青绿画境 · 唤醒山海神兽</span>
+            </div>
+          </div>
+
+          <!-- 山海司南罗盘 (指示六方神兽方向与步距) -->
+          <div class="hud-compass-bar" id="compass-bar" title="山海司南方位仪">
+            <span class="compass-label">司南</span>
+            <div class="compass-track" id="compass-track">
+              <!-- 动态指示当前视野内的神兽符号 -->
+            </div>
+          </div>
+
+          <div class="hud-status-group">
+            <div class="hud-seal-badge" id="hud-badge">
+              <span class="badge-dot"></span>
+              已唤醒神兽 <b id="awakened-num">0</b> / 6
+            </div>
+
+            <button class="hud-btn hud-btn-gold" id="btn-open-scroll" title="随时展开十二米故宫真迹长卷全图 (M)">
+              <span class="btn-icon">卷</span> 展卷御览 (M)
+            </button>
+
+            <button class="hud-btn" id="btn-audio" title="静音/播放古乐">
+              <span class="btn-icon">琴</span> <span id="audio-text">乐起</span>
+            </button>
+
+            <button class="hud-btn" id="btn-guide" title="重温借笔还魂故事">
+              <span class="btn-icon">鉴</span> 题记
+            </button>
+          </div>
+        </header>
+
+        <!-- 屏幕中央准星与接近提笔提示 -->
+        <div class="sh-reticle-wrap" id="reticle-wrap">
+          <div class="center-crosshair"></div>
+          <div class="beast-approach-prompt" id="approach-prompt" style="display:none;">
+            <div class="prompt-seal-box">
+              <span class="prompt-seal-icon">提笔</span>
+              <div class="prompt-text-group">
+                <div class="prompt-action">按 E 键 或 点击唤醒</div>
+                <div class="prompt-name" id="approach-beast-name">夫诸 · 水魄灵鹿</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 底部轻提示与操作说明 -->
+        <div class="sh-controls-dock">
+          <div class="dock-pill">
+            <span class="key-tag">WASD / 方向键</span> 漫步 ·
+            <span class="key-tag">Shift</span> 疾行 ·
+            <span class="key-tag">Space</span> 轻跃 ·
+            <span class="key-tag">鼠标拖拽</span> 游目 ·
+            <span class="key-tag">E</span> 提笔唤醒 ·
+            <span class="key-tag">M</span> 展卷全景
+          </div>
+        </div>
+
+        <!-- 移动端虚拟摇杆与触屏交互按钮 -->
+        <div class="sh-mobile-controls" id="mobile-controls">
+          <div class="virtual-joystick" id="virtual-joystick">
+            <div class="joystick-knob" id="joystick-knob"></div>
+          </div>
+          <button class="mobile-action-btn" id="mobile-e-btn">
+            <span class="m-icon">笔</span>
+            <span>提笔唤醒</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= 3. 神兽唤醒【十八岁少年借笔还魂札记】诗笺弹窗 ================= -->
       <div class="sh-modal-mask" id="beast-modal" style="display:none;">
         <div class="beast-card">
           <div class="beast-card-border"></div>
@@ -100,25 +149,46 @@ export class UIManager {
           </div>
 
           <div class="beast-reflection-box">
-            <div class="reflection-label">岛主重构札记</div>
+            <div class="reflection-label">十八岁少年王希孟 · 借笔还魂札记</div>
             <p class="reflection-text" id="modal-reflection"></p>
           </div>
 
           <div class="beast-mutation-badge" id="modal-mutation"></div>
 
           <div class="beast-card-footer">
-            <button class="card-btn card-btn-roam" id="modal-btn-enter-3d">推门入画 · 3D漫步</button>
-            <button class="card-btn card-btn-return" id="modal-btn-stay-scroll">留连长卷 · 游目千峰</button>
+            <button class="card-btn card-btn-roam" id="modal-btn-roam">继续山河漫步</button>
+            <button class="card-btn card-btn-return" id="modal-btn-view-scroll">查验十二米长卷</button>
           </div>
         </div>
       </div>
 
-      <!-- 终局全璧御览长卷藏书票弹窗 -->
+      <!-- ================= 4. 十二米真迹画卷全景抽屉 (随时呼出/神行传送) ================= -->
+      <div class="sh-scroll-drawer" id="scroll-drawer" style="display:none;">
+        <div class="drawer-header">
+          <div class="drawer-title-group">
+            <h3>北宋故宫珍藏《千里江山图》十二米真迹全卷</h3>
+            <span class="drawer-sub">点击画中已苏醒的神兽御印，可【神行传送】直抵胜境</span>
+          </div>
+          <button class="drawer-close-btn" id="btn-close-scroll">
+            <span>✕</span> 出画还境 (ESC / M)
+          </button>
+        </div>
+        <div class="drawer-canvas-container" id="drawer-canvas-container">
+          <!-- 挂载长卷视口容器 -->
+        </div>
+        <div class="drawer-footer">
+          <div class="drawer-seals-list" id="drawer-seals-list">
+            <!-- 渲染 6 尊神兽印记状态与快速传送按钮 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 5. 终局《千里江山 · 全璧御览》藏书票弹窗 ================= -->
       <div class="sh-modal-mask" id="certificate-modal" style="display:none;">
         <div class="cert-modal-box">
           <div class="cert-modal-header">
             <h3>千里江山 · 山海神兽全璧御览</h3>
-            <span class="cert-sub">北宋政和三年王希孟笔意 · 岛主精神画廊典藏</span>
+            <span class="cert-sub">北宋政和三年王希孟笔意 · 提笔知音大成典藏</span>
           </div>
           <div class="cert-canvas-wrap">
             <canvas id="cert-canvas" width="1200" height="420"></canvas>
@@ -130,166 +200,245 @@ export class UIManager {
         </div>
       </div>
 
-      <!-- 题记指引弹窗 -->
+      <!-- ================= 6. 题记故事弹窗 ================= -->
       <div class="sh-modal-mask" id="guide-modal" style="display:none;">
         <div class="guide-box">
-          <h2>《千里江山 · 山海入画》题记</h2>
-          <p>北宋政和三年，十八岁的王希孟作《千里江山图》，随即悄然隐没于岁月深处。后世盛赞其青绿重彩，却少有人知，他将《山海经》里那些古老灵兽封入万峰绝壁之间。</p>
+          <h2>《千里江山 · 借笔还魂》题记</h2>
+          <p>北宋政和三年，十八岁的王希孟画出近十二米长卷《千里江山图》，随即悄然消逝于历史尘埃中。</p>
+          <p>传说他并非早夭，而是参透了天地大化——他将《山海经》里那些古老的神仙异兽、山魂水魄，尽数借着石青石绿的矿物重彩，封印在了这幅绵延千里的绢帛之间。</p>
           <div class="guide-steps">
-            <div class="step-item"><b>一 · 游目长卷</b>：横向卷动十二米故宫真迹青绿山河，探寻隐于松涧云崖处的神兽金印。</div>
-            <div class="step-item"><b>二 · 寻访唤醒</b>：点击神兽御印将其唤醒，使山川泛金，解锁山海原本与岛主哲学札记。</div>
-            <div class="step-item"><b>三 · 推门入画</b>：可一键无缝坠入三维青绿仙境，漫步于长桥、飞瀑与孤松之下。</div>
-            <div class="step-item"><b>四 · 全璧长卷</b>：集齐六大神兽，天地共鸣，赐盖御览玺印并生成专属典藏长卷。</div>
+            <div class="step-item"><b>一 · 漫步青绿</b>：在三维千里江山大境中自由游历，穿行于桃溪、飞瀑、长桥与水心高阁之间。</div>
+            <div class="step-item"><b>二 · 寻访神灵</b>：抬头仰望金色冲天光柱，或查看顶栏山海司南罗盘辨识六方神兽方向。</div>
+            <div class="step-item"><b>三 · 提笔唤醒</b>：靠近沉眠神兽按 E 键，使山川泛金还原重彩，品读十八岁王希孟写给你的亲笔札记。</div>
+            <div class="step-item"><b>四 · 展卷全璧</b>：按 M 键随时查验十二米真迹全卷进度，集齐六兽共鸣，获赐御览宝玺藏书票。</div>
           </div>
-          <button class="card-btn card-btn-return" id="btn-close-guide" style="margin-top:20px;">展卷入画</button>
+          <button class="card-btn card-btn-return" id="btn-close-guide" style="margin-top:20px;">步入江山</button>
         </div>
       </div>
     `;
-
-    this._renderNavSeals();
-  }
-
-  _renderNavSeals() {
-    const sealsContainer = document.getElementById('nav-seals');
-    sealsContainer.innerHTML = '';
-
-    BEASTS.forEach((beast, idx) => {
-      const item = document.createElement('div');
-      item.className = 'nav-seal-node';
-      item.dataset.beastId = beast.id;
-      item.dataset.progress = beast.scrollProgress;
-      item.style.left = `${beast.scrollProgress * 100}%`;
-
-      item.innerHTML = `
-        <span class="nav-seal-box">${beast.name[0]}</span>
-        <span class="nav-seal-label">${beast.name}</span>
-      `;
-
-      item.addEventListener('click', () => {
-        this.onJumpSection(beast.scrollProgress, beast.id);
-      });
-
-      sealsContainer.appendChild(item);
-    });
   }
 
   _bindEvents() {
-    // 缩放控制
-    document.getElementById('btn-zoom-in').addEventListener('click', () => {
-      this.onZoom(0.25);
-      audio.playScrollWhoosh();
-    });
-    document.getElementById('btn-zoom-out').addEventListener('click', () => {
-      this.onZoom(-0.25);
-      audio.playScrollWhoosh();
+    // 1. 开屏序幕点击【提笔入画】
+    const btnStart = document.getElementById('btn-start-game');
+    btnStart.addEventListener('click', () => {
+      audio.ensureContext();
+      audio.playGuqinPluck(261.63, 4.0);
+      const mask = document.getElementById('prologue-mask');
+      mask.classList.add('prologue-fade-out');
+      setTimeout(() => {
+        mask.style.display = 'none';
+      }, 700);
     });
 
-    // 静音切换
+    // 2. 音乐开关
     document.getElementById('btn-audio').addEventListener('click', () => {
       const muted = audio.toggleMute();
       document.getElementById('audio-text').textContent = muted ? '寂然' : '乐起';
     });
 
-    // 模式切换
-    document.getElementById('btn-mode-toggle').addEventListener('click', () => {
-      this.setMode('scroll');
-      this.onModeChange('scroll');
-    });
-
-    // 题记指引
+    // 3. 题记故事弹窗
     document.getElementById('btn-guide').addEventListener('click', () => {
       document.getElementById('guide-modal').style.display = 'grid';
     });
     document.getElementById('btn-close-guide').addEventListener('click', () => {
       document.getElementById('guide-modal').style.display = 'none';
       audio.ensureContext();
-      audio.playGuqinPluck(261.63, 3.5);
+      audio.playGuqinPluck(261.63, 3.0);
     });
 
-    // 诗笺弹窗按钮
-    document.getElementById('modal-btn-enter-3d').addEventListener('click', () => {
-      document.getElementById('beast-modal').style.display = 'none';
-      if (this.activeBeast) {
-        this.onEnter3DFromModal(this.activeBeast.id);
-      }
+    // 4. 打开 / 关闭十二米长卷全景抽屉
+    document.getElementById('btn-open-scroll').addEventListener('click', () => {
+      this.toggleScrollDrawer(true);
     });
-    document.getElementById('modal-btn-stay-scroll').addEventListener('click', () => {
-      document.getElementById('beast-modal').style.display = 'none';
+    document.getElementById('btn-close-scroll').addEventListener('click', () => {
+      this.toggleScrollDrawer(false);
     });
 
-    // 移动端唤醒按钮
+    // 5. 准星提示与移动端提笔按键
+    const promptEl = document.getElementById('approach-prompt');
+    promptEl.addEventListener('click', () => {
+      this.onAwakenAction();
+    });
     document.getElementById('mobile-e-btn').addEventListener('click', () => {
       this.onAwakenAction();
     });
 
-    // 藏书票弹窗
+    // 6. 神兽诗笺弹窗按钮
+    document.getElementById('modal-btn-roam').addEventListener('click', () => {
+      document.getElementById('beast-modal').style.display = 'none';
+    });
+    document.getElementById('modal-btn-view-scroll').addEventListener('click', () => {
+      document.getElementById('beast-modal').style.display = 'none';
+      this.toggleScrollDrawer(true);
+    });
+
+    // 7. 终局藏书票弹窗
     document.getElementById('btn-close-cert').addEventListener('click', () => {
       document.getElementById('certificate-modal').style.display = 'none';
     });
     document.getElementById('btn-download-cert').addEventListener('click', () => {
       this._downloadCert();
     });
+
+    // 8. 移动端虚拟摇杆
+    this._initMobileJoystick();
   }
 
-  setMode(mode, scenicTitle = '') {
-    this.currentMode = mode;
-    const btnToggle = document.getElementById('btn-mode-toggle');
-    const scrollNav = document.getElementById('scroll-nav');
-    const hud3D = document.getElementById('hud-3d');
-    const scenicEl = document.getElementById('scenic-title');
+  _initMobileJoystick() {
+    const joystick = document.getElementById('virtual-joystick');
+    const knob = document.getElementById('joystick-knob');
+    if (!joystick || !knob) return;
 
-    if (mode === '3d') {
-      btnToggle.style.display = 'inline-flex';
-      scrollNav.style.display = 'none';
-      hud3D.style.display = 'block';
-      if (scenicTitle) scenicEl.textContent = scenicTitle;
+    let dragging = false;
+    let baseRect = null;
+    const maxRadius = 38;
+
+    const onStart = (e) => {
+      dragging = true;
+      baseRect = joystick.getBoundingClientRect();
+      onMove(e);
+    };
+
+    const onMove = (e) => {
+      if (!dragging) return;
+      const touch = e.touches ? e.touches[0] : e;
+      const centerX = baseRect.left + baseRect.width / 2;
+      const centerY = baseRect.top + baseRect.height / 2;
+      const dx = touch.clientX - centerX;
+      const dy = touch.clientY - centerY;
+      const dist = Math.hypot(dx, dy);
+      const angle = Math.atan2(dy, dx);
+
+      const clampedDist = Math.min(dist, maxRadius);
+      const kx = Math.cos(angle) * clampedDist;
+      const ky = Math.sin(angle) * clampedDist;
+
+      knob.style.transform = `translate(${kx}px, ${ky}px)`;
+
+      // 向外部派发移动向量 (-1 到 1)
+      this.onVirtualMove({
+        x: kx / maxRadius,
+        y: ky / maxRadius
+      });
+    };
+
+    const onEnd = () => {
+      if (!dragging) return;
+      dragging = false;
+      knob.style.transform = `translate(0px, 0px)`;
+      this.onVirtualMove({ x: 0, y: 0 });
+    };
+
+    joystick.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('touchend', onEnd);
+  }
+
+  // 接近神兽时显示/隐藏准星交互提示
+  setNearBeast(beast, dist) {
+    const prompt = document.getElementById('approach-prompt');
+    const nameEl = document.getElementById('approach-beast-name');
+
+    if (beast) {
+      prompt.style.display = 'flex';
+      nameEl.textContent = `${beast.name} · ${beast.title}`;
     } else {
-      btnToggle.style.display = 'none';
-      scrollNav.style.display = 'block';
-      hud3D.style.display = 'none';
+      prompt.style.display = 'none';
     }
   }
 
-  updateScrollThumb(progress) {
-    const thumb = document.getElementById('nav-thumb');
-    if (thumb) {
-      thumb.style.left = `${progress * 100}%`;
+  // 更新山海司南罗盘 (根据玩家视线渲染方向雷达指示器)
+  updateCompass(beastAngles, playerYaw) {
+    const track = document.getElementById('compass-track');
+    if (!track) return;
+
+    // 清空重绘
+    track.innerHTML = '';
+
+    beastAngles.forEach(item => {
+      // 仅在前方 ±80 度范围内显示符号，越靠近中央越清晰
+      const deg = (item.relativeAngle * 180) / Math.PI;
+      if (Math.abs(deg) <= 75) {
+        const percent = 50 + (deg / 75) * 44; // 映射到 6% ~ 94%
+        const dot = document.createElement('div');
+        dot.className = `compass-beast-mark ${item.isAwakened ? 'is-awakened' : ''}`;
+        dot.style.left = `${percent}%`;
+        dot.innerHTML = `
+          <span class="mark-icon">${item.name[0]}</span>
+          <span class="mark-dist">${item.dist}丈</span>
+        `;
+        track.appendChild(dot);
+      }
+    });
+  }
+
+  // 开关长卷全景抽屉
+  toggleScrollDrawer(open) {
+    this.isScrollDrawerOpen = open;
+    const drawer = document.getElementById('scroll-drawer');
+    drawer.style.display = open ? 'flex' : 'none';
+    this.onToggleScroll(open);
+
+    if (open) {
+      this._renderDrawerSeals();
+      audio.playScrollWhoosh();
     }
   }
 
-  // 显示神兽唤醒诗笺
+  _renderDrawerSeals() {
+    const container = document.getElementById('drawer-seals-list');
+    if (!container) return;
+    container.innerHTML = '';
+
+    BEASTS.forEach(b => {
+      const isAwakened = b.id in this.awakenedMap && this.awakenedMap[b.id];
+      const item = document.createElement('button');
+      item.className = `drawer-seal-btn ${isAwakened ? 'is-awakened' : ''}`;
+      item.innerHTML = `
+        <span class="d-seal-char">${b.name[0]}</span>
+        <div class="d-seal-info">
+          <b>${b.name} · ${b.scenicSpot}</b>
+          <span class="d-seal-state">${isAwakened ? '已苏醒 · 点击神行入画' : '沉睡中 · 点击前往寻访'}</span>
+        </div>
+      `;
+
+      item.addEventListener('click', () => {
+        this.toggleScrollDrawer(false);
+        this.onTeleport(b.id);
+      });
+
+      container.appendChild(item);
+    });
+  }
+
+  // 展现神兽唤醒札记弹窗
   showBeastAwakened(beastData) {
     this.activeBeast = beastData;
     this.awakenedCount = Math.min(6, this.awakenedCount + 1);
     document.getElementById('awakened-num').textContent = this.awakenedCount;
 
-    // 更新底部印章节点样式
-    const sealNode = document.querySelector(`.nav-seal-node[data-beast-id="${beastData.id}"]`);
-    if (sealNode) {
-      sealNode.classList.add('is-awakened');
-    }
-
-    // 填充弹窗内容
+    // 填充内容
     document.getElementById('modal-seal').textContent = beastData.sealText;
     document.getElementById('modal-name').textContent = beastData.name;
     document.getElementById('modal-title').textContent = beastData.title;
     document.getElementById('modal-source').textContent = beastData.classicSource;
     document.getElementById('modal-quote').textContent = beastData.classicQuote;
     document.getElementById('modal-reflection').textContent = beastData.reflection;
-    document.getElementById('modal-mutation').innerHTML = `✨ <b>山川异变</b>：${beastData.mutationDesc}`;
+    document.getElementById('modal-mutation').innerHTML = `✨ <b>山川还魂</b>：${beastData.mutationDesc}`;
 
     const modal = document.getElementById('beast-modal');
     modal.style.display = 'grid';
 
-    // 若全部 6 尊神兽均已苏醒，延时弹出终极大成藏书票
+    // 若全部六方神兽苏醒，延迟触发大成藏书票
     if (this.awakenedCount >= 6) {
       setTimeout(() => {
         this.generateCertificate();
-      }, 3500);
+      }, 4000);
     }
   }
 
-  // 终局《千里江山 · 山海神兽全璧御览长卷》Canvas 生成
+  // 生成全璧御览藏书票
   generateCertificate() {
     const canvas = document.getElementById('cert-canvas');
     if (!canvas) return;
@@ -297,7 +446,7 @@ export class UIManager {
     const w = canvas.width;
     const h = canvas.height;
 
-    // 1. 宋代温润洒金绢底
+    // 1. 宋绢洒金底
     const grad = ctx.createLinearGradient(0, 0, w, 0);
     grad.addColorStop(0, '#EAE0C7');
     grad.addColorStop(0.5, '#E5D8BC');
@@ -305,15 +454,15 @@ export class UIManager {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
-    // 金粉斑驳微点
+    // 金粉斑驳
     ctx.fillStyle = 'rgba(218, 165, 32, 0.25)';
-    for (let i = 0; i < 180; i++) {
+    for (let i = 0; i < 220; i++) {
       ctx.beginPath();
       ctx.arc(Math.random() * w, Math.random() * h, Math.random() * 2.5 + 0.5, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // 2. 边框泥金勾边
+    // 2. 泥金勾边
     ctx.strokeStyle = '#9E7D46';
     ctx.lineWidth = 6;
     ctx.strokeRect(12, 12, w - 24, h - 24);
@@ -321,61 +470,42 @@ export class UIManager {
     ctx.lineWidth = 1.5;
     ctx.strokeRect(18, 18, w - 36, h - 36);
 
-    // 3. 仿宋宣和长卷布局书法
+    // 3. 宣和院体书法题铭
     ctx.fillStyle = '#221E19';
-    ctx.font = 'bold 36px "Noto Serif SC", serif';
+    ctx.font = 'bold 36px "Noto Serif SC", "STSong", serif';
     ctx.textAlign = 'center';
     ctx.fillText('千里江山 · 山海神兽全璧御览', w / 2, 78);
 
-    ctx.font = '16px "Noto Serif SC", serif';
+    ctx.font = '16px "Noto Serif SC", "STSong", serif';
     ctx.fillStyle = '#63533E';
-    ctx.fillText('北宋政和三年王希孟笔意 · 岛主精神画廊重构', w / 2, 114);
+    ctx.fillText('北宋政和三年王希孟笔意 · 提笔知音借笔还魂典藏', w / 2, 114);
 
-    // 4. 六方神兽印记并列
+    // 4. 六方神兽印章并列
     const sealStartX = 180;
     const sealGap = (w - 360) / 5;
     BEASTS.forEach((beast, idx) => {
       const sx = sealStartX + idx * sealGap;
-      const sy = 210;
+      const sy = 220;
 
-      // 朱砂印
-      ctx.fillStyle = '#A32924';
-      ctx.fillRect(sx - 34, sy - 34, 68, 68);
-      ctx.strokeStyle = '#7D1A16';
+      // 朱砂方印
+      ctx.fillStyle = '#9C2518';
+      ctx.strokeStyle = '#D4AF37';
       ctx.lineWidth = 2;
-      ctx.strokeRect(sx - 34, sy - 34, 68, 68);
+      ctx.fillRect(sx - 32, sy - 32, 64, 64);
+      ctx.strokeRect(sx - 32, sy - 32, 64, 64);
 
-      ctx.font = 'bold 15px "Noto Serif SC", serif';
+      // 印文
       ctx.fillStyle = '#FFF8EB';
+      ctx.font = 'bold 15px "Noto Serif SC", "STSong", serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(beast.sealText.slice(0, 2), sx, sy - 10);
-      ctx.fillText(beast.sealText.slice(2, 4), sx, sy + 12);
+      ctx.fillText(beast.name, sx, sy);
 
-      // 神兽名注
-      ctx.font = '13px "Noto Serif SC", serif';
-      ctx.fillStyle = '#42372A';
-      ctx.fillText(beast.name, sx, sy + 58);
+      // 下方释义
+      ctx.fillStyle = '#443A2E';
+      ctx.font = '12px "Noto Serif SC", "STSong", serif';
+      ctx.fillText(beast.sealText, sx, sy + 48);
     });
-
-    // 5. 天干地支与岛主私印
-    const now = new Date();
-    const dateStr = `岁次乙巳 · 金秋吉日 · 入画通神 · 岛主游戏匣子典藏`;
-    ctx.font = '14px "Noto Serif SC", serif';
-    ctx.fillStyle = '#78644D';
-    ctx.textAlign = 'center';
-    ctx.fillText(dateStr, w / 2, 360);
-
-    // 双龙与岛主双印
-    ctx.fillStyle = '#9C251F';
-    ctx.fillRect(55, 45, 50, 50);
-    ctx.font = 'bold 14px "Noto Serif SC", serif';
-    ctx.fillStyle = '#FFF';
-    ctx.fillText('御书', 80, 70);
-
-    ctx.fillStyle = '#9C251F';
-    ctx.fillRect(w - 105, h - 95, 52, 52);
-    ctx.fillText('岛主', w - 79, h - 70);
 
     document.getElementById('certificate-modal').style.display = 'grid';
   }
@@ -383,9 +513,9 @@ export class UIManager {
   _downloadCert() {
     const canvas = document.getElementById('cert-canvas');
     if (!canvas) return;
-    const link = document.createElement('a');
-    link.download = `千里江山_山海神兽全璧御览_${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    const a = document.createElement('a');
+    a.download = '千里江山·山海神兽全璧御览.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
   }
 }

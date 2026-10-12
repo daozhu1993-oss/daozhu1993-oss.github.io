@@ -19,6 +19,7 @@ export class UIManager {
     this.onTeleport = options.onTeleport || (() => {});
     this.onToggleScroll = options.onToggleScroll || (() => {});
     this.onVirtualMove = options.onVirtualMove || (() => {});
+    this.onStartGame = options.onStartGame || (() => {});
 
     this.awakenedCount = 0;
     this.activeBeast = null;
@@ -231,6 +232,7 @@ export class UIManager {
       setTimeout(() => {
         mask.style.display = 'none';
       }, 700);
+      this.onStartGame();
     });
 
     // 2. 音乐开关

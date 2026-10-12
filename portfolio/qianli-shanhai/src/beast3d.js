@@ -543,84 +543,136 @@ export class Beast3DManager {
   }
 
   // =========================================================================
-  // 5. 【驳】(中曲战神 · 螺旋独角 · 虎爪利齿 · 玄金重甲)
+  // 5. 【驳】(中曲战神 · 通灵银骏 · 墨鬃玄尾 · 螺旋金角 · 辟兵破障)
   // =========================================================================
   _buildBo(group) {
+    // 仙灵白玉肌体材质 (通透温润，微泛青碧灵光)
     const matFrostBody = new THREE.MeshStandardMaterial({
-      color: 0xEDF2F7,
-      roughness: 0.2,
-      metalness: 0.25,
-      emissive: 0xCBD5E0,
-      emissiveIntensity: 0.35
+      color: 0xF4F8FA,
+      roughness: 0.18,
+      metalness: 0.15,
+      emissive: 0x98D2E6,
+      emissiveIntensity: 0.38
     });
+    // 破障贯日螺旋神角纯金材质
     const matSpiralHorn = new THREE.MeshStandardMaterial({
-      color: 0xF6E05E,
+      color: 0xFCE068,
       roughness: 0.2,
-      metalness: 0.92,
-      emissive: 0xD69E2E,
-      emissiveIntensity: 0.75
+      metalness: 0.94,
+      emissive: 0xE8B028,
+      emissiveIntensity: 0.85
     });
-    const matObsidianArmor = new THREE.MeshStandardMaterial({
-      color: 0x1A202C,
+    // 苍墨松烟黑鬃与玄尾材质
+    const matInkHair = new THREE.MeshStandardMaterial({
+      color: 0x161514,
       roughness: 0.35,
-      metalness: 0.8,
-      emissive: 0x2D3748,
+      metalness: 0.45,
+      emissive: 0x0C0B0A,
       emissiveIntensity: 0.2
     });
+    // 北宋宣和云纹玄金战甲
+    const matSongArmor = new THREE.MeshStandardMaterial({
+      color: 0x2A2E36,
+      roughness: 0.3,
+      metalness: 0.85,
+      emissive: 0xD4AF37,
+      emissiveIntensity: 0.3
+    });
 
-    // 5.1 战神神骏的雄壮躯体
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.85, 2.0, 14), matFrostBody);
-    body.position.set(0, 1.55, 0);
-    body.rotation.z = Math.PI / 2;
-    group.add(body);
+    // 5.1 战神天马健硕身躯 (胸膛宽阔、腰身矫健)
+    const chest = new THREE.Mesh(new THREE.SphereGeometry(0.82, 16, 14), matFrostBody);
+    chest.position.set(0.48, 1.6, 0);
+    chest.scale.set(1.22, 1.05, 0.85);
+    group.add(chest);
 
-    // 玄金战甲护肩与马鞍
-    const armor = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.45, 1.7), matObsidianArmor);
-    armor.position.set(0.1, 2.0, 0);
+    const flank = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.76, 1.45, 14), matFrostBody);
+    flank.position.set(-0.25, 1.55, 0);
+    flank.rotation.z = Math.PI / 2.06;
+    flank.scale.set(0.88, 1.0, 0.78);
+    group.add(flank);
+
+    const haunch = new THREE.Mesh(new THREE.SphereGeometry(0.76, 16, 14), matFrostBody);
+    haunch.position.set(-0.95, 1.58, 0);
+    haunch.scale.set(1.05, 1.1, 0.82);
+    group.add(haunch);
+
+    // 玄金战甲护肩与宋式云纹鞍带
+    const armor = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.38, 1.45), matSongArmor);
+    armor.position.set(0.08, 1.95, 0);
     group.add(armor);
 
-    // 5.2 威武头颈
-    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.58, 1.3, 12), matFrostBody);
-    neck.position.set(1.05, 2.25, 0);
+    // 5.2 轩昂头颈 (优美马颈弧线与俊朗马首)
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.44, 1.35, 12), matFrostBody);
+    neck.position.set(1.05, 2.32, 0);
     neck.rotation.z = -Math.PI / 3.4;
     group.add(neck);
 
-    const head = new THREE.Mesh(new THREE.ConeGeometry(0.42, 1.25, 10), matFrostBody);
-    head.position.set(1.68, 2.75, 0);
-    head.rotation.z = -Math.PI / 2.3;
+    const head = new THREE.Mesh(new THREE.ConeGeometry(0.34, 1.15, 10), matFrostBody);
+    head.position.set(1.68, 2.82, 0);
+    head.rotation.z = -Math.PI / 2.25;
     group.add(head);
 
-    // 5.3 额顶直插苍穹的破障螺旋神角 (Towering Spiral Unicorn Horn)
-    const hornGroup = new THREE.Group();
-    hornGroup.position.set(1.65, 3.4, 0);
-    hornGroup.rotation.z = 0.25;
+    // 双耳
+    for (const ez of [0.18, -0.18]) {
+      const ear = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.35, 5), matFrostBody);
+      ear.position.set(1.42, 3.25, ez);
+      ear.rotation.set((ez > 0 ? 0.2 : -0.2), 0, -0.3);
+      group.add(ear);
+    }
 
-    // 渐细的螺旋长角
-    const hornCore = new THREE.Mesh(new THREE.ConeGeometry(0.14, 1.85, 12), matSpiralHorn);
-    hornCore.position.y = 0.92;
+    // 5.3 苍墨飞扬马鬃 (Flowing Black Ink Mane)
+    for (let m = 0; m < 5; m++) {
+      const strand = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.55 - m * 0.05, 0.28), matInkHair);
+      strand.position.set(0.65 + m * 0.18, 2.75 - m * 0.16, 0);
+      strand.rotation.z = -Math.PI / 3.2 + (m * 0.08);
+      group.add(strand);
+    }
+
+    // 5.4 额顶破障螺旋金角 (Towering Radiant Horn)
+    const hornGroup = new THREE.Group();
+    hornGroup.position.set(1.62, 3.35, 0);
+    hornGroup.rotation.z = 0.22;
+
+    const hornCore = new THREE.Mesh(new THREE.ConeGeometry(0.12, 1.95, 12), matSpiralHorn);
+    hornCore.position.y = 0.98;
     hornGroup.add(hornCore);
 
-    // 围绕长角的螺纹金线
     for (let s = 0; s < 5; s++) {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.13 - s * 0.02, 0.025, 6, 16), matSpiralHorn);
-      ring.position.y = 0.3 + s * 0.35;
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.11 - s * 0.018, 0.022, 6, 16), matSpiralHorn);
+      ring.position.y = 0.25 + s * 0.36;
       ring.rotation.x = Math.PI / 2;
       hornGroup.add(ring);
     }
     group.add(hornGroup);
 
-    // 5.4 坚韧强壮的虎爪四足 (Tiger Paws)
+    // 5.5 玄黑流云长尾 (Cascading Ink Tail Ribbons)
+    const tailGroup = new THREE.Group();
+    tailGroup.position.set(-1.1, 1.7, 0);
+    for (let t = 0; t < 3; t++) {
+      const tAngle = (t - 1) * 0.18;
+      const tailCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0, 0, Math.sin(tAngle) * 0.1),
+        new THREE.Vector3(-0.55, -0.4, Math.sin(tAngle) * 0.35),
+        new THREE.Vector3(-1.15, -1.0, Math.sin(tAngle) * 0.55),
+        new THREE.Vector3(-1.75, -1.6, Math.sin(tAngle) * 0.3)
+      ]);
+      const tailMesh = new THREE.Mesh(new THREE.TubeGeometry(tailCurve, 16, 0.09 - t * 0.015, 6, false), matInkHair);
+      tailGroup.add(tailMesh);
+    }
+    group.add(tailGroup);
+
+    // 5.6 踏石生风四神足与虎爪利甲 (Tiger Paws)
     const legPositions = [
-      { x: 0.75, z: 0.4 }, { x: 0.75, z: -0.4 },
-      { x: -0.75, z: 0.42 }, { x: -0.75, z: -0.42 }
+      { x: 0.68, z: 0.38 }, { x: 0.68, z: -0.38 },
+      { x: -0.72, z: 0.42 }, { x: -0.72, z: -0.42 }
     ];
     legPositions.forEach(lp => {
       const leg = new THREE.Group();
-      leg.position.set(lp.x, 0.7, lp.z);
-      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.12, 1.3, 8), matFrostBody);
+      leg.position.set(lp.x, 0.72, lp.z);
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.10, 1.35, 8), matFrostBody);
       leg.add(upper);
-      const paw = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.15, 0.32), matObsidianArmor);
-      paw.position.set(0.08, -0.65, 0);
+      const paw = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.14, 0.26), matSongArmor);
+      paw.position.set(0.06, -0.68, 0);
       leg.add(paw);
       group.add(leg);
     });

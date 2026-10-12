@@ -1,11 +1,19 @@
 /**
- * 《千里江山 · 借笔还魂》北宋工笔青绿水墨非真实感渲染管线
- * (Northern Song Blue-and-Green Ink Wash & Gongbi NPR Post-Processing Pipeline)
+ * 《千里江山 · 借笔还魂》北宋工笔青绿水墨非真实感渲染管线 (NPR Post-Processing Pipeline)
+ * Awwwards / Webby / FWA 殿堂级艺术品质标准
  * 
- * 核心设计准则：
- * 1. 彻底根除死黑：注入温润石青与孔雀石绿阴影辉光，保证背光面通透如玉。
- * 2. 纤巧淡墨铁线描：基于反深度拉普拉斯算子，自动屏蔽天空背景，勾勒精致山脊飞檐轮廓。
- * 3. 宣和古绢神韵：高光处展现泥金温润光泽，微量绢帛经纬经纬交织纸理，远景自然融入宣和晨岚。
+ * 核心技术原理：
+ * 1. 【反深度归一化拉普拉斯铁线描 (Inverse-Depth Laplacian Iron-Wire Inking)】：
+ *    - 8 邻域高精度深度检测，精准捕捉山体绝壁、亭台飞檐与神兽轮廓。
+ *    - 狼毫笔锋微观微扰（Wolf-hair Brush Jitter），赋予墨线手绘书画的顿挫与呼吸感。
+ *    - 天空与极远景智能屏蔽，杜绝天幕黑斑与塑料边缘。
+ * 2. 【三矾九染矿物阶梯分染 (Song Dynasty Mineral Grading)】：
+ *    - 阴影区沉降为蓝铜矿与孔雀石绿（石青、石绿）通透冷调，受光面升华至宣和温润泥金与暖赭。
+ *    - Gamma 曲线微调，山体肌理细腻分明，永不沉底死黑。
+ * 3. 【宣和九百年古绢经纬织纹 (Imperial Silk Weave & Wash Grain)】：
+ *    - 屏幕空间渲染微观绢帛经纬交织纸理，使 3D 世界如同在故宫真迹古绢上流动。
+ * 4. 【三远法远山烟岚 (Atmospheric Silk Mist)】：
+ *    - 深度渐变融入宣和绢黄晨岚（#F6EEDB），呈现“远山如黛、平远空濛”的东方意境。
  */
 
 import * as THREE from 'three';
@@ -76,7 +84,7 @@ export class InkPostPipeline {
 
           float w0 = invZ(uv);
 
-          // 天空背景识别 (w0 极小，对应 d 接近 1.0，绝不给天空画黑边)
+          // 1. 天空背景识别 (w0 极小，对应 d 接近 1.0，绝不给天空画黑边)
           float isSky = step(w0, 0.0016);
 
           // 8 邻域反深度采样
@@ -91,57 +99,65 @@ export class InkPostPipeline {
 
           // 归一化拉普拉斯边缘算子
           float lap = (n0 + n1 + n2 + n3 + n4 + n5 + n6 + n7 - 8.0 * w0) / (max(w0, 0.0025) * 2.0);
-          float depthEdge = smoothstep(0.08, 0.32, abs(lap)) * (1.0 - isSky);
+          float depthEdge = smoothstep(0.12, 0.38, abs(lap)) * (1.0 - isSky);
 
-          // 颜色差异算子
+          // 2. 颜色差异算子
           vec3 cCenter = texture2D(tScene, uv).rgb;
           vec3 cRight  = texture2D(tScene, uv + vec2(o.x, 0.0)).rgb;
-          vec3 cTop    = texture2D(tScene, uv + vec2(0.0, o.y)).rgb;
+          vec3 cTop    = texture2D(tScene, uv + vec2(o.y, 0.0)).rgb;
           float colorDiff = length(cCenter - cRight) + length(cCenter - cTop);
-          float colorEdge = smoothstep(0.25, 0.60, colorDiff);
+          float colorEdge = smoothstep(0.28, 0.65, colorDiff);
 
-          // 工笔纤秀铁线描（随距离平滑衰减，远景虚化融入空濛）
+          // 3. 狼毫笔锋手绘微扰（消除机械直线感，带来手工工笔顿挫韵味）
+          float brushJitter = 1.0 + 0.12 * sin(uv.x * 240.0 + uv.y * 180.0 + sin(uv.x * 80.0));
+
+          // 4. 工笔纤秀铁线描（近景平滑柔化防生硬，远景虚化融入空濛）
           float dist = 1.0 / max(w0, 1e-4);
-          float edgeFade = 1.0 - smoothstep(80.0, 450.0, dist);
-          float inkLine = clamp(depthEdge * 0.85 + colorEdge * 0.45, 0.0, 1.0) * uInkStrength * edgeFade;
+          float nearFade = smoothstep(2.5, 6.0, dist);
+          float farFade  = 1.0 - smoothstep(70.0, 420.0, dist);
+          float edgeFade = nearFade * farFade;
+          float inkLine = clamp(depthEdge * 0.85 + colorEdge * 0.35, 0.0, 1.0) * uInkStrength * edgeFade * brushJitter;
 
-          // 北宋温润松烟墨色（微暖古墨，绝非死冷黑）
-          vec3 inkColor = vec3(0.18, 0.15, 0.12);
+          // 北宋温润松烟古墨色（微暖古墨，绝非冷硬纯黑）
+          vec3 inkColor = vec3(0.14, 0.12, 0.09);
 
-          // 三矾九染矿物调色
+          // 5. 三矾九染矿物调色
           float lum = luma(cCenter);
           vec3 graded = cCenter;
 
-          // 暗部翡翠与石青保底辉光：杜绝任何死黑与泥泞
-          vec3 shadowGlow = vec3(0.08, 0.18, 0.20);
-          graded = max(graded, shadowGlow * (1.0 - smoothstep(0.02, 0.35, lum)));
+          // 暗部翡翠与石青保底微光：保留物体固有深木深石色彩，柔和浸润矿物冷辉
+          vec3 shadowMineral = vec3(0.06, 0.14, 0.15);
+          float darkFactor = 1.0 - smoothstep(0.01, 0.32, lum);
+          graded += shadowMineral * darkFactor * 0.40;
 
-          // 适度提亮暗部 Gamma 曲线，凸显山石肌理
-          graded = pow(max(graded, vec3(0.0)), vec3(0.88));
+          // 柔和暗部 Gamma 曲线，凸显山石肌理
+          graded = pow(max(graded, vec3(0.0)), vec3(0.90));
 
-          // 提纯北宋青绿重彩的矿物鲜活度
-          graded = mix(vec3(luma(graded)), graded, 1.15);
+          // 提纯北宋青绿重彩的矿物鲜活度 (Malachite & Azurite Mineral Vibrancy)
+          graded = mix(vec3(luma(graded)), graded, 1.25);
 
           // 高光泛出温润泥金光泽
-          float lightMask = smoothstep(0.68, 0.98, lum);
-          graded = mix(graded, graded * vec3(1.12, 1.06, 0.90), lightMask * 0.28);
+          float lightMask = smoothstep(0.66, 0.98, lum);
+          graded = mix(graded, graded * vec3(1.14, 1.07, 0.90), lightMask * 0.32);
 
-          // 微量宣和九百年古绢经纬织物肌理
-          vec2 screenPos = gl_FragCoord.xy;
-          float weave = (sin(screenPos.x * 1.57) * 0.5 + 0.5) * (sin(screenPos.y * 1.57) * 0.5 + 0.5);
-          graded += (weave - 0.5) * uPaperGrain * vec3(0.9, 0.85, 0.75);
+          // 6. 宣和九百年古绢有机柔和纤维微理 (Organic Handscroll Silk Fiber - 彻底杜绝像素方格)
+          vec2 silkUv = uv * vec2(12.0, 6.75);
+          float fiber1 = sin(silkUv.x * 18.0 + sin(silkUv.y * 14.0) * 1.5);
+          float fiber2 = cos(silkUv.y * 24.0 + cos(silkUv.x * 10.0) * 1.2);
+          float silkGrain = (fiber1 * 0.6 + fiber2 * 0.4) * 0.5 + 0.5;
+          graded *= (1.0 - uPaperGrain * 0.03 + silkGrain * uPaperGrain * 0.06);
 
-          // 融合工笔墨线
-          vec3 finalColor = mix(graded, inkColor, inkLine * 0.60);
+          // 7. 融合工笔墨线
+          vec3 finalColor = mix(graded, inkColor, inkLine * 0.58);
 
-          // 远岫融入宣和绢黄晨岚 (#F6EEDB)
+          // 8. 远岫融入宣和绢黄晨岚 (#F6EEDB)
           vec3 silkHaze = vec3(0.96, 0.93, 0.85);
-          float hazeFactor = smoothstep(140.0, 620.0, dist);
-          finalColor = mix(finalColor, silkHaze, hazeFactor * 0.70);
+          float hazeFactor = smoothstep(140.0, 600.0, dist);
+          finalColor = mix(finalColor, silkHaze, hazeFactor * 0.65);
 
-          // 微妙镜头暗角聚焦
+          // 9. 雅致古典暗角聚焦
           vec2 centerCoord = uv - vec2(0.5);
-          float vignette = 1.0 - dot(centerCoord, centerCoord) * 0.18;
+          float vignette = 1.0 - dot(centerCoord, centerCoord) * 0.22;
           finalColor *= clamp(vignette, 0.0, 1.0);
 
           gl_FragColor = vec4(finalColor, 1.0);
@@ -154,8 +170,8 @@ export class InkPostPipeline {
         uNear: { value: this.camera.near },
         uFar: { value: this.camera.far },
         uTime: { value: 0.0 },
-        uInkStrength: { value: 0.80 },
-        uPaperGrain: { value: 0.022 }
+        uInkStrength: { value: 0.72 },
+        uPaperGrain: { value: 0.16 }
       },
       depthTest: false,
       depthWrite: false

@@ -67,6 +67,9 @@
 
       // 2. 初始化 UI 管理器
       ui = new UIManager(uiLayer, {
+        onStartGame: () => {
+          if (world3D) world3D.startCinematicIntro();
+        },
         onAwakenAction: () => {
           if (world3D) world3D.tryAwakenNearBeast();
         },
@@ -98,6 +101,10 @@
           }
         });
       }
+
+      window.world3D = world3D;
+      window.ui = ui;
+      window.scrollViewer = scrollViewer;
 
       // 首次用户交互触发音频就绪
       document.body.addEventListener('click', () => {

@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import { BEASTS } from './beasts.js';
 import { Beast3DManager } from './beast3d.js';
 import { audio } from './audio.js';
+import { InkPostPipeline } from './inkPostProcess.js';
 
 export class World3D {
   constructor(container, options = {}) {
@@ -21,6 +22,7 @@ export class World3D {
     this.camera = null;
     this.renderer = null;
     this.beastManager = null;
+    this.postPipeline = null;
 
     // 玩家漫步物理状态 (第一人称游人/提笔知音视角)
     this.player = {
@@ -97,6 +99,20 @@ export class World3D {
     this.scene.add(sunLight);
     this.sunLight = sunLight;
 
+    // 初始化北宋工笔青绿水墨非真实感渲染管线
+    try {
+      this.postPipeline = new InkPostPipeline(
+        this.renderer,
+        this.scene,
+        this.camera,
+        this.container.clientWidth,
+        this.container.clientHeight
+      );
+    } catch (err) {
+      console.warn('[PostPipeline Init Warning]', err);
+      this.postPipeline = null;
+    }
+
     window.addEventListener('resize', () => {
       if (!this.container) return;
       const w = this.container.clientWidth;
@@ -104,6 +120,9 @@ export class World3D {
       this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);
+      if (this.postPipeline) {
+        this.postPipeline.resize(w, h);
+      }
     });
   }
 
@@ -217,15 +236,18 @@ export class World3D {
 
     // 1. 北侧绵延主峰山脉 (Z < -8)
     if (z < -8) {
-      const mainWave = Math.sin(x * 0.026) * Math.cos(z * 0.035) * 25;
-      const subWave = Math.sin(x * 0.07 + 1.2) * 8.0;
-      const cliff = Math.pow(Math.abs(z + 8) / 120, 2.1) * 45;
-      y = Math.max(0, mainWave + subWave + cliff);
+      // 斧劈与卷云峰脊 (Sharp Chinese mountain ridges)
+      const ridge1 = Math.abs(Math.sin(x * 0.032 + 0.45)) * 26.0;
+      const ridge2 = (1.0 - Math.abs(Math.cos(z * 0.042 + x * 0.015))) * 16.0;
+      const cliff = Math.pow(Math.abs(z + 8) / 120, 2.1) * 44;
+      const raw = ridge1 + ridge2 + cliff;
+      // 斧劈石阶台地层级 (Ax-cut stepped terraces)
+      y = Math.floor(raw / 3.8) * 3.8 + (raw % 3.8) * 0.35;
 
       // 卷二 · 悬瀑深涧落差区 (x ≈ -18, z ≈ -35)
       const distWaterfall = Math.hypot(x - (-18), z - (-35));
       if (distWaterfall < 26) {
-        y = Math.max(2.8, y * 0.5 + (distWaterfall / 26) * 12);
+        y = Math.max(2.8, y * 0.48 + (distWaterfall / 26) * 12);
       }
 
       // 卷四 · 关隘石桥深峡 (x ≈ 38, z ≈ -15)
@@ -235,9 +257,9 @@ export class World3D {
       }
     } else {
       // 2. 南侧澄碧长河与缓坡丘陵、梯田浅渚 (Z >= -8)
-      const riverWave = Math.sin(x * 0.03) * 2.6;
-      const hills = Math.sin(x * 0.048 + 0.8) * Math.cos(z * 0.038) * 5.0;
-      const slope = (z / 95) * 13;
+      const riverWave = Math.sin(x * 0.03) * 2.2;
+      const hills = Math.sin(x * 0.048 + 0.8) * Math.cos(z * 0.038) * 4.6;
+      const slope = (z / 95) * 12;
       y = Math.max(0.6, hills + slope + riverWave);
 
       // 卷一 · 桃溪浅滩 (x ≈ -45, z ≈ 28)
@@ -812,6 +834,11 @@ export class World3D {
       }
     });
 
-    this.renderer.render(this.scene, this.camera);
+    // 运行北宋工笔青绿水墨后处理管线
+    if (this.postPipeline) {
+      this.postPipeline.render(time);
+    } else {
+      this.renderer.render(this.scene, this.camera);
+    }
   }
 }

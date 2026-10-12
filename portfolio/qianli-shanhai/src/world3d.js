@@ -95,10 +95,12 @@ export class World3D {
     this.valleyMistPlanes = [];
     this.awakenedZones = new Set();
     this.masterPaintingTex = null;
+    this.cutoutMaterials = [];
 
     this._initScene();
     this._initMasterPaintingTexture();
     this._buildAtmosphereAndSky();
+    this._buildLayeredMasterpieceParallax();
     this._buildTexturedTerrain();
     this._buildStylizedWater();
     this._buildSpawnOverlookPlatform();
@@ -255,6 +257,228 @@ export class World3D {
   }
 
   // =========================================================================
+  // 【故宫 3.0 同款 · 殿堂级真迹分层立体视差置景系统】
+  // (Palace Museum 3.0 Layered Masterpiece Parallax 3D Engine)
+  // 告别纯前端数学假山！100% 故宫王希孟十二米绝世真迹笔触立体化置景
+  // =========================================================================
+  _buildLayeredMasterpieceParallax() {
+    const texLoader = new THREE.TextureLoader();
+
+    // 1. 【宏伟全景古卷天际穹幕弧屏】(Layer 0: Panoramic Celestial Silk Horizon)
+    // 环抱整个北岸与天际线，呈现十二米真迹远黛崇山与宋绢古韵
+    const panoTex = texLoader.load('assets/painting/cutouts/sky_panorama_scroll.webp');
+    panoTex.colorSpace = THREE.SRGBColorSpace;
+    panoTex.wrapS = THREE.ClampToEdgeWrapping;
+    panoTex.wrapT = THREE.ClampToEdgeWrapping;
+
+    // 半圆柱全景弧幕 (Cylinder Arc: 半径 320m, 高 140m, 跨度 200度)
+    const panoGeo = new THREE.CylinderGeometry(
+      320, 320, 140, 48, 1, true, -Math.PI * 0.70, Math.PI * 1.40
+    );
+    const panoMat = new THREE.MeshBasicMaterial({
+      map: panoTex,
+      side: THREE.BackSide,
+      transparent: true,
+      opacity: 0.88,
+      fog: true
+    });
+    const panoMesh = new THREE.Mesh(panoGeo, panoMat);
+    panoMesh.position.set(0, 42, -50);
+    this.scene.add(panoMesh);
+
+    // 2. 【材质工厂：带矿物重彩微光与柔和深远融雾的真迹切片材质】
+    const createCutoutMaterial = (texPath, options = {}) => {
+      const tex = texLoader.load(texPath);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.wrapS = THREE.ClampToEdgeWrapping;
+      tex.wrapT = THREE.ClampToEdgeWrapping;
+
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          uMap: { value: tex },
+          uSunDir: { value: this.sunLight ? this.sunLight.position.clone().normalize() : new THREE.Vector3(0.5, 0.8, 0.4).normalize() },
+          uSunColor: { value: new THREE.Color(0xFFF0D0) },
+          uFogColor: { value: new THREE.Color(0xF5ECD8) },
+          uFogNear: { value: options.fogNear || 60.0 },
+          uFogFar: { value: options.fogFar || 340.0 },
+          uVibrance: { value: options.vibrance || 1.15 },
+          uTime: { value: 0 },
+          uGlow: { value: 0.0 }
+        },
+        vertexShader: /* glsl */`
+          varying vec2 vUv;
+          varying vec3 vWorldPos;
+          uniform float uTime;
+
+          void main() {
+            vUv = uv;
+            vec3 pos = position;
+            // 绝顶微风轻拂 (Subtle breeze sway on upper canopy)
+            if (pos.y > 0.0) {
+              float sway = sin(uTime * 1.2 + pos.x * 0.04) * 0.18 * (pos.y / 40.0);
+              pos.x += sway;
+            }
+            vec4 wp = modelMatrix * vec4(pos, 1.0);
+            vWorldPos = wp.xyz;
+            gl_Position = projectionMatrix * viewMatrix * wp;
+          }
+        `,
+        fragmentShader: /* glsl */`
+          uniform sampler2D uMap;
+          uniform vec3 uSunDir;
+          uniform vec3 uSunColor;
+          uniform vec3 uFogColor;
+          uniform float uFogNear;
+          uniform float uFogFar;
+          uniform float uVibrance;
+          uniform float uTime;
+          uniform float uGlow;
+
+          varying vec2 vUv;
+          varying vec3 vWorldPos;
+
+          void main() {
+            vec4 tex = texture2D(uMap, vUv);
+            if (tex.a < 0.05) discard;
+
+            vec3 col = tex.rgb;
+
+            // 矿物重彩宝石微光提亮 (石青与石绿分染)
+            float isGreen = smoothstep(0.18, 0.45, col.g - col.r * 0.85);
+            float isBlue = smoothstep(0.12, 0.40, col.b - col.r * 0.65);
+            vec3 mineralBoost = col * vec3(1.0, 1.14, 1.18);
+            col = mix(col, mineralBoost, clamp(isGreen + isBlue, 0.0, 1.0) * 0.45 * uVibrance);
+
+            // 神兽通灵金碧霞光
+            col += vec3(0.22, 0.18, 0.08) * uGlow;
+
+            // 视线距离与柔和三远法古绢融雾
+            float dist = length(cameraPosition - vWorldPos);
+            float fogFactor = clamp((dist - uFogNear) / (uFogFar - uFogNear), 0.0, 0.90);
+            vec3 finalColor = mix(col, uFogColor, fogFactor);
+
+            gl_FragColor = vec4(finalColor, tex.a);
+          }
+        `,
+        transparent: true,
+        alphaTest: 0.04,
+        depthWrite: true,
+        side: THREE.DoubleSide
+      });
+    };
+
+    // 辅助函数：创建微弯弧面的真迹置景网格（避免呆板平卡纸，增强立体环抱感）
+    const createCurvedCutoutMesh = (mat, width, height, curveAngle = 0.12) => {
+      const geo = new THREE.PlaneGeometry(width, height, 16, 4);
+      const pos = geo.attributes.position;
+      const r = width / (curveAngle || 0.001);
+      for (let i = 0; i < pos.count; i++) {
+        const x = pos.getX(i);
+        // 向后微弯 (Cylindrical arc curvature)
+        const bendZ = (1.0 - Math.cos(x / r)) * r * 0.45;
+        pos.setZ(i, -bendZ);
+      }
+      geo.computeVertexNormals();
+      const mesh = new THREE.Mesh(geo, mat);
+      return mesh;
+    };
+
+    // 3. 【Layer 1: 远景重峦叠嶂】 (Deep Distant Peaks, Z: -150 ~ -210m)
+    // 卷三 · 苍茫烟水远岫屏风 (Section 3 Distant Mountains)
+    const matDistant1 = createCutoutMaterial('assets/painting/cutouts/range_misty_distant.webp', {
+      fogNear: 80, fogFar: 280, vibrance: 1.05
+    });
+    this.cutoutMaterials.push(matDistant1);
+    const meshDistant1 = createCurvedCutoutMesh(matDistant1, 190, 78, 0.22);
+    meshDistant1.position.set(-68, 30, -165);
+    meshDistant1.rotation.y = 0.18;
+    this.scene.add(meshDistant1);
+
+    // 卷五 · 天际远岫平远残阳 (Section 5 Celestial Horizon)
+    const matDistant2 = createCutoutMaterial('assets/painting/cutouts/ridge_celestial_horizon.webp', {
+      fogNear: 90, fogFar: 300, vibrance: 1.05
+    });
+    this.cutoutMaterials.push(matDistant2);
+    const meshDistant2 = createCurvedCutoutMesh(matDistant2, 210, 84, 0.24);
+    meshDistant2.position.set(78, 32, -195);
+    meshDistant2.rotation.y = -0.15;
+    this.scene.add(meshDistant2);
+
+    // 4. 【Layer 2: 中远景主峰与绝壁崇山】 (Colossal Peaks, Z: -75 ~ -115m)
+    // 卷二 · 雄拔万仞绝壁主峰 (Section 2 Colossal Main Peak - 天地中心，高达 82m)
+    const matMainPeak = createCutoutMaterial('assets/painting/cutouts/peak_main_colossal.webp', {
+      fogNear: 45, fogFar: 260, vibrance: 1.25
+    });
+    this.cutoutMaterials.push(matMainPeak);
+    const meshMainPeak = createCurvedCutoutMesh(matMainPeak, 155, 82, 0.18);
+    meshMainPeak.position.set(6, 26, -96);
+    meshMainPeak.rotation.y = -0.06;
+    this.scene.add(meshMainPeak);
+
+    // 卷一 · 翠微千叠重嶂 (Section 1 Karst Limestone Ridge)
+    const matKarst = createCutoutMaterial('assets/painting/cutouts/ridge_karst_section1.webp', {
+      fogNear: 40, fogFar: 240, vibrance: 1.20
+    });
+    this.cutoutMaterials.push(matKarst);
+    const meshKarst = createCurvedCutoutMesh(matKarst, 140, 66, 0.16);
+    meshKarst.position.set(-86, 18, -82);
+    meshKarst.rotation.y = 0.25;
+    this.scene.add(meshKarst);
+
+    // 卷四 · 幽谷飞泉千叠绝壁 (Section 4 Waterfall & Ravine Peak)
+    const matWaterfall = createCutoutMaterial('assets/painting/cutouts/peak_waterfall_ravine.webp', {
+      fogNear: 45, fogFar: 250, vibrance: 1.20
+    });
+    this.cutoutMaterials.push(matWaterfall);
+    const meshWaterfall = createCurvedCutoutMesh(matWaterfall, 145, 68, 0.16);
+    meshWaterfall.position.set(96, 20, -88);
+    meshWaterfall.rotation.y = -0.22;
+    this.scene.add(meshWaterfall);
+
+    // 5. 【Layer 3: 中景江渚水榭与飞虹长桥】 (Midground Landmarks, Z: -20 ~ -40m)
+    // 卷二 · 北宋千步编木长拱虹桥真迹 (Section 2 Rainbow Bridge)
+    const matBridge = createCutoutMaterial('assets/painting/cutouts/bridge_rainbow_arch.webp', {
+      fogNear: 20, fogFar: 180, vibrance: 1.15
+    });
+    this.cutoutMaterials.push(matBridge);
+    const meshBridge = createCurvedCutoutMesh(matBridge, 68, 32, 0.08);
+    meshBridge.position.set(28, 8.5, -24);
+    meshBridge.rotation.y = -0.12;
+    this.scene.add(meshBridge);
+
+    // 卷一 · 临波水榭楼阁与隐逸茅舍真迹 (Section 1 Lakeside Pavilion)
+    const matPavilion = createCutoutMaterial('assets/painting/cutouts/pavilion_lakeside.webp', {
+      fogNear: 20, fogFar: 180, vibrance: 1.15
+    });
+    this.cutoutMaterials.push(matPavilion);
+    const meshPavilion = createCurvedCutoutMesh(matPavilion, 58, 28, 0.08);
+    meshPavilion.position.set(-38, 5.2, -34);
+    meshPavilion.rotation.y = 0.16;
+    this.scene.add(meshPavilion);
+
+    // 6. 【Layer 4: 近景舒啸绝壁苍古奇松】 (Foreground Song Gnarled Pines, Z: 18 ~ 30m)
+    // 探入天幕掩映全景的百年苍松 (两翼置景，营造高远与深远视差)
+    const matPines = createCutoutMaterial('assets/painting/cutouts/pines_gnarled_ancient.webp', {
+      fogNear: 5, fogFar: 150, vibrance: 1.25
+    });
+    this.cutoutMaterials.push(matPines);
+
+    // 左翼苍松 (探向右上空，斜覆天际)
+    const meshPineL = createCurvedCutoutMesh(matPines, 24, 14, 0.06);
+    meshPineL.position.set(-28, 14.5, 26);
+    meshPineL.rotation.y = 0.32;
+    meshPineL.rotation.z = -0.06;
+    this.scene.add(meshPineL);
+
+    // 右翼苍松 (探向左上空，互为映衬)
+    const meshPineR = createCurvedCutoutMesh(matPines, 26, 15, 0.06);
+    meshPineR.scale.x = -1.0; // 镜像翻转，枝桠向左聚拢
+    meshPineR.position.set(24, 15.2, 28);
+    meshPineR.rotation.y = -0.28;
+    this.scene.add(meshPineR);
+  }
+
+  // =========================================================================
   // 精确计算北宋崇峦峻岭自然起伏地貌 (Song Karst Landscape Height Function)
   // 主峰巍峨拔地、层峦叠嶂、绝壁奇峰、深峡飞泉、大泽舒展
   // =========================================================================
@@ -308,85 +532,27 @@ export class World3D {
       southHills = roll + peachBank + paddyBank;
     }
 
-    // 4. 北侧崇山万仞主峰群 (北岸耸拔，隔江相望，z < -14)
+    // 4. 北岸渚石与山麓台地 (为故宫真迹千叠立轴山峦提供自然生根地基)
     let mountain = 0;
     if (z < -14) {
-      const depth = Math.min(1.0, (-14 - z) / 80.0);
+      const depth = Math.min(1.0, (-14 - z) / 70.0);
+      const bankRoll = (Math.sin(x * 0.06) + Math.cos(z * 0.05)) * 1.6;
+      mountain = depth * 4.5 + bankRoll;
 
-      // 【主峰群 · 天柱耸翠与双脊苍龙】 (x ≈ 10, z ≈ -72) - 峰巅高达 64m
-      // 沿东北-西南向的刀脊山脉 (Razor Ridge Spine)
-      const spineDist = Math.abs((x - 10) - (z - (-72)) * 0.42);
-      const alongDist = Math.hypot(x - 10, z - (-72));
-      let mainPeak = 0;
-      if (spineDist < 36 && alongDist < 46) {
-        const sNorm = 1.0 - spineDist / 36;
-        const aNorm = 1.0 - alongDist / 46;
-        // 陡削刀刃脊骨 (Knife-edge Ridge)
-        const spineH = Math.pow(sNorm, 1.8) * Math.pow(aNorm, 1.25) * 62.0;
-        // 斧劈折带阶梯层台 (Stepped Karst Cliffs)
-        const karstTier = Math.abs(Math.sin(x * 0.16 + z * 0.11)) * 6.5 * aNorm;
-        const karstRib  = (Math.sin(z * 0.26) * 0.5 + 0.5) * 5.0 * sNorm;
-        mainPeak = spineH + karstTier + karstRib;
-      }
-
-      // 【主峰东翼卫峰 · 叠嶂耸玉】 (x ≈ 28, z ≈ -68) - 高达 48m
-      const dSubEast = Math.hypot(x - 28, z - (-68));
-      if (dSubEast < 30) {
-        const set = 1.0 - dSubEast / 30;
-        const subEH = Math.pow(set, 1.4) * 46.0 + Math.abs(Math.sin(x * 0.22 - z * 0.15)) * 4.5 * set;
-        mainPeak = Math.max(mainPeak, subEH);
-      }
-
-      // 【西侧翠微屏峦】 (x ≈ -34, z ≈ -64) - 崇峦千仞 (高达 48m)
-      const dWestPeak = Math.hypot(x - (-34), z - (-64));
-      let westPeak = 0;
-      if (dWestPeak < 38) {
-        const wt = 1.0 - dWestPeak / 38;
-        westPeak = Math.pow(wt, 1.35) * 46.0;
-        westPeak += Math.abs(Math.cos(x * 0.15 - z * 0.09)) * 5.2 * wt;
-      }
-
-      // 【东侧崇峦】 (x ≈ 52, z ≈ -68) - 高达 42m
-      const dEastPeak = Math.hypot(x - 52, z - (-68));
-      let eastPeak = 0;
-      if (dEastPeak < 40) {
-        const et = 1.0 - dEastPeak / 40;
-        eastPeak = Math.pow(et, 1.3) * 42.0;
-        eastPeak += Math.abs(Math.sin(x * 0.18 + z * 0.12)) * 4.0 * et;
-      }
-
-      // 【东侧孤刹绝壁】 (x ≈ 64, z ≈ -25) - 险峰高耸与绝壁飞阁 (高达 34m)
-      const dEastCliff = Math.hypot(x - 64, z - (-25));
-      let eastCliff = 0;
-      if (dEastCliff < 28) {
-        const ct = 1.0 - dEastCliff / 28;
-        // 绝壁前沿陡削，峰顶平缓台基
-        const cliffProfile = ct > 0.75 ? 0.92 + (ct - 0.75) * 0.32 : Math.pow(ct / 0.75, 1.4) * 0.92;
-        eastCliff = cliffProfile * 33.0;
-        // 苍古岩骨断层
-        eastCliff += (Math.abs(Math.sin(x * 0.24 + z * 0.16)) * 2.8 + Math.cos(z * 0.35) * 2.2) * ct;
-      }
-
-      // 远景层峦叠嶂轮廓 (Z < -70)
-      const farRidges = (Math.sin(x * 0.038 + 1.2) * 14.0 + Math.cos(x * 0.075 - 0.8) * 7.5) * depth;
-
-      mountain = depth * 14.0 + farRidges + mainPeak + westPeak + eastPeak + eastCliff;
-
-      // 【卷二 · 瀑布深涧深切峡谷】 (x ≈ -18, z ≈ -36)
-      const dWaterfall = Math.hypot(x - (-18), z - (-36));
-      if (dWaterfall < 18) {
-        const cut = (1.0 - dWaterfall / 18);
-        mountain -= cut * 20.0;
-      }
-
-      // 【卷四 · 关隘长桥桥头基石】 (x ≈ 36, z ≈ -15)
+      // 桥头基石与渡口台地
       const dBridgeWest = Math.hypot(x - 22, z - (-15));
       const dBridgeEast = Math.hypot(x - 49, z - (-15));
-      if (dBridgeWest < 12) {
-        mountain = Math.max(mountain, 6.2 + (1.0 - dBridgeWest / 12) * 2.5);
+      if (dBridgeWest < 14) {
+        mountain = Math.max(mountain, 5.2 + (1.0 - dBridgeWest / 14) * 2.2);
       }
-      if (dBridgeEast < 12) {
-        mountain = Math.max(mountain, 6.2 + (1.0 - dBridgeEast / 12) * 2.5);
+      if (dBridgeEast < 14) {
+        mountain = Math.max(mountain, 5.2 + (1.0 - dBridgeEast / 14) * 2.2);
+      }
+
+      // 关隘石台 (x ≈ 38, z ≈ -15)
+      const dPass = Math.hypot(x - 38, z - (-15));
+      if (dPass < 16) {
+        mountain = Math.max(mountain, 6.5 + (1.0 - dPass / 16) * 2.0);
       }
     }
 
@@ -1670,6 +1836,17 @@ export class World3D {
     this.scene.fog.color.setHex(0xF8EEDC);
     this.sunLight.intensity = 2.45;
 
+    if (this.cutoutMaterials) {
+      this.cutoutMaterials.forEach(m => {
+        if (m.uniforms && m.uniforms.uGlow) {
+          m.uniforms.uGlow.value = 0.38;
+          setTimeout(() => {
+            m.uniforms.uGlow.value = 0.06;
+          }, 3500);
+        }
+      });
+    }
+
     setTimeout(() => {
       this.sunLight.intensity = 2.35;
     }, 4000);
@@ -1798,6 +1975,16 @@ export class World3D {
     // 更新水体着色器时间 Uniform
     if (this.waterMesh && this.waterMesh.material.uniforms) {
       this.waterMesh.material.uniforms.uTime.value = time;
+    }
+
+    // 更新故宫真迹分层立体切片材质 Uniform (微风拂动与古绢呼吸)
+    if (this.cutoutMaterials && this.cutoutMaterials.length > 0) {
+      for (let i = 0; i < this.cutoutMaterials.length; i++) {
+        const mat = this.cutoutMaterials[i];
+        if (mat.uniforms && mat.uniforms.uTime) {
+          mat.uniforms.uTime.value = time;
+        }
+      }
     }
 
     if (this.waterfallMesh) {

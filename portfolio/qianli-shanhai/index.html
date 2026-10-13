@@ -69,7 +69,7 @@
     import { CrossingCeremony } from './src/crossing.js';
     import { UIManager } from './src/ui.js';
 
-    window.addEventListener('DOMContentLoaded', () => {
+    function init() {
       const world3DViewport = document.getElementById('viewport-3d');
       const uiLayer = document.getElementById('ui-layer');
 
@@ -178,7 +178,13 @@
       document.body.addEventListener('click', () => {
         audio.ensureContext();
       }, { once: true });
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>

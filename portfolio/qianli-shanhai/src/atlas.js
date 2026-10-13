@@ -101,6 +101,13 @@ export class AtlasManager {
 
     this._buildPlaces();
     this._bindEvents();
+
+    // 默认预选第一个胜景 (卷一 · 桃溪浅滩)
+    setTimeout(() => {
+      if (ATLAS_PLACES && ATLAS_PLACES[0]) {
+        this.selectPlace(ATLAS_PLACES[0]);
+      }
+    }, 150);
   }
 
   _buildPlaces() {
@@ -237,13 +244,21 @@ export class AtlasManager {
     this.onPlaceSelect(place);
 
     // 平滑滚动至该景点
-    if (this.frame && this.image) {
-      const imgWidth = this.image.scrollWidth || this.image.clientWidth;
-      const targetScroll = (imgWidth * place.u) - (this.frame.clientWidth / 2);
-      this.frame.scrollTo({
-        left: Math.max(0, targetScroll),
-        behavior: 'smooth'
-      });
+    const doScroll = () => {
+      if (this.frame && this.image) {
+        const imgWidth = this.image.scrollWidth || this.image.clientWidth || 8000;
+        const targetScroll = (imgWidth * place.u) - (this.frame.clientWidth / 2);
+        this.frame.scrollTo({
+          left: Math.max(0, targetScroll),
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    if (this.image && !this.image.complete) {
+      this.image.addEventListener('load', doScroll, { once: true });
+    } else {
+      doScroll();
     }
 
     // 高亮药丸

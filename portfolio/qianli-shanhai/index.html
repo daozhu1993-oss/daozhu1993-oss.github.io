@@ -78,24 +78,32 @@
       let crossingCeremony = null;
       let ui = null;
 
-      // 1. 初始化 3D 青绿世界漫步引擎
-      world3D = new World3D(world3DViewport, {
-        onAwakenBeast: (beastData) => {
-          if (ui) ui.showBeastAwakened(beastData);
+      // 1. 优先初始化长卷全景展卷控制器 (即刻展开十二米真迹长卷与 6 大胜景)
+      atlasManager = new AtlasManager({
+        onEnterCrossing: () => {
+          audio.ensureContext();
+          if (crossingCeremony) crossingCeremony.start(null);
         },
-        onNearBeastChange: (beast, dist) => {
-          if (ui) ui.setNearBeast(beast, dist);
+        onEnterScene: (place) => {
+          audio.ensureContext();
+          if (crossingCeremony) crossingCeremony.start(place);
         },
-        onCompassUpdate: (compassList, yaw) => {
-          if (ui) ui.updateCompass(compassList, yaw);
-        },
-        onExitToScroll: () => {
-          // 返回全景长卷
-          returnToAtlas();
+        onPlaceSelect: (place) => {
+          audio.playScrollWhoosh();
         }
       });
 
-      // 2. 初始化 UI 控制管理器
+      // 2. 初始化 3D 穿越入画仪式控制器
+      crossingCeremony = new CrossingCeremony({
+        onEnterWorld: (targetPlace) => {
+          enter3DWorld(targetPlace);
+        },
+        onCancel: () => {
+          document.body.classList.add('in-atlas');
+        }
+      });
+
+      // 3. 初始化 UI 控制管理器
       ui = new UIManager(uiLayer, {
         onReturnToAtlas: () => {
           returnToAtlas();
@@ -125,31 +133,25 @@
         }
       });
 
-      // 3. 初始化 3D 穿越入画仪式控制器
-      crossingCeremony = new CrossingCeremony({
-        onEnterWorld: (targetPlace) => {
-          enter3DWorld(targetPlace);
-        },
-        onCancel: () => {
-          // 留在长卷展卷模式
-          document.body.classList.add('in-atlas');
-        }
-      });
-
-      // 4. 初始化长卷全景展卷控制器
-      atlasManager = new AtlasManager({
-        onEnterCrossing: () => {
-          audio.ensureContext();
-          crossingCeremony.start(null);
-        },
-        onEnterScene: (place) => {
-          audio.ensureContext();
-          crossingCeremony.start(place);
-        },
-        onPlaceSelect: (place) => {
-          audio.playScrollWhoosh();
-        }
-      });
+      // 4. 初始化 3D 青绿世界漫步引擎 (支持 WebGL 容错)
+      try {
+        world3D = new World3D(world3DViewport, {
+          onAwakenBeast: (beastData) => {
+            if (ui) ui.showBeastAwakened(beastData);
+          },
+          onNearBeastChange: (beast, dist) => {
+            if (ui) ui.setNearBeast(beast, dist);
+          },
+          onCompassUpdate: (compassList, yaw) => {
+            if (ui) ui.updateCompass(compassList, yaw);
+          },
+          onExitToScroll: () => {
+            returnToAtlas();
+          }
+        });
+      } catch (err) {
+        console.warn('[World3D Initialized with notice]', err);
+      }
 
       // 切换至 3D 画境漫步模式
       function enter3DWorld(targetPlace) {

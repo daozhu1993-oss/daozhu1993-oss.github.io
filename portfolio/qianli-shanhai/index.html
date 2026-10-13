@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <title>千里江山 · 借笔还魂</title>
-  <meta name="description" content="北宋政和三年，十八岁王希孟借笔还魂。漫步三维青绿山河，唤醒山海六方神兽。">
-  <meta name="theme-color" content="#EFE4CD">
+  <meta name="description" content="北宋政和三年，十八岁王希孟借笔还魂。穿越十二米青绿长卷，唤醒山海六方神兽。">
+  <meta name="theme-color" content="#7A6946">
   <link rel="stylesheet" href="./src/style.css">
 
   <script type="importmap">
@@ -18,18 +18,46 @@
   </script>
 
   <script>
-    // 安全日志监听，避免静默阻塞页面
+    // 监听全局日志，避免静默阻断
     window.addEventListener('error', function(e) {
       console.warn('[Qianli Log]', e.message, e.filename, e.lineno);
     });
   </script>
 </head>
-<body>
+<body class="in-atlas">
   <div id="app">
-    <!-- 3D 青绿大境漫步视口 (主视口，直接呈现) -->
+    <!-- ================= 1. 长卷全景展卷层 (对标清明上河图 #atlas) ================= -->
+    <section id="atlas" aria-label="千里江山全景入画" aria-describedby="atlasHint">
+      <header class="atlas-heading">
+        <span>北宋政和三年 · 一卷藏山海</span>
+        <h1>千里江山</h1>
+        <p id="atlasHint">移笔游目，点景入画</p>
+        <div class="atlas-module-links">
+          <button id="crossingEntry" aria-haspopup="dialog" aria-label="提笔穿越，聚万峰入画">
+            <span>提笔穿越</span>
+            <i aria-hidden="true">↗</i>
+          </button>
+        </div>
+      </header>
+
+      <div id="atlasStage">
+        <div id="atlasFrame">
+          <div id="atlasContent" class="atlas-content">
+            <img id="atlasImage" src="./assets/painting/qianli_panorama_hi.jpg" alt="北宋王希孟千里江山图十二米高分辨率全卷" draggable="false" fetchpriority="high">
+            <!-- 动态注入 6 大胜景标记 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部 6 大胜景导航药丸 -->
+      <nav id="atlasPlaces" aria-label="长卷景点导航"></nav>
+      <p id="atlasMessage" role="status">移笔游目，点景入画 · 点击胜景或【提笔穿越】入画漫步</p>
+    </section>
+
+    <!-- ================= 2. 3D 青绿大境漫步视口 ================= -->
     <div id="viewport-3d"></div>
 
-    <!-- UI 交互层 -->
+    <!-- ================= 3. UI 交互控制层 ================= -->
     <div id="ui-layer"></div>
   </div>
 
@@ -37,7 +65,8 @@
     import { BEASTS } from './src/beasts.js';
     import { audio } from './src/audio.js';
     import { World3D } from './src/world3d.js';
-    import { ScrollViewer } from './src/scroll.js';
+    import { AtlasManager } from './src/atlas.js';
+    import { CrossingCeremony } from './src/crossing.js';
     import { UIManager } from './src/ui.js';
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -45,13 +74,13 @@
       const uiLayer = document.getElementById('ui-layer');
 
       let world3D = null;
-      let scrollViewer = null;
+      let atlasManager = null;
+      let crossingCeremony = null;
       let ui = null;
 
-      // 1. 初始化 3D 青绿世界引擎 (主舞台，对标梵高星空 3D 漫步)
+      // 1. 初始化 3D 青绿世界漫步引擎
       world3D = new World3D(world3DViewport, {
         onAwakenBeast: (beastData) => {
-          if (scrollViewer) scrollViewer.setAwakened(beastData.id);
           if (ui) ui.showBeastAwakened(beastData);
         },
         onNearBeastChange: (beast, dist) => {
@@ -61,25 +90,30 @@
           if (ui) ui.updateCompass(compassList, yaw);
         },
         onExitToScroll: () => {
-          if (ui) ui.toggleScrollDrawer(true);
+          // 返回全景长卷
+          returnToAtlas();
         }
       });
 
-      // 2. 初始化 UI 管理器
+      // 2. 初始化 UI 控制管理器
       ui = new UIManager(uiLayer, {
-        onStartGame: () => {
-          if (world3D) world3D.startCinematicIntro();
+        onReturnToAtlas: () => {
+          returnToAtlas();
+        },
+        onSeasonChange: (season) => {
+          if (world3D) world3D.setSeason(season);
+        },
+        onWeatherChange: (weather) => {
+          if (world3D) world3D.setWeather(weather);
+        },
+        onNightToggle: (isNight) => {
+          if (world3D) world3D.setNight(isNight);
         },
         onAwakenAction: () => {
           if (world3D) world3D.tryAwakenNearBeast();
         },
         onTeleport: (beastId) => {
           if (world3D) world3D.teleportToBeast(beastId);
-        },
-        onToggleScroll: (open) => {
-          if (open && scrollViewer) {
-            setTimeout(() => scrollViewer.resize(), 50);
-          }
         },
         onVirtualMove: (vec) => {
           if (world3D) {
@@ -91,20 +125,54 @@
         }
       });
 
-      // 3. 将真实 12 米画卷挂载至抽屉容器内 (随时按 M 或点击按钮展开)
-      const drawerContainer = document.getElementById('drawer-canvas-container');
-      if (drawerContainer) {
-        scrollViewer = new ScrollViewer(drawerContainer, {
-          onSelectBeast: (beast) => {
-            if (world3D) world3D.teleportToBeast(beast.id);
-            if (ui) ui.toggleScrollDrawer(false);
-          }
-        });
+      // 3. 初始化 3D 穿越入画仪式控制器
+      crossingCeremony = new CrossingCeremony({
+        onEnterWorld: (targetPlace) => {
+          enter3DWorld(targetPlace);
+        },
+        onCancel: () => {
+          // 留在长卷展卷模式
+          document.body.classList.add('in-atlas');
+        }
+      });
+
+      // 4. 初始化长卷全景展卷控制器
+      atlasManager = new AtlasManager({
+        onEnterCrossing: () => {
+          audio.ensureContext();
+          crossingCeremony.start(null);
+        },
+        onEnterScene: (place) => {
+          audio.ensureContext();
+          crossingCeremony.start(place);
+        },
+        onPlaceSelect: (place) => {
+          audio.playScrollWhoosh();
+        }
+      });
+
+      // 切换至 3D 画境漫步模式
+      function enter3DWorld(targetPlace) {
+        document.body.classList.remove('in-atlas');
+        if (targetPlace) {
+          // 若指定了胜景，直接传送至该胜景神兽处
+          if (world3D) world3D.teleportToBeast(targetPlace.id);
+        } else {
+          // 否则触发俯冲穿云入画运镜
+          if (world3D) world3D.startCinematicIntro();
+        }
+      }
+
+      // 返回长卷全景展卷模式
+      function returnToAtlas() {
+        document.body.classList.add('in-atlas');
+        audio.playScrollWhoosh();
       }
 
       window.world3D = world3D;
       window.ui = ui;
-      window.scrollViewer = scrollViewer;
+      window.atlasManager = atlasManager;
+      window.crossingCeremony = crossingCeremony;
 
       // 首次用户交互触发音频就绪
       document.body.addEventListener('click', () => {

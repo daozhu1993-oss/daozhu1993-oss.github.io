@@ -176,6 +176,16 @@
       window.atlasManager = atlasManager;
       window.crossingCeremony = crossingCeremony;
 
+      // URL 路由深链支持 (#crossing / ?mode=crossing 启动穿越；#roam / ?mode=roam 直接入画漫步)
+      const urlParams = new URLSearchParams(window.location.search);
+      const mode = urlParams.get('mode') || (window.location.hash ? window.location.hash.slice(1) : '');
+
+      if (mode === 'crossing') {
+        crossingCeremony.start(null);
+      } else if (mode === 'roam' || mode === 'world') {
+        enter3DWorld(null);
+      }
+
       // 首次用户交互触发音频就绪
       document.body.addEventListener('click', () => {
         audio.ensureContext();

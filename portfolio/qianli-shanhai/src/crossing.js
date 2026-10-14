@@ -238,8 +238,10 @@ export class CrossingCeremony {
     dirLight.position.set(25, 40, 30);
     this.scene.add(dirLight);
 
-    // 构建千峰粒子系统
+    // 构建千峰粒子系统与希孟仙姿
+    this.particleCount = 16000;
     this._createMountainParticles();
+    this._createXimengScholarFigure();
 
     // 窗口自适应
     this._onResize = () => {
@@ -258,12 +260,12 @@ export class CrossingCeremony {
     this.velArray = new Float32Array(count * 3);
     this.colorArray = new Float32Array(count * 3);
 
-    // 四大北宋矿物色标
+    // 四大北宋矿物色标 (石青、石绿、金屑、暖赭)
     const mineralColors = [
-      new THREE.Color(0x1E488F), // 石青 (Azurite)
-      new THREE.Color(0x237C5A), // 石绿 (Malachite)
-      new THREE.Color(0xF4D068), // 泥金 (Gilded Gold)
-      new THREE.Color(0x9C6B38)  // 赭石 (Ochre Rock)
+      new THREE.Color(0x2B66CC), // 鲜亮石青 (Luminous Azurite)
+      new THREE.Color(0x2FB37E), // 翠微石绿 (Emerald Malachite)
+      new THREE.Color(0xFFDC73), // 闪耀泥金 (Gilded Gold)
+      new THREE.Color(0xC27A45)  // 暖阳赭石 (Warm Ochre)
     ];
 
     for (let i = 0; i < count; i++) {
@@ -272,41 +274,41 @@ export class CrossingCeremony {
       // 1. 生成山峦与虹桥目标轮廓点 (Target Points)
       let tx, ty, tz;
 
-      if (i < count * 0.75) {
+      if (i < count * 0.72) {
         // 千峰万壑：崇山叠嶂三维函数
-        const u = (Math.random() - 0.5) * 80;
-        const v = (Math.random() - 0.5) * 45;
-        // 峰峦高度函数：结合三个主峰群
-        const peak1 = Math.exp(-((u + 15) ** 2 + (v + 5) ** 2) / 120) * 24;
-        const peak2 = Math.exp(-((u - 20) ** 2 + (v + 10) ** 2) / 160) * 28;
-        const peak3 = Math.exp(-((u - 0) ** 2 + (v - 8) ** 2) / 80) * 18;
-        const ridge = Math.cos(u * 0.15) * Math.sin(v * 0.2) * 5;
+        const u = (Math.random() - 0.5) * 85;
+        const v = (Math.random() - 0.5) * 48;
+        // 峰峦高度函数：主峰、副峰与远岫
+        const peak1 = Math.exp(-((u + 16) ** 2 + (v + 5) ** 2) / 130) * 26;
+        const peak2 = Math.exp(-((u - 22) ** 2 + (v + 12) ** 2) / 180) * 30;
+        const peak3 = Math.exp(-((u - 2) ** 2 + (v - 8) ** 2) / 90) * 20;
+        const ridge = Math.cos(u * 0.16) * Math.sin(v * 0.22) * 6;
 
         tx = u;
-        ty = Math.max(0.5, peak1 + peak2 + peak3 + ridge + Math.random() * 2);
+        ty = Math.max(0.6, peak1 + peak2 + peak3 + ridge + Math.random() * 2.5);
         tz = v;
-      } else if (i < count * 0.90) {
-        // 编木虹桥拱形飞梁
-        const t = (Math.random() - 0.5) * 28;
+      } else if (i < count * 0.88) {
+        // 编木虹桥拱形飞梁与水榭
+        const t = (Math.random() - 0.5) * 30;
         tx = t;
-        ty = 4 + (1 - (t / 14) ** 2) * 6 + (Math.random() - 0.5) * 0.8;
-        tz = 12 + (Math.random() - 0.5) * 3;
+        ty = 4.2 + (1 - (t / 15) ** 2) * 6.5 + (Math.random() - 0.5) * 0.8;
+        tz = 12 + (Math.random() - 0.5) * 3.5;
       } else {
-        // 舒啸临风石台与希孟书案
-        tx = -12 + (Math.random() - 0.5) * 10;
-        ty = 8 + (Math.random() - 0.5) * 2;
-        tz = 24 + (Math.random() - 0.5) * 8;
+        // 舒啸临风石台与观景矶头
+        tx = -12 + (Math.random() - 0.5) * 12;
+        ty = 8 + (Math.random() - 0.5) * 2.2;
+        tz = 24 + (Math.random() - 0.5) * 9;
       }
 
       this.origPosArray[i3] = tx;
       this.origPosArray[i3 + 1] = ty;
       this.origPosArray[i3 + 2] = tz;
 
-      // 初始分散于太虚云海之外
-      const spreadR = 70 + Math.random() * 60;
+      // 初始分散于峰峦周遭，形成气势磅礴的矿物星云漩涡
+      const spreadR = 18 + Math.random() * 42;
       const angle = Math.random() * Math.PI * 2;
       this.posArray[i3] = tx + Math.cos(angle) * spreadR;
-      this.posArray[i3 + 1] = ty + (Math.random() - 0.5) * 50 + 20;
+      this.posArray[i3 + 1] = ty + (Math.random() - 0.5) * 24 + 10;
       this.posArray[i3 + 2] = tz + Math.sin(angle) * spreadR;
 
       this.velArray[i3] = 0;
@@ -318,15 +320,15 @@ export class CrossingCeremony {
       if (ty > 18) {
         col = mineralColors[0]; // 石青峰尖
       } else if (ty > 8) {
-        col = Math.random() > 0.4 ? mineralColors[1] : mineralColors[0]; // 石绿翠微
+        col = Math.random() > 0.35 ? mineralColors[1] : mineralColors[0]; // 石绿翠微
       } else if (ty > 3) {
         col = mineralColors[3]; // 赭石石骨
       } else {
         col = mineralColors[2]; // 泥金渚岸
       }
 
-      // 金屑杂色微光
-      if (Math.random() < 0.15) {
+      // 20% 金屑杂色微光
+      if (Math.random() < 0.20) {
         col = mineralColors[2];
       }
 
@@ -341,30 +343,111 @@ export class CrossingCeremony {
 
     // 圆润古墨水彩光斑纹理
     const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
+    canvas.width = 64;
+    canvas.height = 64;
     const ctx = canvas.getContext('2d');
-    const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.4, 'rgba(255,255,255,0.85)');
-    grad.addColorStop(0.8, 'rgba(255,255,255,0.25)');
+    grad.addColorStop(0.35, 'rgba(255,255,255,0.9)');
+    grad.addColorStop(0.7, 'rgba(255,255,255,0.3)');
     grad.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 32, 32);
+    ctx.fillRect(0, 0, 64, 64);
     const sparkTex = new THREE.CanvasTexture(canvas);
 
     const mat = new THREE.PointsMaterial({
-      size: 2.2,
+      size: 4.8,
       map: sparkTex,
       vertexColors: true,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.95,
       depthWrite: false,
-      blending: THREE.NormalBlending
+      blending: THREE.AdditiveBlending
     });
 
     this.particleMesh = new THREE.Points(geo, mat);
     this.scene.add(this.particleMesh);
+  }
+
+  // 构建十八岁少年画师王希孟三维写意人像 (Standing on Terrace with Glowing Brush)
+  _createXimengScholarFigure() {
+    this.ximengGroup = new THREE.Group();
+    this.ximengGroup.position.set(-12, 7.8, 24);
+    this.ximengGroup.rotation.y = 0.45;
+    this.ximengGroup.visible = false; // 稍后在第三阶段显现
+
+    // 石矶台基
+    const rockGeo = new THREE.CylinderGeometry(2.4, 3.2, 1.4, 7);
+    const rockMat = new THREE.MeshStandardMaterial({ color: 0x5C4D38, roughness: 0.95 });
+    const rock = new THREE.Mesh(rockGeo, rockMat);
+    rock.position.y = -0.7;
+    this.ximengGroup.add(rock);
+
+    // 青绿文人长袍
+    const robeMat = new THREE.MeshStandardMaterial({
+      color: 0x2A5852, // 沉稳石绿宋儒长袍
+      roughness: 0.75
+    });
+    const robeGeo = new THREE.CylinderGeometry(0.32, 0.65, 2.2, 8);
+    const robe = new THREE.Mesh(robeGeo, robeMat);
+    robe.position.y = 1.1;
+    this.ximengGroup.add(robe);
+
+    // 广袖飘带
+    const sleeveMat = new THREE.MeshStandardMaterial({ color: 0x36756C, roughness: 0.7 });
+    const sleeveL = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.1, 6), sleeveMat);
+    sleeveL.rotation.z = -0.6;
+    sleeveL.position.set(-0.45, 1.4, 0);
+    this.ximengGroup.add(sleeveL);
+
+    const sleeveR = new THREE.Mesh(new THREE.ConeGeometry(0.24, 1.1, 6), sleeveMat);
+    sleeveR.rotation.z = 0.7;
+    sleeveR.rotation.x = -0.3;
+    sleeveR.position.set(0.48, 1.5, 0.15);
+    this.ximengGroup.add(sleeveR);
+
+    // 朱砂腰带
+    const beltMat = new THREE.MeshStandardMaterial({ color: 0x9E2B25, roughness: 0.5 });
+    const belt = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.38, 0.14, 8), beltMat);
+    belt.position.y = 1.35;
+    this.ximengGroup.add(belt);
+
+    // 少年面容与头巾
+    const skinMat = new THREE.MeshStandardMaterial({ color: 0xF7D8BA, roughness: 0.6 });
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.26, 8, 8), skinMat);
+    head.position.y = 2.45;
+    this.ximengGroup.add(head);
+
+    // 东坡巾 / 儒士幞头
+    const capMat = new THREE.MeshStandardMaterial({ color: 0x1A1816, roughness: 0.8 });
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 0.35, 6), capMat);
+    cap.position.y = 2.7;
+    this.ximengGroup.add(cap);
+
+    // 借笔神毫：发光金毫神笔 (The Legendary Borrowed Brush)
+    const brushShaft = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.035, 0.035, 1.4, 6),
+      new THREE.MeshStandardMaterial({ color: 0x8C5E28, roughness: 0.5 })
+    );
+    brushShaft.rotation.x = -0.85;
+    brushShaft.rotation.z = -0.4;
+    brushShaft.position.set(0.65, 1.6, 0.5);
+    this.ximengGroup.add(brushShaft);
+
+    // 笔尖金光神辉 (Glowing Golden Brush Tip)
+    const brushTip = new THREE.Mesh(
+      new THREE.SphereGeometry(0.12, 8, 8),
+      new THREE.MeshBasicMaterial({ color: 0xFFEA80 })
+    );
+    brushTip.position.set(0.92, 1.95, 0.95);
+    this.ximengGroup.add(brushTip);
+
+    // 笔尖金色引力光环
+    const tipGlow = new THREE.PointLight(0xFFD700, 2.8, 12);
+    tipGlow.position.set(0.92, 1.95, 0.95);
+    this.ximengGroup.add(tipGlow);
+
+    this.scene.add(this.ximengGroup);
   }
 
   // 物理爆破与弹性重聚 (Burst & Reassemble)
@@ -424,6 +507,7 @@ export class CrossingCeremony {
       status.textContent = '十八岁少年王希孟立于绝壁石矶，正待知音…';
       desc.textContent = '跨越九百载岁月，少年画师停笔回眸，邀君入画共参天地。';
       this._setWelcome(true);
+      if (this.ximengGroup) this.ximengGroup.visible = true;
     }
 
     // 相机轨迹推进
@@ -447,11 +531,18 @@ export class CrossingCeremony {
     this.animFrameId = requestAnimationFrame(() => this._renderLoop());
 
     const dt = Math.min(this.clock.getDelta(), 0.05);
+    const time = this.clock ? this.clock.getElapsedTime() : 0;
 
     // 自动播放进度演进
     if (this.isPlaying && this.progress < 0.95) {
       this.progress += dt * 0.12;
       this._updateStage(this.progress);
+    }
+
+    // 希孟仙姿微风拂动呼吸
+    if (this.ximengGroup && this.ximengGroup.visible) {
+      this.ximengGroup.position.y = 7.8 + Math.sin(time * 2.2) * 0.08;
+      this.ximengGroup.rotation.y = 0.45 + Math.sin(time * 0.8) * 0.04;
     }
 
     // 粒子弹簧物理与重聚运算
@@ -460,9 +551,9 @@ export class CrossingCeremony {
       const orig = this.origPosArray;
       const vel = this.velArray;
       const count = this.particleCount;
-      const blend = THREE.MathUtils.clamp(this.progress / 0.85, 0, 1);
+      const blend = THREE.MathUtils.clamp(0.28 + this.progress * 0.72, 0, 1);
 
-      const springK = 6.5;
+      const springK = 6.8;
       const damp = 0.88;
 
       for (let i = 0; i < count; i++) {
@@ -488,7 +579,7 @@ export class CrossingCeremony {
       }
 
       this.particleMesh.geometry.attributes.position.needsUpdate = true;
-      this.particleMesh.rotation.y += dt * 0.03;
+      this.particleMesh.rotation.y += dt * 0.035;
     }
 
     if (this.renderer && this.scene && this.camera) {

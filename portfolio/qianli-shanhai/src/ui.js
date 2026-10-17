@@ -13,6 +13,30 @@
 import { BEASTS, SCENIC_SECTIONS, STORY_PROLOGUE } from './beasts.js';
 import { audio } from './audio.js';
 
+/**
+ * Map a finger offset into a normalized stick vector.
+ * x/y are in [-1, 1] after a deadzone; +y points down the screen (backward).
+ * kx/ky are the clamped knob translation in pixels.
+ */
+export function shapeStickVector(dx, dy, maxRadius, deadzone = 0.14) {
+  if (!(maxRadius > 0) || !Number.isFinite(dx) || !Number.isFinite(dy)) {
+    return { x: 0, y: 0, kx: 0, ky: 0 };
+  }
+  const dist = Math.hypot(dx, dy);
+  const clamped = Math.min(dist, maxRadius);
+  const nx = dist > 0 ? (dx / dist) * (clamped / maxRadius) : 0;
+  const ny = dist > 0 ? (dy / dist) * (clamped / maxRadius) : 0;
+  const mag = Math.hypot(nx, ny);
+  let x = 0;
+  let y = 0;
+  if (mag > deadzone) {
+    const scaled = Math.min(1, (mag - deadzone) / (1 - deadzone));
+    x = (nx / mag) * scaled;
+    y = (ny / mag) * scaled;
+  }
+  return { x, y, kx: nx * maxRadius, ky: ny * maxRadius };
+}
+
 export class UIManager {
   constructor(appEl, options = {}) {
     this.appEl = appEl;
@@ -23,6 +47,8 @@ export class UIManager {
     this.onWeatherChange = options.onWeatherChange || (() => {});
     this.onNightToggle = options.onNightToggle || (() => {});
     this.onVirtualMove = options.onVirtualMove || (() => {});
+    this.onVirtualLook = options.onVirtualLook || (() => {});
+    this.onPinchZoom = options.onPinchZoom || (() => {});
 
     this.currentSeason = 'summer';
     this.isNight = false;
@@ -118,14 +144,35 @@ export class UIManager {
           </div>
         </div>
 
-        <!-- 移动端虚拟摇杆与触屏交互按钮 -->
+        <!-- 移动端双司南：左盘漫步，右盘游目 -->
         <div class="sh-mobile-controls" id="mobile-controls">
-          <div class="virtual-joystick" id="virtual-joystick">
-            <div class="joystick-knob" id="joystick-knob"></div>
+          <div class="virtual-joystick joystick-move" id="joystick-move" role="slider" aria-label="司南漫步摇杆" aria-valuemin="-1" aria-valuemax="1" aria-valuenow="0">
+            <span class="joystick-caption">漫步</span>
+            <div class="compass-plate" aria-hidden="true">
+              <span class="compass-ticks"></span>
+              <span class="compass-cross"></span>
+              <span class="compass-dir dir-n">北</span>
+              <span class="compass-dir dir-e">东</span>
+              <span class="compass-dir dir-s">南</span>
+              <span class="compass-dir dir-w">西</span>
+            </div>
+            <div class="joystick-knob" id="joystick-move-knob"><i class="knob-needle"></i></div>
           </div>
-          <button class="mobile-action-btn" id="mobile-e-btn">
+          <div class="virtual-joystick joystick-look" id="joystick-look" role="slider" aria-label="司南游目摇杆" aria-valuemin="-1" aria-valuemax="1" aria-valuenow="0">
+            <span class="joystick-caption">游目</span>
+            <div class="compass-plate" aria-hidden="true">
+              <span class="compass-ticks"></span>
+              <span class="compass-cross"></span>
+              <span class="compass-dir dir-n">北</span>
+              <span class="compass-dir dir-e">东</span>
+              <span class="compass-dir dir-s">南</span>
+              <span class="compass-dir dir-w">西</span>
+            </div>
+            <div class="joystick-knob" id="joystick-look-knob"><i class="knob-needle"></i></div>
+          </div>
+          <button class="mobile-action-btn" id="mobile-e-btn" type="button" aria-label="提笔唤醒">
             <span class="m-icon">笔</span>
-            <span>提笔唤醒</span>
+            <span>提笔</span>
           </button>
         </div>
       </div>
@@ -303,57 +350,180 @@ export class UIManager {
       this._downloadCert();
     });
 
-    // 10. 移动端虚拟摇杆
-    this._initMobileJoystick();
+    // 10. 移动端双司南与双指视野
+    this._stickReleasers = [];
+    this._initMobileTouch();
   }
 
-  _initMobileJoystick() {
-    const joystick = document.getElementById('virtual-joystick');
-    const knob = document.getElementById('joystick-knob');
-    if (!joystick || !knob) return;
+  _shouldShowMobileControls() {
+    const narrow = window.innerWidth < 768;
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
+    const touchPoints = (navigator.maxTouchPoints || 0) > 0;
+    const touchCapable = coarse || touchPoints || ('ontouchstart' in window);
+    return narrow || touchCapable;
+  }
 
-    let dragging = false;
-    let baseRect = null;
-    const maxRadius = 38;
+  _walkInputBlocked() {
+    if (document.body.classList.contains('in-atlas')) return true;
+    const ids = ['beastSketch', 'certDialog', 'guideDialog', 'crossingDialog'];
+    return ids.some((id) => {
+      const el = document.getElementById(id);
+      return !!(el && el.open);
+    });
+  }
 
-    const onStart = (e) => {
-      dragging = true;
-      baseRect = joystick.getBoundingClientRect();
-      onMove(e);
+  _syncMobileControlMode() {
+    const show = this._shouldShowMobileControls();
+    document.body.classList.toggle('show-mobile-controls', show);
+    const action = document.querySelector('#approach-prompt .prompt-action');
+    if (action) {
+      action.textContent = show ? '轻点提笔唤醒' : '按 E 键 或 点击唤醒';
+    }
+    if (!show && this._stickReleasers) {
+      this._stickReleasers.forEach((release) => release());
+    }
+  }
+
+  _initMobileTouch() {
+    this._syncMobileControlMode();
+    const refresh = () => this._syncMobileControlMode();
+    window.addEventListener('resize', refresh);
+    window.addEventListener('orientationchange', refresh);
+    const coarseQuery = window.matchMedia('(pointer: coarse)');
+    if (coarseQuery.addEventListener) coarseQuery.addEventListener('change', refresh);
+
+    const moveRelease = this._bindCompassStick('joystick-move', 'joystick-move-knob', (vec) => {
+      this.onVirtualMove(this._walkInputBlocked() ? { x: 0, y: 0 } : vec);
+    });
+    const lookRelease = this._bindCompassStick('joystick-look', 'joystick-look-knob', (vec) => {
+      this.onVirtualLook(this._walkInputBlocked() ? { x: 0, y: 0 } : vec);
+    });
+    if (moveRelease) this._stickReleasers.push(moveRelease);
+    if (lookRelease) this._stickReleasers.push(lookRelease);
+    this._bindPinchZoom();
+  }
+
+  _bindCompassStick(stickId, knobId, onVec) {
+    const stick = document.getElementById(stickId);
+    const knob = document.getElementById(knobId);
+    if (!stick || !knob) return null;
+
+    let pointerId = null;
+    let centerX = 0;
+    let centerY = 0;
+    let maxRadius = 40;
+
+    const emitFromPoint = (clientX, clientY) => {
+      const shaped = shapeStickVector(clientX - centerX, clientY - centerY, maxRadius);
+      const rot = (shaped.kx === 0 && shaped.ky === 0)
+        ? 0
+        : Math.atan2(shaped.ky, shaped.kx) + Math.PI / 2;
+      knob.style.transform = `translate(${shaped.kx}px, ${shaped.ky}px) rotate(${rot}rad)`;
+      stick.setAttribute('aria-valuenow', shaped.x.toFixed(2));
+      stick.setAttribute('aria-valuetext', `${shaped.x.toFixed(2)}, ${shaped.y.toFixed(2)}`);
+      onVec({ x: shaped.x, y: shaped.y });
     };
 
+    const reset = () => {
+      if (pointerId === null) return;
+      pointerId = null;
+      stick.classList.remove('is-active');
+      knob.style.transform = 'translate(0px, 0px) rotate(0rad)';
+      stick.setAttribute('aria-valuenow', '0');
+      stick.setAttribute('aria-valuetext', '静止');
+      onVec({ x: 0, y: 0 });
+    };
+
+    stick.addEventListener('pointerdown', (e) => {
+      if (pointerId !== null || e.button > 0) return;
+      pointerId = e.pointerId;
+      const rect = stick.getBoundingClientRect();
+      centerX = rect.left + rect.width / 2;
+      centerY = rect.top + rect.height / 2;
+      maxRadius = Math.max(24, rect.width * 0.34);
+      stick.classList.add('is-active');
+      try { stick.setPointerCapture(e.pointerId); } catch (err) { /* untrusted or unsupported */ }
+      emitFromPoint(e.clientX, e.clientY);
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
     const onMove = (e) => {
-      if (!dragging) return;
-      const touch = e.touches ? e.touches[0] : e;
-      const centerX = baseRect.left + baseRect.width / 2;
-      const centerY = baseRect.top + baseRect.height / 2;
-      const dx = touch.clientX - centerX;
-      const dy = touch.clientY - centerY;
-      const dist = Math.hypot(dx, dy);
-      const angle = Math.atan2(dy, dx);
+      if (e.pointerId !== pointerId) return;
+      emitFromPoint(e.clientX, e.clientY);
+      e.preventDefault();
+    };
+    const onEnd = (e) => {
+      if (e.pointerId !== pointerId) return;
+      reset();
+    };
 
-      const clampedDist = Math.min(dist, maxRadius);
-      const kx = Math.cos(angle) * clampedDist;
-      const ky = Math.sin(angle) * clampedDist;
+    window.addEventListener('pointermove', onMove, { passive: false });
+    window.addEventListener('pointerup', onEnd);
+    window.addEventListener('pointercancel', onEnd);
+    return reset;
+  }
 
-      knob.style.transform = `translate(${kx}px, ${ky}px)`;
+  _bindPinchZoom() {
+    const active = new Map();
+    let lastDist = 0;
+    const viewport = document.getElementById('viewport-3d');
 
-      this.onVirtualMove({
-        x: kx / maxRadius,
-        y: ky / maxRadius
+    const isViewTouch = (touch) => {
+      return !!(viewport && touch.target && viewport.contains(touch.target));
+    };
+
+    const remember = (touch) => {
+      active.set(touch.identifier, {
+        x: touch.clientX,
+        y: touch.clientY,
+        onView: isViewTouch(touch)
       });
     };
 
-    const onEnd = () => {
-      if (!dragging) return;
-      dragging = false;
-      knob.style.transform = `translate(0px, 0px)`;
-      this.onVirtualMove({ x: 0, y: 0 });
-    };
+    window.addEventListener('touchstart', (e) => {
+      for (const touch of e.changedTouches) remember(touch);
+      lastDist = 0;
+    }, { passive: true });
 
-    joystick.addEventListener('touchstart', onStart, { passive: true });
-    window.addEventListener('touchmove', onMove, { passive: true });
-    window.addEventListener('touchend', onEnd);
+    window.addEventListener('touchmove', (e) => {
+      for (const touch of e.changedTouches) {
+        const prev = active.get(touch.identifier);
+        if (prev) {
+          prev.x = touch.clientX;
+          prev.y = touch.clientY;
+        } else {
+          remember(touch);
+        }
+      }
+      if (this._walkInputBlocked()) {
+        lastDist = 0;
+        return;
+      }
+      const fingers = [];
+      active.forEach((point) => {
+        if (point.onView) fingers.push(point);
+      });
+      if (fingers.length < 2) {
+        lastDist = 0;
+        return;
+      }
+      const dist = Math.hypot(fingers[0].x - fingers[1].x, fingers[0].y - fingers[1].y);
+      if (lastDist > 0 && dist > 0) {
+        const scale = dist / lastDist;
+        if (Number.isFinite(scale) && Math.abs(scale - 1) > 0.002) {
+          this.onPinchZoom(scale);
+        }
+      }
+      lastDist = dist;
+    }, { passive: true });
+
+    const forget = (e) => {
+      for (const touch of e.changedTouches) active.delete(touch.identifier);
+      if (active.size < 2) lastDist = 0;
+    };
+    window.addEventListener('touchend', forget);
+    window.addEventListener('touchcancel', forget);
   }
 
   setNearBeast(beast, dist) {

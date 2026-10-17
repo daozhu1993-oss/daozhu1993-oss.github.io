@@ -124,12 +124,13 @@
           if (world3D) world3D.teleportToBeast(beastId);
         },
         onVirtualMove: (vec) => {
-          if (world3D) {
-            world3D.keys['KeyW'] = vec.y < -0.3;
-            world3D.keys['KeyS'] = vec.y > 0.3;
-            world3D.keys['KeyA'] = vec.x < -0.3;
-            world3D.keys['KeyD'] = vec.x > 0.3;
-          }
+          if (world3D) world3D.setVirtualMove(vec);
+        },
+        onVirtualLook: (vec) => {
+          if (world3D) world3D.setVirtualLook(vec);
+        },
+        onPinchZoom: (scale) => {
+          if (world3D) world3D.applyPinchZoom(scale);
         }
       });
 

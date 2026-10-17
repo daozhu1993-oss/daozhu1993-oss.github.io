@@ -82,7 +82,11 @@ export class World3D {
     };
 
     this.keys = {};
+    this.virtualMove = { x: 0, y: 0 };
+    this.virtualLook = { x: 0, y: 0 };
+    this.userFov = 62;
     this.isDragging = false;
+    this.lookTouchId = null;
     this.lastMouse = { x: 0, y: 0 };
     this.clock = new THREE.Clock();
 
@@ -142,7 +146,7 @@ export class World3D {
       : (typeof window !== 'undefined' ? window.innerHeight : 720);
 
     this.camera = new THREE.PerspectiveCamera(
-      62,
+      this.userFov,
       w / h,
       0.1,
       1400
@@ -1918,6 +1922,15 @@ export class World3D {
       this.isDragging = false;
     });
 
+    const viewTouchCount = (touchList) => {
+      let count = 0;
+      for (let i = 0; i < touchList.length; i++) {
+        const target = touchList[i].target;
+        if (target && this.container.contains(target)) count += 1;
+      }
+      return count;
+    };
+
     this.container.addEventListener('touchstart', (e) => {
       if (this.cinematic.active) {
         this.cinematic.active = false;
@@ -1925,27 +1938,90 @@ export class World3D {
         return;
       }
       audio.ensureContext();
-      if (e.touches.length === 1) {
-        this.isDragging = true;
-        this.lastMouse.x = e.touches[0].clientX;
-        this.lastMouse.y = e.touches[0].clientY;
+      if (viewTouchCount(e.touches) >= 2) {
+        this.lookTouchId = null;
+        return;
       }
+      if (this.lookTouchId !== null) return;
+      const touch = e.changedTouches[0];
+      if (!touch) return;
+      this.lookTouchId = touch.identifier;
+      this.lastMouse.x = touch.clientX;
+      this.lastMouse.y = touch.clientY;
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      if (!this.isDragging || e.touches.length === 0 || this.cinematic.active) return;
-      const dx = e.touches[0].clientX - this.lastMouse.x;
-      const dy = e.touches[0].clientY - this.lastMouse.y;
-      this.lastMouse.x = e.touches[0].clientX;
-      this.lastMouse.y = e.touches[0].clientY;
+      if (this.cinematic.active) return;
+      if (viewTouchCount(e.touches) >= 2) {
+        this.lookTouchId = null;
+        return;
+      }
+      if (this.lookTouchId === null) return;
+      let touch = null;
+      for (let i = 0; i < e.touches.length; i++) {
+        if (e.touches[i].identifier === this.lookTouchId) {
+          touch = e.touches[i];
+          break;
+        }
+      }
+      if (!touch) return;
+      const dx = touch.clientX - this.lastMouse.x;
+      const dy = touch.clientY - this.lastMouse.y;
+      this.lastMouse.x = touch.clientX;
+      this.lastMouse.y = touch.clientY;
 
       this.player.yaw -= dx * 0.0042;
       this.player.pitch = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, this.player.pitch - dy * 0.0036));
     }, { passive: true });
 
-    window.addEventListener('touchend', () => {
-      this.isDragging = false;
-    });
+    const endLookTouch = (e) => {
+      for (let i = 0; i < e.changedTouches.length; i++) {
+        if (e.changedTouches[i].identifier === this.lookTouchId) {
+          this.lookTouchId = null;
+        }
+      }
+    };
+    window.addEventListener('touchend', endLookTouch);
+    window.addEventListener('touchcancel', endLookTouch);
+  }
+
+  _clampAxis(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return 0;
+    return Math.max(-1, Math.min(1, n));
+  }
+
+  _interruptCinematic() {
+    if (!this.cinematic.active) return;
+    this.cinematic.active = false;
+    this.player.pos.copy(this.spawnPos);
+    this.player.yaw = this.spawnYaw;
+    this.player.pitch = this.spawnPitch;
+  }
+
+  setVirtualMove(vec) {
+    const x = this._clampAxis(vec && vec.x);
+    const y = this._clampAxis(vec && vec.y);
+    if (Math.hypot(x, y) > 0.2) this._interruptCinematic();
+    this.virtualMove.x = x;
+    this.virtualMove.y = y;
+  }
+
+  setVirtualLook(vec) {
+    const x = this._clampAxis(vec && vec.x);
+    const y = this._clampAxis(vec && vec.y);
+    if (Math.hypot(x, y) > 0.2) this._interruptCinematic();
+    this.virtualLook.x = x;
+    this.virtualLook.y = y;
+  }
+
+  applyPinchZoom(scale) {
+    if (!Number.isFinite(scale) || scale <= 0.2 || scale >= 5) return;
+    if (this.cinematic.active || this.customCameraController) return;
+    const next = THREE.MathUtils.clamp(this.userFov / scale, 40, 86);
+    this.userFov = next;
+    this.camera.fov = next;
+    this.camera.updateProjectionMatrix();
   }
 
   tryAwakenNearBeast() {
@@ -2047,11 +2123,33 @@ export class World3D {
   }
 
   _updatePlayer(dt) {
+    const lookX = this.virtualLook.x;
+    const lookY = this.virtualLook.y;
+    if (lookX !== 0 || lookY !== 0) {
+      this.player.yaw -= lookX * 2.6 * dt;
+      this.player.pitch = Math.max(
+        -Math.PI / 3,
+        Math.min(Math.PI / 3, this.player.pitch - lookY * 1.8 * dt)
+      );
+    }
+
     const move = new THREE.Vector3();
     if (this.keys['KeyW'] || this.keys['ArrowUp']) move.z -= 1;
     if (this.keys['KeyS'] || this.keys['ArrowDown']) move.z += 1;
     if (this.keys['KeyA'] || this.keys['ArrowLeft']) move.x -= 1;
     if (this.keys['KeyD'] || this.keys['ArrowRight']) move.x += 1;
+
+    let throttle = 1;
+    if (move.lengthSq() === 0) {
+      const vx = this.virtualMove.x;
+      const vy = this.virtualMove.y;
+      const mag = Math.hypot(vx, vy);
+      if (mag > 0.0001) {
+        move.x = vx;
+        move.z = vy;
+        throttle = Math.min(1, mag);
+      }
+    }
 
     const isSprinting = Boolean(this.keys['ShiftLeft'] || this.keys['ShiftRight']);
     const currentSpeed = this.player.speed * (isSprinting ? this.player.sprintMultiplier : 1.0);
@@ -2059,7 +2157,7 @@ export class World3D {
     if (move.lengthSq() > 0) {
       move.normalize();
       move.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.player.yaw);
-      this.player.pos.addScaledVector(move, currentSpeed * dt);
+      this.player.pos.addScaledVector(move, currentSpeed * throttle * dt);
       this.player.walkCycle += dt * 8.0;
 
       if (Math.random() < 0.04) {

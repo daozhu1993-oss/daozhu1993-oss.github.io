@@ -12,6 +12,7 @@
 
 import * as THREE from 'three';
 import { audio } from './audio.js';
+import { MineralParticleChoreographer } from './crossing-curl-physics.js';
 
 export class CrossingCeremony {
   constructor(options = {}) {
@@ -262,10 +263,10 @@ export class CrossingCeremony {
 
     // 四大北宋矿物色标 (石青、石绿、金屑、暖赭)
     const mineralColors = [
-      new THREE.Color(0x2B66CC), // 鲜亮石青 (Luminous Azurite)
-      new THREE.Color(0x2FB37E), // 翠微石绿 (Emerald Malachite)
-      new THREE.Color(0xFFDC73), // 闪耀泥金 (Gilded Gold)
-      new THREE.Color(0xC27A45)  // 暖阳赭石 (Warm Ochre)
+      new THREE.Color(0x1B4B8A), // 深沉石青 (Azurite)
+      new THREE.Color(0x1E7A52), // 纯正孔雀石绿 (Malachite)
+      new THREE.Color(0xD4A034), // 典雅泥金 (Gilded Gold)
+      new THREE.Color(0x8B5026)  // 沉静岩赭 (Ochre)
     ];
 
     for (let i = 0; i < count; i++) {
@@ -305,10 +306,10 @@ export class CrossingCeremony {
       this.origPosArray[i3 + 2] = tz;
 
       // 初始分散于峰峦周遭，形成气势磅礴的矿物星云漩涡
-      const spreadR = 18 + Math.random() * 42;
+      const spreadR = 20 + Math.random() * 45;
       const angle = Math.random() * Math.PI * 2;
       this.posArray[i3] = tx + Math.cos(angle) * spreadR;
-      this.posArray[i3 + 1] = ty + (Math.random() - 0.5) * 24 + 10;
+      this.posArray[i3 + 1] = ty + (Math.random() - 0.5) * 25 + 10;
       this.posArray[i3 + 2] = tz + Math.sin(angle) * spreadR;
 
       this.velArray[i3] = 0;
@@ -327,8 +328,8 @@ export class CrossingCeremony {
         col = mineralColors[2]; // 泥金渚岸
       }
 
-      // 20% 金屑杂色微光
-      if (Math.random() < 0.20) {
+      // 15% 金屑杂色微光
+      if (Math.random() < 0.15) {
         col = mineralColors[2];
       }
 
@@ -348,25 +349,29 @@ export class CrossingCeremony {
     const ctx = canvas.getContext('2d');
     const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     grad.addColorStop(0, 'rgba(255,255,255,1)');
-    grad.addColorStop(0.35, 'rgba(255,255,255,0.9)');
-    grad.addColorStop(0.7, 'rgba(255,255,255,0.3)');
+    grad.addColorStop(0.45, 'rgba(255,255,255,0.75)');
+    grad.addColorStop(0.85, 'rgba(255,255,255,0.18)');
     grad.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 64, 64);
     const sparkTex = new THREE.CanvasTexture(canvas);
 
     const mat = new THREE.PointsMaterial({
-      size: 4.8,
+      size: 1.85,
       map: sparkTex,
       vertexColors: true,
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.88,
       depthWrite: false,
-      blending: THREE.AdditiveBlending
+      blending: THREE.NormalBlending
     });
 
     this.particleMesh = new THREE.Points(geo, mat);
     this.scene.add(this.particleMesh);
+
+    // 初始化好莱坞级 3D Curl Noise 气旋重聚编舞引擎
+    this.choreographer = new MineralParticleChoreographer(this.particleCount, this.origPosArray, this.colorArray);
+    this.choreographer.currPos.set(this.posArray);
   }
 
   // 构建十八岁少年画师王希孟三维写意人像 (Standing on Terrace with Glowing Brush)
@@ -450,29 +455,23 @@ export class CrossingCeremony {
     this.scene.add(this.ximengGroup);
   }
 
-  // 物理爆破与弹性重聚 (Burst & Reassemble)
+  // 物理爆破与弹性重聚 (Burst & Reassemble - 3D Curl Noise Flow Field)
   burstAndReassemble() {
     this.isBursting = true;
     audio.playWaterRipples();
     audio.playGuqinPluck(392.0, 3.5);
 
-    const count = this.particleCount;
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      const angle = Math.random() * Math.PI * 2;
-      const force = 18 + Math.random() * 32;
-      this.velArray[i3] += Math.cos(angle) * force;
-      this.velArray[i3 + 1] += (Math.random() - 0.2) * force * 0.8;
-      this.velArray[i3 + 2] += Math.sin(angle) * force;
+    if (this.choreographer) {
+      this.choreographer.triggerBurstAndReassemble({ x: 0, y: 8, z: 0 });
     }
 
     const burstBtn = this.dialog.querySelector('#crossingBurst');
     if (burstBtn) {
-      burstBtn.textContent = '重聚中…';
+      burstBtn.textContent = '化龙重聚…';
       setTimeout(() => {
         burstBtn.textContent = '打散 · 重聚';
         this.isBursting = false;
-      }, 1800);
+      }, 4600);
     }
   }
 
@@ -545,41 +544,18 @@ export class CrossingCeremony {
       this.ximengGroup.rotation.y = 0.45 + Math.sin(time * 0.8) * 0.04;
     }
 
-    // 粒子弹簧物理与重聚运算
-    if (this.particleMesh) {
-      const pos = this.posArray;
-      const orig = this.origPosArray;
-      const vel = this.velArray;
-      const count = this.particleCount;
-      const blend = THREE.MathUtils.clamp(0.28 + this.progress * 0.72, 0, 1);
-
-      const springK = 6.8;
-      const damp = 0.88;
-
-      for (let i = 0; i < count; i++) {
-        const i3 = i * 3;
-
-        // 目标基准点
-        const tx = orig[i3];
-        const ty = orig[i3 + 1];
-        const tz = orig[i3 + 2];
-
-        // 汇聚吸引力
-        const dx = tx - pos[i3];
-        const dy = ty - pos[i3 + 1];
-        const dz = tz - pos[i3 + 2];
-
-        vel[i3] = (vel[i3] + dx * springK * blend * dt) * damp;
-        vel[i3 + 1] = (vel[i3 + 1] + dy * springK * blend * dt) * damp;
-        vel[i3 + 2] = (vel[i3 + 2] + dz * springK * blend * dt) * damp;
-
-        pos[i3] += vel[i3] * dt * 10;
-        pos[i3 + 1] += vel[i3 + 1] * dt * 10;
-        pos[i3 + 2] += vel[i3 + 2] * dt * 10;
+    // 好莱坞级 16,000 矿物粒子 3D Curl Noise 气旋与相位延迟重聚
+    if (this.choreographer && this.particleMesh) {
+      this.choreographer.update(
+        dt,
+        time,
+        this.particleMesh.geometry.attributes.position,
+        this.particleMesh.geometry.attributes.color,
+        this.camera
+      );
+      if (this.choreographer.state === 'IDLE') {
+        this.particleMesh.rotation.y += dt * 0.035;
       }
-
-      this.particleMesh.geometry.attributes.position.needsUpdate = true;
-      this.particleMesh.rotation.y += dt * 0.035;
     }
 
     if (this.renderer && this.scene && this.camera) {

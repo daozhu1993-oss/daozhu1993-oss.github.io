@@ -28,6 +28,8 @@ import { BEASTS } from './beasts.js';
 import { Beast3DManager } from './beast3d.js';
 import { audio } from './audio.js';
 import { InkPostPipeline } from './inkPostProcess.js';
+import { createSongWaterSSRMaterial } from './water-ssr-shader.js';
+import { BeastAwakeningDirector } from './awakening-director.js';
 
 export class World3D {
   constructor(container, options = {}) {
@@ -42,6 +44,8 @@ export class World3D {
     this.renderer = null;
     this.beastManager = null;
     this.postPipeline = null;
+    this.awakeningDirector = null;
+    this.customCameraController = null;
 
     // 玩家目标落点（舒啸绝壁观景石矶前沿）
     this.spawnPos = new THREE.Vector3(-20.5, 12.4, 34.5);
@@ -118,6 +122,7 @@ export class World3D {
     this._buildGoldDustParticles();
     this._buildSeasonAndWeatherSystems();
     this._initBeasts();
+    this.awakeningDirector = new BeastAwakeningDirector(this, null, audio);
     this._initControls();
     this._animate();
   }
@@ -129,9 +134,16 @@ export class World3D {
     this.scene.background = new THREE.Color(0x7A6946);
     this.scene.fog = new THREE.FogExp2(0x7A6946, 0.0035);
 
+    const w = (this.container && this.container.clientWidth > 0)
+      ? this.container.clientWidth
+      : (typeof window !== 'undefined' ? window.innerWidth : 1280);
+    const h = (this.container && this.container.clientHeight > 0)
+      ? this.container.clientHeight
+      : (typeof window !== 'undefined' ? window.innerHeight : 720);
+
     this.camera = new THREE.PerspectiveCamera(
       62,
-      this.container.clientWidth / this.container.clientHeight,
+      w / h,
       0.1,
       1400
     );
@@ -141,8 +153,8 @@ export class World3D {
       alpha: false,
       powerPreference: 'high-performance'
     });
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setSize(w, h);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.38;
     this.container.appendChild(this.renderer.domElement);
@@ -166,8 +178,8 @@ export class World3D {
         this.renderer,
         this.scene,
         this.camera,
-        this.container.clientWidth,
-        this.container.clientHeight
+        w,
+        h
       );
     } catch (err) {
       console.warn('[PostPipeline Init Warning]', err);
@@ -175,16 +187,26 @@ export class World3D {
     }
 
     window.addEventListener('resize', () => {
-      if (!this.container) return;
-      const w = this.container.clientWidth;
-      const h = this.container.clientHeight;
-      this.camera.aspect = w / h;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(w, h);
-      if (this.postPipeline) {
-        this.postPipeline.resize(w, h);
-      }
+      this.handleResize();
     });
+  }
+
+  handleResize() {
+    if (!this.renderer || !this.camera) return;
+    const w = (this.container && this.container.clientWidth > 0)
+      ? this.container.clientWidth
+      : (typeof window !== 'undefined' ? window.innerWidth : 1280);
+    const h = (this.container && this.container.clientHeight > 0)
+      ? this.container.clientHeight
+      : (typeof window !== 'undefined' ? window.innerHeight : 720);
+    if (w <= 0 || h <= 0) return;
+
+    this.camera.aspect = w / h;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(w, h);
+    if (this.postPipeline) {
+      this.postPipeline.resize(w, h);
+    }
   }
 
   // =========================================================================
@@ -370,7 +392,7 @@ export class World3D {
 
             // 2. 纵向羽化与透明度过渡 (上下无缝融入天水)
             float topFade = smoothstep(0.0, uFadeTop, vUv.y);
-            float bottomFade = smoothstep(1.0, uFadeBottom, vUv.y);
+            float bottomFade = 1.0 - smoothstep(uFadeBottom, 1.0, vUv.y);
             float alpha = topFade * bottomFade;
 
             // 3. 神兽唤醒金碧霞光
@@ -681,7 +703,7 @@ export class World3D {
           float summitClarity = smoothstep(14.0, 46.0, h);
           float distFog = (1.0 - exp(-dist * 0.0022)) * (1.0 - summitClarity * 0.75);
           // 谷壑与江渚处漫漫山岚
-          float valleyMist = smoothstep(16.0, 1.8, h) * 0.26;
+          float valleyMist = (1.0 - smoothstep(1.8, 16.0, h)) * 0.26;
           float fogFactor = clamp(distFog + valleyMist, 0.0, 0.85);
 
           finalColor = mix(finalColor, uFogColor, fogFactor);
@@ -696,78 +718,15 @@ export class World3D {
   }
 
   // =========================================================================
-  // 【北宋院体工笔鱼鳞微澜水体着色器】(Stylized Song Water Shader)
-  // 600m 无边大泽、翡翠碧波、鱼鳞微澜、晨曦镜面高光、天水一色融雾
+  // 【北宋王希孟千里江山 · 屏幕空间远山倒影与宋代网巾水体】(Song Water SSR Shader)
+  // 600m 无边大泽、屏幕空间远山倒影、马远《水图》网巾纹金线、时雨同心圆涟漪
   // =========================================================================
   _buildStylizedWater() {
-    const waterGeo = new THREE.PlaneGeometry(620, 620, 80, 80);
+    const waterGeo = new THREE.PlaneGeometry(640, 640, 100, 100);
     waterGeo.rotateX(-Math.PI / 2);
 
-    const waterMat = new THREE.ShaderMaterial({
-      vertexShader: /* glsl */`
-        varying vec2 vUv;
-        varying vec3 vWorldPos;
-        uniform float uTime;
-
-        void main() {
-          vUv = uv;
-          vec3 pos = position;
-          // 微澜江水上下轻微起伏
-          float wave = sin(pos.x * 0.12 + uTime * 1.5) * cos(pos.z * 0.14 + uTime * 1.2) * 0.06;
-          pos.y += wave;
-          vWorldPos = (modelMatrix * vec4(pos, 1.0)).xyz;
-          gl_Position = projectionMatrix * viewMatrix * vec4(vWorldPos, 1.0);
-        }
-      `,
-      fragmentShader: /* glsl */`
-        uniform float uTime;
-        uniform vec3 uSunDir;
-        varying vec2 vUv;
-        varying vec3 vWorldPos;
-
-        void main() {
-          // 北宋鱼鳞回澜纹 (Fish-Scale Interlocking Waves)
-          vec2 p = vWorldPos.xz * 0.32;
-          float r1 = sin(p.x * 2.2 + uTime * 1.4 + sin(p.y * 1.6)) * 0.5 + 0.5;
-          float r2 = cos(p.y * 2.6 - uTime * 1.2 + cos(p.x * 1.4)) * 0.5 + 0.5;
-          float scalePattern = pow(r1 * r2, 1.35);
-
-          // 澄碧深潭、浅水孔雀绿与汀洲暖玉色阶
-          vec3 deepJade = vec3(0.06, 0.28, 0.24);    // 深潭墨玉
-          vec3 turquoise = vec3(0.11, 0.52, 0.45);   // 明润孔雀碧
-          vec3 shoalAmber = vec3(0.38, 0.58, 0.48);  // 渚岸浅滩暖玉
-          vec3 goldSun = vec3(0.98, 0.88, 0.65);     // 晨曦金辉
-          vec3 skyFog = vec3(0.96, 0.92, 0.84);      // 宣和古绢天际色
-
-          // 水色深浅微澜起伏
-          vec3 baseWater = mix(deepJade, turquoise, r1 * 0.6 + 0.2);
-
-          // 晨光镜面高光 (Specular Sun Glint)
-          vec3 viewDir = normalize(cameraPosition - vWorldPos);
-          vec3 halfDir = normalize(uSunDir + viewDir);
-          float spec = pow(max(0.0, dot(vec3(0.0, 1.0, 0.0), halfDir)), 28.0);
-          baseWater += goldSun * spec * 0.78;
-
-          // 北宋院体鱼鳞回澜泥金细浪 (Gilded Fish-scale Water Waves)
-          baseWater += goldSun * scalePattern * 0.18;
-
-          // 远天水天一色软渐变融雾（绝无生硬切边）
-          float dist = length(cameraPosition - vWorldPos);
-          float horizonFade = smoothstep(110.0, 320.0, dist);
-          vec3 finalWater = mix(baseWater, skyFog, horizonFade * 0.90);
-
-          gl_FragColor = vec4(finalWater, 0.92);
-        }
-      `,
-      uniforms: {
-        uTime: { value: 0 },
-        uSunDir: { value: new THREE.Vector3(65, 120, 80).normalize() }
-      },
-      transparent: true,
-      depthWrite: false
-    });
-
-    this.waterMesh = new THREE.Mesh(waterGeo, waterMat);
+    this.waterMat = createSongWaterSSRMaterial(null);
+    this.waterMesh = new THREE.Mesh(waterGeo, this.waterMat);
     this.waterMesh.position.y = 1.05;
     this.scene.add(this.waterMesh);
   }
@@ -1872,8 +1831,11 @@ export class World3D {
   // 【Awwwards 级导览运镜】开屏入画云海俯冲穿梭运镜 (Cinematic Opening Fly-in)
   // =========================================================================
   startCinematicIntro() {
+    this.customCameraController = null;
     this.cinematic.active = true;
     this.cinematic.startTime = this.clock.getElapsedTime();
+    this.camera.position.copy(this.cinematic.startPos);
+    this.camera.lookAt(this.cinematic.startLook);
     audio.ensureContext();
     audio.playGuqinPluck(196.00, 4.5);
   }
@@ -1899,6 +1861,7 @@ export class World3D {
       this.player.pos.copy(this.spawnPos);
       this.player.yaw = this.spawnYaw;
       this.player.pitch = this.spawnPitch;
+      this.camera.position.copy(this.player.pos);
     }
   }
 
@@ -1998,7 +1961,18 @@ export class World3D {
 
       this.beastManager.triggerAwaken(beast.id);
       this._triggerWorldMutation(beast);
-      this.onAwakenBeast(beast);
+
+      const beastMesh = (this.beastManager && this.beastManager.beastObjects)
+        ? this.beastManager.beastObjects[beast.id]
+        : null;
+
+      if (this.awakeningDirector && beastMesh) {
+        this.awakeningDirector.playAwakeningSequence(beastMesh, beast, (b) => {
+          this.onAwakenBeast(b);
+        });
+      } else {
+        this.onAwakenBeast(beast);
+      }
       return beast;
     }
     return null;
@@ -2030,16 +2004,44 @@ export class World3D {
     const beast = BEASTS.find(b => b.id === beastId);
     if (!beast) return;
 
-    this.player.pos.set(
-      beast.coordinates.x + 6.5,
-      beast.coordinates.y + this.player.height,
-      beast.coordinates.z + 6.5
-    );
+    // 终止可能正在运行的其它运镜或控制器
+    this.cinematic.active = false;
+    this.customCameraController = null;
 
-    const dir = new THREE.Vector3(beast.coordinates.x, beast.coordinates.y + 1, beast.coordinates.z)
+    // 依胜景特性设计优美的摄影机机位（绝不被山体或地面掩埋）
+    let offsetX = 7.5;
+    let offsetZ = 7.5;
+    let eyeElevation = 2.4;
+
+    if (beastId === 'fuzhu') {
+      offsetX = 6.0;
+      offsetZ = 8.0;
+      eyeElevation = 2.2;
+    } else if (beastId === 'baize') {
+      offsetX = 8.5;
+      offsetZ = 6.5;
+    }
+
+    const targetX = beast.coordinates.x + offsetX;
+    const targetZ = beast.coordinates.z + offsetZ;
+    const groundY = this._calculateTerrainHeight(targetX, targetZ);
+    const targetY = Math.max(beast.coordinates.y + eyeElevation, groundY + this.player.height);
+
+    this.player.pos.set(targetX, targetY, targetZ);
+
+    const dir = new THREE.Vector3(beast.coordinates.x, beast.coordinates.y + 1.2, beast.coordinates.z)
       .sub(this.player.pos).normalize();
     this.player.yaw = Math.atan2(-dir.x, -dir.z);
-    this.player.pitch = 0.05;
+    this.player.pitch = -0.06;
+
+    // 立即同步摄影机变换矩阵，保证进入第 0 帧即可呈现完整青绿盛景
+    this.camera.position.copy(this.player.pos);
+    const targetLook = new THREE.Vector3(
+      this.camera.position.x - Math.sin(this.player.yaw) * Math.cos(this.player.pitch),
+      this.camera.position.y + Math.sin(this.player.pitch),
+      this.camera.position.z - Math.cos(this.player.yaw) * Math.cos(this.player.pitch)
+    );
+    this.camera.lookAt(targetLook);
 
     audio.playEnterPaintingSound();
   }
@@ -2135,7 +2137,9 @@ export class World3D {
     const dt = Math.min(this.clock.getDelta(), 0.08);
     const time = this.clock.getElapsedTime();
 
-    if (this.cinematic.active) {
+    if (this.customCameraController) {
+      this.customCameraController(dt);
+    } else if (this.cinematic.active) {
       this._updateCinematic(time);
     } else {
       this._updatePlayer(dt);
@@ -2146,9 +2150,12 @@ export class World3D {
       this.beastManager.update(dt, time);
     }
 
-    // 更新水体着色器时间 Uniform
-    if (this.waterMesh && this.waterMesh.material.uniforms) {
-      this.waterMesh.material.uniforms.uTime.value = time;
+    // 更新水体着色器 Uniforms
+    if (this.waterMesh && this.waterMesh.material && this.waterMesh.material.uniforms) {
+      const u = this.waterMesh.material.uniforms;
+      if (u.uTime) u.uTime.value = time;
+      if (u.uNightMix) u.uNightMix.value = this.isNight ? 1.0 : 0.0;
+      if (u.uRainIntensity) u.uRainIntensity.value = (this.currentWeather === 'rain') ? 1.0 : 0.0;
     }
 
     // 更新故宫真迹分层立体切片材质 Uniform (微风拂动与古绢呼吸)
@@ -2259,9 +2266,15 @@ export class World3D {
       }
     });
 
-    // 运行北宋工笔青绿水墨后处理管线
+    // 运行北宋工笔青绿水墨后处理管线 (带安全容错降级)
     if (this.postPipeline) {
-      this.postPipeline.render(time);
+      try {
+        this.postPipeline.render(time, this.isNight);
+      } catch (err) {
+        console.error('[PostPipeline Runtime Error - Fallback to Direct Render]', err);
+        this.postPipeline = null;
+        this.renderer.render(this.scene, this.camera);
+      }
     } else {
       this.renderer.render(this.scene, this.camera);
     }

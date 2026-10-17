@@ -403,9 +403,20 @@ export class UIManager {
     document.getElementById('sketchQuote').textContent = `“${beastData.classicQuote}”`;
     document.getElementById('sketchReflection').textContent = beastData.reflection;
     document.getElementById('sketchMutation').innerHTML = `✨ <b>山川还魂</b>：${beastData.mutationDesc}`;
-    document.getElementById('sketchSeal').textContent = beastData.sealText || '希孟亲历';
+
+    const sealEl = document.getElementById('sketchSeal');
+    sealEl.textContent = beastData.sealText || '希孟亲历';
+
+    // 重新触发印章高空蓄力砸落动画与 80Hz 低频木印击纸音效
+    sealEl.style.animation = 'none';
+    void sealEl.offsetHeight;
+    sealEl.style.animation = 'sealStampImpact 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards';
 
     dialog.showModal();
+
+    setTimeout(() => {
+      audio.playSealStampThud();
+    }, 360);
 
     if (this.awakenedCount >= 6) {
       setTimeout(() => {

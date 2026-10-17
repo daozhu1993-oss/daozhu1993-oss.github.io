@@ -28,21 +28,27 @@ export class InkPostPipeline {
 
     this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    const targetW = Math.floor(this.width * this.dpr);
-    const targetH = Math.floor(this.height * this.dpr);
+    const safeW = (this.width > 0 ? this.width : (typeof window !== 'undefined' ? window.innerWidth : 1280));
+    const safeH = (this.height > 0 ? this.height : (typeof window !== 'undefined' ? window.innerHeight : 720));
+    const targetW = Math.max(1, Math.floor(safeW * this.dpr));
+    const targetH = Math.max(1, Math.floor(safeH * this.dpr));
 
     this.renderTarget = new THREE.WebGLRenderTarget(targetW, targetH, {
       format: THREE.RGBAFormat,
-      type: THREE.HalfFloatType,
+      type: THREE.UnsignedByteType,
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
       depthBuffer: true,
       stencilBuffer: false
     });
 
-    this.renderTarget.depthTexture = new THREE.DepthTexture(targetW, targetH);
-    this.renderTarget.depthTexture.format = THREE.DepthFormat;
-    this.renderTarget.depthTexture.type = THREE.UnsignedIntType;
+    try {
+      this.renderTarget.depthTexture = new THREE.DepthTexture(targetW, targetH);
+      this.renderTarget.depthTexture.format = THREE.DepthFormat;
+      this.renderTarget.depthTexture.type = THREE.UnsignedIntType;
+    } catch (e) {
+      console.warn('[InkPostPipeline DepthTexture fallback]', e);
+    }
 
     this.postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     this.postScene = new THREE.Scene();
@@ -66,6 +72,7 @@ export class InkPostPipeline {
         uniform float uTime;
         uniform float uInkStrength;
         uniform float uPaperGrain;
+        uniform float uNightMix;
 
         varying vec2 vUv;
 
@@ -118,15 +125,15 @@ export class InkPostPipeline {
           float edgeFade = nearFade * farFade;
           float inkLine = clamp(depthEdge * 0.85 + colorEdge * 0.35, 0.0, 1.0) * uInkStrength * edgeFade * brushJitter;
 
-          // 北宋温润松烟古墨色（微暖古墨，绝非冷硬纯黑）
-          vec3 inkColor = vec3(0.14, 0.12, 0.09);
+          // 北宋温润松烟古墨色（随昼夜切换为石青幽夜墨色）
+          vec3 inkColor = mix(vec3(0.14, 0.12, 0.09), vec3(0.04, 0.07, 0.12), uNightMix);
 
           // 5. 三矾九染矿物调色
           float lum = luma(cCenter);
           vec3 graded = cCenter;
 
           // 暗部翡翠与石青保底微光：保留物体固有深木深石色彩，柔和浸润矿物冷辉
-          vec3 shadowMineral = vec3(0.06, 0.14, 0.15);
+          vec3 shadowMineral = mix(vec3(0.06, 0.14, 0.15), vec3(0.02, 0.06, 0.12), uNightMix);
           float darkFactor = 1.0 - smoothstep(0.01, 0.32, lum);
           graded += shadowMineral * darkFactor * 0.40;
 
@@ -140,22 +147,22 @@ export class InkPostPipeline {
           float lightMask = smoothstep(0.66, 0.98, lum);
           graded = mix(graded, graded * vec3(1.14, 1.07, 0.90), lightMask * 0.32);
 
-          // 6. 宣和九百年古绢有机柔和纤维微理 (Organic Handscroll Silk Fiber - 彻底杜绝像素方格)
-          vec2 silkUv = uv * vec2(12.0, 6.75);
-          float fiber1 = sin(silkUv.x * 18.0 + sin(silkUv.y * 14.0) * 1.5);
-          float fiber2 = cos(silkUv.y * 24.0 + cos(silkUv.x * 10.0) * 1.2);
-          float silkGrain = (fiber1 * 0.6 + fiber2 * 0.4) * 0.5 + 0.5;
-          graded *= (1.0 - uPaperGrain * 0.03 + silkGrain * uPaperGrain * 0.06);
+          // 6. 双丝古绢经纬织物机理 (Double-Silk Weave Cross-hatch)
+          vec2 pixelPos = uv * uResolution;
+          float warp = sin(pixelPos.x * 1.6) * 0.5 + 0.5; // 经线
+          float weft = sin(pixelPos.y * 1.6) * 0.5 + 0.5; // 纬线
+          float silkWeave = (warp * weft) - 0.25;
+          graded += silkWeave * uPaperGrain * (1.0 - 0.5 * uNightMix);
 
           // 7. 融合工笔墨线
           vec3 finalColor = mix(graded, inkColor, inkLine * 0.58);
 
-          // 8. 远岫融入宣和绢黄晨岚 (#F6EEDB)
-          vec3 silkHaze = vec3(0.96, 0.93, 0.85);
+          // 8. 远岫融入宣和绢黄晨岚 (#F6EEDB) / 幽夜墨青
+          vec3 silkHaze = mix(vec3(0.96, 0.93, 0.85), vec3(0.08, 0.12, 0.18), uNightMix);
           float hazeFactor = smoothstep(140.0, 600.0, dist);
           finalColor = mix(finalColor, silkHaze, hazeFactor * 0.65);
 
-          // 9. 雅致古典暗角聚焦
+          // 9. 雅致古典暗角聚焦 (Scroll Vignette)
           vec2 centerCoord = uv - vec2(0.5);
           float vignette = 1.0 - dot(centerCoord, centerCoord) * 0.22;
           finalColor *= clamp(vignette, 0.0, 1.0);
@@ -171,7 +178,8 @@ export class InkPostPipeline {
         uFar: { value: this.camera.far },
         uTime: { value: 0.0 },
         uInkStrength: { value: 0.72 },
-        uPaperGrain: { value: 0.16 }
+        uPaperGrain: { value: 0.16 },
+        uNightMix: { value: 0.0 }
       },
       depthTest: false,
       depthWrite: false
@@ -182,21 +190,31 @@ export class InkPostPipeline {
   }
 
   resize(width, height) {
+    if (width <= 0 || height <= 0) return;
     this.width = width;
     this.height = height;
-    const targetW = Math.floor(this.width * this.dpr);
-    const targetH = Math.floor(this.height * this.dpr);
+    const targetW = Math.max(1, Math.floor(this.width * this.dpr));
+    const targetH = Math.max(1, Math.floor(this.height * this.dpr));
 
     this.renderTarget.setSize(targetW, targetH);
-    this.inkMaterial.uniforms.uResolution.value.set(targetW, targetH);
+    if (this.inkMaterial && this.inkMaterial.uniforms && this.inkMaterial.uniforms.uResolution) {
+      this.inkMaterial.uniforms.uResolution.value.set(targetW, targetH);
+    }
   }
 
-  render(time) {
+  render(time, isNight = false) {
     this.renderer.setRenderTarget(this.renderTarget);
     this.renderer.render(this.scene, this.camera);
 
     this.renderer.setRenderTarget(null);
-    this.inkMaterial.uniforms.uTime.value = time;
+    if (this.inkMaterial && this.inkMaterial.uniforms) {
+      if (this.inkMaterial.uniforms.uTime) {
+        this.inkMaterial.uniforms.uTime.value = time;
+      }
+      if (this.inkMaterial.uniforms.uNightMix) {
+        this.inkMaterial.uniforms.uNightMix.value = isNight ? 1.0 : 0.0;
+      }
+    }
     this.renderer.render(this.postScene, this.postCamera);
   }
 

@@ -156,6 +156,9 @@
       // 切换至 3D 画境漫步模式
       function enter3DWorld(targetPlace) {
         document.body.classList.remove('in-atlas');
+        if (world3D) {
+          world3D.handleResize();
+        }
         if (targetPlace) {
           // 若指定了胜景，直接传送至该胜景神兽处
           if (world3D) world3D.teleportToBeast(targetPlace.id);

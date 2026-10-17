@@ -1,3 +1,5 @@
 .wrangler
 download_all.py
 *.md
+.chrome*
+*.log

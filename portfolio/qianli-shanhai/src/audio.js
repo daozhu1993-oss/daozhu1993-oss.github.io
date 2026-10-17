@@ -313,6 +313,50 @@ class ChineseAudioEngine {
     const idx = Math.floor(Math.random() * this.notesList.length);
     this.playGuqinPluck(this.notesList[idx], 3.2);
   }
+
+  /**
+   * 电影级神兽唤醒古琴轮指五音琶音蓄力
+   */
+  playGuqinHarmonicChord(beastId = '') {
+    if (this.isMuted) return;
+    this.ensureContext();
+    const chord = [220.00, 261.63, 329.63, 392.00, 523.25, 659.25];
+    chord.forEach((freq, idx) => {
+      setTimeout(() => {
+        this.playGuqinPluck(freq, 4.0);
+      }, idx * 140);
+    });
+    setTimeout(() => {
+      this.playChime(587.33, 4.5);
+    }, 850);
+  }
+
+  /**
+   * 朱砂御印重力砸落与印泥洇散音效 (80Hz 低频木印击纸声)
+   */
+  playSealStampThud() {
+    if (this.isMuted) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(120, t);
+    osc.frequency.exponentialRampToValueAtTime(45, t + 0.28);
+
+    gain.gain.setValueAtTime(0.001, t);
+    gain.gain.linearRampToValueAtTime(0.45, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+
+    osc.start(t);
+    osc.stop(t + 0.35);
+  }
 }
 
 export const audio = new ChineseAudioEngine();

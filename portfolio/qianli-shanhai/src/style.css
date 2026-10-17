@@ -95,16 +95,21 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 body:not(.in-atlas) #atlas {
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
   transform: scale(1.02);
+  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 0.5s;
 }
 
-body.in-atlas #viewport-3d,
+body.in-atlas #viewport-3d {
+  pointer-events: none;
+}
+
 body.in-atlas #main-hud,
 body.in-atlas .season-controls,
 body.in-atlas .atlas-return-btn {
@@ -1306,7 +1311,29 @@ body.in-atlas .atlas-return-btn {
   color: #876D46;
 }
 
-/* 朱砂亲历印章 */
+/* 【希孟亲历】朱砂印章：高空蓄力砸落 + 宣纸震颤 + 朱砂印泥渗透 */
+@keyframes sealStampImpact {
+  0% {
+    opacity: 0;
+    transform: scale(3.4) rotate(-14deg) translateY(-40px);
+    filter: blur(6px);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(0.92) rotate(-3deg) translateY(0);
+    filter: blur(0px);
+  }
+  72% {
+    transform: scale(1.04) rotate(-4.5deg);
+    box-shadow: 0 0 28px rgba(186, 38, 32, 0.65);
+  }
+  100% {
+    opacity: 0.92;
+    transform: scale(1) rotate(-4deg);
+    box-shadow: 0 0 0px rgba(186, 38, 32, 0);
+  }
+}
+
 .sketch-seal-stamp {
   position: absolute;
   right: 18px;
@@ -1315,21 +1342,14 @@ body.in-atlas .atlas-return-btn {
   place-items: center;
   width: 64px;
   height: 64px;
-  border: 2.5px solid #A8261C;
-  color: #A8261C;
+  border: 2.5px solid #BA2620;
+  color: #BA2620;
   font-family: var(--font-kaiti);
   font-size: 17px;
   font-weight: bold;
   letter-spacing: 0.1em;
-  transform: rotate(-8deg);
-  opacity: 0.9;
-  box-shadow: 0 0 12px rgba(168, 38, 28, 0.25);
-  animation: sealStamp 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-@keyframes sealStamp {
-  0% { transform: scale(2.2) rotate(-20deg); opacity: 0; }
-  100% { transform: scale(1) rotate(-8deg); opacity: 0.9; }
+  mix-blend-mode: multiply; /* 让朱砂印自然渗透进宣和古绢底纹 */
+  animation: sealStampImpact 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .sketch-footer {
@@ -1494,4 +1514,26 @@ body.night .atlas-return-btn {
   background: rgba(25, 43, 57, 0.92);
   border-color: rgba(200, 180, 130, 0.4);
   color: #EADCBB;
+}
+
+/* =========================================================
+   7. 电影宽银幕黑边（唤醒神兽特写时自动开启）
+   ========================================================= */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 0vh;
+  background: #080b0f;
+  z-index: 800;
+  pointer-events: none;
+  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+body::before { top: 0; }
+body::after  { bottom: 0; }
+body.cinematic-letterbox-active::before,
+body.cinematic-letterbox-active::after {
+  height: 9.5vh;
 }

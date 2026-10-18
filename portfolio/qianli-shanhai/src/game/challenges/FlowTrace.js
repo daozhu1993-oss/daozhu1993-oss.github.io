@@ -1,4 +1,4 @@
-import { clamp } from '../../util.js';
+import { clamp, worldToScreen } from '../../util.js';
 import { gradeFlow } from '../grade.js';
 
 /**
@@ -7,23 +7,33 @@ import { gradeFlow } from '../grade.js';
  * 失败是墨晕，1.5 秒内回到本段起点。第 5 次失败才请希孟代笔。
  */
 
-function wave(y0, y1, amp, turns, xMid = 0.5) {
-  const pts = [];
-  const steps = Math.max(8, turns * 12);
-  for (let i = 0; i <= steps; i += 1) {
-    const t = i / steps;
-    const x = xMid + Math.sin(t * turns * Math.PI * 2) * amp;
-    pts.push([Math.min(0.66, Math.max(0.34, x)), y0 + (y1 - y0) * t]);
-  }
-  return pts;
-}
-
-const NORM = {
-  a: wave(0.07, 0.30, 0.14, 3),
-  mid: wave(0.30, 0.64, 0.14, 5),
-  left: [[0.5, 0.30], [0.26, 0.36], [0.12, 0.52], [0.08, 0.78]],
-  right: [[0.5, 0.30], [0.74, 0.36], [0.88, 0.52], [0.92, 0.78]],
-  c: wave(0.64, 0.96, 0.13, 3),
+/**
+ * 悬瀑在真迹上的水道。nx 是全卷，ny 向上。
+ * 白练在 nx ≈ 0.690，从上岩落到潭边。水道以落下为主，只在岩唇和潭岸横过一次。
+ * 中段、下段各有两条干岩缝，走到一半就断。
+ */
+const WORLD = {
+  a: [
+    [0.690, 0.630], [0.688, 0.568], [0.691, 0.508], [0.689, 0.458],
+  ],
+  mid: [
+    [0.689, 0.458], [0.691, 0.446], [0.693, 0.424], [0.691, 0.386], [0.689, 0.346], [0.690, 0.308],
+  ],
+  left: [
+    [0.689, 0.458], [0.683, 0.436], [0.679, 0.412], [0.678, 0.392],
+  ],
+  right: [
+    [0.689, 0.458], [0.696, 0.438], [0.701, 0.416], [0.702, 0.396],
+  ],
+  c: [
+    [0.690, 0.308], [0.688, 0.258], [0.691, 0.228], [0.697, 0.216], [0.701, 0.228],
+  ],
+  cLeft: [
+    [0.690, 0.308], [0.684, 0.292], [0.679, 0.274], [0.678, 0.258],
+  ],
+  cRight: [
+    [0.690, 0.308], [0.696, 0.292], [0.701, 0.276], [0.702, 0.260],
+  ],
 };
 
 const SPEED_MIN = 120;
@@ -127,6 +137,7 @@ export class FlowTrace {
     this.speedMarks = [];
     this.ghostOffered = false;
     this.finished = false;
+    this.camera = null;
     this.board = { x: 0, y: 0, w: 10, h: 10, portrait: false };
     this.paths = { a: [], mid: [], left: [], right: [], c: [] };
     this._layoutW = 0;
@@ -134,29 +145,51 @@ export class FlowTrace {
   }
 
   resize(w, h) {
-    if (w === this._layoutW && h === this._layoutH) return;
     this._layoutW = w;
     this._layoutH = h;
-    const portrait = h > w * 1.05;
-    const bw = portrait ? Math.min(w * 0.9, 520) : Math.min(w * 0.42, 500);
-    const bh = portrait ? h * 0.74 : h * 0.88;
-    this.board = {
-      x: (w - bw) / 2,
-      y: portrait ? h * 0.14 : (h - bh) / 2,
-      w: bw,
-      h: bh,
-      portrait,
-    };
-    const map = (pts) => pts.map(([nx, ny]) => [this.board.x + nx * bw, this.board.y + ny * bh]);
+    this._project();
+  }
+
+  _project() {
+    const w = this._layoutW;
+    const h = this._layoutH;
+    const cam = this.camera;
+    if (!w || !h || !cam) return;
+    const map = (pts) => pts.map(([nx, ny]) => {
+      const p = worldToScreen(nx * cam.worldW, ny, cam, w, h);
+      return [p.x, p.y];
+    });
+    const shape = (pts) => wobble(smooth(map(pts)), 5);
     this.paths = {
-      a: map(NORM.a),
-      mid: map(NORM.mid),
-      left: map(NORM.left),
-      right: map(NORM.right),
-      c: map(NORM.c),
+      a: shape(WORLD.a),
+      mid: shape(WORLD.mid),
+      left: shape(WORLD.left),
+      right: shape(WORLD.right),
+      c: shape(WORLD.c),
+      cLeft: shape(WORLD.cLeft),
+      cRight: shape(WORLD.cRight),
     };
     const opening = polyLength(this.paths.a);
-    this.demoDur = this.reduced ? 1.4 : clamp(opening / DEMO_SPEED, 3.2, 5.6);
+    this._demoLen = Math.min(opening, 980);
+    this.demoDur = this.reduced ? 1.4 : clamp(this._demoLen / DEMO_SPEED, 3.2, 5.6);
+    const all = this.paths.a.concat(this.paths.mid, this.paths.c);
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+    all.forEach(([x, y]) => {
+      minX = Math.min(minX, x);
+      minY = Math.min(minY, y);
+      maxX = Math.max(maxX, x);
+      maxY = Math.max(maxY, y);
+    });
+    this.board = {
+      x: minX,
+      y: minY,
+      w: Math.max(10, maxX - minX),
+      h: Math.max(10, maxY - minY),
+      portrait: h > w * 1.05,
+    };
   }
 
   radius() {
@@ -177,10 +210,16 @@ export class FlowTrace {
     return this.wide() ? 0.2 : 0.08;
   }
 
+  _choice() {
+    if (this.seg === 1) return { correct: 'mid', left: 'left', right: 'right' };
+    if (this.seg === 2) return { correct: 'c', left: 'cLeft', right: 'cRight' };
+    return null;
+  }
+
   activePaths() {
-    if (this.seg === 0) return [['a', this.paths.a]];
-    if (this.seg === 1) return [['left', this.paths.left], ['mid', this.paths.mid], ['right', this.paths.right]];
-    return [['c', this.paths.c]];
+    const choice = this._choice();
+    if (!choice) return [['a', this.paths.a]];
+    return [choice.left, choice.correct, choice.right].map((name) => [name, this.paths[name]]);
   }
 
   correctPath() {
@@ -211,7 +250,8 @@ export class FlowTrace {
     }
     const path = this.correctPath();
     const length = polyLength(path);
-    if (this.seg === 1 && this.branch !== 'mid') {
+    const choice = this._choice();
+    if (choice && this.branch !== choice.correct) {
       this.pointer = null;
       return;
     }
@@ -225,9 +265,10 @@ export class FlowTrace {
     if (down) this.keys.add(code);
     else this.keys.delete(code);
     if (!down || this.phase !== 'play') return;
-    if (code === 'ArrowLeft') this.branch = 'left';
-    if (code === 'ArrowRight') this.branch = 'right';
-    if (code === 'ArrowDown' || code === 'ArrowUp') this.branch = this.branch || 'mid';
+    const choice = this._choice();
+    if (choice && code === 'ArrowLeft') this.branch = choice.left;
+    if (choice && code === 'ArrowRight') this.branch = choice.right;
+    if (code === 'ArrowDown' || code === 'ArrowUp') this.branch = choice ? choice.correct : 'a';
   }
 
   update(dt) {
@@ -323,7 +364,7 @@ export class FlowTrace {
       return;
     }
     this.seg = 2;
-    this.branch = 'mid';
+    this.branch = 'c';
     this.headS = remain - lengths[1];
   }
 
@@ -331,17 +372,18 @@ export class FlowTrace {
     // The demonstration only walks the opening channel, at a legal pace.
     this.seg = 0;
     this.branch = 'mid';
-    this.headS = u * polyLength(this.paths.a);
+    this.headS = u * (this._demoLen || polyLength(this.paths.a));
   }
 
   _advanceKeyboard(dt) {
-    if (this.seg === 1) {
-      if (this.keys.has('ArrowLeft')) this.branch = 'left';
-      else if (this.keys.has('ArrowRight')) this.branch = 'right';
-      else this.branch = 'mid';
+    const choice = this._choice();
+    if (choice) {
+      if (this.keys.has('ArrowLeft')) this.branch = choice.left;
+      else if (this.keys.has('ArrowRight')) this.branch = choice.right;
+      else this.branch = choice.correct;
     }
-    if (this.seg === 1 && (this.branch === 'left' || this.branch === 'right')) {
-      const wrong = this.branch === 'left' ? this.paths.left : this.paths.right;
+    if (choice && this.branch !== choice.correct) {
+      const wrong = this.paths[this.branch];
       this.headS += KEY_SPEED * dt;
       if (this.headS > polyLength(wrong) * 0.22) {
         const p = pointAt(wrong, this.headS);
@@ -368,13 +410,14 @@ export class FlowTrace {
     this.offT = 0;
     inside.sort((a, b) => b.hit.s - a.hit.s);
     const chosen = inside[0];
-    if (this.seg === 1 && chosen.name !== 'mid' && chosen.hit.s > polyLength(chosen.pts) * 0.16) {
+    const choice = this._choice();
+    if (choice && chosen.name !== choice.correct && chosen.hit.s > polyLength(chosen.pts) * 0.16) {
       this._fail(chosen.hit.x, chosen.hit.y);
       return;
     }
-    const path = this.seg === 1 ? this.paths[chosen.name] : this.correctPath();
-    if (this.seg === 1) this.branch = chosen.name;
-    const target = chosen.name === 'mid' || this.seg !== 1 ? project(path, this.pointer.x, this.pointer.y).s : chosen.hit.s;
+    const path = choice ? this.paths[chosen.name] : this.correctPath();
+    if (choice) this.branch = chosen.name;
+    const target = !choice || chosen.name === choice.correct ? project(path, this.pointer.x, this.pointer.y).s : chosen.hit.s;
     if (target > this.headS) this.headS = target;
     const now = performance.now();
     this.speedMarks.push({ t: now, s: this.headS });
@@ -403,7 +446,8 @@ export class FlowTrace {
         return;
       }
     }
-    if (this.headS >= polyLength(path) - 8 && (this.seg !== 1 || this.branch === 'mid')) this._completeSeg();
+    const onCorrect = !choice || this.branch === choice.correct;
+    if (this.headS >= polyLength(path) - 8 && onCorrect) this._completeSeg();
   }
 
   _completeSeg() {
@@ -416,7 +460,7 @@ export class FlowTrace {
     }
     this.seg += 1;
     this.headS = 0;
-    this.branch = 'mid';
+    this.branch = this.seg === 2 ? 'c' : 'mid';
     this.slowT = 0;
     this.fastT = 0;
     this.speedMarks = [{ t: performance.now(), s: 0 }];
@@ -459,123 +503,77 @@ export class FlowTrace {
     this.resize(w, h);
     const b = this.board;
     ctx.save();
-    this._wash(ctx, b);
     this._grooves(ctx);
-    this._ghostLine(ctx);
     this._pools(ctx);
     this._water(ctx);
-    this._deer(ctx, b);
+    this._deer(ctx);
     if (this.phase === 'demo') this._caption(ctx, b, '沿石缝引水，不快不慢');
     if (this.phase === 'fail') this._bloom(ctx);
     ctx.restore();
   }
 
-  _wash(ctx, b) {
-    const g = ctx.createLinearGradient(b.x, b.y, b.x, b.y + b.h);
-    g.addColorStop(0, 'rgba(141, 111, 55, 0.05)');
-    g.addColorStop(0.45, 'rgba(62, 52, 34, 0.16)');
-    g.addColorStop(1, 'rgba(46, 97, 132, 0.10)');
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(b.x + b.w * 0.18, b.y);
-    ctx.bezierCurveTo(b.x + b.w * 0.05, b.y + b.h * 0.3, b.x + b.w * 0.08, b.y + b.h * 0.7, b.x + b.w * 0.2, b.y + b.h);
-    ctx.lineTo(b.x + b.w * 0.82, b.y + b.h);
-    ctx.bezierCurveTo(b.x + b.w * 0.95, b.y + b.h * 0.6, b.x + b.w * 0.9, b.y + b.h * 0.2, b.x + b.w * 0.78, b.y);
-    ctx.closePath();
-    ctx.fill();
-  }
-
   _grooves(ctx) {
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = 'rgba(39, 35, 21, 0.55)';
-    ctx.lineWidth = 2.2;
-    [this.paths.a, this.paths.left, this.paths.mid, this.paths.right, this.paths.c].forEach((pts) => {
-      stroke(ctx, pts);
-    });
-  }
-
-  _ghostLine(ctx) {
-    ctx.save();
-    ctx.strokeStyle = `rgba(241, 234, 219, ${this.ghostAlpha()})`;
-    ctx.lineWidth = this.wide() ? 7 : 5;
-    ctx.lineCap = 'round';
-    stroke(ctx, this.paths.a);
-    stroke(ctx, this.paths.mid);
-    stroke(ctx, this.paths.c);
-    ctx.restore();
+    const alpha = this.ghostAlpha();
+    const show = [];
+    const done = this.phase === 'success' || this.phase === 'ghost';
+    if (this.seg === 0 || this.phase === 'demo' || done) show.push([this.paths.a, alpha]);
+    if (this.seg === 1 || done) {
+      show.push([this.paths.left, alpha * 0.85]);
+      show.push([this.paths.right, alpha * 0.85]);
+      show.push([this.paths.mid, alpha]);
+    }
+    if (this.seg === 2 || done) {
+      show.push([this.paths.cLeft, alpha * 0.85]);
+      show.push([this.paths.cRight, alpha * 0.85]);
+      show.push([this.paths.c, alpha]);
+    }
+    show.forEach(([pts, a]) => gully(ctx, pts, a));
   }
 
   _pools(ctx) {
-    const spots = [this.paths.a.at(-1), this.paths.mid.at(-1), this.paths.c.at(-1)];
-    spots.forEach((p, i) => {
-      const r = i === 2 ? 28 : 16;
-      ctx.beginPath();
-      ctx.fillStyle = i === 2 ? 'rgba(46, 97, 132, 0.28)' : 'rgba(91, 141, 176, 0.22)';
-      ctx.ellipse(p[0], p[1], r * 1.4, r * 0.72, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(39, 35, 21, 0.35)';
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    });
+    const upper = this.paths.a.at(-1);
+    const lower = this.paths.c.at(-1);
+    if (upper) paintPool(ctx, upper[0], upper[1], 22, 11);
+    if (lower) paintPool(ctx, lower[0], lower[1], 46, 18);
   }
 
   _water(ctx) {
     const drawn = [];
-    if (this.seg > 0) drawn.push(this.paths.a);
-    if (this.seg > 1) drawn.push(this.paths.mid);
-    const onWrong = this.seg === 1 && this.branch !== 'mid' && (this.phase === 'play' || this.phase === 'ghost');
-    const current = onWrong ? this.paths[this.branch] : this.correctPath();
-    if (this.phase === 'fail' && this.branch !== 'mid' && this.seg === 1) {
-      // The failed wrong branch is not kept.
-    } else if (this.headS > 2) {
-      drawn.push(sliceTo(current, this.headS));
-    }
+    const choice = this._choice();
+    const onWrong = choice && this.branch !== choice.correct && (this.phase === 'play' || this.phase === 'ghost');
     if (this.phase === 'success') {
-      drawn.length = 0;
       drawn.push(this.paths.a, this.paths.mid, this.paths.c);
+    } else {
+      if (this.seg > 0) drawn.push(this.paths.a);
+      if (this.seg > 1) drawn.push(this.paths.mid);
+      const current = onWrong ? this.paths[this.branch] : this.correctPath();
+      const hideSlice = this.phase === 'fail' && onWrong;
+      if (!hideSlice && this.headS > 2) drawn.push(sliceTo(current, this.headS));
     }
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    drawn.forEach((pts) => {
-      ctx.strokeStyle = 'rgba(46, 97, 132, 0.35)';
-      ctx.lineWidth = 16;
-      stroke(ctx, pts);
-      ctx.strokeStyle = 'rgba(91, 141, 176, 0.9)';
-      ctx.lineWidth = 8;
-      stroke(ctx, pts);
-      ctx.strokeStyle = 'rgba(241, 234, 219, 0.55)';
-      ctx.lineWidth = 2.2;
-      stroke(ctx, pts);
+    drawn.forEach((pts, index) => {
+      const tip = index === drawn.length - 1 && this.phase !== 'success';
+      inkWater(ctx, pts, tip);
     });
-    if (this.phase !== 'success' && this.headS > 2) {
-      const tip = pointAt(current, this.headS);
-      const lift = this.coarse && this.pointer ? -40 : 0;
-      ctx.beginPath();
-      ctx.fillStyle = '#5B8DB0';
-      ctx.arc(tip.x, tip.y + lift, 7, 0, Math.PI * 2);
-      ctx.fill();
-    }
   }
 
-  _deer(ctx, b) {
+  _deer(ctx) {
     const p = this.paths.c.at(-1);
-    const alpha = this.phase === 'success'
-      ? clamp(this.winT / 0.8, 0, 1)
-      : 0.22;
-    if (!this.deer) {
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.strokeStyle = '#272315';
-      ctx.strokeRect(p[0] - 18, p[1] - 36, 36, 28);
-      ctx.restore();
-      return;
-    }
-    const dw = b.w * 0.28;
-    const dh = dw * (this.deer.height / this.deer.width);
+    if (!p || !this.deer) return;
+    const alpha = this.phase === 'success' ? clamp(this.winT / 0.8, 0, 1) : 0.34;
+    const cam = this.camera;
+    const dh = cam
+      ? Math.max(28, Math.abs(worldToScreen(0, 0.046, cam, this._layoutW, this._layoutH).y
+        - worldToScreen(0, 0, cam, this._layoutW, this._layoutH).y))
+      : Math.min(this._layoutH * 0.09, 96);
+    const dw = dh * ((this.deer.width || 460) / (this.deer.height || 320));
     ctx.save();
+    ctx.globalAlpha = Math.min(1, alpha * 0.9);
+    ctx.fillStyle = 'rgba(39, 35, 21, 0.4)';
+    ctx.beginPath();
+    ctx.ellipse(p[0] - dw * 0.02, p[1] + dh * 0.015, dw * 0.4, Math.max(2.2, dh * 0.05), -0.04, 0, Math.PI * 2);
+    ctx.fill();
     ctx.globalAlpha = alpha;
-    ctx.drawImage(this.deer, p[0] - dw * 0.35, p[1] - dh * 0.82, dw, dh);
+    ctx.drawImage(this.deer, p[0] - dw * 0.62, p[1] - dh * 0.98, dw, dh);
     ctx.restore();
   }
 
@@ -607,10 +605,115 @@ export class FlowTrace {
   }
 }
 
-function stroke(ctx, pts) {
+function smooth(pts) {
+  let cur = pts;
+  for (let pass = 0; pass < 2; pass += 1) {
+    if (cur.length < 3) return cur;
+    const next = [cur[0]];
+    for (let i = 0; i < cur.length - 1; i += 1) {
+      const a = cur[i];
+      const b = cur[i + 1];
+      next.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25]);
+      next.push([a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75]);
+    }
+    next.push(cur[cur.length - 1]);
+    cur = next;
+  }
+  return cur;
+}
+
+function wobble(pts, amp) {
+  return pts.map((p, i) => {
+    if (i === 0 || i === pts.length - 1) return p;
+    const prev = pts[i - 1];
+    const next = pts[Math.min(pts.length - 1, i + 1)];
+    const dx = next[0] - prev[0];
+    const dy = next[1] - prev[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const n = Math.sin(i * 1.3) * amp;
+    return [p[0] - (dy / len) * n, p[1] + (dx / len) * n];
+  });
+}
+
+function brush(ctx, pts, color, width, alpha, taper, breaks = false) {
   if (!pts || pts.length < 2) return;
+  ctx.save();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = color;
+  ctx.globalAlpha = alpha;
+  for (let i = 1; i < pts.length; i += 1) {
+    if (breaks && i % 3 === 0) continue;
+    const t = i / (pts.length - 1);
+    const body = 0.42 + 0.58 * Math.sin(Math.PI * Math.min(t * 1.15, 1));
+    const grain = 0.72 + 0.28 * Math.sin(i * 1.7);
+    const end = taper && t > 0.78 ? (1 - t) / 0.22 : 1;
+    const prev = pts[i - 1];
+    const next = pts[Math.min(pts.length - 1, i + 1)];
+    const dx = next[0] - prev[0];
+    const dy = next[1] - prev[1];
+    const len = Math.hypot(dx, dy) || 1;
+    const ox = (-dy / len) * Math.sin(i * 0.8) * width * 0.08;
+    const oy = (dx / len) * Math.sin(i * 0.8) * width * 0.08;
+    ctx.beginPath();
+    ctx.lineWidth = Math.max(0.6, width * body * grain * end);
+    ctx.moveTo(pts[i - 1][0] + ox, pts[i - 1][1] + oy);
+    ctx.quadraticCurveTo(
+      pts[i - 1][0] + ox,
+      pts[i - 1][1] + oy,
+      (pts[i - 1][0] + pts[i][0]) / 2 + ox,
+      (pts[i - 1][1] + pts[i][1]) / 2 + oy,
+    );
+    ctx.lineTo(pts[i][0] + ox, pts[i][1] + oy);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function gully(ctx, pts, alpha) {
+  // 岩缝：宽、淡、边不齐。alpha 本身只有 0.08，失败三次后才到 0.2。
+  brush(ctx, pts, 'rgba(39, 35, 21, 1)', 24, alpha, false);
+  brush(ctx, pts, 'rgba(61, 90, 74, 1)', 7, alpha * 0.5, false);
+}
+
+function inkWater(ctx, pts, taper) {
+  // 石青罩染，墨边，蛤粉只断断续续留在笔腹。
+  brush(ctx, pts, 'rgba(36, 78, 112, 1)', 20, 0.22, taper);
+  brush(ctx, pts, 'rgba(46, 97, 132, 1)', 9, 0.55, taper);
+  brush(ctx, pts, 'rgba(91, 141, 176, 1)', 3.6, 0.78, taper);
+  brush(ctx, pts, 'rgba(39, 35, 21, 1)', 1.15, 0.22, taper);
+  brush(ctx, pts, 'rgba(241, 234, 219, 1)', 1.05, 0.28, taper, true);
+}
+
+function paintPool(ctx, x, y, rx, ry) {
+  ctx.save();
+  ctx.translate(x, y);
+  const blobs = [
+    { x: -rx * 0.18, y: ry * 0.05, rx: rx * 0.92, ry: ry * 0.86, rot: -0.35 },
+    { x: rx * 0.28, y: ry * 0.12, rx: rx * 0.62, ry: ry * 0.7, rot: 0.4 },
+    { x: rx * 0.02, y: -ry * 0.2, rx: rx * 0.48, ry: ry * 0.55, rot: 0.1 },
+  ];
+  blobs.forEach((blob) => {
+    ctx.save();
+    ctx.translate(blob.x, blob.y);
+    ctx.rotate(blob.rot);
+    const g = ctx.createRadialGradient(-blob.rx * 0.2, -blob.ry * 0.3, blob.ry * 0.1, 0, 0, blob.rx);
+    g.addColorStop(0, 'rgba(232, 236, 226, 0.55)');
+    g.addColorStop(0.45, 'rgba(46, 97, 132, 0.40)');
+    g.addColorStop(1, 'rgba(46, 97, 132, 0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, blob.rx, blob.ry, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+  ctx.strokeStyle = 'rgba(39, 35, 21, 0.28)';
+  ctx.lineWidth = 1.05;
   ctx.beginPath();
-  ctx.moveTo(pts[0][0], pts[0][1]);
-  for (let i = 1; i < pts.length; i += 1) ctx.lineTo(pts[i][0], pts[i][1]);
+  ctx.ellipse(-rx * 0.05, ry * 0.08, rx * 0.9, ry * 0.72, -0.2, 0.4, Math.PI * 1.35);
   ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(rx * 0.16, 0, rx * 0.55, ry * 0.5, 0.5, 2.2, Math.PI * 2.5);
+  ctx.stroke();
+  ctx.restore();
 }

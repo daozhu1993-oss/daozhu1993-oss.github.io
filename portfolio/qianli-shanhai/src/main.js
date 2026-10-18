@@ -93,7 +93,8 @@ function applySavedCamera() {
 
 function fadeWidth() {
   const screenFrac = (camera.aspect / camera.roamZoom()) / camera.worldW;
-  return 1.2 * screenFrac;
+  // A roam frame centred on the beast should show grey silk on either side of the coloured stretch.
+  return 0.22 * screenFrac;
 }
 
 function syncRestore(animate) {
@@ -156,7 +157,7 @@ function startChallenge() {
   setPhase('entering');
   world.setDim(1);
   const dur = reduced ? 0.35 : 1.6;
-  camera.focusTo(fuzhu.x * camera.worldW, fuzhu.y, camera.enterZoom(), dur, () => {
+  camera.focusTo(0.690 * camera.worldW, 0.43, 2.25, dur, () => {
     const { w, h } = viewSize();
     flow = new FlowTrace({
       audio,
@@ -167,6 +168,7 @@ function startChallenge() {
       onFail: () => { world.setFlash(0.55); },
       onAssist: (on) => chrome.setGhost(on && (phase === 'challenge')),
     });
+    flow.camera = camera;
     flow.resize(w, h);
     camera.enabled = false;
     setPhase('challenge');

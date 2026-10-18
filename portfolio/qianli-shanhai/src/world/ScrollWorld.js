@@ -33,18 +33,28 @@ ${SCROLL_SILK_GLSL}
 void main() {
   if (uRevealEdge > 0.001 && (vWorldX / uWorldW) < uRevealEdge) discard;
   vec4 texel = texture2D(uMap, vUv);
-  vec3 col = texel.rgb;
+  vec3 src = texel.rgb;
   float restore = texture2D(uRestore, vec2(clamp(vWorldX / uWorldW, 0.0, 1.0), 0.5)).r;
-  float luma = dot(col, vec3(0.299, 0.587, 0.114));
+  float luma = dot(src, vec3(0.299, 0.587, 0.114));
   float sat = mix(uBaseSat, 1.0, restore);
-  col = mix(vec3(luma), col, sat);
+  vec3 graded = mix(vec3(luma), src, sat);
   vec3 paper = vec3(0.914, 0.875, 0.784);
   float fog = (1.0 - restore) * (1.0 - uBaseSat) * 0.38;
-  col = mix(col, paper, fog);
-  float blue = smoothstep(0.02, 0.18, col.b - col.r);
-  float shimmer = sin(vUv.y * 90.0 + vUv.x * 28.0 + uTime * 0.7) * 0.012 * blue;
-  col += shimmer;
-  col = qSilk(col, gl_FragCoord.xy, vUv, uTime);
+  graded = mix(graded, paper, fog);
+  float blue = smoothstep(0.02, 0.18, src.b - src.r);
+  float shimmer = sin(vUv.y * 90.0 + vUv.x * 28.0 + uTime * 0.7) * 0.012 * blue * restore;
+  graded += shimmer;
+  vec3 silk = qSilk(graded, gl_FragCoord.xy, vUv, uTime);
+  // 色归只抬原本就偏青、偏绿的矿物色，绢地和赭石不动。熟绢雾留在未复原的一侧。
+  float azurite = clamp(src.b - src.r, 0.0, 0.42);
+  float malachite = clamp(src.g - src.r, 0.0, 0.42);
+  vec3 lifted = src;
+  lifted.b += azurite * 0.16;
+  lifted.g += malachite * 0.10;
+  lifted.r -= (azurite + malachite) * 0.045;
+  float edge = smoothstep(0.04, 0.30, restore) * (1.0 - smoothstep(0.55, 0.92, restore));
+  lifted = mix(lifted, lifted * vec3(0.62, 0.64, 0.58), edge * 0.42);
+  vec3 col = mix(silk, lifted, restore);
   col = mix(col, vec3(luma), clamp(uFlash, 0.0, 1.0));
   col *= mix(1.0, 0.90, clamp(uDim, 0.0, 1.0));
   float a = 1.0;
@@ -124,6 +134,19 @@ export class ScrollWorld {
       x1: (tile.x + tile.w) / manifest.height,
       w: tile.w / manifest.height,
       file: tile.file,
+      hi: false,
+      tex: null,
+      meshes: [],
+      lastSeen: 0,
+      loading: false,
+    }));
+    const hiW = manifest.lod2Width || manifest.width;
+    this.tilesHi = (manifest.lod2 || []).map((tile) => ({
+      x0: tile.x / hiW * this.worldW,
+      x1: (tile.x + tile.w) / hiW * this.worldW,
+      w: tile.w / hiW * this.worldW,
+      file: tile.file,
+      hi: true,
       tex: null,
       meshes: [],
       lastSeen: 0,
@@ -195,9 +218,21 @@ export class ScrollWorld {
   _updateTiles(cam) {
     const kBlend = this._parallaxK(cam);
     const showTiles = cam.zoom > cam.overviewZoom() * 2.05;
+    const useHi = cam.zoom >= cam.roamZoom() * 1.45;
     const margin = cam.visibleWidth();
     const left = cam.x - cam.visibleWidth() / 2 - margin;
     const right = cam.x + cam.visibleWidth() / 2 + margin;
+    (this.tilesHi || []).forEach((tile) => {
+      const vis = showTiles && useHi && tile.x1 > left && tile.x0 < right;
+      if (!vis) {
+        tile.meshes.forEach((mesh) => { mesh.visible = false; });
+        return;
+      }
+      tile.lastSeen = this.time;
+      if (!tile.tex && !tile.loading) this._requestTile(tile);
+      if (!tile.tex) return;
+      this._placeTile(tile, cam, kBlend);
+    });
     let visibleLoaded = 0;
     let visibleNeed = 0;
     this.tiles.forEach((tile) => {
@@ -227,7 +262,10 @@ export class ScrollWorld {
       [0, 1, 2].forEach((layer) => {
         const mat = this._material(tile.tex, tile.x0, tile.w, layer);
         const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(center, 0.5, layer === 1 ? 0 : 0.02 + layer * 0.01);
+        const z = tile.hi
+          ? (layer === 1 ? 0.05 : 0.07 + layer * 0.01)
+          : (layer === 1 ? 0 : 0.02 + layer * 0.01);
+        mesh.position.set(center, 0.5, z);
         mesh.userData.layer = layer;
         mesh.userData.baseX = center;
         this.scene.add(mesh);
@@ -256,10 +294,15 @@ export class ScrollWorld {
   }
 
   _evict(left, right) {
-    const MAX = 8;
-    if (this.loaded.length <= MAX) return;
-    const ranked = this.loaded.slice().sort((a, b) => a.lastSeen - b.lastSeen);
-    while (this.loaded.length > MAX && ranked.length) {
+    this._evictGroup(false, 8, left, right);
+    this._evictGroup(true, 6, left, right);
+  }
+
+  _evictGroup(hi, max, left, right) {
+    const group = this.loaded.filter((tile) => Boolean(tile.hi) === hi);
+    if (group.length <= max) return;
+    const ranked = group.slice().sort((a, b) => a.lastSeen - b.lastSeen);
+    while (this.loaded.filter((tile) => Boolean(tile.hi) === hi).length > max && ranked.length) {
       const tile = ranked.shift();
       const onScreen = tile.x1 > left && tile.x0 < right;
       if (onScreen) continue;

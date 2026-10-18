@@ -31,18 +31,13 @@ export class Overlay {
       this.birds.forEach((bird) => this._bird(ctx, camera, w, h, bird));
     }
     const fall = this._fallBox(camera, w, h, beast);
-    const rockAlpha = woke ? 0 : 1 - clamp(restore, 0, 1);
-    if (rockAlpha > 0.04) {
-      if (art.rock) this._image(ctx, art.rock, fall, rockAlpha);
-      else this._rock(ctx, fall, rockAlpha);
-    }
-    if (restore > 0.04) {
-      if (art.fall) this._image(ctx, art.fall, fall, restore);
-      else this._falls(ctx, fall, restore);
-    }
     if (mist && !woke) this._mist(ctx, fall);
-    if (woke) this._deer(ctx, fall, art.residentFrame(this.time), 0.95, true);
-    else if (canEnter) this._deer(ctx, fall, art.fenben || art.svg, 0.22 + Math.sin(this.time * 2.2) * 0.06, false);
+    const deer = art.residentFrame(this.time);
+    if (woke && deer) this._deerAt(ctx, camera, w, h, deer, 0.702, 0.255, 0.92, false);
+    else if (canEnter && (art.fenben || art.svg)) {
+      const a = 0.42 + Math.sin(this.time * 1.6) * 0.05;
+      this._deerAt(ctx, camera, w, h, art.fenben || art.svg, 0.690, 0.575, a, false);
+    }
     if (canEnter && !woke) this._glint(ctx, fall);
     if (scene.ink && camera.zoom < camera.roamZoom() * 0.55) this._ink(ctx, camera, w, h, beast);
   }
@@ -126,14 +121,27 @@ export class Overlay {
     }
   }
 
-  _deer(ctx, fall, img, alpha, bob) {
+  /**
+   * 鹿高约占画高 0.05，和卷里的人物同一量级。脚底接在 footY，下面一摊淡墨，不悬空。
+   */
+  _deerAt(ctx, camera, w, h, img, nx, footY, alpha, bob) {
     if (!img) return;
-    const dw = fall.w * 1.15;
-    const dh = dw * (img.height / img.width || 1.2);
-    const y = fall.top + fall.h * 0.62 - dh * 0.7 + (bob ? Math.sin(this.time * 1.4) * 3 : 0);
+    const foot = worldToScreen(nx * camera.worldW, footY, camera, w, h);
+    const crown = worldToScreen(nx * camera.worldW, footY + 0.046, camera, w, h);
+    const dh = Math.max(12, Math.abs(foot.y - crown.y));
+    const dw = dh * ((img.width || 420) / (img.height || 320));
+    const y = Math.min(foot.y, crown.y) + (bob ? Math.sin(this.time * 1.2) * 1.2 : 0);
+    const x = foot.x - dw * 0.55;
+    ctx.save();
+    ctx.globalAlpha = Math.min(1, alpha * 0.9);
+    ctx.fillStyle = 'rgba(39, 35, 21, 0.38)';
+    ctx.beginPath();
+    ctx.ellipse(foot.x, foot.y + Math.max(1, dh * 0.012), dw * 0.42, Math.max(2.2, dh * 0.045), -0.04, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
     ctx.save();
     ctx.globalAlpha = alpha;
-    ctx.drawImage(img, fall.cx - dw * 0.42, y, dw, dh);
+    ctx.drawImage(img, x, y, dw, dh);
     ctx.restore();
   }
 

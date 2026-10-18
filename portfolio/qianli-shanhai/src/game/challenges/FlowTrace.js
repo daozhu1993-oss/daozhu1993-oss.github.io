@@ -9,30 +9,30 @@ import { gradeFlow } from '../grade.js';
 
 /**
  * 悬瀑在真迹上的水道。nx 是全卷，ny 向上。
- * 白练在 nx ≈ 0.690，从上岩落到潭边。水道以落下为主，只在岩唇和潭岸横过一次。
+ * 白练在 nx ≈ 0.680，贴着崖面从岩唇落到潭边。旧线画在右侧山脊上，已挪开。
  * 中段、下段各有两条干岩缝，走到一半就断。
  */
 const WORLD = {
   a: [
-    [0.690, 0.630], [0.688, 0.568], [0.691, 0.508], [0.689, 0.458],
+    [0.680, 0.505], [0.679, 0.468], [0.681, 0.432], [0.680, 0.398],
   ],
   mid: [
-    [0.689, 0.458], [0.691, 0.446], [0.693, 0.424], [0.691, 0.386], [0.689, 0.346], [0.690, 0.308],
+    [0.680, 0.398], [0.679, 0.372], [0.681, 0.346], [0.680, 0.318],
   ],
   left: [
-    [0.689, 0.458], [0.683, 0.436], [0.679, 0.412], [0.678, 0.392],
+    [0.680, 0.398], [0.676, 0.378], [0.673, 0.358], [0.672, 0.342],
   ],
   right: [
-    [0.689, 0.458], [0.696, 0.438], [0.701, 0.416], [0.702, 0.396],
+    [0.680, 0.398], [0.684, 0.380], [0.687, 0.360], [0.688, 0.344],
   ],
   c: [
-    [0.690, 0.308], [0.688, 0.258], [0.691, 0.228], [0.697, 0.216], [0.701, 0.228],
+    [0.680, 0.318], [0.679, 0.292], [0.681, 0.268], [0.680, 0.246], [0.682, 0.232],
   ],
   cLeft: [
-    [0.690, 0.308], [0.684, 0.292], [0.679, 0.274], [0.678, 0.258],
+    [0.680, 0.318], [0.675, 0.300], [0.672, 0.282], [0.671, 0.268],
   ],
   cRight: [
-    [0.690, 0.308], [0.696, 0.292], [0.701, 0.276], [0.702, 0.260],
+    [0.680, 0.318], [0.685, 0.300], [0.688, 0.284], [0.689, 0.270],
   ],
 };
 
@@ -645,16 +645,16 @@ function brush(ctx, pts, color, width, alpha, taper, breaks = false) {
   for (let i = 1; i < pts.length; i += 1) {
     if (breaks && i % 3 === 0) continue;
     const t = i / (pts.length - 1);
-    const body = 0.42 + 0.58 * Math.sin(Math.PI * Math.min(t * 1.15, 1));
-    const grain = 0.72 + 0.28 * Math.sin(i * 1.7);
+    const body = 0.32 + 0.78 * Math.sin(Math.PI * Math.min(t * 1.05, 1));
+    const grain = 0.48 + 0.62 * Math.abs(Math.sin(i * 1.37 + t * 4));
     const end = taper && t > 0.78 ? (1 - t) / 0.22 : 1;
     const prev = pts[i - 1];
     const next = pts[Math.min(pts.length - 1, i + 1)];
     const dx = next[0] - prev[0];
     const dy = next[1] - prev[1];
     const len = Math.hypot(dx, dy) || 1;
-    const ox = (-dy / len) * Math.sin(i * 0.8) * width * 0.08;
-    const oy = (dx / len) * Math.sin(i * 0.8) * width * 0.08;
+    const ox = (-dy / len) * Math.sin(i * 0.73) * width * 0.16;
+    const oy = (dx / len) * Math.sin(i * 0.73) * width * 0.16;
     ctx.beginPath();
     ctx.lineWidth = Math.max(0.6, width * body * grain * end);
     ctx.moveTo(pts[i - 1][0] + ox, pts[i - 1][1] + oy);
@@ -677,29 +677,31 @@ function gully(ctx, pts, alpha) {
 }
 
 function inkWater(ctx, pts, taper) {
-  // 石青罩染，墨边，蛤粉只断断续续留在笔腹。
-  brush(ctx, pts, 'rgba(36, 78, 112, 1)', 20, 0.22, taper);
-  brush(ctx, pts, 'rgba(46, 97, 132, 1)', 9, 0.55, taper);
-  brush(ctx, pts, 'rgba(91, 141, 176, 1)', 3.6, 0.78, taper);
-  brush(ctx, pts, 'rgba(39, 35, 21, 1)', 1.15, 0.22, taper);
-  brush(ctx, pts, 'rgba(241, 234, 219, 1)', 1.05, 0.28, taper, true);
+  // 先一层很淡的石青渗进绢，再让笔腹粗细来回变。芯不要画成均匀的界面线。
+  brush(ctx, pts, 'rgba(46, 97, 132, 1)', 36, 0.09, taper);
+  brush(ctx, pts, 'rgba(36, 78, 112, 1)', 18, 0.16, taper);
+  brush(ctx, pts, 'rgba(46, 97, 132, 1)', 9, 0.36, taper);
+  brush(ctx, pts, 'rgba(91, 141, 176, 1)', 3.4, 0.40, taper);
+  brush(ctx, pts, 'rgba(39, 35, 21, 1)', 1.05, 0.14, taper);
+  brush(ctx, pts, 'rgba(241, 234, 219, 1)', 1.5, 0.14, taper, true);
 }
 
 function paintPool(ctx, x, y, rx, ry) {
   ctx.save();
   ctx.translate(x, y);
-  const blobs = [
-    { x: -rx * 0.18, y: ry * 0.05, rx: rx * 0.92, ry: ry * 0.86, rot: -0.35 },
-    { x: rx * 0.28, y: ry * 0.12, rx: rx * 0.62, ry: ry * 0.7, rot: 0.4 },
-    { x: rx * 0.02, y: -ry * 0.2, rx: rx * 0.48, ry: ry * 0.55, rot: 0.1 },
+  // 石青积水，中间不提白，免得读成一个半球。
+  const lobes = [
+    { x: -rx * 0.1, y: ry * 0.1, rx: rx * 0.98, ry: ry * 0.7, rot: -0.22 },
+    { x: rx * 0.24, y: ry * 0.02, rx: rx * 0.52, ry: ry * 0.58, rot: 0.4 },
+    { x: -rx * 0.04, y: -ry * 0.06, rx: rx * 0.4, ry: ry * 0.38, rot: -0.08 },
   ];
-  blobs.forEach((blob) => {
+  lobes.forEach((blob) => {
     ctx.save();
     ctx.translate(blob.x, blob.y);
     ctx.rotate(blob.rot);
-    const g = ctx.createRadialGradient(-blob.rx * 0.2, -blob.ry * 0.3, blob.ry * 0.1, 0, 0, blob.rx);
-    g.addColorStop(0, 'rgba(232, 236, 226, 0.55)');
-    g.addColorStop(0.45, 'rgba(46, 97, 132, 0.40)');
+    const g = ctx.createRadialGradient(0, blob.ry * 0.15, blob.ry * 0.2, 0, 0, blob.rx);
+    g.addColorStop(0, 'rgba(32, 64, 88, 0.26)');
+    g.addColorStop(0.6, 'rgba(46, 97, 132, 0.18)');
     g.addColorStop(1, 'rgba(46, 97, 132, 0)');
     ctx.fillStyle = g;
     ctx.beginPath();
@@ -707,13 +709,17 @@ function paintPool(ctx, x, y, rx, ry) {
     ctx.fill();
     ctx.restore();
   });
-  ctx.strokeStyle = 'rgba(39, 35, 21, 0.28)';
+  ctx.strokeStyle = 'rgba(39, 35, 21, 0.38)';
   ctx.lineWidth = 1.05;
+  ctx.setLineDash([5, 3, 8, 2]);
   ctx.beginPath();
-  ctx.ellipse(-rx * 0.05, ry * 0.08, rx * 0.9, ry * 0.72, -0.2, 0.4, Math.PI * 1.35);
+  ctx.ellipse(-rx * 0.04, ry * 0.08, rx * 0.86, ry * 0.58, -0.16, 0.15, Math.PI * 1.65);
   ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.strokeStyle = 'rgba(70, 110, 130, 0.32)';
+  ctx.lineWidth = 0.7;
   ctx.beginPath();
-  ctx.ellipse(rx * 0.16, 0, rx * 0.55, ry * 0.5, 0.5, 2.2, Math.PI * 2.5);
+  ctx.ellipse(rx * 0.02, ry * 0.04, rx * 0.42, ry * 0.2, -0.08, 0.5, Math.PI - 0.4);
   ctx.stroke();
   ctx.restore();
 }

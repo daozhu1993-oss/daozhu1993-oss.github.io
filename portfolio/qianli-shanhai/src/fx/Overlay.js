@@ -33,10 +33,10 @@ export class Overlay {
     const fall = this._fallBox(camera, w, h, beast);
     if (mist && !woke) this._mist(ctx, fall);
     const deer = art.residentFrame(this.time);
-    if (woke && deer) this._deerAt(ctx, camera, w, h, deer, 0.702, 0.255, 0.92, false);
-    else if (canEnter && (art.fenben || art.svg)) {
+    if (woke && deer) this._deerAt(ctx, camera, w, h, deer, 0.694, 0.242, 0.92, false);
+    else if (canEnter && (art.fenben || art.resident)) {
       const a = 0.42 + Math.sin(this.time * 1.6) * 0.05;
-      this._deerAt(ctx, camera, w, h, art.fenben || art.svg, 0.690, 0.575, a, false);
+      this._deerAt(ctx, camera, w, h, art.fenben || art.resident, 0.691, 0.52, a, false);
     }
     if (canEnter && !woke) this._glint(ctx, fall);
     if (scene.ink && camera.zoom < camera.roamZoom() * 0.55) this._ink(ctx, camera, w, h, beast);

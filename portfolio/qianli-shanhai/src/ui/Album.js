@@ -90,7 +90,7 @@ export class Album {
       return `<p class="locked-name">白泽</p><p class="leaf-place">终章</p>`;
     }
     if (row?.woke && page.id === 'fuzhu') {
-      const src = this.art.album?.src || this.art.svg?.src;
+      const src = this.art.album?.src || this.art.resident?.src;
       return `<img alt="夫诸" src="${src}"><p class="leaf-place">${page.place}</p>`;
     }
     return `<p class="locked-name">${page.name}</p><p class="leaf-place">${page.place}</p>`;

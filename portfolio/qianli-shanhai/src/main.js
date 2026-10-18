@@ -32,7 +32,6 @@ const clue = new ClueSystem(fuzhu);
 const hint = new HintDirector(fuzhu.quote);
 
 const art = {
-  svg: null,
   fenben: null,
   mist: null,
   resident: null,
@@ -42,7 +41,7 @@ const art = {
   fall: null,
   residentFrame(time) {
     if (this.resident2 && Math.floor(time * 1.4) % 2 === 1) return this.resident2;
-    return this.resident || this.mist || this.svg;
+    return this.resident || this.mist || this.fenben;
   },
 };
 
@@ -157,13 +156,13 @@ function startChallenge() {
   setPhase('entering');
   world.setDim(1);
   const dur = reduced ? 0.35 : 1.6;
-  camera.focusTo(0.690 * camera.worldW, 0.43, 2.25, dur, () => {
+  camera.focusTo(0.680 * camera.worldW, 0.37, 2.4, dur, () => {
     const { w, h } = viewSize();
     flow = new FlowTrace({
       audio,
       coarse,
       reduced,
-      deer: art.mist || art.svg,
+      deer: art.mist || art.resident,
       onWin: (result) => finishChallenge(result),
       onFail: () => { world.setFlash(0.55); },
       onAssist: (on) => chrome.setGhost(on && (phase === 'challenge')),
@@ -439,17 +438,16 @@ async function boot() {
   resize();
   const paint = world.load();
   const images = (async () => {
-    const svg = await tryImage(asset('beasts/fuzhu/fuzhu.svg'));
     let slots = {};
     try {
       slots = await fetch(asset('beasts/fuzhu/slots.json')).then((r) => r.json());
-    } catch { /* keep the line drawing */ }
+    } catch { /* slots stay empty */ }
     const loadSlot = (key) => (slots[key] ? tryImage(asset(`beasts/fuzhu/${slots[key]}`)) : null);
     const [fenben, mist, resident, resident2, albumImg, rock, fall] = await Promise.all([
       loadSlot('fenben'), loadSlot('mist'), loadSlot('resident'), loadSlot('resident2'),
       loadSlot('album'), loadSlot('rock'), loadSlot('fall'),
     ]);
-    return [svg, fenben, mist, resident, resident2, albumImg, rock, fall];
+    return [fenben, mist, resident, resident2, albumImg, rock, fall];
   })();
   let shown = 0.15;
   const pulse = setInterval(() => {
@@ -460,8 +458,8 @@ async function boot() {
     const dims = await paint;
     camera.setWorld(dims.worldW, dims.worldH);
     resize();
-    const [svg, fenben, mist, resident, resident2, albumImg, rock, fall] = await images;
-    Object.assign(art, { svg, fenben, mist, resident, resident2, album: albumImg, rock, fall });
+    const [fenben, mist, resident, resident2, albumImg, rock, fall] = await images;
+    Object.assign(art, { fenben, mist, resident, resident2, album: albumImg, rock, fall });
   } finally {
     clearInterval(pulse);
     chrome.setLoad(1);

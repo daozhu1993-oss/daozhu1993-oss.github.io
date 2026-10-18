@@ -1,0 +1,163 @@
+{
+  "source": "Palace Museum scan sections already in assets/painting/section_0.jpg–section_5.jpg, stitched left-to-right. These match the public-domain Wikimedia file used by the design doc, at the resolution shipped with the previous build (22486×900).",
+  "width": 22486,
+  "height": 900,
+  "tileWidth": 1024,
+  "lod1": [
+    {
+      "i": 0,
+      "x": 0,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/000.jpg"
+    },
+    {
+      "i": 1,
+      "x": 1024,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/001.jpg"
+    },
+    {
+      "i": 2,
+      "x": 2048,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/002.jpg"
+    },
+    {
+      "i": 3,
+      "x": 3072,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/003.jpg"
+    },
+    {
+      "i": 4,
+      "x": 4096,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/004.jpg"
+    },
+    {
+      "i": 5,
+      "x": 5120,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/005.jpg"
+    },
+    {
+      "i": 6,
+      "x": 6144,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/006.jpg"
+    },
+    {
+      "i": 7,
+      "x": 7168,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/007.jpg"
+    },
+    {
+      "i": 8,
+      "x": 8192,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/008.jpg"
+    },
+    {
+      "i": 9,
+      "x": 9216,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/009.jpg"
+    },
+    {
+      "i": 10,
+      "x": 10240,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/010.jpg"
+    },
+    {
+      "i": 11,
+      "x": 11264,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/011.jpg"
+    },
+    {
+      "i": 12,
+      "x": 12288,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/012.jpg"
+    },
+    {
+      "i": 13,
+      "x": 13312,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/013.jpg"
+    },
+    {
+      "i": 14,
+      "x": 14336,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/014.jpg"
+    },
+    {
+      "i": 15,
+      "x": 15360,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/015.jpg"
+    },
+    {
+      "i": 16,
+      "x": 16384,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/016.jpg"
+    },
+    {
+      "i": 17,
+      "x": 17408,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/017.jpg"
+    },
+    {
+      "i": 18,
+      "x": 18432,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/018.jpg"
+    },
+    {
+      "i": 19,
+      "x": 19456,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/019.jpg"
+    },
+    {
+      "i": 20,
+      "x": 20480,
+      "w": 1024,
+      "h": 900,
+      "file": "lod1/020.jpg"
+    },
+    {
+      "i": 21,
+      "x": 21504,
+      "w": 982,
+      "h": 900,
+      "file": "lod1/021.jpg"
+    }
+  ],
+  "overview": "painting/qianli_panorama_hi.jpg"
+}

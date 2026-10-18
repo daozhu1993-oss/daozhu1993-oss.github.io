@@ -1,1723 +1,312 @@
-@charset "UTF-8";
-
-/* =========================================================
-   《千里江山 · 借笔还魂》宋代青绿美学样式系统
-   对标 https://xianxie6.github.io/qingming-riverside/ 殿堂级数字艺术体验
-   色彩基调：宣和古绢、石青、石绿、赭石、朱砂、泥金
-   ========================================================= */
+@font-face {
+  font-family: "Source Han Serif SC";
+  src: url("./fonts/NotoSerifSC-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Han Serif SC";
+  src: url("./fonts/NotoSerifSC-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --silk-bg: #EFE4CD;
-  --silk-dark: #DFD0AE;
-  --silk-border: #876D46;
-  --silk-amber: #7A6946;
-  --mineral-cyan: #1E488F;
-  --mineral-green: #237C5A;
-  --mineral-ochre: #9C6B38;
-  --cinnabar-red: #A8261C;
-  --cinnabar-dark: #7F1A13;
-  --gold-leaf: #F4D068;
-  --gold-glow: rgba(244, 208, 104, 0.55);
-  --ink-black: #26221D;
-  --ink-muted: #5C5144;
-  --font-kaiti: "Kaiti SC", "STKaiti", "KaiTi", serif;
-  --font-songti: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", SimSun, serif;
+  --silk: #8A7547;
+  --paper: #E9DFC8;
+  --ink: #272315;
+  --cinnabar: #A64432;
+  --shell: #F1EADB;
+  --font: "Source Han Serif SC", "Songti SC", "STSong", "Noto Serif SC", serif;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  user-select: none;
-  -webkit-user-select: none;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: var(--silk-amber);
-  color: var(--ink-black);
-  font-family: var(--font-songti);
+  background: var(--silk);
+  color: var(--ink);
+  font-family: var(--font);
+  font-weight: 400;
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
-#app {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+#app { position: relative; width: 100%; height: 100%; }
 
-/* 3D 画中世界视口 */
+/* Never display:none. A hidden viewport collapses the WebGL buffer. */
 #viewport-3d {
   position: absolute;
   inset: 0;
+  display: block;
+  z-index: 1;
+  touch-action: none;
+  background: var(--silk);
+}
+#viewport-3d canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  z-index: 10;
-  display: block;
   touch-action: none;
 }
-
-/* 古绢微风光影暗角 */
 #viewport-3d::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: 
-    radial-gradient(circle at center, transparent 48%, rgba(38, 28, 16, 0.22) 100%),
-    repeating-linear-gradient(0deg, rgba(90, 70, 40, 0.018) 0px, rgba(90, 70, 40, 0.018) 1px, transparent 1px, transparent 3px),
-    repeating-linear-gradient(90deg, rgba(90, 70, 40, 0.018) 0px, rgba(90, 70, 40, 0.018) 1px, transparent 1px, transparent 3px);
-  mix-blend-mode: multiply;
-  z-index: 12;
+  background:
+    radial-gradient(ellipse at center, transparent 52%, rgba(39, 35, 21, 0.28) 100%);
 }
 
-/* UI 交互顶层 */
+#fx-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  touch-action: none;
+}
+#fx-canvas.live { pointer-events: auto; cursor: crosshair; }
+
 #ui-layer {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  z-index: 50;
-}
-
-#ui-layer > * {
-  pointer-events: auto;
-}
-
-/* =========================================================
-   1. 长卷全景展卷模式 (Scroll Atlas Mode - 对标清明上河图 #atlas)
-   ========================================================= */
-#atlas {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: var(--silk-amber);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-body:not(.in-atlas) #atlas {
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transform: scale(1.02);
-  transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 0.5s;
-}
-
-body:not(.in-atlas) #atlas,
-body:not(.in-atlas) #atlas * {
-  pointer-events: none !important;
-}
-
-body.in-atlas #viewport-3d {
+  z-index: 3;
   pointer-events: none;
 }
+#ui-layer button,
+#ui-layer #veil,
+#ui-layer #album { pointer-events: auto; }
 
-body.in-atlas #main-hud,
-body.in-atlas .season-controls,
-body.in-atlas .atlas-return-btn {
-  display: none !important;
-}
-
-/* 头部展卷标题与穿越按钮 */
-.atlas-heading {
-  position: absolute;
-  top: max(22px, env(safe-area-inset-top));
-  left: max(28px, env(safe-area-inset-left));
-  z-index: 110;
-  text-align: left;
-  pointer-events: auto;
-}
-
-.atlas-heading > span {
-  font-size: 11px;
-  letter-spacing: 0.35em;
-  color: #EFE4CD;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
-}
-
-.atlas-heading h1 {
-  font-family: var(--font-kaiti);
-  font-size: clamp(26px, 3.2vw, 44px);
-  color: #FFF6E5;
-  letter-spacing: 0.22em;
-  margin: 6px 0 4px;
-  text-shadow: 0 2px 14px rgba(0,0,0,0.6);
-}
-
-.atlas-heading p {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: #E2D2B0;
-  margin-bottom: 12px;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.4);
-}
-
-.atlas-module-links {
-  margin-top: 6px;
-}
-
-#crossingEntry {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  background: linear-gradient(135deg, #A8261C 0%, #7F1A13 100%);
-  border: 1px solid #D4AF37;
-  border-radius: 2px;
-  color: #FFF8EA;
-  font-family: var(--font-kaiti);
-  font-size: 17px;
-  letter-spacing: 0.16em;
+button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
   cursor: pointer;
-  box-shadow: 0 4px 18px rgba(168, 38, 28, 0.45);
-  transition: all 0.25s ease;
 }
 
-#crossingEntry:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, #B93026 0%, #8E2018 100%);
-  box-shadow: 0 6px 22px rgba(212, 175, 55, 0.55);
-}
-
-#crossingEntry i {
-  font-style: normal;
-  font-size: 14px;
-  transition: transform 0.2s;
-}
-
-#crossingEntry:hover i {
-  transform: translate(2px, -2px);
-}
-
-/* 创作者与源码外链 */
-.atlas-creator-links {
-  margin-top: 10px;
-  display: flex;
-  gap: 12px;
-}
-
-.atlas-creator-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(40, 30, 20, 0.55);
-  color: #EFE4CD;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  backdrop-filter: blur(6px);
-  transition: all 0.2s;
-}
-
-.atlas-creator-links a:hover {
-  background: rgba(168, 38, 28, 0.85);
-  border-color: #D4AF37;
-  color: #FFF;
-}
-
-.atlas-creator-links svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-}
-
-/* 全景长卷舞台与视口 */
-#atlasStage {
+.ghost {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-#atlasFrame {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  scroll-behavior: auto;
-  cursor: grab;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  display: flex;
-  align-items: center;
-}
-
-#atlasFrame::-webkit-scrollbar {
-  display: none;
-}
-
-.atlas-content {
-  position: relative;
-  display: inline-flex;
-  height: 100%;
-  align-items: center;
-  width: max-content;
-}
-
-#atlasImage {
-  height: 65vh;
-  min-height: 380px;
-  width: auto;
-  max-width: none;
-  display: block;
-  user-select: none;
-  pointer-events: none;
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-
-/* 长卷中 6 大胜景标记 (Scene Markers) */
-.atlas-scene-marker {
-  position: absolute;
-  top: 52%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(238, 225, 196, 0.92);
-  border: 1px solid rgba(135, 109, 70, 0.65);
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-  cursor: pointer;
-  z-index: 115;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(6px);
-}
-
-.atlas-scene-marker:hover {
-  transform: translate(-50%, -56%) scale(1.08);
-  background: rgba(255, 248, 235, 0.98);
-  border-color: #D4AF37;
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.45);
-}
-
-.atlas-scene-marker .marker-seal {
-  display: inline-grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  background: #A8261C;
-  color: #FFF;
-  border-radius: 3px;
-  font-family: var(--font-kaiti);
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.atlas-scene-marker .marker-name {
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  color: #35453C;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px;
+  color: rgba(39, 35, 21, 0.62);
+  font-size: 18px;
   letter-spacing: 0.12em;
 }
-
-.atlas-scene-marker .marker-arrow {
-  font-style: normal;
-  font-size: 13px;
-  color: #A8261C;
+.ghost:hover,
+.ghost:focus-visible { color: var(--ink); }
+#btn-album { left: 18px; bottom: 14px; }
+#btn-sound { right: 18px; bottom: 14px; }
+#btn-sound.is-quiet { opacity: 0.35; }
+#btn-ghost {
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
-/* 底部长卷景点导航药丸 */
-#atlasPlaces {
+#veil {
   position: absolute;
-  bottom: max(32px, env(safe-area-inset-bottom));
-  left: 0;
-  width: 100%;
+  inset: 0;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: clamp(8px, 1.6vw, 24px);
-  padding: 0 20px;
-  z-index: 110;
-  pointer-events: auto;
-}
-
-.atlas-place-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
-  background: rgba(231, 217, 187, 0.88);
-  border: 1px solid rgba(117, 106, 79, 0.55);
-  border-radius: 20px;
-  color: #4A4133;
-  font-family: var(--font-kaiti);
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s ease;
-}
-
-.atlas-place-pill small {
-  font-family: var(--font-songti);
-  font-size: 11px;
-  color: #8C7B5D;
-}
-
-.atlas-place-pill:hover,
-.atlas-place-pill.active {
-  background: #435C48;
-  color: #FFF8EA;
-  border-color: #D4AF37;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(67, 92, 72, 0.45);
-}
-
-.atlas-place-pill.active small {
-  color: #F4D068;
-}
-
-/* 底部提示文字 */
-#atlasMessage {
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: #DFCFA8;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
-  z-index: 105;
-  pointer-events: none;
-}
-
-/* 长卷胜景赏析卡片 (Atlas Card) */
-.atlas-card {
-  position: absolute;
-  right: clamp(20px, 4vw, 60px);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 340px;
-  max-width: calc(100vw - 40px);
-  background: rgba(238, 225, 196, 0.95);
-  border: 1px solid rgba(147, 133, 104, 0.65);
-  padding: 26px 28px;
-  box-shadow: 0 12px 42px rgba(40, 30, 20, 0.35);
-  z-index: 120;
-  color: #34473E;
-  border-radius: 2px;
-  backdrop-filter: blur(10px);
-  animation: cardFadeIn 0.35s ease;
-}
-
-@keyframes cardFadeIn {
-  from { opacity: 0; transform: translateY(-46%); }
-  to { opacity: 1; transform: translateY(-50%); }
-}
-
-.atlas-card-close {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  font-size: 14px;
-  color: #876D46;
-  cursor: pointer;
-  padding: 4px;
-}
-
-.atlas-card-close:hover {
-  color: #A8261C;
-}
-
-.atlas-kicker {
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: #876D46;
-}
-
-.atlas-card-title {
-  font-family: var(--font-kaiti);
-  font-size: 26px;
-  letter-spacing: 0.18em;
-  color: #26221D;
-  margin: 6px 0 2px;
-}
-
-.atlas-card-beast {
-  display: inline-block;
-  font-size: 12px;
-  letter-spacing: 0.15em;
-  color: #A8261C;
-  font-weight: bold;
-  margin-bottom: 12px;
-}
-
-.atlas-card-desc {
-  font-size: 13px;
-  line-height: 1.8;
-  color: #4A4133;
-  margin-bottom: 20px;
-}
-
-.atlas-card-enter-btn {
-  display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
-  padding: 10px 18px;
-  background: #A8261C;
-  color: #FFF8EA;
-  border: 1px solid #D4AF37;
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.atlas-card-enter-btn:hover {
-  background: #B93026;
-  box-shadow: 0 4px 14px rgba(168, 38, 28, 0.4);
-}
-
-/* =========================================================
-   2. 3D 穿越入画仪式 (dialog#crossingDialog)
-   对标清明上河图 styles/crossing.css
-   ========================================================= */
-.crossing-dialog {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
-  border: 0;
-  padding: 0;
-  margin: 0;
-  background: #7A6946;
-  overflow: hidden;
-  z-index: 200;
-  color: #34443C;
-}
-
-.crossing-dialog::backdrop {
-  background: transparent;
-}
-
-.crossing-dialog canvas {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-}
-
-.crossing-dialog canvas:active {
-  cursor: grabbing;
-}
-
-.crossing-dialog.crossing-leaving {
-  opacity: 0;
+  background: var(--silk);
   transition: opacity 0.6s ease;
-  pointer-events: none;
 }
-
-/* 顶部标题与描述 */
-.crossing-caption {
-  position: absolute;
-  top: max(88px, calc(env(safe-area-inset-top) + 68px));
-  left: max(32px, env(safe-area-inset-left));
-  z-index: 210;
-  pointer-events: none;
-  text-shadow: 0 1px 16px rgba(0,0,0,0.3);
-}
-
-.crossing-caption small {
-  font-size: 11px;
-  letter-spacing: 0.35em;
-  color: #EFE4CD;
-}
-
-.crossing-caption h2 {
-  font-family: var(--font-kaiti);
-  font-size: clamp(28px, 3.4vw, 48px);
-  color: #FFF6E5;
-  letter-spacing: 0.22em;
-  margin: 8px 0;
-  text-shadow: 0 2px 14px rgba(0,0,0,0.5);
-}
-
-.crossing-caption p {
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  color: #E2D2B0;
-  max-width: 480px;
-  line-height: 1.6;
-}
-
-/* 顶部控制操作 */
-.crossing-top-actions {
-  position: absolute;
-  top: max(22px, env(safe-area-inset-top));
-  left: max(24px, env(safe-area-inset-left));
-  right: max(24px, env(safe-area-inset-right));
-  display: flex;
-  justify-content: space-between;
-  z-index: 215;
-}
-
-.crossing-top-actions button {
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  background: rgba(40, 30, 20, 0.55);
-  padding: 8px 16px;
-  color: #FFF8EA;
-  font-family: var(--font-kaiti);
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  border-radius: 2px;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s;
-}
-
-.crossing-top-actions button:hover {
-  background: rgba(168, 38, 28, 0.85);
-  border-color: #D4AF37;
-}
-
-/* 底部导航控制条 */
-.crossing-navigation {
-  position: absolute;
-  bottom: max(26px, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(540px, calc(100% - 36px));
-  text-align: center;
-  z-index: 215;
-}
-
-#crossingStatus {
-  margin-bottom: 12px;
-  font-size: 12px;
-  color: #FFF4D8;
-  letter-spacing: 0.18em;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
-}
-
-.crossing-nav-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 14px;
-}
-
-.crossing-btn-round {
-  border: 1px solid rgba(212, 175, 55, 0.6);
-  border-radius: 2px;
-  background: rgba(233, 229, 217, 0.92);
-  color: #36463E;
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  letter-spacing: 0.15em;
-  min-width: 108px;
-  min-height: 40px;
-  padding: 8px 20px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s;
-}
-
-.crossing-btn-round:hover {
-  background: #FFF;
-  border-color: #D4AF37;
-}
-
-.crossing-btn-burst {
-  border: 1px solid rgba(168, 38, 28, 0.6);
-  border-radius: 2px;
-  background: rgba(168, 38, 28, 0.9);
-  color: #FFF8EA;
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  letter-spacing: 0.15em;
-  min-width: 118px;
-  min-height: 40px;
-  padding: 8px 20px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s;
-}
-
-.crossing-btn-burst:hover {
-  background: #B93026;
-  box-shadow: 0 4px 14px rgba(168, 38, 28, 0.45);
-}
-
-.crossing-track {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 8px 16px;
-  background: rgba(40, 30, 20, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 2px;
-}
-
-.crossing-track span {
-  font-family: var(--font-songti);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: #E2D2B0;
-  white-space: nowrap;
-}
-
-#crossingSeek {
-  flex: 1;
-  accent-color: #A8261C;
-  cursor: pointer;
-}
-
-/* 与十八岁王希孟相逢对话面板 (.crossing-welcome) */
-.crossing-welcome {
-  position: absolute;
-  z-index: 220;
-  right: clamp(20px, 6vw, 80px);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 320px;
-  max-width: calc(100vw - 40px);
-  padding: 24px 26px;
-  background: rgba(238, 225, 196, 0.95);
-  border: 1px solid rgba(147, 133, 104, 0.7);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.35);
-  color: #34473E;
-  border-radius: 2px;
-  backdrop-filter: blur(10px);
-  animation: cardFadeIn 0.4s ease;
-}
-
-.crossing-welcome[hidden] {
-  display: none !important;
-}
-
-.crossing-welcome-name {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(147, 133, 104, 0.4);
-  padding-bottom: 12px;
-}
-
-.crossing-welcome-name span {
-  font-family: var(--font-kaiti);
-  font-size: 22px;
-  letter-spacing: 0.16em;
-  color: #26221D;
-}
-
-.crossing-welcome-name small {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: #876D46;
-}
-
-#crossingDialogue {
-  font-family: var(--font-kaiti);
-  font-size: 17px;
-  line-height: 1.85;
-  min-height: 90px;
-  margin: 18px 0;
-  color: #26221D;
-}
-
-.crossing-welcome-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.crossing-btn-primary {
-  background: #A8261C;
-  color: #FFF8EA;
-  border: 1px solid #D4AF37;
-  padding: 8px 16px;
-  font-family: var(--font-kaiti);
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.crossing-btn-primary:hover {
-  background: #B93026;
-}
-
-.crossing-btn-sub {
-  background: transparent;
-  color: #4A4133;
-  border: 1px solid rgba(147, 133, 104, 0.6);
-  padding: 8px 14px;
-  font-family: var(--font-kaiti);
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.crossing-btn-sub:hover {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: #876D46;
-}
-
-.crossing-questions-list {
-  display: grid;
-  gap: 6px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(147, 133, 104, 0.4);
-}
-
-.crossing-questions-list button {
-  text-align: left;
-  background: transparent;
-  border: 0;
-  color: #5C5144;
-  font-family: var(--font-songti);
-  font-size: 13px;
-  padding: 4px 0;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.crossing-questions-list button:hover {
-  color: #A8261C;
-}
-
-.crossing-progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  width: 100%;
-  background: #D4AF37;
-  transform: scaleX(0);
-  transform-origin: left;
-  z-index: 225;
-}
-
-/* =========================================================
-   3. 3D 画中漫步主界面 (Main 3D In-Painting HUD)
-   ========================================================= */
-
-/* 全景返回按钮 (对标清明上河图 #atlasReturn) */
-.atlas-return-btn {
-  position: fixed;
-  z-index: 70;
-  top: max(22px, env(safe-area-inset-top));
-  left: max(24px, env(safe-area-inset-left));
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
-  background: rgba(231, 217, 187, 0.92);
-  border: 1px solid rgba(117, 106, 79, 0.6);
-  border-radius: 20px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-  backdrop-filter: blur(8px);
-  color: #4A4133;
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.atlas-return-btn:hover {
-  background: #435C48;
-  color: #FFF8EA;
-  border-color: #D4AF37;
-  transform: translateY(-2px);
-}
-
-.atlas-return-btn .btn-seal-char {
-  display: inline-grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  background: #A8261C;
-  color: #FFF;
-  border-radius: 2px;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-/* 四时控制器 (.season-controls - 对标清明上河图 .season-controls) */
-.season-controls {
-  position: fixed;
-  z-index: 70;
-  top: max(22px, env(safe-area-inset-top));
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  background: rgba(231, 217, 187, 0.92);
-  border: 1px solid rgba(117, 106, 79, 0.55);
-  border-radius: 24px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.2);
-  backdrop-filter: blur(8px);
-  color: #4A4133;
-}
-
-.season-controls .season-heading {
-  font-family: var(--font-kaiti);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  padding: 0 8px;
-  color: #827152;
-}
-
-.season-controls button {
-  width: 38px;
-  height: 34px;
-  padding: 4px;
-  border: 0;
-  border-radius: 17px;
-  background: transparent;
-  color: #4A4133;
-  font-family: var(--font-kaiti);
-  font-size: 17px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.season-controls button[aria-pressed="true"] {
-  background: #435C48;
-  color: #FFF8EA;
-  box-shadow: 0 2px 8px rgba(67, 92, 72, 0.4);
-}
-
-.season-controls #seasonStatus {
-  position: absolute;
-  top: calc(100% + 7px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: max-content;
-  padding: 3px 10px;
-  background: rgba(231, 217, 187, 0.9);
-  border-radius: 4px;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: #4A4133;
-  pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-/* 顶栏 HUD。全屏层必须让事件落到画布，按钮自己再打开 pointer-events。 */
-.sh-hud-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-#ui-layer > .sh-hud-layer {
-  pointer-events: none;
-}
-
-.sh-hud-top {
-  position: absolute;
-  top: max(22px, env(safe-area-inset-top));
-  right: max(24px, env(safe-area-inset-right));
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  pointer-events: auto;
-}
-
-/* 山海司南罗盘方位仪 */
-.hud-compass-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 38px;
-  padding: 0 14px;
-  background: rgba(40, 30, 20, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 20px;
-  backdrop-filter: blur(8px);
-}
-
-.compass-label {
-  font-family: var(--font-kaiti);
-  font-size: 13px;
-  color: #F4D068;
-}
-
-.compass-track {
-  position: relative;
-  width: 140px;
-  height: 24px;
-}
-
-.compass-beast-mark {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.compass-beast-mark .mark-icon {
-  font-family: var(--font-kaiti);
-  font-size: 12px;
-  color: #F4D068;
-  font-weight: bold;
-}
-
-.compass-beast-mark.is-awakened .mark-icon {
-  color: #75B9BE;
-}
-
-.compass-beast-mark .mark-dist {
-  font-size: 8px;
-  color: #DFCFA8;
-}
-
-/* 顶栏操作按钮组 */
-.hud-status-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hud-seal-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(40, 30, 20, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 20px;
-  color: #FFF8EA;
-  font-size: 12px;
-  backdrop-filter: blur(8px);
-}
-
-.badge-dot {
-  width: 7px;
-  height: 7px;
-  background: #A8261C;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #A8261C;
-}
-
-.hud-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 36px;
-  padding: 0 12px;
-  background: rgba(40, 30, 20, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 18px;
-  color: #FFF8EA;
-  font-family: var(--font-kaiti);
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.2s;
-}
-
-.hud-btn:hover {
-  background: rgba(168, 38, 28, 0.85);
-  border-color: #D4AF37;
-}
-
-.hud-btn .btn-icon {
-  font-size: 12px;
-  color: #F4D068;
-}
-
-/* 中央准星与神兽接近提示 */
-.sh-reticle-wrap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  display: grid;
-  place-items: center;
-}
-
-.center-crosshair {
-  width: 6px;
-  height: 6px;
-  background: rgba(244, 208, 104, 0.75);
-  border-radius: 50%;
-  box-shadow: 0 0 8px #F4D068;
-}
-
-.beast-approach-prompt {
-  margin-top: 24px;
-  pointer-events: auto;
-  cursor: pointer;
-  animation: promptPulse 1.8s infinite alternate;
-}
-
-@keyframes promptPulse {
-  from { transform: scale(0.98); }
-  to { transform: scale(1.04); }
-}
-
-.prompt-seal-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 18px;
-  background: rgba(238, 225, 196, 0.95);
-  border: 1px solid #D4AF37;
-  border-radius: 4px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-}
-
-.prompt-seal-icon {
-  display: inline-grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  background: #A8261C;
-  color: #FFF;
-  border-radius: 2px;
-  font-family: var(--font-kaiti);
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.prompt-action {
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  color: #A8261C;
-  font-weight: bold;
-}
-
-.prompt-name {
-  font-size: 12px;
-  color: #4A4133;
-}
-
-/* 底部操作说明轻药丸 */
-.sh-controls-dock {
-  position: absolute;
-  bottom: max(20px, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.dock-pill {
-  padding: 6px 16px;
-  background: rgba(40, 30, 20, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 20px;
-  color: #E2D2B0;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  backdrop-filter: blur(8px);
-}
-
-.dock-pill .key-tag {
-  color: #F4D068;
-  font-weight: bold;
-}
-
-/* 移动端双司南：左盘漫步、右盘游目。仅触屏或窄屏显示。 */
-.sh-mobile-controls {
-  --stick-size: 118px;
-  display: none;
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-body.show-mobile-controls .sh-mobile-controls {
+#veil.gone { opacity: 0; }
+#veil .era { letter-spacing: 0.42em; font-size: 13px; }
+#veil h1 { font-weight: 600; font-size: 48px; letter-spacing: 0.28em; font-weight: 400; }
+#veil .sub { letter-spacing: 0.5em; font-size: 14px; opacity: 0.8; }
+#inkline {
   display: block;
-}
-
-body.show-mobile-controls .sh-controls-dock {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .sh-mobile-controls {
-    display: block;
-  }
-
-  .sh-controls-dock {
-    display: none;
-  }
-}
-
-.virtual-joystick {
-  position: absolute;
-  width: var(--stick-size);
-  height: var(--stick-size);
-  border-radius: 50%;
-  pointer-events: auto;
-  touch-action: none;
-  cursor: grab;
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-}
-
-.virtual-joystick.is-active {
-  cursor: grabbing;
-}
-
-.joystick-move {
-  left: max(16px, env(safe-area-inset-left));
-  bottom: max(18px, env(safe-area-inset-bottom));
-}
-
-.joystick-look {
-  right: max(16px, env(safe-area-inset-right));
-  bottom: max(18px, env(safe-area-inset-bottom));
-}
-
-.joystick-caption {
-  position: absolute;
-  left: 50%;
-  top: -10px;
-  transform: translate(-50%, -100%);
-  padding: 1px 8px 2px;
-  border: 1px solid rgba(244, 208, 104, 0.55);
-  background: rgba(28, 22, 16, 0.5);
-  color: #f4d068;
-  font-family: var(--font-kaiti);
-  font-size: 13px;
-  letter-spacing: 0.22em;
-  line-height: 1.4;
-  white-space: nowrap;
-  pointer-events: none;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
-}
-
-.compass-plate {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(239, 228, 205, 0.14) 0 16%, transparent 17%),
-    radial-gradient(circle at 50% 50%, transparent 46%, rgba(244, 208, 104, 0.45) 47.2%, transparent 48.6%),
-    radial-gradient(circle at 50% 50%, transparent 68%, rgba(212, 175, 55, 0.38) 69%, transparent 71%),
-    rgba(28, 22, 16, 0.42);
-  border: 1.5px solid rgba(244, 208, 104, 0.62);
-  box-shadow:
-    inset 0 0 0 7px rgba(122, 105, 70, 0.28),
-    inset 0 0 18px rgba(0, 0, 0, 0.28),
-    0 10px 26px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(5px);
-}
-
-.virtual-joystick.is-active .compass-plate {
-  border-color: rgba(255, 236, 180, 0.95);
-  box-shadow:
-    inset 0 0 0 7px rgba(168, 38, 28, 0.28),
-    0 0 0 1px rgba(244, 208, 104, 0.4),
-    0 12px 28px rgba(0, 0, 0, 0.34);
-}
-
-.compass-ticks {
-  position: absolute;
-  inset: 7px;
-  border-radius: 50%;
-  background: repeating-conic-gradient(
-    from -0.45deg,
-    rgba(244, 208, 104, 0.9) 0deg 0.9deg,
-    transparent 0.9deg 15deg
-  );
-  -webkit-mask: radial-gradient(circle, transparent 0 62%, #000 64% 78%, transparent 80%);
-  mask: radial-gradient(circle, transparent 0 62%, #000 64% 78%, transparent 80%);
-}
-
-.compass-cross {
-  position: absolute;
-  inset: 18%;
-}
-
-.compass-cross::before,
-.compass-cross::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  background: rgba(244, 208, 104, 0.35);
-}
-
-.compass-cross::before {
-  width: 1px;
-  height: 100%;
-  transform: translate(-50%, -50%);
-}
-
-.compass-cross::after {
-  width: 100%;
+  width: 120px;
   height: 1px;
-  transform: translate(-50%, -50%);
+  margin-top: 18px;
+  background: var(--ink);
+  transform: scaleX(0.05);
+  transform-origin: left center;
 }
 
-.compass-dir {
+#intro-line {
   position: absolute;
-  font-family: var(--font-kaiti);
-  font-size: 12px;
-  line-height: 1;
-  color: rgba(255, 236, 196, 0.92);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-.compass-dir.dir-n { top: 8px; left: 50%; transform: translateX(-50%); }
-.compass-dir.dir-e { right: 8px; top: 50%; transform: translateY(-50%); }
-.compass-dir.dir-s { bottom: 8px; left: 50%; transform: translateX(-50%); }
-.compass-dir.dir-w { left: 8px; top: 50%; transform: translateY(-50%); }
-
-.joystick-knob {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 30px;
-  height: 30px;
-  margin: -15px 0 0 -15px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 32%, #e07a68 0%, #a8261c 46%, #6e140f 100%);
-  border: 1px solid #f4d068;
-  box-shadow:
-    0 0 0 1px rgba(90, 18, 12, 0.45),
-    0 4px 10px rgba(0, 0, 0, 0.35);
+  left: 0;
+  right: 0;
+  top: 18%;
+  text-align: center;
+  letter-spacing: 0.38em;
+  font-size: 20px;
+  opacity: 0;
   pointer-events: none;
-  z-index: 2;
+}
+#intro-line.show { opacity: 1; }
+
+#oracle {
+  position: absolute;
+  top: 12%;
+  right: 7vw;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.35em;
+  font-size: 18px;
+  pointer-events: none;
+  opacity: 0;
 }
 
-.knob-needle {
+#challenge-title,
+#turn-hint {
   position: absolute;
-  left: 50%;
-  bottom: 50%;
-  width: 2px;
-  height: 18px;
-  margin-left: -1px;
-  border-radius: 2px;
-  background: linear-gradient(to top, #8c6230, #fff3c4);
-  box-shadow: 0 0 5px rgba(244, 208, 104, 0.85);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+#challenge-title {
+  top: 22px;
+  left: 28px;
+  letter-spacing: 0.42em;
+  font-size: 20px;
+}
+#challenge-title.show { opacity: 1; }
+#turn-hint {
+  left: 0;
+  right: 0;
+  bottom: 18%;
+  text-align: center;
+  letter-spacing: 0.3em;
+  font-size: 14px;
+}
+#turn-hint.show { opacity: 0.75; }
+
+#brush {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 28px;
+  margin-left: -8px;
+  margin-top: -4px;
+  pointer-events: none;
+  z-index: 4;
+}
+#brush-glow {
+  position: absolute;
+  left: 8px;
+  top: 18px;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(166, 68, 50, 0.85), rgba(166, 68, 50, 0) 70%);
+}
+#brush-drop {
+  position: absolute;
+  left: 6px;
+  top: 20px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cinnabar);
 }
 
-.knob-needle::before {
-  content: '';
+#album {
   position: absolute;
-  left: 50%;
-  top: -5px;
-  transform: translateX(-50%);
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-bottom: 6px solid #f4d068;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(39, 35, 21, 0.28);
 }
-
-.mobile-action-btn {
-  position: absolute;
-  right: max(34px, calc(env(safe-area-inset-right) + 20px));
-  bottom: calc(max(18px, env(safe-area-inset-bottom)) + var(--stick-size) + 16px);
+#album[hidden] { display: none; }
+.book {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(880px, 92vw);
+  height: min(560px, 78vh);
+  background: var(--paper);
+  color: var(--ink);
+}
+.leaf { position: relative; padding: 36px 28px; overflow: hidden; }
+.leaf-art {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  border-right: 1px solid rgba(39, 35, 21, 0.18);
   background:
-    radial-gradient(circle at 35% 30%, #c4473a, #a8261c 55%, #7a1610);
-  border: 1.5px solid #d4af37;
-  color: #fff8ea;
-  font-family: var(--font-kaiti);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  pointer-events: auto;
-  touch-action: manipulation;
-  cursor: pointer;
-  box-shadow: 0 6px 16px rgba(168, 38, 28, 0.45);
+    linear-gradient(180deg, rgba(61, 122, 99, 0.08), transparent 40%),
+    var(--paper);
 }
-
-.mobile-action-btn .m-icon {
+.leaf-art img { max-width: 78%; max-height: 72%; object-fit: contain; }
+.leaf-place, .leaf-name { margin-top: 16px; letter-spacing: 0.28em; font-size: 14px; }
+.locked-name { font-size: 40px; letter-spacing: 0.2em; opacity: 0.45; }
+.leaf-text h2 {
+  font-weight: 400;
+  font-size: 28px;
+  letter-spacing: 0.24em;
+  margin-bottom: 18px;
+}
+.classic {
+  writing-mode: vertical-rl;
+  height: 58%;
+  letter-spacing: 0.22em;
+  line-height: 1.9;
   font-size: 16px;
-  line-height: 1;
 }
-
-@media (max-width: 380px), (max-height: 460px) {
-  .sh-mobile-controls {
-    --stick-size: 92px;
-  }
-
-  .compass-dir {
-    font-size: 11px;
-  }
-
-  .mobile-action-btn {
-    width: 54px;
-    height: 54px;
-    right: max(28px, calc(env(safe-area-inset-right) + 16px));
-  }
-}
-
-/* =========================================================
-   4. 神兽故事画稿弹窗 (dialog#beastSketch)
-   对标清明上河图 dialog#bridgeSketch
-   ========================================================= */
-.sketch-dialog {
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  width: min(580px, calc(100vw - 32px));
-  max-height: calc(100vh - 48px);
-  background: #EFE4CD;
-  border: 1px solid rgba(135, 109, 70, 0.7);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.45);
-  padding: 28px 30px;
-  border-radius: 3px;
-  color: #26221D;
-  z-index: 300;
-  overflow-y: auto;
-}
-
-.sketch-dialog::backdrop {
-  background: rgba(30, 24, 18, 0.65);
-  backdrop-filter: blur(8px);
-}
-
-.sketch-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-bottom: 1px solid rgba(135, 109, 70, 0.4);
-  padding-bottom: 16px;
-}
-
-#sketchEyebrow {
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  color: #876D46;
-}
-
-#sketchTitle {
-  font-family: var(--font-kaiti);
-  font-size: 26px;
-  letter-spacing: 0.16em;
-  color: #26221D;
-  margin: 6px 0 2px;
-}
-
-#sketchSubtitle {
-  font-size: 12px;
-  color: #876D46;
-}
-
-.sketch-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.sketch-action-btn {
-  background: transparent;
-  border: 1px solid rgba(135, 109, 70, 0.5);
-  padding: 6px 12px;
-  font-family: var(--font-kaiti);
-  font-size: 13px;
-  color: #4A4133;
-  cursor: pointer;
-  border-radius: 2px;
-  transition: all 0.2s;
-}
-
-.sketch-action-btn:hover {
-  background: #A8261C;
-  color: #FFF;
-  border-color: #A8261C;
-}
-
-.sketch-stage {
-  position: relative;
-  margin: 20px 0;
-  padding: 20px;
-  background: rgba(223, 208, 174, 0.45);
-  border: 1px dashed rgba(135, 109, 70, 0.4);
-  border-radius: 2px;
-}
-
-.sketch-classic-quote {
-  font-family: var(--font-kaiti);
-  font-size: 16px;
-  line-height: 1.85;
-  color: #384835;
-  margin-bottom: 16px;
-  font-style: italic;
-}
-
-.sketch-reflection-box {
-  margin: 16px 0;
-}
-
-.sketch-reflection-title {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: #A8261C;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.sketch-reflection-body {
-  font-size: 14px;
-  line-height: 1.85;
-  color: #3A3228;
-}
-
-.sketch-mutation-info {
-  margin-top: 14px;
-  font-size: 12px;
-  color: #876D46;
-}
-
-/* 【希孟亲历】朱砂印章：高空蓄力砸落 + 宣纸震颤 + 朱砂印泥渗透 */
-@keyframes sealStampImpact {
-  0% {
-    opacity: 0;
-    transform: scale(3.4) rotate(-14deg) translateY(-40px);
-    filter: blur(6px);
-  }
-  55% {
-    opacity: 1;
-    transform: scale(0.92) rotate(-3deg) translateY(0);
-    filter: blur(0px);
-  }
-  72% {
-    transform: scale(1.04) rotate(-4.5deg);
-    box-shadow: 0 0 28px rgba(186, 38, 32, 0.65);
-  }
-  100% {
-    opacity: 0.92;
-    transform: scale(1) rotate(-4deg);
-    box-shadow: 0 0 0px rgba(186, 38, 32, 0);
-  }
-}
-
-.sketch-seal-stamp {
+.source { margin-top: 12px; opacity: 0.7; letter-spacing: 0.14em; font-size: 13px; }
+.meta { margin-top: 14px; letter-spacing: 0.12em; font-size: 14px; }
+.seal {
   position: absolute;
-  right: 18px;
-  bottom: 14px;
-  display: grid;
-  place-items: center;
+  right: 28px;
+  bottom: 28px;
   width: 64px;
   height: 64px;
-  border: 2.5px solid #BA2620;
-  color: #BA2620;
-  font-family: var(--font-kaiti);
-  font-size: 17px;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  mix-blend-mode: multiply; /* 让朱砂印自然渗透进宣和古绢底纹 */
-  animation: sealStampImpact 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.sketch-footer {
+  border: 2px solid var(--cinnabar);
+  color: var(--cinnabar);
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  font-size: 18px;
 }
-
-.sketch-btn-roam {
-  flex: 1;
-  padding: 10px 18px;
-  background: #A8261C;
-  border: 1px solid #D4AF37;
-  color: #FFF8EA;
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all 0.2s;
+.seal.ink { border-color: var(--ink); color: var(--ink); }
+.retry, .reset {
+  margin-top: 16px;
+  letter-spacing: 0.2em;
+  font-size: 14px;
+  color: rgba(39, 35, 21, 0.7);
 }
-
-.sketch-btn-roam:hover {
-  background: #B93026;
+.seal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 36px);
+  gap: 14px;
 }
-
-.sketch-btn-atlas {
-  flex: 1;
-  padding: 10px 18px;
-  background: transparent;
-  border: 1px solid rgba(135, 109, 70, 0.6);
-  color: #4A4133;
-  font-family: var(--font-kaiti);
-  font-size: 15px;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.sketch-btn-atlas:hover {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-/* =========================================================
-   5. 终局藏书票与题记 Dialog
-   ========================================================= */
-.cert-dialog, .guide-dialog {
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  width: min(720px, calc(100vw - 32px));
-  max-height: calc(100vh - 48px);
-  background: #EFE4CD;
-  border: 1px solid #876D46;
-  padding: 30px;
-  border-radius: 3px;
-  box-shadow: 0 18px 50px rgba(0,0,0,0.5);
-  color: #26221D;
-  overflow-y: auto;
-}
-
-.cert-dialog::backdrop, .guide-dialog::backdrop {
-  background: rgba(20, 15, 10, 0.7);
-  backdrop-filter: blur(8px);
-}
-
-.cert-modal-header h3 {
-  font-family: var(--font-kaiti);
-  font-size: 26px;
-  color: #26221D;
-}
-
-.cert-canvas-wrap {
-  margin: 20px 0;
-  border: 1px solid #876D46;
-}
-
-#cert-canvas {
-  width: 100%;
-  height: auto;
+.seal-grid i {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(39, 35, 21, 0.35);
   display: block;
 }
 
-.cert-actions {
-  display: flex;
-  gap: 12px;
+body.playing #viewport-3d { cursor: none; }
+body.challenge #viewport-3d { cursor: auto; }
+
+@media (max-width: 720px), (orientation: portrait) {
+  #veil h1 { font-size: 36px; }
+  .book { grid-template-columns: 1fr; height: min(760px, 86vh); overflow: auto; }
+  .leaf-art { border-right: 0; border-bottom: 1px solid rgba(39, 35, 21, 0.18); min-height: 240px; }
+  .classic { height: 180px; }
+  #oracle { right: 4vw; font-size: 16px; }
 }
 
-.cert-btn-primary {
-  flex: 1;
-  padding: 12px;
-  background: #A8261C;
-  color: #FFF8EA;
-  border: 1px solid #D4AF37;
-  font-family: var(--font-kaiti);
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.cert-btn-sub {
-  flex: 1;
-  padding: 12px;
-  background: transparent;
-  color: #4A4133;
-  border: 1px solid #876D46;
-  font-family: var(--font-kaiti);
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.guide-box h2 {
-  font-family: var(--font-kaiti);
-  font-size: 28px;
-  margin-bottom: 14px;
-}
-
-.guide-box p {
-  font-size: 14px;
-  line-height: 1.85;
-  color: #4A4133;
-  margin-bottom: 12px;
-}
-
-.guide-steps {
-  margin: 18px 0;
-  display: grid;
-  gap: 10px;
-}
-
-.step-item {
-  font-size: 13px;
-  line-height: 1.7;
-  color: #35453C;
-}
-
-/* =========================================================
-   6. 宣和幽夜模式 (Night Mode)
-   ========================================================= */
-body.night {
-  background-color: #141E28;
-}
-
-body.night .season-controls {
-  background: rgba(25, 43, 57, 0.92);
-  border-color: rgba(200, 180, 130, 0.4);
-  color: #EADCBB;
-}
-
-body.night .season-controls .season-heading {
-  color: #BCAE8B;
-}
-
-body.night .season-controls button {
-  color: #EADCBB;
-}
-
-body.night .season-controls #seasonStatus {
-  background: rgba(25, 43, 57, 0.9);
-  color: #EADCBB;
-}
-
-body.night .atlas-return-btn {
-  background: rgba(25, 43, 57, 0.92);
-  border-color: rgba(200, 180, 130, 0.4);
-  color: #EADCBB;
-}
-
-/* =========================================================
-   7. 电影宽银幕黑边（唤醒神兽特写时自动开启）
-   ========================================================= */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  left: 0;
-  width: 100%;
-  height: 0vh;
-  background: #080b0f;
-  z-index: 800;
-  pointer-events: none;
-  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-body::before { top: 0; }
-body::after  { bottom: 0; }
-body.cinematic-letterbox-active::before,
-body.cinematic-letterbox-active::after {
-  height: 9.5vh;
+@media (prefers-reduced-motion: reduce) {
+  #veil, #challenge-title, #turn-hint { transition: none; }
 }

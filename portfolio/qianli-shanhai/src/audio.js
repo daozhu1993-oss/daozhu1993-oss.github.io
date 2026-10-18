@@ -76,6 +76,7 @@ class ChineseAudioEngine {
     if (!this.ctx) return;
     const bufferSize = this.ctx.sampleRate * 2;
     const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    this.noiseBuffer = noiseBuffer;
     const output = noiseBuffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
       output[i] = Math.random() * 2 - 1;
@@ -101,6 +102,7 @@ class ChineseAudioEngine {
 
     const windGain = this.ctx.createGain();
     windGain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+    this.windGain = windGain;
 
     windSource.connect(windFilter);
     windFilter.connect(windGain);
@@ -120,6 +122,7 @@ class ChineseAudioEngine {
 
     const waterGain = this.ctx.createGain();
     waterGain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+    this.waterGain = waterGain;
 
     waterSource.connect(waterFilter);
     waterFilter.connect(waterGain);
@@ -133,7 +136,7 @@ class ChineseAudioEngine {
    * @param {number} freq 频率
    * @param {number} duration 衰减持续时间
    */
-  playGuqinPluck(freq = 261.63, duration = 3.5) {
+  playGuqinPluck(freq = 261.63, duration = 3.5, gainScale = 1) {
     if (this.isMuted) return;
     this.ensureContext();
     if (!this.ctx) return;
@@ -162,15 +165,15 @@ class ChineseAudioEngine {
 
     // 强烈的指甲触弦击发包络
     gain1.gain.setValueAtTime(0.001, t);
-    gain1.gain.linearRampToValueAtTime(0.5, t + 0.015);
+    gain1.gain.linearRampToValueAtTime(0.5 * gainScale, t + 0.015);
     gain1.gain.exponentialRampToValueAtTime(0.0001, t + duration);
 
     gain2.gain.setValueAtTime(0.001, t);
-    gain2.gain.linearRampToValueAtTime(0.22, t + 0.02);
+    gain2.gain.linearRampToValueAtTime(0.22 * gainScale, t + 0.02);
     gain2.gain.exponentialRampToValueAtTime(0.0001, t + duration * 0.65);
 
     gain3.gain.setValueAtTime(0.001, t);
-    gain3.gain.linearRampToValueAtTime(0.08, t + 0.01);
+    gain3.gain.linearRampToValueAtTime(0.08 * gainScale, t + 0.01);
     gain3.gain.exponentialRampToValueAtTime(0.0001, t + duration * 0.4);
 
     const filter = this.ctx.createBiquadFilter();
@@ -356,6 +359,90 @@ class ChineseAudioEngine {
 
     osc.start(t);
     osc.stop(t + 0.35);
+  }
+
+  /**
+   * 小二度散音。失败不用警报。
+   */
+  playDissonance() {
+    this.playGuqinPluck(392.0, 1.15, 0.34);
+    this.playGuqinPluck(415.3, 1.35, 0.22);
+  }
+
+  /**
+   * 清磬，可按屏幕左右声像。
+   */
+  playQing(pan = 0, gainAmt = 0.16) {
+    if (this.isMuted) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime;
+    const panner = this.ctx.createStereoPanner();
+    panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), t);
+    const partials = [1, 2.76, 5.4];
+    const amps = [gainAmt, gainAmt * 0.45, gainAmt * 0.18];
+    partials.forEach((mult, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(784 * mult, t);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime(amps[idx], t + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.6 / (idx + 1));
+      osc.connect(gain);
+      gain.connect(panner);
+      osc.start(t);
+      osc.stop(t + 1.8);
+    });
+    panner.connect(this.masterGain);
+  }
+
+  /** 徵。唤醒夫诸时的那一音。 */
+  playZhi() {
+    this.playGuqinPluck(392.0, 3.4, 0.8);
+    this.playQing(0, 0.12);
+  }
+
+  _ensureFlow() {
+    if (this.flowGain || !this.ctx || !this.noiseBuffer) return;
+    const src = this.ctx.createBufferSource();
+    src.buffer = this.noiseBuffer;
+    src.loop = true;
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 900;
+    filter.Q.value = 0.65;
+    const gain = this.ctx.createGain();
+    gain.gain.value = 0;
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.masterGain);
+    src.start();
+    this.flowFilter = filter;
+    this.flowGain = gain;
+  }
+
+  /**
+   * 引流的水声。amount 0–1，brightness 0 闷、1 尖，用来预告太慢或太快。
+   */
+  setFlow(amount, brightness) {
+    if (!this.isInitialized) return;
+    if (this.isMuted) amount = 0;
+    this._ensureFlow();
+    if (!this.flowGain) return;
+    const t = this.ctx.currentTime;
+    const g = Math.max(0, Math.min(1, amount)) * 0.2;
+    this.flowGain.gain.setTargetAtTime(g, t, 0.06);
+    const freq = 380 + Math.max(0, Math.min(1, brightness)) * 2400;
+    this.flowFilter.frequency.setTargetAtTime(freq, t, 0.08);
+  }
+
+  /** 色归之后，靠近悬瀑时把环境水声抬起来。 */
+  setRegionWater(amount) {
+    if (!this.waterGain || !this.ctx) return;
+    const t = this.ctx.currentTime;
+    const g = 0.04 + Math.max(0, Math.min(1, amount)) * 0.16;
+    this.waterGain.gain.setTargetAtTime(this.isMuted ? 0 : g, t, 0.2);
   }
 }
 

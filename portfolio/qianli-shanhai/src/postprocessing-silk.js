@@ -114,3 +114,28 @@ export const QianliSilkPostShader = {
     }
   `
 };
+
+// Grain shared with the scroll shader. The depth-edge pass above stays
+// available, but the painted scroll does not use it: a flat painting has no
+// useful depth, and a reversed smoothstep is intentionally not copied.
+export const SCROLL_SILK_GLSL = /* glsl */`
+float qHash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+float qNoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(qHash(i), qHash(i + vec2(1.0, 0.0)), f.x),
+             mix(qHash(i + vec2(0.0, 1.0)), qHash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+vec3 qSilk(vec3 col, vec2 fragCoord, vec2 uv, float time) {
+  float warp = sin(fragCoord.x * 1.6) * 0.5 + 0.5;
+  float weft = sin(fragCoord.y * 1.6) * 0.5 + 0.5;
+  float silkWeave = (warp * weft) - 0.25;
+  float ageStain = qNoise(uv * 6.5 + time * 0.01) * 0.045;
+  col += silkWeave * 0.11;
+  col -= ageStain;
+  return col;
+}
+`;

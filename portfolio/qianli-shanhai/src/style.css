@@ -105,6 +105,18 @@ button {
 #btn-album { left: 18px; bottom: 14px; }
 #btn-sound { right: 18px; bottom: 14px; }
 #btn-sound.is-quiet { opacity: 0.35; }
+#sound-hint {
+  position: absolute;
+  right: 22px;
+  bottom: 58px;
+  letter-spacing: 0.22em;
+  font-size: 13px;
+  color: rgba(39, 35, 21, 0.72);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+#sound-hint.show { opacity: 0.78; }
 #btn-ghost {
   left: 50%;
   bottom: 18px;
@@ -143,8 +155,9 @@ button {
   right: 0;
   top: 18%;
   text-align: center;
-  letter-spacing: 0.38em;
-  font-size: 20px;
+  letter-spacing: 0.32em;
+  font-size: 18px;
+  color: rgba(39, 35, 21, 0.78);
   opacity: 0;
   pointer-events: none;
 }
@@ -308,5 +321,5 @@ body.challenge #viewport-3d { cursor: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #veil, #challenge-title, #turn-hint { transition: none; }
+  #veil, #challenge-title, #turn-hint, #intro-line, #sound-hint { transition: none; }
 }

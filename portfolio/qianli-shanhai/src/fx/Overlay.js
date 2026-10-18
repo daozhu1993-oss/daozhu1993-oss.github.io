@@ -26,12 +26,13 @@ export class Overlay {
       scene?.challenge?.render(ctx, w, h);
       return;
     }
-    const { camera, beast, art, restore, mist, canEnter, woke } = scene;
+    const { camera, beast, art, restore, mist, canEnter, woke, mark } = scene;
     if (camera.zoom >= camera.roamZoom() * 0.75) {
       this.birds.forEach((bird) => this._bird(ctx, camera, w, h, bird));
     }
     const fall = this._fallBox(camera, w, h, beast);
     if (mist && !woke) this._mist(ctx, fall);
+    if (mark && !woke) this._breadcrumb(ctx, camera, w, h);
     const deer = art.residentFrame(this.time);
     if (woke && deer) this._deerAt(ctx, camera, w, h, deer, 0.694, 0.242, 0.92, false);
     else if (canEnter && (art.fenben || art.resident)) {
@@ -106,6 +107,27 @@ export class Overlay {
       ctx.bezierCurveTo(x + wobble, fall.top + fall.h * 0.4, x - wobble, fall.top + fall.h * 0.7, x, fall.top + fall.h * 0.92);
       ctx.stroke();
     }
+    ctx.restore();
+  }
+
+  _breadcrumb(ctx, camera, w, h) {
+    const p = worldToScreen(0.680 * camera.worldW, 0.40, camera, w, h);
+    if (p.x < -140 || p.x > w + 140 || p.y < -140 || p.y > h + 140) return;
+    const pulse = 0.5 + 0.5 * Math.sin(this.time * 1.15);
+    ctx.save();
+    ctx.fillStyle = 'rgba(241, 234, 219, 0.9)';
+    ctx.globalAlpha = 0.07 + pulse * 0.09;
+    ctx.beginPath();
+    ctx.ellipse(p.x, p.y, 26 + pulse * 16, 14 + pulse * 7, -0.35, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(39, 35, 21, 0.8)';
+    ctx.globalAlpha = 0.12 + pulse * 0.1;
+    ctx.lineWidth = 1.15;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(p.x - 11, p.y + 5);
+    ctx.quadraticCurveTo(p.x - 1, p.y - 7, p.x + 13, p.y + 2);
+    ctx.stroke();
     ctx.restore();
   }
 

@@ -13,6 +13,7 @@ export class Chrome {
       <p id="challenge-title">悬瀑引泉</p>
       <p id="turn-hint">横屏更佳</p>
       <button id="btn-album" class="ghost" type="button">札</button>
+      <p id="sound-hint">轻触启声</p>
       <button id="btn-sound" class="ghost" type="button" aria-pressed="false">声</button>
       <button id="btn-ghost" class="ghost" type="button" hidden>请希孟代笔</button>
       <div id="brush" hidden>
@@ -31,6 +32,7 @@ export class Chrome {
     this.turn = root.querySelector('#turn-hint');
     this.albumBtn = root.querySelector('#btn-album');
     this.soundBtn = root.querySelector('#btn-sound');
+    this.soundHint = root.querySelector('#sound-hint');
     this.ghostBtn = root.querySelector('#btn-ghost');
     this.brush = root.querySelector('#brush');
     this.glow = root.querySelector('#brush-glow');
@@ -47,9 +49,14 @@ export class Chrome {
     setTimeout(() => { this.veil.hidden = true; }, 700);
   }
 
-  setIntro(text) {
+  setIntro(text, opacity = 1) {
     this.intro.textContent = text || '';
     this.intro.classList.toggle('show', Boolean(text));
+    this.intro.style.opacity = text ? String(opacity) : '0';
+  }
+
+  setSoundHint(on) {
+    this.soundHint.classList.toggle('show', Boolean(on));
   }
 
   setOracle(text, alpha) {

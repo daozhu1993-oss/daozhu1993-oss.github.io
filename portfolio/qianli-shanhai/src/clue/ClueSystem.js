@@ -37,12 +37,14 @@ export class ClueSystem {
 
     const hear = dist < hearR;
     const vol = hear ? 1 - dist / hearR : 0;
+    const reach = Math.max(viewW * 2.4, camera.worldW * 0.48);
+    const closeness = 1 - Math.max(0, Math.min(1, dist / reach));
     let chime = false;
-    if (hear && vol > 0.04) {
+    if (!muted) {
       this.chimeIn -= dt;
       if (this.chimeIn <= 0) {
         chime = true;
-        this.chimeIn = 6.4 + Math.random() * 1.6;
+        this.chimeIn = 8 - closeness * 3.4;
       }
     }
 
@@ -50,6 +52,7 @@ export class ClueSystem {
       tier: this.tier,
       dist,
       vol,
+      closeness,
       mist,
       chime,
       wx,

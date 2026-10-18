@@ -1,5 +1,5 @@
 /**
- * 无进展计时。60 秒笔温，150 秒谶语，240 秒全卷墨晕。
+ * 无进展计时。25 秒崖上淡墨，60 秒笔温，150 秒谶语，240 秒全卷墨晕。
  * 线索每升一级，计时归零。越级不扣分。
  */
 export class HintDirector {
@@ -55,6 +55,7 @@ export class HintDirector {
     }
     return {
       level: this.level,
+      mark: this.idle >= 25 && this.clueTier < 3,
       warmth: this.level >= 1 ? 1 : 0,
       oracle: this.oracleT > 0 ? this.oracleText : '',
       oracleAlpha,

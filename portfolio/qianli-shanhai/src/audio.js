@@ -63,12 +63,32 @@ class ChineseAudioEngine {
     }
   }
 
-  toggleMute() {
-    this.isMuted = !this.isMuted;
-    if (this.masterGain) {
+  running() {
+    return Boolean(this.ctx && this.ctx.state === 'running');
+  }
+
+  async unlock() {
+    this.ensureContext();
+    if (this.ctx && this.ctx.state === 'suspended') {
+      try {
+        await this.ctx.resume();
+      } catch {
+        /* the gesture was not enough for this browser */
+      }
+    }
+    return this.running();
+  }
+
+  setMuted(muted) {
+    this.isMuted = Boolean(muted);
+    if (this.masterGain && this.ctx) {
       this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.7, this.ctx.currentTime);
     }
     return this.isMuted;
+  }
+
+  toggleMute() {
+    return this.setMuted(!this.isMuted);
   }
 
   // 生成松涛与山涧水声
@@ -435,6 +455,40 @@ class ChineseAudioEngine {
     this.flowGain.gain.setTargetAtTime(g, t, 0.06);
     const freq = 380 + Math.max(0, Math.min(1, brightness)) * 2400;
     this.flowFilter.frequency.setTargetAtTime(freq, t, 0.08);
+  }
+
+  _ensureClue() {
+    if (this.clueGain || !this.ctx || !this.noiseBuffer) return;
+    const src = this.ctx.createBufferSource();
+    src.buffer = this.noiseBuffer;
+    src.loop = true;
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 640;
+    filter.Q.value = 1.15;
+    const gain = this.ctx.createGain();
+    gain.gain.value = 0;
+    const panner = this.ctx.createStereoPanner();
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(panner);
+    panner.connect(this.masterGain);
+    src.start();
+    this.clueGain = gain;
+    this.cluePan = panner;
+  }
+
+  /**
+   * 远处也能听见的泉响。amount 0–1，pan -1 左、1 右，跟着镜头朝悬瀑走会变响。
+   */
+  setClue(amount, pan) {
+    if (!this.isInitialized) return;
+    this._ensureClue();
+    if (!this.clueGain) return;
+    const t = this.ctx.currentTime;
+    const g = this.isMuted ? 0 : Math.max(0, Math.min(1, amount)) * 0.11;
+    this.clueGain.gain.setTargetAtTime(g, t, 0.15);
+    this.cluePan.pan.setTargetAtTime(Math.max(-1, Math.min(1, pan)), t, 0.08);
   }
 
   /** 色归之后，靠近悬瀑时把环境水声抬起来。 */

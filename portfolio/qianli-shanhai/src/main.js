@@ -51,6 +51,11 @@ let pointer = { x: -999, y: -999, on: false };
 let flow = null;
 let album = null;
 let chimePan = 0;
+let heardWelcome = false;
+let chimeSilence = 0;
+let lastClueDist = null;
+let guidePanned = false;
+const gotoFuzhu = params.get('goto') === 'fuzhu';
 
 const row0 = save.beast('fuzhu');
 clue.tier = row0.clue || 0;
@@ -133,6 +138,7 @@ function beginPlayFromSave() {
 
 function skipIntro() {
   if (phase === 'loading' || phase === 'play' || phase === 'challenge' || phase === 'album') return;
+  camera.focus = null;
   save.data.onboarded = true;
   world.setRevealEdge(0);
   world.setBaseSat(0.4);
@@ -142,6 +148,30 @@ function skipIntro() {
   save.write();
   setPhase('play');
   chrome.setIntro('');
+}
+
+function releaseGuide() {
+  if (phase !== 'guide') return;
+  camera.focus = null;
+  save.data.onboarded = true;
+  save.write();
+  chrome.setIntro('');
+  setPhase('play');
+}
+
+function arriveAtFuzhu() {
+  camera.focus = null;
+  save.data.onboarded = true;
+  world.setRevealEdge(0);
+  world.setBaseSat(0.4);
+  clue.tier = Math.max(clue.tier, 2);
+  const row = save.beast('fuzhu');
+  row.found = true;
+  row.clue = Math.max(row.clue || 0, 2);
+  save.write();
+  setPhase('play');
+  chrome.setIntro('');
+  camera.focusTo(0.680 * camera.worldW, 0.42, 2.2, reduced ? 0.25 : 1.3);
 }
 
 function startChallenge() {
@@ -245,11 +275,22 @@ let clueState = null;
 camera.attach(viewport);
 
 window.addEventListener('pointerdown', (e) => {
-  audio.ensureContext();
   pointer.on = true;
   pointer.x = e.clientX;
   pointer.y = e.clientY;
-  if (phase === 'unroll' || phase === 'desat' || phase === 'listen') skipIntro();
+  const onChrome = e.target === chrome.soundBtn || e.target === chrome.albumBtn;
+  if (!onChrome) {
+    audio.unlock().then((ok) => {
+      if (ok && !heardWelcome && !audio.isMuted) {
+        heardWelcome = true;
+        chimeSilence = 0;
+        audio.playQing(0, 0.16);
+      }
+      refreshSoundHint();
+    });
+  }
+  // The tap that starts sound must not skip 展卷. Once the line can be read, a tap on the painting hands the scroll back.
+  if (phase === 'guide' && introT > 2.2 && !onChrome) releaseGuide();
 }, { capture: true });
 window.addEventListener('pointermove', (e) => {
   pointer.x = e.clientX;
@@ -282,6 +323,7 @@ window.addEventListener('keydown', (e) => {
   if (phase === 'challenge') flow?.key(e.code, true);
   if (album?.openNow && e.code === 'ArrowLeft') album.turn(-1);
   if (album?.openNow && e.code === 'ArrowRight') album.turn(1);
+  if (phase === 'guide' && (e.code === 'Space' || e.code === 'Enter')) releaseGuide();
   if (phase === 'unroll' || phase === 'desat' || phase === 'listen') {
     if (e.code === 'Space' || e.code === 'Enter') skipIntro();
   }
@@ -294,12 +336,35 @@ chrome.albumBtn.addEventListener('click', () => {
   else if (phase === 'play' || phase === 'album') openAlbum(save.beast('fuzhu').woke ? 2 : 0);
 });
 chrome.soundBtn.addEventListener('click', () => {
-  audio.ensureContext();
-  const muted = audio.toggleMute();
-  chrome.setMuted(muted);
-  save.data.settings.sound = muted ? 0 : 1;
-  save.write();
+  audio.unlock().then((ok) => {
+    if (!ok) {
+      refreshSoundHint();
+      return;
+    }
+    if (!heardWelcome) {
+      audio.setMuted(false);
+      heardWelcome = true;
+      chimeSilence = 0;
+      audio.playQing(0, 0.16);
+      chrome.setMuted(false);
+      save.data.settings.sound = 1;
+      save.write();
+      refreshSoundHint();
+      return;
+    }
+    const muted = audio.toggleMute();
+    chrome.setMuted(muted);
+    save.data.settings.sound = muted ? 0 : 1;
+    save.write();
+    refreshSoundHint();
+  });
 });
+
+function refreshSoundHint() {
+  const quiet = !audio.running() || audio.isMuted;
+  const show = quiet && phase !== 'loading' && phase !== 'unroll' && phase !== 'desat';
+  chrome.setSoundHint(show);
+}
 chrome.ghostBtn.addEventListener('click', () => flow?.requestGhost());
 
 window.addEventListener('pagehide', persistCamera);
@@ -313,7 +378,7 @@ function frame(now) {
   last = now;
   const { w, h } = viewSize();
 
-  if (phase === 'unroll' || phase === 'desat' || phase === 'listen') stepIntro(dt);
+  if (phase === 'unroll' || phase === 'desat' || phase === 'guide' || phase === 'listen') stepIntro(dt);
   camera.update(dt);
   overlay.update(dt);
   chrome.tick(dt);
@@ -326,27 +391,46 @@ function frame(now) {
       save.write();
     }
     hint.noteTier(clueState.tier);
-    if (camera.holding) hint.poke();
     const guide = hint.update(dt);
     chrome.setOracle(guide.oracle, guide.oracleAlpha);
-    if (clueState.chime) {
-      const spot = screenOfBeast();
-      chimePan = clamp(spot.x / w * 2 - 1, -1, 1);
-      audio.playQing(chimePan, (0.05 + clueState.vol * 0.2) * guide.soundBoost);
-    }
     const spot = screenOfBeast();
+    const dist = clueState.dist ?? Math.hypot(fuzhu.x * camera.worldW - camera.x, fuzhu.y - camera.y);
+    const closing = lastClueDist == null ? 0 : (lastClueDist - dist) / Math.max(dt, 0.016);
+    lastClueDist = dist;
+    const approach = clamp(closing / 1.1, 0, 1);
+    const nearBeast = clueState.closeness || 0;
+    chimePan = clamp((spot.x / w * 2 - 1) * 1.35, -1, 1);
+    const gain = (0.16 + nearBeast * 0.28 + approach * 0.14) * guide.soundBoost;
+    if (heardWelcome && !audio.isMuted) {
+      audio.setClue(0.35 + nearBeast * 0.65 + approach * 0.25, chimePan);
+      if (clueState.chime) {
+        audio.playQing(chimePan, gain);
+        chimeSilence = 0;
+      } else {
+        chimeSilence += dt;
+        if (chimeSilence >= 8) {
+          audio.playQing(chimePan, gain);
+          chimeSilence = 0;
+        }
+      }
+    } else {
+      audio.setClue(0, chimePan);
+    }
     const near = 1 - clamp(Math.hypot(spot.x - pointer.x, spot.y - pointer.y) / (w * 0.75), 0, 1);
     const angle = Math.atan2(spot.y - pointer.y, spot.x - pointer.x);
-    const showBrush = !coarse || camera.holding;
+    const brushX = pointer.x > 0 ? pointer.x : w * 0.62;
+    const brushY = pointer.y > 0 ? pointer.y : h * 0.58;
+    const showBrush = guide.warmth || (!coarse && pointer.x > 0);
     chrome.setBrush({
-      x: coarse ? pointer.x : pointer.x,
-      y: coarse ? pointer.y : pointer.y,
-      visible: showBrush && pointer.x > 0,
+      x: brushX,
+      y: brushY,
+      visible: showBrush,
       warmth: guide.warmth,
       angle,
       near,
     });
     sceneInk = guide.ink;
+    sceneMark = guide.mark && !clueState.canEnter;
   } else if (phase === 'play' && woke) {
     chrome.setOracle('', 0);
     chrome.setBrush({
@@ -361,7 +445,9 @@ function frame(now) {
     const onScreen = spot.x > -80 && spot.x < w + 80;
     const dist = Math.hypot(fuzhu.x * camera.worldW - camera.x, fuzhu.y - camera.y);
     audio.setRegionWater(onScreen ? clamp(1 - dist / (camera.visibleWidth() * 1.4), 0, 1) : 0);
+    audio.setClue(0, 0);
     sceneInk = false;
+    sceneMark = false;
     clueState = { canEnter: false };
   } else {
     clueState = clueState || { canEnter: false };
@@ -377,12 +463,14 @@ function frame(now) {
     art,
     restore,
     mist: Boolean(clueState?.mist) && phase === 'play' && !woke,
+    mark: sceneMark && phase === 'play' && !woke,
     canEnter: Boolean(clueState?.canEnter) && phase === 'play' && !woke,
     woke: woke && phase !== 'challenge' && phase !== 'entering',
     ink: sceneInk && phase === 'play',
     challenge: phase === 'challenge' ? flow : null,
   });
 
+  refreshSoundHint();
   saveIn -= dt;
   if (saveIn <= 0 && phase === 'play') {
     persistCamera();
@@ -392,6 +480,7 @@ function frame(now) {
 }
 
 let sceneInk = false;
+let sceneMark = false;
 
 function stepIntro(dt) {
   introT += dt;
@@ -417,20 +506,27 @@ function stepIntro(dt) {
     world.setRevealEdge(0);
     chrome.setIntro('');
     if (u >= 1) {
-      phase = 'listen';
+      phase = 'guide';
       introT = 0;
+      guidePanned = false;
     }
     return;
   }
-  if (phase === 'listen') {
-    const dur = reduced ? 0.4 : 1.5;
-    chrome.setIntro('听');
-    if (introT >= dur) {
-      save.data.onboarded = true;
-      save.write();
-      chrome.setIntro('');
-      setPhase('play');
+  if (phase === 'guide') {
+    if (reduced) {
+      const alpha = introT < 0.6 ? introT / 0.6 : introT < 2.8 ? 1 : Math.max(0, 1 - (introT - 2.8) / 1.1);
+      chrome.setIntro(alpha > 0.04 ? '循声而往 · 悬瀑' : '', alpha);
+      if (introT >= 4) releaseGuide();
+      return;
     }
+    if (!guidePanned) {
+      guidePanned = true;
+      const from = camera.x;
+      const goal = fuzhu.x * camera.worldW;
+      camera.focusTo(from + (goal - from) * 0.42, 0.5, camera.roamZoom(), 18, () => releaseGuide());
+    }
+    const alpha = introT < 1.1 ? introT / 1.1 : introT < 5.4 ? 1 : Math.max(0, 1 - (introT - 5.4) / 2.2);
+    chrome.setIntro(alpha > 0.04 ? '循声而往 · 悬瀑' : '', alpha);
   }
 }
 
@@ -465,7 +561,8 @@ async function boot() {
     chrome.setLoad(1);
   }
   chrome.hideVeil();
-  if (save.data.onboarded) beginPlayFromSave();
+  if (gotoFuzhu) arriveAtFuzhu();
+  else if (save.data.onboarded) beginPlayFromSave();
   else {
     phase = 'unroll';
     camera.enabled = false;

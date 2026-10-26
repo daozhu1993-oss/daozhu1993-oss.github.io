@@ -194,14 +194,15 @@
     showToast('正在生成长图…');
     loadH2C().then(function (h2c) {
       // 翻页式绘本：临时展开所有页面，整本导出；同时量出真实高度以自适应清晰度
-      var pages = root.querySelectorAll ? root.querySelectorAll('.page') : [];
+      // .page = 旧版翻页结构，.screen = 图文融合版结构（.screen{display:none} + .active）
+      var pages = root.querySelectorAll ? root.querySelectorAll('.page, .screen') : [];
       var saved = [];
       pages.forEach(function (p) { saved.push(p.style.display); p.style.display = 'block'; });
       var est = root.scrollHeight || root.offsetHeight || (pages.length * 900) || 4000;
       var clone = root.cloneNode(true);
       pages.forEach(function (p, i) { p.style.display = saved[i] || ''; }); // 还原原始翻页状态
 
-      clone.querySelectorAll('.site-header,.article-nav,.related-models,footer,.footer,nav,.nav-dots,.book-nav,.page-nav,.toolbar').forEach(function (n) { n.remove(); });
+      clone.querySelectorAll('.site-header,.article-nav,.related-models,footer,.footer,nav,.nav-dots,.book-nav,.page-nav,.toolbar,.tools').forEach(function (n) { n.remove(); });
       clone.style.maxWidth = '100%';
       clone.style.margin = '0';
       clone.style.padding = '0';

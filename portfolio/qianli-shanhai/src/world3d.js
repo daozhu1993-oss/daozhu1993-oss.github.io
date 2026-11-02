@@ -30,6 +30,17 @@ import { audio } from './audio.js';
 import { InkPostPipeline } from './inkPostProcess.js';
 import { createSongWaterSSRMaterial } from './water-ssr-shader.js';
 import { BeastAwakeningDirector } from './awakening-director.js';
+import {
+  createSongRoof,
+  createSongPavilion,
+  createSongGrandWaterPavilion,
+  createSongBoat,
+  createSongCottage,
+  createSongPineTree,
+  createSongPeachTree,
+  createSongRiverbankDetails,
+  pineCrownGeometry
+} from './songProps.js';
 
 export class World3D {
   constructor(container, options = {}) {
@@ -857,6 +868,8 @@ export class World3D {
       { pos: [0.3,  4.2, -0.5], arm: [-0.45, 0.35, 0.2], radius: 0.38 }
     ];
 
+    const crownGeo = pineCrownGeometry();
+
     branchConfigs.forEach(bc => {
       const bArm = new THREE.Mesh(
         new THREE.CylinderGeometry(0.04, 0.08, 0.85, 6),
@@ -866,18 +879,13 @@ export class World3D {
       bArm.rotation.z = Math.PI / 3.4;
       pine.add(bArm);
 
-      // 双层如伞如盖之写意宋代松针圆盘
-      const canopyGroup = new THREE.Group();
-      canopyGroup.position.set(bc.pos[0] + bc.arm[0], bc.pos[1] + bc.arm[1], bc.pos[2] + bc.arm[2]);
-
-      const disk1 = new THREE.Mesh(new THREE.CylinderGeometry(bc.radius * 0.55, bc.radius, 0.05, 14), matNeedles);
-      canopyGroup.add(disk1);
-
-      const disk2 = new THREE.Mesh(new THREE.CylinderGeometry(bc.radius * 0.20, bc.radius * 0.65, 0.04, 12), matNeedles);
-      disk2.position.y = 0.04;
-      canopyGroup.add(disk2);
-
-      pine.add(canopyGroup);
+      // 北宋五出松针簇如伞如盖 (Authentic Five-notched Needle Sprays)
+      const spray = new THREE.Mesh(crownGeo, matNeedles);
+      spray.position.set(bc.pos[0] + bc.arm[0], bc.pos[1] + bc.arm[1], bc.pos[2] + bc.arm[2]);
+      const s = bc.radius * 2.2;
+      spray.scale.set(s, s * 0.7, s);
+      spray.rotation.set((Math.random() - 0.5) * 0.2, Math.random() * Math.PI, (Math.random() - 0.5) * 0.2);
+      pine.add(spray);
     });
 
     return pine;
@@ -1014,15 +1022,26 @@ export class World3D {
     const peachGroup = new THREE.Group();
     peachGroup.position.set(-45, 1.2, 28);
     for (let i = 0; i < 7; i++) {
-      const tree = this._buildPeachBlossomTree();
+      const tree = createSongPeachTree({ seed: 200 + i * 37 });
       tree.position.set((Math.random() - 0.5) * 24, 0, (Math.random() - 0.5) * 20);
       peachGroup.add(tree);
     }
-    const boat = this._buildFishingBoat(matWood);
+    const boat = createSongBoat({ scale: 1.25, hasSail: true });
     boat.position.set(5.5, 0.2, -4);
     boat.rotation.y = 0.45;
     peachGroup.add(boat);
     this.scene.add(peachGroup);
+
+    // 胜境一周边水际半埋矶石与芦苇 (嵌入地面，杜绝浮空)
+    const shoreDetails = createSongRiverbankDetails({
+      rockCount: 26,
+      reedCount: 45,
+      seed: 512,
+      terrainHeightFn: (x, z) => this._calculateTerrainHeight(x, z),
+      areaCenter: { x: -45, z: 28 },
+      areaRadius: 20
+    });
+    this.scene.add(shoreDetails);
 
     // 2. 【胜境二 · 悬泉幽涧】(x: -18, z: -36) - 嵌于深峡绝壁之中的写意飞瀑
     const fallsGroup = new THREE.Group();
@@ -1061,7 +1080,7 @@ export class World3D {
     // 3. 【胜境三 · 麦陇晚烟】(x: 12, z: 42)
     const paddyGroup = new THREE.Group();
     paddyGroup.position.set(12, 1.8, 42);
-    const cottage = this._buildCottage(matWood, matRoof);
+    const cottage = createSongCottage({ scale: 1.25 });
     cottage.position.set(3.5, 0.8, -2);
     paddyGroup.add(cottage);
     this.scene.add(paddyGroup);
@@ -1070,18 +1089,23 @@ export class World3D {
     const bridge = this._buildSongRainbowBridge(matWood, matPillars);
     this.scene.add(bridge);
 
+    // 桥头关隘守望亭榭 (Bridgehead Kiosk)
+    const bridgeKiosk = createSongPavilion({ scale: 0.75, open: true });
+    bridgeKiosk.position.set(21.5, 5.2, -15);
+    bridgeKiosk.rotation.y = Math.PI / 2;
+    this.scene.add(bridgeKiosk);
+
     // 5. 【胜境五 · 孤刹悬云】(x: 64, z: -25) - 绝壁飞檐八角重楼
     const templeGroup = new THREE.Group();
     templeGroup.position.set(64, 32.5, -25);
-    const temple = this._buildEavedPavilion(matWood, matPillars, matRoof);
-    temple.scale.set(1.4, 1.4, 1.4);
+    const temple = createSongPavilion({ scale: 1.4, open: false, roofColor: '#284239' });
     templeGroup.add(temple);
     this.scene.add(templeGroup);
 
     // 6. 【胜境六 · 水心高阁】(x: 88, z: -8) - 大泽水榭双层重檐高阁
     const grandGroup = new THREE.Group();
     grandGroup.position.set(88, 1.2, -8);
-    const grandPavilion = this._buildTwoStoryPavilion(matWood, matPillars, matRoof);
+    const grandPavilion = createSongGrandWaterPavilion({ scale: 1.25, roofColor: '#2b443c' });
     grandGroup.add(grandPavilion);
     const dock = new THREE.Mesh(new THREE.BoxGeometry(18, 0.35, 4.5), matWood);
     dock.position.set(-11, 0.2, 0);
@@ -1094,22 +1118,33 @@ export class World3D {
       const cx = 5.0 + c * 5.8;
       const cz = -20.5 + (c % 2) * 2.0;
       const cy = this._calculateTerrainHeight(cx, cz);
-      const vCottage = this._buildCottage(matWood, matRoof);
+      const vCottage = createSongCottage({ scale: 1.05 + c * 0.1 });
       vCottage.position.set(cx, cy, cz);
       vCottage.rotation.y = (c - 1) * 0.25;
       villageGroup.add(vCottage);
     }
-    const villageBoat = this._buildFishingBoat(matWood);
+    const villageBoat = createSongBoat({ scale: 1.15, hasSail: true });
     villageBoat.position.set(18.5, 1.05, -16.0);
     villageBoat.rotation.y = -0.48;
     villageGroup.add(villageBoat);
 
-    const villageBoat2 = this._buildFishingBoat(matWood);
+    const villageBoat2 = createSongBoat({ scale: 1.0, hasSail: false });
     villageBoat2.position.set(2.5, 1.05, -16.8);
     villageBoat2.rotation.y = 0.32;
     villageGroup.add(villageBoat2);
 
     this.scene.add(villageGroup);
+
+    // 江村水岸半埋石与芦苇
+    const villageShore = createSongRiverbankDetails({
+      rockCount: 22,
+      reedCount: 38,
+      seed: 733,
+      terrainHeightFn: (x, z) => this._calculateTerrainHeight(x, z),
+      areaCenter: { x: 10, z: -18 },
+      areaRadius: 16
+    });
+    this.scene.add(villageShore);
 
     // 文人画定点苍松林带 (Art-directed Foothill & Gorge Pine Groves)
     const grovePositions = [
@@ -1117,10 +1152,10 @@ export class World3D {
       { x: 18, z: -16 }, { x: -26, z: -28 }, { x: -21, z: -32 }, { x: 28, z: -16 },
       { x: -2, z: 14 }, { x: 6, z: 24 }, { x: -30, z: 22 }
     ];
-    grovePositions.forEach(gp => {
+    grovePositions.forEach((gp, idx) => {
       const gy = this._calculateTerrainHeight(gp.x, gp.z);
       if (gy > 1.2) {
-        const p = this._buildSongPineTree();
+        const p = createSongPineTree({ seed: 1000 + idx * 71, crownCount: 4 });
         p.position.set(gp.x, gy, gp.z);
         p.rotation.y = Math.random() * Math.PI * 2;
         this.scene.add(p);
@@ -1134,7 +1169,7 @@ export class World3D {
       if (Math.hypot(px - (-20.5), pz - 34.5) < 24) continue;
       const py = this._calculateTerrainHeight(px, pz);
       if (py > 2.0 && py < 34.0) {
-        const p = this._buildSongPineTree();
+        const p = createSongPineTree({ seed: 2000 + i * 43, crownCount: 3 });
         p.position.set(px, py, pz);
         this.scene.add(p);
       }
@@ -1381,208 +1416,51 @@ export class World3D {
     this.scene.add(craneGroup);
   }
 
-  // 打造写意北宋苍松古柏 (Song Gnarled Pine - 3D 舒展如盖)
+  // 打造写意北宋苍松古柏 (Song Gnarled Pine with Five-notched Needle Sprays)
   _buildSongPineTree() {
-    const pine = new THREE.Group();
-    const matTrunk = new THREE.MeshStandardMaterial({ color: 0x3E2818, roughness: 0.92 });
-    const matNeedles = new THREE.MeshStandardMaterial({
-      color: 0x146B48, // 深沉孔雀石绿
-      emissive: 0x0A3626,
-      emissiveIntensity: 0.22,
-      roughness: 0.65
+    return createSongPineTree({
+      seed: Math.floor(Math.random() * 10000),
+      crownCount: 3 + Math.floor(Math.random() * 2)
     });
-
-    const trunk1 = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.35, 2.8, 8), matTrunk);
-    trunk1.position.y = 1.4;
-    trunk1.rotation.z = (Math.random() - 0.5) * 0.16;
-    pine.add(trunk1);
-
-    const trunk2 = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.20, 2.4, 7), matTrunk);
-    trunk2.position.set(0.18, 3.4, 0);
-    trunk2.rotation.z = -0.22 + (Math.random() - 0.5) * 0.12;
-    pine.add(trunk2);
-
-    const branches = [
-      { y: 2.6, azimuth: 0.2,            pitch: 0.45, len: 1.8, r: 1.20 },
-      { y: 3.4, azimuth: Math.PI * 0.7,  pitch: 0.40, len: 1.6, r: 1.10 },
-      { y: 4.1, azimuth: Math.PI * 1.35, pitch: 0.38, len: 1.4, r: 1.00 },
-      { y: 4.8, azimuth: Math.PI * 1.9,  pitch: 0.30, len: 1.2, r: 0.85 }
-    ];
-
-    branches.forEach(b => {
-      const bGroup = new THREE.Group();
-      bGroup.position.set(0.18, b.y, 0);
-      bGroup.rotation.y = b.azimuth;
-      bGroup.rotation.z = b.pitch;
-
-      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.10, b.len, 5), matTrunk);
-      arm.position.y = b.len * 0.5;
-      bGroup.add(arm);
-
-      // 三层如伞如盖之苍翠松针圆盘 (水平如盖铺展，苍翠欲滴)
-      const canopyGroup = new THREE.Group();
-      canopyGroup.position.y = b.len;
-      canopyGroup.rotation.z = -b.pitch * 0.85; // 扶平松针圆盘，如古画平展如伞
-
-      const disk1 = new THREE.Mesh(new THREE.CylinderGeometry(b.r * 0.55, b.r, 0.14, 14), matNeedles);
-      canopyGroup.add(disk1);
-
-      const disk2 = new THREE.Mesh(new THREE.CylinderGeometry(b.r * 0.28, b.r * 0.75, 0.12, 12), matNeedles);
-      disk2.position.y = 0.09;
-      canopyGroup.add(disk2);
-
-      const disk3 = new THREE.Mesh(new THREE.ConeGeometry(b.r * 0.45, 0.16, 10), matNeedles);
-      disk3.position.y = 0.18;
-      canopyGroup.add(disk3);
-
-      bGroup.add(canopyGroup);
-      pine.add(bGroup);
-    });
-
-    // 树冠绝顶郁郁葱葱之顶盖 (Crowning Apex Canopy)
-    const apexCanopy = new THREE.Group();
-    apexCanopy.position.set(0.18, 5.0, 0);
-    const apexDisk1 = new THREE.Mesh(new THREE.CylinderGeometry(0.70, 1.35, 0.16, 14), matNeedles);
-    apexCanopy.add(apexDisk1);
-    const apexDisk2 = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.90, 0.14, 12), matNeedles);
-    apexDisk2.position.y = 0.11;
-    apexCanopy.add(apexDisk2);
-    const apexDisk3 = new THREE.Mesh(new THREE.ConeGeometry(0.48, 0.25, 10), matNeedles);
-    apexDisk3.position.y = 0.22;
-    apexCanopy.add(apexDisk3);
-    pine.add(apexCanopy);
-
-    return pine;
   }
 
+  // 打造胜境写意碧桃 (Song Peach Blossom Tree)
   _buildPeachBlossomTree() {
-    const tree = new THREE.Group();
-    const matTrunk = new THREE.MeshStandardMaterial({ color: 0x4A2E1A, roughness: 0.88 });
-    const matPeachFoliage = new THREE.MeshStandardMaterial({
-      color: 0xEE8FA2,
-      emissive: 0xB53250,
-      emissiveIntensity: 0.25,
-      roughness: 0.55
+    return createSongPeachTree({
+      seed: Math.floor(Math.random() * 10000)
     });
-
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.22, 2.8, 7), matTrunk);
-    trunk.position.y = 1.4;
-    trunk.rotation.z = (Math.random() - 0.5) * 0.25;
-    tree.add(trunk);
-
-    for (let c = 0; c < 3; c++) {
-      const canopy = new THREE.Mesh(new THREE.SphereGeometry(1.1, 8, 6), matPeachFoliage);
-      canopy.position.set(
-        (Math.random() - 0.5) * 1.4,
-        2.8 + c * 0.6,
-        (Math.random() - 0.5) * 1.4
-      );
-      canopy.scale.set(1.2, 0.6, 1.1);
-      tree.add(canopy);
-    }
-
-    return tree;
   }
 
+  // 打造北宋江南乌篷江舟与布帆 (Song River Boat with Awning & Sail)
   _buildFishingBoat(matWood) {
-    const boat = new THREE.Group();
-    const hull = new THREE.Mesh(new THREE.ConeGeometry(1.2, 5.2, 6), matWood);
-    hull.rotation.z = Math.PI / 2;
-    hull.scale.set(0.65, 1.0, 0.42);
-    boat.add(hull);
-
-    const canopy = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.85, 0.85, 2.1, 10, 1, false, 0, Math.PI),
-      new THREE.MeshStandardMaterial({ color: 0x8A6C4A, roughness: 0.85 })
-    );
-    canopy.rotation.z = Math.PI / 2;
-    canopy.position.set(0, 0.45, 0);
-    boat.add(canopy);
-
-    const lantern = new THREE.Mesh(
-      new THREE.SphereGeometry(0.16, 8, 8),
-      new THREE.MeshBasicMaterial({ color: 0xFFD56B })
-    );
-    lantern.position.set(2.4, 0.5, 0);
-    boat.add(lantern);
-    return boat;
+    return createSongBoat({
+      scale: 1.15,
+      hasSail: Math.random() > 0.35
+    });
   }
 
-  // 打造北宋水村茅舍 (Song Thatched Water Village Cottage)
+  // 打造北宋水村茅舍 (Song Thatched Water Village Cottage with Curved Eaves)
   _buildCottage(matWood, matRoof) {
-    const cottage = new THREE.Group();
-    const matStraw = new THREE.MeshStandardMaterial({
-      color: 0x8E764E, // 古朴风化杉木茅茨暖赭色 (更加沉稳古雅，融于山峦)
-      roughness: 0.92
+    return createSongCottage({
+      scale: 1.05 + Math.random() * 0.2
     });
-    const matBambooWall = new THREE.MeshStandardMaterial({
-      color: 0xB8A276, // 编竹为篱温润米黄
-      roughness: 0.85
-    });
-
-    // 1. 架空木柱与木地坪 (防江水潮湿)
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.18, 3.4), matWood);
-    floor.position.y = 0.65;
-    cottage.add(floor);
-
-    for (const px of [-1.8, 1.8]) {
-      for (const pz of [-1.4, 1.4]) {
-        const pStilt = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.09, 0.65, 6), matWood);
-        pStilt.position.set(px, 0.32, pz);
-        cottage.add(pStilt);
-      }
-    }
-
-    // 2. 编竹篱墙与柴扉门窗
-    const walls = new THREE.Mesh(new THREE.BoxGeometry(3.8, 1.9, 3.0), matBambooWall);
-    walls.position.y = 1.68;
-    cottage.add(walls);
-
-    // 3. 北宋双坡歇山茅草顶 (Gabled Thatched Roof with Curved Eaves)
-    const roofBase = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.25, 3.8), matStraw);
-    roofBase.position.y = 2.68;
-    cottage.add(roofBase);
-
-    const roofRidge = new THREE.Mesh(new THREE.ConeGeometry(3.6, 1.65, 4), matStraw);
-    roofRidge.position.y = 3.45;
-    roofRidge.rotation.y = Math.PI / 4;
-    roofRidge.scale.set(1.25, 1.0, 0.92);
-    cottage.add(roofRidge);
-
-    return cottage;
   }
 
+  // 打造北宋写意临水阁楼亭榭 (Song Architectural Pavilion with 5th-Degree Eaves)
   _buildEavedPavilion(matWood, matPillars, matRoof) {
-    const pav = new THREE.Group();
-    for (let i = 0; i < 6; i++) {
-      const angle = (i / 6) * Math.PI * 2;
-      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 3.8, 6), matPillars);
-      col.position.set(Math.cos(angle) * 2.5, 1.9, Math.sin(angle) * 2.5);
-      pav.add(col);
-    }
-    const roof = new THREE.Mesh(new THREE.ConeGeometry(4.2, 2.2, 6), matRoof);
-    roof.position.y = 4.6;
-    pav.add(roof);
-
-    const finial = new THREE.Mesh(
-      new THREE.SphereGeometry(0.3, 8, 8),
-      new THREE.MeshStandardMaterial({ color: 0xF3C93E, metalness: 0.9 })
-    );
-    finial.position.y = 5.9;
-    pav.add(finial);
-    return pav;
+    return createSongPavilion({
+      scale: 1.0,
+      open: true,
+      hasLantern: true
+    });
   }
 
+  // 打造水心重檐二层大阁 (Grand Double-Story Water Pavilion)
   _buildTwoStoryPavilion(matWood, matPillars, matRoof) {
-    const building = new THREE.Group();
-    const p1 = this._buildEavedPavilion(matWood, matPillars, matRoof);
-    building.add(p1);
-
-    const p2 = this._buildEavedPavilion(matWood, matPillars, matRoof);
-    p2.scale.set(0.72, 0.72, 0.72);
-    p2.position.y = 4.2;
-    building.add(p2);
-    return building;
+    return createSongGrandWaterPavilion({
+      scale: 1.15,
+      roofColor: '#2b443c'
+    });
   }
 
   // 打造柔和宣和泥金浮尘微粒 (Gold Silk Dust)

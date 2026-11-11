@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f7f2e8" />
-  <meta name="description" content="岛主和佳佳的旅行手账 · 把偏好、节奏与真实约束交给一套路线引擎，长成一条能出发的国内旅行路线。" />
+  <meta name="description" content="岛主和佳佳的旅行手账 · 使用自己的 AI API，整理国内自驾需求、生成与调整逐日旅行草案。" />
   <title>岛主和佳佳的旅行手账 · 国内旅行定制</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧳%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,7 +25,7 @@
       </div>
       <nav class="nav-links" aria-label="页面导航">
         <a href="#customize">定制路线</a>
-        <a href="#result">我的行程</a>
+        <a href="#aiResult">我的行程</a>
         <a href="#footprints">我们的足迹</a>
       </nav>
     </div>
@@ -42,11 +42,11 @@
       <h1>把喜欢的地方，<em>串成一条能出发的路</em></h1>
       <p class="lead">
         这是岛主和佳佳的旅行手账。我们不爱赶场，只爱把喜欢的地儿串成一条顺的线。
-        告诉我们想去几天、喜欢什么、要避开什么，路线会替你把顺序理清。
+        说说想去的地方和你的节奏。一起查清路程，留足休息，也把回家的那段路安排好。
       </p>
       <div class="meta">
-        <span>40+ 个国内目的地</span>
-        <span>按你的节奏串成一条路线</span>
+        <span>国内自驾 · 2—30 天</span>
+        <span>自带 AI · 逐日安排 · 往返规划</span>
       </div>
       <a class="hero-cta" href="#customize">开始定制我的路线</a>
       <div class="hero-credit" id="heroCredit"></div>
@@ -64,6 +64,109 @@
 
   <!-- ============ 定制面板 ============ -->
   <section class="wrap" id="customize">
+    <div class="customize ai-workbench">
+      <div class="hd">
+        <div><span class="kicker">TRIP STUDIO / 一起把路想清楚</span><h2>先聊聊，这次想怎么出发</h2><p>想去哪里、想走多慢，都可以说。回家的那段路，也算在旅行里。</p></div>
+        <ol class="ai-process" aria-label="规划步骤"><li><span>01</span>说出想法</li><li><span>02</span>确认条件</li><li><span>03</span>核对行程</li></ol>
+      </div>
+      <section class="ai-connection ai-byok" id="aiConnection" aria-labelledby="aiConnectionTitle">
+        <div><span class="ai-eyebrow">YOUR AI / 带上自己的规划师</span><h3 id="aiConnectionTitle">接入你自己的 AI</h3><p>填写支持 OpenAI 兼容格式的 API。网站提供旅行规划工具，模型费用由你的 API 账户承担。</p></div>
+        <div class="form-grid">
+          <div class="field"><label for="aiEndpoint">API 服务地址</label><input id="aiEndpoint" type="url" autocomplete="off" spellcheck="false" maxlength="500" placeholder="https://服务商域名/v1" aria-describedby="aiKeyNotice"></div>
+          <div class="field"><label for="aiModel">模型名</label><input id="aiModel" autocomplete="off" spellcheck="false" maxlength="120" placeholder="复制服务商控制台里的模型名"></div>
+          <div class="field full"><label for="aiKey">你的 API Key</label><div class="ai-key-input"><input id="aiKey" type="password" autocomplete="off" spellcheck="false" maxlength="512" placeholder="仅在当前页面临时使用，不保存到浏览器" aria-describedby="aiKeyNotice"><button type="button" id="aiShowKey" class="btn-quiet" aria-pressed="false">显示</button></div></div>
+        </div>
+        <p id="aiKeyNotice">Key 和旅行需求会直接发送到上方地址，请只填写你信任的服务商。本站不保存或中转 Key；刷新、关闭页面或点击清除后需重新填写。</p>
+        <div class="ai-key-actions"><button type="button" class="btn-gen" id="aiConnect">验证连接</button><button type="button" class="btn-quiet" id="aiClearKey">清除 Key</button><span>验证会发起一次小额模型请求；整理、生成和修改也会使用你的额度。</span></div>
+        <p class="ai-service" id="aiService" role="status">尚未连接。填好上面三项，再验证连接。</p>
+        <details class="ai-key-help"><summary>在哪里找这三项？</summary><p>打开服务商的 API 控制台，创建 Key，并复制其 OpenAI 兼容地址和模型名。普通聊天网页地址或会员登录信息不能替代 API。接口需要支持 Chat Completions、JSON 输出及浏览器跨域访问。</p><p>本版不连接地图或联网搜索；距离、车程和费用均为 AI 估算。每次生成或修改最多调用模型两次（含一次冲突修正），不会无限重试。</p></details>
+      </section>
+      <div class="ai-planning-grid">
+      <section class="ai-conversation" aria-labelledby="aiConversationTitle">
+        <span class="ai-eyebrow">01 / 旅行，从一个念头开始</span>
+        <h3 id="aiConversationTitle">把想法说出来，<br><em>不必一开始就有答案。</em></h3>
+        <p class="ai-conversation-intro">想去的地方、同行的人、舍不得错过的风景。先整理成需求，再编排每天的活动和回家的路。</p>
+        <div class="ai-examples" aria-label="试试这样描述">
+          <button type="button" data-brief-example="从北京出发，去北京周边玩3天。2个大人带一个1.5岁的孩子，每天最多开车2小时，最后一天18点前回家，不爬山。">带娃，去周边透透气 <span aria-hidden="true">↗</span></button>
+          <button type="button" data-brief-example="从杭州出发，去绍兴玩3天，2个大人。喜欢古城和当地小吃，节奏慢一点，尽量少换酒店。全团预算3000元。">逛古城，也认真吃饭 <span aria-hidden="true">↗</span></button>
+          <button type="button" data-brief-example="北京飞拉萨，在拉萨租车走阿里大环线，最后回拉萨还车，再飞回北京。一共15天，包含往返飞机；每天开车不超过8小时、500公里。">先飞过去，再慢慢自驾 <span aria-hidden="true">↗</span></button>
+        </div>
+        <div id="aiMessages" class="ai-messages" role="log" aria-label="需求整理对话" aria-live="polite"></div>
+        <form id="aiChatForm" class="ai-composer">
+          <label for="aiMessage">这次，我想……</label>
+          <textarea id="aiMessage" rows="4" maxlength="800" required placeholder="比如：北京出发，带娃玩三天，不想赶路。每天开车别超过两小时，最后一天晚饭前到家。"></textarea>
+          <div class="ai-composer-foot"><small>先整理需求，不会直接生成或改动行程</small><button type="submit" class="btn-gen" id="aiSend">整理我的想法 <span aria-hidden="true">→</span></button></div>
+        </form>
+        <p id="aiChatStatus" class="ai-chat-status" role="status" hidden></p>
+        <div id="aiDraft" class="ai-brief-draft" hidden></div>
+        <p class="ai-local-note">对话只保留在当前页面。也可以跳过对话，直接填写旅行条件。</p>
+      </section>
+      <aside class="ai-profile" aria-labelledby="aiProfileTitle">
+      <div class="ai-profile-head"><span class="ai-eyebrow">02 / 出发前，先对齐这些事</span><h3 id="aiProfileTitle">这趟旅行的轮廓</h3><p>初始值都可以改；你确认后，才调用你的模型。</p></div>
+      <div class="ai-brief-summary" id="aiBriefSummary" aria-live="polite"></div>
+      <form id="aiForm">
+        <fieldset id="aiFields">
+          <legend class="sr-only">旅行需求</legend>
+          <div class="form-grid">
+            <div class="field full"><label for="aiTransport">这趟怎么走</label><select id="aiTransport" name="transport"><option value="drive">从出发地全程自驾往返</option><option value="flight-drive">飞机往返＋当地租车自驾</option></select></div>
+            <div class="field"><label for="aiOrigin">从哪里出发</label><input id="aiOrigin" name="origin" placeholder="例如：北京市朝阳区" maxlength="80" value="北京" required></div>
+            <div class="field"><label for="aiDestination">想去哪里</label><input id="aiDestination" name="destination" placeholder="城市、区域，或“北京周边”" maxlength="120" required></div>
+            <div class="field full" id="aiDrivingOriginField" hidden><label for="aiDrivingOrigin">飞到哪里取车、最后在哪里还车</label><input id="aiDrivingOrigin" name="drivingOrigin" placeholder="例如：拉萨（同城取还车）" maxlength="80" disabled aria-describedby="aiFlightNote"><small id="aiFlightNote">飞机进出也包含在总天数内。会预留机场接驳、值机和取还车时间；航班与租车需另行确认。</small></div>
+            <div class="field"><label for="aiStart">出发日期</label><input id="aiStart" name="startDate" type="date" required></div>
+            <div class="field"><label for="aiDays">一共几天（含往返）</label><input id="aiDays" name="days" type="number" value="5" min="2" max="30" step="1" required></div>
+            <div class="field"><label for="aiDrive">每天最多开车几小时</label><input id="aiDrive" name="maxDriveHours" type="number" value="4" min="0.5" max="10" step="0.5" required></div>
+            <div class="field"><label for="aiDriveKm">每天最多行驶多少公里（可不填）</label><input id="aiDriveKm" name="maxDriveKm" type="number" placeholder="例如：500" min="1" max="1500" step="1"></div>
+            <div class="field"><label for="aiReturn">最后一天最晚几点回到出发地</label><input id="aiReturn" name="returnBy" type="time" value="18:00" required></div>
+          </div>
+          <details class="ai-preferences" id="aiPreferences">
+            <summary>同行的人与旅行偏好</summary>
+            <div class="form-grid">
+              <div class="field"><label for="aiAdults">成年人数（含长辈）</label><input id="aiAdults" name="adults" type="number" value="2" min="1" max="8" required></div>
+              <div class="field"><label for="aiChildren">孩子年龄（可不填）</label><input id="aiChildren" name="childrenAges" placeholder="例如：1.5，6" maxlength="40" inputmode="decimal"></div>
+              <div class="field"><label for="aiElders">长辈年龄（可不填）</label><input id="aiElders" name="elderAges" placeholder="例如：65，70" maxlength="40"></div>
+              <div class="field"><label for="aiBudget">全团总预算 / 元（可不填）</label><input id="aiBudget" name="budgetCny" type="number" placeholder="例如：6000" min="1" max="500000"></div>
+              <div class="field"><label for="aiPace">旅行节奏</label><select id="aiPace" name="pace"><option value="slow">慢慢游 · 少换酒店</option><option value="mid">适中 · 留出休息</option><option value="fast">紧凑 · 多看几处</option></select></div>
+              <div class="field"><label for="aiStay">住宿偏好</label><input id="aiStay" name="accommodation" placeholder="例如：方便停车，住市区" maxlength="200"></div>
+              <div class="field full"><label for="aiInterests">喜欢的体验（用逗号分隔）</label><input id="aiInterests" name="interests" placeholder="例如：古城，当地小吃，自然风景" maxlength="400"></div>
+              <div class="field"><label for="aiMust">一定想去（用逗号分隔）</label><input id="aiMust" name="mustVisit" placeholder="填写城市与景点全名" maxlength="400"></div>
+              <div class="field"><label for="aiAvoid">不想去（用逗号分隔）</label><input id="aiAvoid" name="avoid" placeholder="例如：某个已去过的景区" maxlength="400"></div>
+              <div class="field"><label for="aiDeparture">每天几点出发</label><input id="aiDeparture" name="departureTime" type="time" value="08:00" required></div>
+              <div class="field"><label for="aiDayEnd">每天最晚几点结束</label><input id="aiDayEnd" name="dayEnd" type="time" value="20:00" required></div>
+              <div class="field full"><label for="aiNotes">还有什么想告诉规划师</label><textarea id="aiNotes" name="notes" rows="3" maxlength="800" placeholder="喜欢古城和当地小吃；带婴儿要午休；希望第二天轻松一点…"></textarea></div>
+            </div>
+            <div class="ai-checkboxes">
+              <label><input id="aiReturnOnly" type="checkbox" checked> 最后一天只返程、休息</label>
+              <label><input id="aiNoHike" type="checkbox"> 不安排爬山或徒步</label>
+              <label><input id="aiNoPlateau" type="checkbox"> 全程避开高原（需进一步人工核验）</label>
+            </div>
+          </details>
+          <div class="gen-row"><button class="btn-gen" id="aiGenerate" type="submit">确认条件，开始规划</button><span class="gen-hint">含出发与返程，共2—30天。长行程会增加等待时间与 API 用量；车程仍需地图核对。</span></div>
+        </fieldset>
+      </form>
+      </aside>
+      </div>
+      <p class="ai-privacy">整理需求与规划时会把填写内容交给你选择的 API 服务商。请勿填写姓名、电话、证件号或详细家庭住址；出发城市或附近公共地点即可。</p>
+      <div id="aiProgress" class="ai-feedback" role="status" aria-live="polite" hidden></div>
+      <div class="ai-cancel-row"><button id="aiCancel" type="button" class="btn-quiet" hidden>取消本次请求</button><small id="aiCancelNote" hidden>取消会停止等待；服务商可能仍对已处理的内容计费。</small></div>
+
+    </div>
+  </section>
+
+  <section class="wrap ai-result" id="aiResult" aria-label="AI 规划行程" hidden>
+    <div id="aiPlan"></div>
+    <div class="ai-revision" id="aiRevision" hidden>
+      <label for="aiChange">想调整哪里？</label>
+      <div class="ai-revision-shortcuts" aria-label="常用调整"><button type="button" class="btn-quiet" data-revision="lighter">这一天轻松一点</button><button type="button" class="btn-quiet" data-revision="indoor">这一天优先室内</button></div>
+      <textarea id="aiChange" rows="2" maxlength="800" placeholder="例如：第二天少去一个景点，下午留给休息。"></textarea>
+      <p class="ai-muted">日期、预算、驾驶上限等硬条件请在上方修改后重新规划。</p>
+      <button type="button" class="btn-quiet" id="aiRevise">查看调整后的方案</button>
+    </div>
+    <div id="aiProposal" class="ai-proposal" hidden></div>
+  </section>
+
+  <section class="wrap">
+    <details class="legacy-planner">
+      <summary>看看旧版路线灵感 <small>离线模板，未经道路和日期校验</small></summary>
     <div class="customize">
       <div class="hd">
           <span class="badge">路线工作台</span>
@@ -165,16 +268,17 @@
       </div>
 
       <div class="gen-row">
-        <button type="button" class="btn-gen" id="genBtn">长出我的路线</button>
-        <span class="gen-hint">点一下，地图和每天的安排都会替你铺开 ✍️</span>
+        <button type="button" class="btn-gen" id="genBtn">生成离线路线灵感</button>
+        <span class="gen-hint">仅供选目的地参考，不是经过验证的旅行攻略。</span>
       </div>
     </div>
+    </details>
   </section>
 
   <!-- ============ 结果区 ============ -->
   <section class="wrap result hidden" id="result" aria-live="polite">
     <div class="trip-head">
-      <div class="kicker">你的慢游中国 / 已生成</div>
+      <div class="kicker">离线路线灵感 / 尚未校验可行性</div>
       <h2 id="tripTitle">—</h2>
       <div class="sub" id="tripSub">—</div>
       <div class="progress">
@@ -206,7 +310,7 @@
       <div>
         <span class="poster-kicker">分享版路线图</span>
         <h3 id="posterTitle">把这次行程装进一张手账图</h3>
-        <p>保留真实的城市顺序、公里数和返程信息，再用一张长卷把旅途串起来。</p>
+        <p>保存离线模板的城市顺序与估算路程。仅作灵感手账，不代表道路和返程已经核验。</p>
       </div>
       <button type="button" class="btn-poster" id="posterBtn">生成路线手账图</button>
     </section>
@@ -257,7 +361,7 @@
   <footer class="app-footer">
     <div class="wrap">
       <p>岛主和佳佳的旅行手账 · 一份慢慢走中国的手账</p>
-      <p>路线由前端规则引擎生成，落地前请核对开放时间、天气与预约政策。 <a href="https://xhslink.com/m/2h5SdBrgtiq" target="_blank" rel="noopener">↗ 看我们的小红书日记</a></p>
+      <p>自带 API 生成的行程为 AI 建议，里程和车程为估算；离线模板只用于旅行灵感。出发前请复核路况、预约与天气。 <a href="https://xhslink.com/m/2h5SdBrgtiq" target="_blank" rel="noopener">↗ 看我们的小红书日记</a></p>
     </div>
   </footer>
 
@@ -265,5 +369,12 @@
 
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script type="module" src="planner.js"></script>
+  <script>
+    if (location.protocol === 'file:') {
+      document.querySelector('#aiService').textContent = 'AI 规划请通过在线网站或本地预览地址打开；直接打开 HTML 文件不能加载规划模块。';
+      document.querySelectorAll('#aiForm button, #aiChatForm button, #aiConnect').forEach(button => button.disabled = true);
+    }
+  </script>
 </body>
 </html>

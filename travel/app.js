@@ -144,6 +144,7 @@
 
   /* ---------------- 选点 + 串路线 ---------------- */
   function buildPlan() {
+    state.days = Math.max(2, Math.min(21, Math.trunc(Number(state.days) || 2)));
     // 固定路线（预设模板）：不走评分引擎，严格按序列生成
     if (state.fixed && state.fixed.length) {
       const route = [];
@@ -461,7 +462,7 @@
       <g opacity=".75"><path d="M 20 1270 h 70 v 100 H 20z" fill="#8f6f4f"/><path d="M 27 1288 h 56 M 27 1310 h 56 M 27 1332 h 56" stroke="#e5d3b1" stroke-width="4"/><circle cx="55" cy="1282" r="8" fill="#e5d3b1"/></g>
       ${segmentMarkup}
       ${labelMarkup}
-      <text x="${rightX + 34}" y="${H - 34}" fill="#f6ecd7" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="15" letter-spacing="1">真实行程 · 手账视觉 · ${metrics ? "自驾闭环" : "慢游路线"}</text>
+      <text x="${rightX + 34}" y="${H - 34}" fill="#f6ecd7" font-family="Noto Sans SC, PingFang SC, sans-serif" font-size="15" letter-spacing="1">路线灵感 · 未校验 · ${metrics ? "自驾示意" : "慢游路线"}</text>
     </svg>`;
     const stage = $("#posterStage");
     if (stage) stage.innerHTML = posterMarkup;
@@ -547,15 +548,14 @@
         ? ` · ${driveLeg(si === 0 ? plan.origin : plan.stops[si - 1].dest, d).label}`
         : "";
       // 拆分亮点到若干天
-      const fixed = d.highlights.filter((h) => h.fixed);
-      const opt = d.highlights.filter((h) => !h.fixed);
-      const cardCount = n >= 2 ? Math.min(2, n) : 1;
+      const cardCount = Math.max(1, n);
       if (cardCount === 1) {
         days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name, sub: `${d.city} · 全程 ${stop.days} 天${arrivalLabel}`, tags: d.tags, items: d.highlights, food: d.food, photo: d.photo, story: d.story });
       } else {
-        const half = Math.ceil(d.highlights.length / 2);
-        days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name + "（上）", sub: `${d.city} · 第 1/${n} 天${arrivalLabel}`, tags: d.tags, items: d.highlights.slice(0, half), food: d.food, photo: d.photo, story: d.story });
-        days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name + "（下）", sub: `${d.city} · 第 2/${n} 天`, tags: d.tags, items: d.highlights.slice(half), food: d.food, photo: d.photo, story: d.story });
+        for (let j = 0; j < cardCount; j++) {
+          const items = d.highlights.slice(Math.floor(j * d.highlights.length / cardCount), Math.floor((j + 1) * d.highlights.length / cardCount));
+          days.push({ no: dayNo++, stop: si, destId: d.id, city: d.name, sub: `${d.city} · 第 ${j + 1}/${n} 天${j === 0 ? arrivalLabel : ""}${items.length ? "" : " · 留白休息"}`, tags: d.tags, items, food: d.food, photo: d.photo, story: d.story });
+        }
       }
     });
     if (plan.returnToOrigin && days.length) {
@@ -660,8 +660,8 @@
     const tips = [];
     if (c.has("kids")) tips.push("带娃出行：每天预留午休，行李里常备退烧药、退烧贴与小朋友熟悉的小零食。");
     if (c.has("elder")) tips.push("同行的长辈：节奏放更慢，多选有缆车/电瓶车的景区，避免连续爬山。");
-    if (c.has("nohike")) tips.push("不爬山：已自动避开需要大量攀爬的景区，多选古城、湖区与平原线路。");
-    if (c.has("noplateau")) tips.push("不去高原：已排除海拔 3000m+ 的目的地，安心玩。");
+    if (c.has("nohike")) tips.push("不爬山：离线模板只按偏好排序，未核验各景点步行和台阶条件，请逐项确认。");
+    if (c.has("noplateau")) tips.push("不去高原：离线模板未核验所有目的地和沿途道路海拔，不能据此确认全程避开高原。");
     if (state.month !== "auto") {
       const m = +state.month;
       if ([12, 1, 2].includes(m)) tips.push("冬季：北方干冷、南方湿冷，保湿与保暖都要做足；东北/三亚反差极大。");
@@ -670,7 +670,7 @@
     }
     if (plan.returnToOrigin) {
       const lastStop = plan.stops[plan.stops.length - 1];
-      tips.push(`交通：这是闭环自驾路线，最后一天从${lastStop ? lastStop.dest.name : "途中"}返回${plan.origin.name}；热门景区门票尽量提前在官方渠道预约。`);
+      tips.push(`交通：示意从${lastStop ? lastStop.dest.name : "途中"}返回${plan.origin.name}，尚未核验能否当天返回。公里数和车程是城市坐标粗估；实际出行请使用上方 AI 规划并复核道路和预约。`);
     } else {
       tips.push("交通：长途优先高铁/飞机，市内用打车+地铁；热门景区门票尽量提前在官方渠道预约。");
     }
@@ -725,7 +725,7 @@
       const stamp = document.createElement("div");
       stamp.className = "trip-stamp";
       stamp.setAttribute("aria-hidden", "true");
-      stamp.innerHTML = '<span class="mk">✦</span> 已规划 · 慢慢走';
+      stamp.innerHTML = '<span class="mk">✦</span> 路线灵感 · 未校验';
       head.appendChild(stamp);
       const oldN = head.querySelector(".trip-script"); if (oldN) oldN.remove();
       const note = document.createElement("p");

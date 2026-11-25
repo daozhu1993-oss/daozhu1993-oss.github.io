@@ -49,11 +49,21 @@
         <span>自带 AI · 逐日安排 · 往返规划</span>
       </div>
       <a class="hero-cta" href="#customize">开始定制我的路线</a>
+      <a class="hero-cta sample-link" href="#baoji-sample">先翻一份西安出发的手账</a>
       <div class="hero-credit" id="heroCredit"></div>
     </div>
   </section>
 
   <!-- ============ 灵感相册（真实旅行图） ============ -->
+  <section class="wrap sample-route" id="baoji-sample" aria-labelledby="sample-title">
+    <figure><img loading="lazy" src="images/baoji.jpg" alt="宝鸡的目的地实景配图"><figcaption>宝鸡 · 配图来源 Wikimedia Commons</figcaption></figure>
+    <div><h2 id="sample-title">从西安到宝鸡，留一天给自己安排</h2>
+    <p>西北足迹清单里，出西安的第一站是宝鸡。下面是根据这段路整理的两日练习手账。</p>
+    <p><strong>第一天</strong>　西安出发，到宝鸡后留出半天看青铜器。</p>
+    <label for="sample-day"><strong>第二天 · 改写你的安排</strong></label>
+    <textarea id="sample-day" rows="2" maxlength="1000">在宝鸡慢慢吃顿早餐，午后返回西安。</textarea>
+    <button id="take-sample" type="button">带走这份行程</button><span id="sample-saved" role="status"></span></div>
+  </section>
   <section class="inspo wrap" id="inspo">
     <div class="inspo-head">
       <span class="kicker">INSPO / 灵感相册</span>
@@ -370,6 +380,17 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
   <script type="module" src="planner.js"></script>
+  <script>
+    document.getElementById('take-sample').addEventListener('click', () => {
+      const day = document.getElementById('sample-day'), status = document.getElementById('sample-saved');
+      if (!day.value.trim()) { status.textContent = ' 先写下第二天的安排。'; day.focus(); return; }
+      const text = '西安—宝鸡 · 两日手账\n第一天　西安出发，到宝鸡后留出半天看青铜器。\n第二天　' + day.value.trim();
+      const url = URL.createObjectURL(new Blob([text], {type:'text/plain;charset=utf-8'}));
+      const link = document.createElement('a'); link.href = url; link.download = '西安到宝鸡-我的行程.txt';
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 30000); status.textContent = ' 已生成你的两日手账。';
+    });
+  </script>
   <script>
     if (location.protocol === 'file:') {
       document.querySelector('#aiService').textContent = 'AI 规划请通过在线网站或本地预览地址打开；直接打开 HTML 文件不能加载规划模块。';

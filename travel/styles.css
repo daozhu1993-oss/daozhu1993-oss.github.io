@@ -140,6 +140,12 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 10px 26px rgba(0,0,0,.35); transition: transform .18s var(--ease), box-shadow .18s;
 }
 .hero-cta:hover { transform: translateY(-2px); text-decoration: none; box-shadow: 0 16px 34px rgba(0,0,0,.45); }
+.hero-cta.sample-link { background:transparent;color:white;border:1px solid currentColor;margin-top:.5rem }
+.sample-route { display:grid;grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(1rem,4vw,4rem);padding-block:2.5rem;scroll-margin-top:5rem }
+.sample-route figure { margin:0 }.sample-route img { display:block;width:100%;height:auto;max-height:300px;object-fit:cover }.sample-route figcaption {font-size:.78rem;margin-top:.4rem}
+.sample-route textarea {display:block;width:100%;box-sizing:border-box;padding:10px;margin:.5rem 0;font:inherit}
+.sample-route button {min-height:44px;padding:6px 16px;background:#354c3a;color:white;border:0;border-radius:3px;font:inherit;cursor:pointer}
+@media(max-width:650px){.sample-route{grid-template-columns:1fr}.sample-route img{max-height:180px}}
 .hero-credit {
   margin-top: 14px; font-family: var(--sans); font-size: 11px;
   color: rgba(255,255,255,.6); letter-spacing: .3px;

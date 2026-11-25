@@ -288,6 +288,25 @@
     </section>
 
     <!-- 应用流程 -->
+    <section class="sec" id="brief">
+      <div class="sec-head"><span class="tag"></span><h2>试写一段项目汇报</h2></div>
+      <p class="bridge">以群岛改版为例：读者从故事小屋进绘本馆；手机先加载整座书桌，第一跨页出现得晚；能否先翻书？我的建议是先给读者一张可翻的跨页，把 3D 书桌留给想继续探索的人。</p>
+      <label for="my-brief">换成你的项目，依次写下背景、卡点、问题和建议。</label>
+      <textarea id="my-brief" rows="5" style="display:block;width:100%;padding:1em;margin:.7em 0;font:inherit" placeholder="大家已经知道……&#10;现在遇到……&#10;要决定的是……&#10;我建议……"></textarea>
+      <button type="button" id="save-brief" disabled>下载我的汇报草稿</button>
+      <script>
+        const brief = document.getElementById('my-brief');
+        const saveBrief = document.getElementById('save-brief');
+        brief.addEventListener('input', () => { saveBrief.disabled = !brief.value.trim(); });
+        saveBrief.addEventListener('click', () => {
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(new Blob([brief.value], {type:'text/plain;charset=utf-8'}));
+          link.download = '我的项目汇报.txt';
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(link.href), 30000);
+        });
+      </script>
+    </section>
     <section class="sec" id="flow">
       <div class="sec-head"><span class="tag"></span><h2>应用流程</h2><span class="en">Build Your SCQA</span></div>
       <div class="steps">

@@ -247,7 +247,7 @@
   .tl-nav button svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.8;transition:stroke .3s var(--ease);}
   .tl-nav button:hover:not(:disabled) svg{stroke:var(--accent);}
   .tl-nav button:disabled{opacity:.35;cursor:default;}
-  .tl-frame{overflow:hidden;max-width:1100px;margin:0 auto;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 90%,transparent 100%);}
+  .tl-frame{overflow:hidden;width:100%;max-width:1100px;margin:0 auto;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 90%,transparent 100%);}
   .tl-track{display:flex;gap:22px;transition:transform .55s var(--ease);will-change:transform;}
   .tl-slide{flex:0 0 clamp(248px,30vw,320px);}
   .tl-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 24px;height:100%;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease);}
@@ -367,12 +367,12 @@
   <button data-target="contact" data-label="喝杯咖啡聊聊" aria-label="喝杯咖啡聊聊"></button>
 </nav>
 
-<button class="music-btn" id="musicBtn" aria-label="背景音乐：Best of Me — Daniel Powter" title="背景音乐 · Best of Me — Daniel Powter">
+<button class="music-btn" id="musicBtn" aria-pressed="false" aria-label="背景音乐：Best of Me — Daniel Powter" title="背景音乐 · Best of Me — Daniel Powter">
   <svg class="note" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
   <span class="bars"><span></span><span></span><span></span><span></span></span>
 </button>
 
-<audio id="bgm" loop preload="auto" src="assets/bgm.mp3"></audio>
+<audio id="bgm" loop preload="none" src="assets/bgm.mp3"></audio>
 
 <main id="main">
 
@@ -415,7 +415,7 @@
       <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
     </button>
   </div>
-  <p class="enter-note">进入即播放《Best of Me》 · 右下角可随时暂停</p>
+  <p class="enter-note">想听《Best of Me》时，点右下角的音符。</p>
   <div class="scroll-hint">
     <span>向下</span>
     <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
@@ -883,6 +883,7 @@
 
   function setMusicUI(){
     musicBtn.classList.toggle('playing', musicOn);
+    musicBtn.setAttribute('aria-pressed', String(musicOn));
     musicBtn.title = musicOn ? '暂停 · Best of Me' : '播放 · Best of Me';
   }
 
@@ -960,22 +961,13 @@
     musicOn = false; setMusicUI();
   }
 
-  // 记住用户对音乐的选择：仅作用于「本次会话」（sessionStorage）。
-  // 同一标签内手动暂停后不再自动响；关掉重开 / 新标签进入仍自动播放，符合封面「进入即播放」承诺。
-  // 旧版本把偏好写进了 localStorage（永久），会导致进入永远不响，这里改为 session 级并清掉旧标记。
-  try{ localStorage.removeItem('daoMusicOff'); }catch(_){}
-  function setMusicPref(off){ try{ if(off) sessionStorage.setItem('daoMusicOff','1'); else sessionStorage.removeItem('daoMusicOff'); }catch(_){} }
-  function musicOptedOut(){ try{ return sessionStorage.getItem('daoMusicOff') === '1'; }catch(_){ return false; } }
-
   musicBtn.addEventListener('click', function(){
-    if(musicOn){ pauseMusic(); setMusicPref(true); }
-    else { playMusic(); setMusicPref(false); }
+    if(musicOn) pauseMusic();
+    else playMusic();
   });
 
-  // 进入小岛（三入口）：平滑滑到对应栏目；仅当用户没主动关过音乐时才自动起播（尊重上次选择）
   Array.prototype.forEach.call(document.querySelectorAll('[data-enter]'), function(btn){
     btn.addEventListener('click', function(){
-      if(!musicOptedOut()) playMusic();
       var t = document.getElementById(btn.dataset.enter);
       if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
     });

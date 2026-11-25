@@ -76,6 +76,12 @@ section{padding:60px 0;border-top:1px solid var(--line)}
 .btn:hover{background:#9c4a2f}
 footer{padding:30px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
 .reveal{opacity:0;transform:translateY(18px);transition:.7s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
+.film-excerpt{max-width:780px;margin:0 auto 30px;text-align:left}
+.film-excerpt video,.film-excerpt img{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#211d18;border:1px solid var(--line)}
+.film-excerpt [hidden]{display:none}
+.film-excerpt figcaption{display:flex;justify-content:space-between;flex-wrap:wrap;align-items:baseline;gap:5px 16px;padding-top:8px;font-size:14px}
+.film-excerpt figcaption a{color:var(--green);text-decoration:underline;text-underline-offset:3px;padding:6px 0}
+@media(max-width:540px){.film-excerpt{margin-inline:-12px}.film-excerpt figcaption{padding-inline:4px}}
 </style>
 </head>
 <body>
@@ -89,6 +95,14 @@ footer{padding:30px 0;text-align:center;color:var(--muted);font-size:13px;border
   <div class="eyebrow reveal" style="margin-top:20px">AIGC Documentary Series</div>
   <h1 class="serif reveal" data-en="Fengwu · China<span class='dot'>.</span>">风物中国<span class="dot">。</span></h1>
   <p class="lead reveal" data-en="A documentary series about things — but its heart is always people. The planning, the taste, the narrative are mine; AI is simply the brush I used this time to draw China.">一套关于「物」的系列纪录片，核心始终是「人」。策划、审美、叙事是我的；AI，是这次用来描摹中国的那支笔。</p>
+  <figure class="film-excerpt" id="watch">
+    <video controls muted playsinline preload="none" width="960" height="540" poster="shisu-opening.jpg" aria-label="食俗文行，饺子篇节选">
+      <source src="shisu-opening.mp4" type="video/mp4">
+      <track kind="descriptions" src="shisu-opening.zh.vtt" srclang="zh" label="中文画面描述">
+    </video>
+    <img src="shisu-opening.jpg" width="960" height="540" alt="纸艺拼贴画面中，人物提着饺子馅走进厨房" hidden>
+    <figcaption><strong class="serif" data-en="Food &amp; Custom · Dumplings · 14 s">食俗文行 · 饺子篇节选 · 14 秒</strong><a id="film-original" target="_blank" rel="noopener noreferrer" href="https://www.xiaohongshu.com/explore/6a6eed45000000003301f558?xsec_token=CBpatBHwNExmEgvaLzk2tgKZCqXR6j7p9o3FYts3Itz5A=&amp;xsec_source=app_share" data-en="Watch the full short on Xiaohongshu ↗">在小红书看完整短片 ↗</a></figcaption>
+  </figure>
   <div class="chips reveal">
     <div class="chip"><b>5</b> <span data-en="series">个系列</span></div>
     <div class="chip"><b>110</b> <span data-en="segments">个片段</span></div>
@@ -172,6 +186,13 @@ footer{padding:30px 0;text-align:center;color:var(--muted);font-size:13px;border
 <footer><span data-en="© Daozhu · Fengwu · Redrawing China with the brush of AI">© 岛主 · 《风物中国》 · 用 AI 的笔触，重新描摹中国</span></footer>
 
 <script>
+const film=document.querySelector('.film-excerpt video');
+function showFilmStill(){
+  film.hidden=true;
+  film.parentElement.querySelector('img').hidden=false;
+}
+film.addEventListener('error',showFilmStill);
+film.querySelector('source').addEventListener('error',showFilmStill);
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i%6,5)*45)+'ms';io.observe(el)});
 const langbtn=document.getElementById('langbtn');

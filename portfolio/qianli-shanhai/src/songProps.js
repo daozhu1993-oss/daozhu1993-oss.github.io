@@ -738,3 +738,190 @@ export function createSongRiverbankDetails({
 
   return group;
 }
+
+
+// =========================================================================
+// 9. 地面柔和墨韵接触阴影 (Grounded Ink Contact Shadow Decals)
+// 彻底消除建筑、树木、船只、神兽的“浮空塑料感”
+// =========================================================================
+
+let _cachedShadowTex = null;
+function getContactShadowTexture() {
+  if (_cachedShadowTex) return _cachedShadowTex;
+  const cv = document.createElement('canvas');
+  cv.width = 128;
+  cv.height = 128;
+  const ctx = cv.getContext('2d');
+  const grad = ctx.createRadialGradient(64, 64, 6, 64, 64, 62);
+  grad.addColorStop(0.0, 'rgba(20, 22, 18, 0.56)');
+  grad.addColorStop(0.45, 'rgba(24, 28, 22, 0.32)');
+  grad.addColorStop(0.80, 'rgba(24, 28, 22, 0.08)');
+  grad.addColorStop(1.0, 'rgba(24, 28, 22, 0.0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 128, 128);
+  _cachedShadowTex = new THREE.CanvasTexture(cv);
+  return _cachedShadowTex;
+}
+
+export function createContactShadow(radiusX = 3.2, radiusZ = 3.2, opacity = 0.72) {
+  const geo = new THREE.PlaneGeometry(radiusX * 2, radiusZ * 2);
+  geo.rotateX(-Math.PI / 2);
+  const mat = new THREE.MeshBasicMaterial({
+    map: getContactShadowTexture(),
+    transparent: true,
+    opacity,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -1
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.y = 0.08;
+  mesh.name = 'contact_shadow';
+  return mesh;
+}
+
+// =========================================================================
+// 10. 飞瀑幽涧流动水墨瀑布着色器 + 水潭烟雾 (Animated Song Ink Waterfall)
+// =========================================================================
+
+export function createAnimatedWaterfall(width = 5.6, height = 24.0) {
+  const group = new THREE.Group();
+  group.name = 'song_animated_waterfall';
+
+  const geo = new THREE.PlaneGeometry(width, height, 8, 24);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const y = pos.getY(i);
+    const t = (y + height * 0.5) / height;
+    const curveZ = Math.sin(t * Math.PI) * 0.9 - t * 1.1;
+    pos.setZ(i, curveZ);
+  }
+  geo.computeVertexNormals();
+
+  const mat = new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    uniforms: {
+      uTime: { value: 0 },
+      uGoldBoost: { value: 0.0 },
+      uNightMix: { value: 0.0 }
+    },
+    vertexShader: /* glsl */`
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */`
+      uniform float uTime;
+      uniform float uGoldBoost;
+      uniform float uNightMix;
+      varying vec2 vUv;
+
+      float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+      }
+      float n2(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        f = f * f * (3.0 - 2.0 * f);
+        return mix(
+          mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
+          mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
+          f.y
+        );
+      }
+
+      void main() {
+        float flow1 = n2(vec2(vUv.x * 9.0, vUv.y * 5.0 + uTime * 2.2));
+        float flow2 = n2(vec2(vUv.x * 18.0 + 3.1, vUv.y * 9.0 + uTime * 3.6));
+        float streaks = smoothstep(0.28, 0.82, flow1 * 0.6 + flow2 * 0.4);
+
+        float edgeX = smoothstep(0.0, 0.22, vUv.x) * (1.0 - smoothstep(0.78, 1.0, vUv.x));
+        float edgeY = smoothstep(0.0, 0.14, vUv.y) * (1.0 - smoothstep(0.86, 1.0, vUv.y));
+        float bottomFoam = (1.0 - smoothstep(0.0, 0.25, vUv.y)) * 0.7;
+
+        vec3 jadeWater = mix(vec3(0.42, 0.72, 0.68), vec3(0.16, 0.34, 0.44), uNightMix);
+        vec3 silkFoam  = mix(vec3(0.95, 0.94, 0.88), vec3(0.55, 0.72, 0.84), uNightMix);
+        vec3 goldGlow  = vec3(0.98, 0.84, 0.44);
+
+        vec3 col = mix(jadeWater, silkFoam, clamp(streaks + bottomFoam, 0.0, 1.0));
+        col = mix(col, goldGlow, uGoldBoost * (0.45 + streaks * 0.35));
+
+        float alpha = clamp((0.35 + streaks * 0.55 + bottomFoam * 0.4) * edgeX * edgeY, 0.0, 0.88);
+        gl_FragColor = vec4(col, alpha);
+      }
+    `
+  });
+
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.y = height * 0.5;
+  group.add(mesh);
+
+  const mistCount = 65;
+  const mGeo = new THREE.BufferGeometry();
+  const mPos = new Float32Array(mistCount * 3);
+  for (let i = 0; i < mistCount; i++) {
+    mPos[i * 3] = (Math.random() - 0.5) * width * 1.4;
+    mPos[i * 3 + 1] = Math.random() * 4.2;
+    mPos[i * 3 + 2] = (Math.random() - 0.5) * 4.0 + 1.0;
+  }
+  mGeo.setAttribute('position', new THREE.BufferAttribute(mPos, 3));
+  const mMat = new THREE.PointsMaterial({
+    color: 0xEEF4EC,
+    size: 1.6,
+    transparent: true,
+    opacity: 0.34,
+    depthWrite: false
+  });
+  const mistPoints = new THREE.Points(mGeo, mMat);
+  group.add(mistPoints);
+
+  group.userData = { shaderMat: mat, mistPoints };
+  return group;
+}
+
+// =========================================================================
+// 11. 宋代江村袅袅炊烟 (Drifting Village Cooking Smoke)
+// =========================================================================
+
+export function createVillageSmokePlume(count = 24) {
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  const phases = new Float32Array(count);
+  for (let i = 0; i < count; i++) {
+    phases[i] = i / count;
+    pos[i * 3] = 0;
+    pos[i * 3 + 1] = phases[i] * 12;
+    pos[i * 3 + 2] = 0;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const mat = new THREE.PointsMaterial({
+    color: 0xEDE5D2,
+    size: 1.45,
+    transparent: true,
+    opacity: 0.24,
+    depthWrite: false
+  });
+  const points = new THREE.Points(geo, mat);
+  points.userData = { phases };
+  return points;
+}
+
+// =========================================================================
+// 12. 巡游画舫乌篷舟 (Player-Rideable Scholar's River Cruise Boat)
+// =========================================================================
+
+export function createCruiseBoat() {
+  const boat = createSongBoat({ scale: 1.38, hasSail: false });
+  boat.name = 'player_cruise_boat';
+
+  const bowLight = new THREE.PointLight(0xFFBE58, 2.4, 24, 1.3);
+  bowLight.position.set(-2.6, 1.2, 0);
+  boat.add(bowLight);
+
+  boat.userData = { bowLight };
+  return boat;
+}

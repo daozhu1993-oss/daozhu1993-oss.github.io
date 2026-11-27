@@ -108,12 +108,12 @@ export class InkPostPipeline {
           float lap = (n0 + n1 + n2 + n3 + n4 + n5 + n6 + n7 - 8.0 * w0) / (max(w0, 0.0025) * 2.0);
           float depthEdge = smoothstep(0.12, 0.38, abs(lap)) * (1.0 - isSky);
 
-          // 2. 颜色差异算子
+          // 2. 颜色差异算子（修复垂直采样方向为 vec2(0.0, o.y)）
           vec3 cCenter = texture2D(tScene, uv).rgb;
           vec3 cRight  = texture2D(tScene, uv + vec2(o.x, 0.0)).rgb;
-          vec3 cTop    = texture2D(tScene, uv + vec2(o.y, 0.0)).rgb;
+          vec3 cTop    = texture2D(tScene, uv + vec2(0.0, o.y)).rgb;
           float colorDiff = length(cCenter - cRight) + length(cCenter - cTop);
-          float colorEdge = smoothstep(0.28, 0.65, colorDiff);
+          float colorEdge = smoothstep(0.26, 0.62, colorDiff);
 
           // 3. 狼毫笔锋手绘微扰（消除机械直线感，带来手工工笔顿挫韵味）
           float brushJitter = 1.0 + 0.12 * sin(uv.x * 240.0 + uv.y * 180.0 + sin(uv.x * 80.0));

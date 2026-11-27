@@ -54,7 +54,7 @@ export const ATLAS_PLACES = [
     subtitle: '卷四 · 关隘长桥 · 驳兽辟兵',
     description: '飞渡两座危峰之千步编木长拱桥，苍松虬枝间玄兽镇守天堑，以鼓音辟兵止戈，撑起不折之山河脊骨。',
     u: 0.587,
-    worldCoord: { x: 38, y: 8.5, z: -15 },
+    worldCoord: { x: 24, y: 5.5, z: -15 },
     box: [12500, 140, 1600, 700]
   },
   {
@@ -65,7 +65,7 @@ export const ATLAS_PLACES = [
     subtitle: '卷五 · 凌云高插 · 青鸟飞信',
     description: '直插云霄之险绝孤峰与悬空古寺，瑶池青鸟穿云翱翔，携十八岁少年最轻盈辽阔之遐想去往长空。',
     u: 0.738,
-    worldCoord: { x: 62, y: 16.0, z: 10 },
+    worldCoord: { x: 64, y: 26.5, z: -21 },
     box: [15900, 80, 1500, 750]
   },
   {

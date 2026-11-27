@@ -100,7 +100,7 @@ export const BEASTS = [
     goldColor: "#E8C547",
     mutationType: "ironRock",
     mutationDesc: "危峰石骨泛出玄金重彩，苍松松针在山风中激昂铮鸣",
-    coordinates: { x: 38, y: 8.5, z: -15 }
+    coordinates: { x: 24, y: 5.5, z: -15 }
   },
   {
     id: "qingniao",
@@ -121,7 +121,7 @@ export const BEASTS = [
     goldColor: "#FFF275",
     mutationType: "cloudSurge",
     mutationDesc: "峰顶云海化为五色金霞，长空回荡远寺铜磐悠扬长音",
-    coordinates: { x: 62, y: 16.0, z: 10 }
+    coordinates: { x: 64, y: 26.5, z: -21 }
   },
   {
     id: "baize",

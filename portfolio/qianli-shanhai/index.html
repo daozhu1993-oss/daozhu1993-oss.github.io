@@ -117,6 +117,9 @@
         onNightToggle: (isNight) => {
           if (world3D) world3D.setNight(isNight);
         },
+        onBoatCruiseToggle: () => {
+          if (world3D) world3D.toggleBoatCruise();
+        },
         onAwakenAction: () => {
           if (world3D) world3D.tryAwakenNearBeast();
         },
@@ -124,27 +127,29 @@
           if (world3D) world3D.teleportToBeast(beastId);
         },
         onVirtualMove: (vec) => {
-          if (world3D) world3D.setVirtualMove(vec);
-        },
-        onVirtualLook: (vec) => {
-          if (world3D) world3D.setVirtualLook(vec);
-        },
-        onPinchZoom: (scale) => {
-          if (world3D) world3D.applyPinchZoom(scale);
+          if (world3D) {
+            world3D.keys['KeyW'] = vec.y < -0.3;
+            world3D.keys['KeyS'] = vec.y > 0.3;
+            world3D.keys['KeyA'] = vec.x < -0.3;
+            world3D.keys['KeyD'] = vec.x > 0.3;
+          }
         }
       });
 
       // 4. 初始化 3D 青绿世界漫步引擎 (支持 WebGL 容错)
       try {
         world3D = new World3D(world3DViewport, {
-          onAwakenBeast: (beastData) => {
-            if (ui) ui.showBeastAwakened(beastData);
+          onAwakenBeast: (beastData, isRevisit) => {
+            if (ui) ui.showBeastAwakened(beastData, isRevisit);
           },
           onNearBeastChange: (beast, dist) => {
             if (ui) ui.setNearBeast(beast, dist);
           },
           onCompassUpdate: (compassList, yaw) => {
             if (ui) ui.updateCompass(compassList, yaw);
+          },
+          onBoatStateChange: (isOnBoat) => {
+            if (ui) ui.setBoatState(isOnBoat);
           },
           onExitToScroll: () => {
             returnToAtlas();
